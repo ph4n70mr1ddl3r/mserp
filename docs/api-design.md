@@ -16,6 +16,7 @@
 | Compression | `gzip` encoding supported (via `Accept-Encoding`); responses > 1KB compressed |
 | Locale | `Accept-Language` header for response localization |
 | Timezone | `Time-Zone` header for date/time interpretation (defaults to tenant timezone) |
+| Async Operations | `202 Accepted` with job reference for long-running operations |
 
 ## 2. Idempotency
 
@@ -43,6 +44,8 @@ Rate limiting is enforced at the API Gateway layer (Traefik by default; Kong as 
 | File upload endpoints | 50 requests | 1 minute |
 | Report generation endpoints | 10 requests | 1 minute |
 | Bulk operation endpoints | 20 requests | 1 minute |
+| AI/ML inference endpoints | 30 requests | 1 minute |
+| Digital assistant endpoints | 60 requests | 1 minute |
 
 - Limits are stored in Redis with sliding window counters.
 - Responses include `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` headers.
@@ -138,7 +141,7 @@ Follows [RFC 7807 Problem Details](https://datatracker.ietf.org/doc/html/rfc7807
 
 ### Async Job Response
 
-For long-running operations (data import, large report generation), the API returns `202 Accepted` with a job reference:
+For long-running operations (data import, large report generation, ML model training), the API returns `202 Accepted` with a job reference:
 
 ```json
 {
@@ -203,8 +206,8 @@ Returns `200 OK` only when all critical dependencies are reachable. Returns `503
 | Config | + RabbitMQ (connection — publish only) |
 | Identity | Database, Redis only (does not use RabbitMQ) |
 | Commerce, Finance, HR, Manufacturing, Workflow, CRM/Marketing, Project, Integration | + RabbitMQ (connection + queue reachable) |
-| Platform | + RabbitMQ (connection + queue reachable), Database x2 (`platform_db` + `audit_db`) |
-| Report | + RabbitMQ (connection + queue reachable), Elasticsearch |
+| Platform | + RabbitMQ (connection + queue reachable), Database x2 (`platform_db` + `audit_db`), ONNX Runtime |
+| Report | + RabbitMQ (connection + queue reachable), Elasticsearch, DuckDB |
 
 - Each individual dependency check within `/readyz` has a 1-second timeout.
 - Checks run concurrently (not sequentially). The overall readiness probe HTTP timeout is 5 seconds.
@@ -286,6 +289,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `AUTH_UNAUTHORIZED` | 401 | Missing or invalid authentication |
 | `AUTH_TOKEN_EXPIRED` | 401 | JWT access token has expired |
 | `AUTH_FORBIDDEN` | 403 | Insufficient permissions for this operation |
+| `AUTH_STEP_UP_REQUIRED` | 403 | Step-up authentication required for this operation |
 | `VALIDATION_INVALID_FORMAT` | 400 | Field format validation failed |
 | `VALIDATION_REQUIRED_FIELD` | 400 | Required field is missing |
 | `VALIDATION_INVALID_VALUE` | 400 | Field value is out of allowed range |
@@ -310,6 +314,8 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `COMMERCE_TRANSFER_INVALID` | 400 | Stock transfer parameters invalid |
 | `COMMERCE_RETURN_NOT_ALLOWED` | 400 | Return not allowed for this order/line |
 | `COMMERCE_PRICE_INVALID` | 400 | Pricing rule produced invalid price |
+| `COMMERCE_CARRIER_NOT_AVAILABLE` | 409 | No carrier available for requested route |
+| `COMMERCE_SHIPMENT_INVALID` | 400 | Shipment parameters invalid |
 
 ### 8.3 Finance Error Codes
 
@@ -325,6 +331,10 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `FINANCE_EXCHANGE_RATE_MISSING` | 400 | No exchange rate for currency pair and date |
 | `FINANCE_BUDGET_EXCEEDED` | 409 | Budget limit exceeded for this account/period |
 | `FINANCE_INTERCOMPANY_MISMATCH` | 400 | Intercompany transaction tenant mismatch |
+| `FINANCE_EXPENSE_POLICY_VIOLATION` | 400 | Expense violates corporate policy |
+| `FINANCE_CONTRACT_EXPIRED` | 409 | Contract has expired |
+| `FINANCE_CONTRACT_NOT_APPROVED` | 409 | Contract requires approval before execution |
+| `FINANCE_PLAN_LOCKED` | 409 | Financial plan is locked for editing |
 
 ### 8.4 HR Error Codes
 
@@ -335,6 +345,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `HR_ATTENDANCE_CONFLICT` | 409 | Overlapping attendance record |
 | `HR_PAYROLL_ALREADY_PROCESSED` | 409 | Payroll for this period already processed |
 | `HR_REQUISITION_CLOSED` | 409 | Job requisition is closed |
+| `HR_SUCCESSION_PLAN_EXISTS` | 409 | Succession plan already exists for this position |
 
 ### 8.5 Manufacturing Error Codes
 
@@ -345,6 +356,9 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `MFG_INSUFFICIENT_MATERIALS` | 409 | Not enough materials for production |
 | `MFG_CAPACITY_EXCEEDED` | 409 | Work center capacity exceeded for requested time |
 | `MFG_QUALITY_CHECK_FAILED` | 409 | Quality check did not pass threshold |
+| `MFG_ECO_PENDING_APPROVAL` | 409 | Engineering Change Order pending approval |
+| `MFG_ASSET_NOT_AVAILABLE` | 409 | Asset not available for scheduled time |
+| `MFG_PLAN_CONSTRAINT_VIOLATION` | 400 | Plan violates material or capacity constraints |
 
 ### 8.6 CRM Error Codes
 
@@ -362,7 +376,17 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PROJECT_BUDGET_EXCEEDED` | 409 | Project budget exceeded |
 | `PROJECT_TASK_DEPENDENCY` | 409 | Circular task dependency detected |
 
-### 8.8 Error Code Rules
+### 8.8 Platform / GRC Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `PLATFORM_FILE_TOO_LARGE` | 413 | File exceeds maximum upload size |
+| `PLATFORM_FILE_VIRUS_DETECTED` | 400 | Uploaded file contains malware |
+| `PLATFORM_SOD_CONFLICT` | 409 | Segregation of Duties conflict detected |
+| `PLATFORM_COMPLIANCE_VIOLATION` | 403 | Operation violates compliance policy |
+| `PLATFORM_MASKING_RULE_INVALID` | 400 | Data masking rule configuration invalid |
+
+### 8.9 Error Code Rules
 
 - Each service MUST register its error codes in its OpenAPI spec via the `errors` extension.
 - New error codes MUST be additive only (never remove or rename).
@@ -383,6 +407,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/auth/mfa/enable` | Enable MFA for user |
 | POST | `/api/v1/auth/mfa/verify` | Verify MFA code |
 | POST | `/api/v1/auth/mfa/disable` | Disable MFA (requires password) |
+| POST | `/api/v1/auth/step-up` | Step-up authentication (elevated privilege) |
 | GET | `/api/v1/auth/sessions` | List active sessions for current user |
 | DELETE | `/api/v1/auth/sessions/{id}` | Revoke specific session |
 | DELETE | `/api/v1/auth/sessions` | Revoke all sessions except current |
@@ -406,6 +431,9 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | DELETE | `/api/v1/identity/groups/{id}/members/{userId}` | Remove member from group |
 | GET | `/api/v1/identity/organizations` | List organizational units |
 | POST | `/api/v1/identity/organizations` | Create organizational unit |
+| POST | `/api/v1/identity/api-keys` | Create API key |
+| GET | `/api/v1/identity/api-keys` | List API keys |
+| DELETE | `/api/v1/identity/api-keys/{id}` | Revoke API key |
 
 ### Tenant Service
 > Feature flag types, evaluation flow, and rules are specified in [Services — Feature Flags](services.md#4-feature-flag-implementation).
@@ -421,6 +449,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | DELETE | `/api/v1/tenant/features/{flag}` | Remove flag override |
 | GET | `/api/v1/tenant/quotas` | Get tenant quota usage |
 | GET | `/api/v1/tenant/subscriptions` | Get subscription details |
+| PUT | `/api/v1/tenant/data-residency` | Update data residency settings (Super Admin only) |
 
 ### Config Service
 > Config hierarchy, propagation, and schema are specified in [Services — Config Service](services.md#14-config-service).
@@ -439,7 +468,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/config/locales` | List supported locales |
 | GET | `/api/v1/config/locales/{locale}/translations` | Get translations for locale |
 
-### Commerce Service (Sales + Inventory)
+### Commerce Service (Sales + Inventory + PIM + Transportation)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/v1/commerce/customers` | List customers |
@@ -465,6 +494,8 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/commerce/products/{id}` | Get product |
 | PUT | `/api/v1/commerce/products/{id}` | Update product |
 | POST | `/api/v1/commerce/products/bulk` | Bulk create products |
+| POST | `/api/v1/commerce/products/{id}/submit-approval` | Submit product for PIM approval |
+| POST | `/api/v1/commerce/products/{id}/publish` | Publish product to channels |
 | GET | `/api/v1/commerce/price-lists` | List price lists |
 | POST | `/api/v1/commerce/price-lists` | Create price list |
 | POST | `/api/v1/commerce/pricing/calculate` | Calculate price for a product/customer/qty combination |
@@ -472,8 +503,15 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/commerce/stock` | Get stock levels |
 | POST | `/api/v1/commerce/transfers` | Create stock transfer |
 | POST | `/api/v1/commerce/adjustments` | Stock adjustment |
+| GET | `/api/v1/commerce/carriers` | List carriers |
+| POST | `/api/v1/commerce/carriers` | Register carrier |
+| GET | `/api/v1/commerce/shipments` | List shipments |
+| POST | `/api/v1/commerce/shipments` | Create shipment |
+| GET | `/api/v1/commerce/shipments/{id}/tracking` | Get shipment tracking |
+| POST | `/api/v1/commerce/shipments/{id}/dispatch` | Dispatch shipment to carrier |
+| POST | `/api/v1/commerce/shipments/{id}/deliver` | Confirm delivery with POD |
 
-### Finance Service (Finance + Procurement)
+### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/v1/finance/accounts` | List chart of accounts |
@@ -503,6 +541,31 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/finance/purchase-orders/{id}/receive` | Receive goods |
 | GET | `/api/v1/finance/requisitions` | List purchase requisitions |
 | POST | `/api/v1/finance/requisitions` | Create purchase requisition |
+| GET | `/api/v1/finance/treasury/cash-position` | Get current cash position |
+| GET | `/api/v1/finance/treasury/bank-accounts` | List bank accounts |
+| POST | `/api/v1/finance/treasury/payment-batches` | Create payment batch |
+| POST | `/api/v1/finance/treasury/payment-batches/{id}/approve` | Approve payment batch |
+| POST | `/api/v1/finance/treasury/payment-batches/{id}/execute` | Execute payment batch |
+| GET | `/api/v1/finance/expenses` | List expense reports |
+| POST | `/api/v1/finance/expenses` | Create expense report |
+| GET | `/api/v1/finance/expenses/{id}` | Get expense report |
+| POST | `/api/v1/finance/expenses/{id}/submit` | Submit for approval |
+| POST | `/api/v1/finance/expenses/{id}/approve` | Approve expense report |
+| POST | `/api/v1/finance/expenses/{id}/reject` | Reject expense report |
+| GET | `/api/v1/finance/contracts` | List contracts |
+| POST | `/api/v1/finance/contracts` | Create contract |
+| GET | `/api/v1/finance/contracts/{id}` | Get contract |
+| PUT | `/api/v1/finance/contracts/{id}` | Update contract |
+| POST | `/api/v1/finance/contracts/{id}/submit` | Submit for approval |
+| POST | `/api/v1/finance/contracts/{id}/approve` | Approve contract |
+| POST | `/api/v1/finance/contracts/{id}/sign` | Record e-signature |
+| GET | `/api/v1/finance/contracts/{id}/obligations` | List contract obligations |
+| GET | `/api/v1/finance/plans` | List financial plans (EPM) |
+| POST | `/api/v1/finance/plans` | Create financial plan |
+| PUT | `/api/v1/finance/plans/{id}` | Update plan values |
+| POST | `/api/v1/finance/plans/{id}/forecast` | Generate forecast |
+| POST | `/api/v1/finance/plans/{id}/what-if` | Run what-if scenario |
+| GET | `/api/v1/finance/plans/{id}/variance` | Get variance analysis |
 
 ### HR Service
 | Method | Endpoint | Description |
@@ -522,12 +585,21 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/hr/payroll/runs` | List payroll runs |
 | POST | `/api/v1/hr/payroll/runs` | Start payroll run |
 | POST | `/api/v1/hr/payroll/runs/{id}/confirm` | Confirm and post payroll |
+| GET | `/api/v1/hr/payroll/countries` | List supported payroll countries |
+| POST | `/api/v1/hr/payroll/multi-country/run` | Start multi-country payroll cycle |
 | GET | `/api/v1/hr/recruitment/requisitions` | List job requisitions |
 | POST | `/api/v1/hr/recruitment/requisitions` | Create job requisition |
 | GET | `/api/v1/hr/recruitment/applicants` | List applicants |
 | POST | `/api/v1/hr/performance/reviews` | Create performance review |
 | GET | `/api/v1/hr/org-chart` | Get organization chart |
 | GET | `/api/v1/hr/training/courses` | List training courses |
+| GET | `/api/v1/hr/talent/reviews` | List talent reviews |
+| POST | `/api/v1/hr/talent/reviews` | Initiate talent review |
+| GET | `/api/v1/hr/talent/succession-plans` | List succession plans |
+| POST | `/api/v1/hr/talent/succession-plans` | Create succession plan |
+| POST | `/api/v1/hr/workforce/simulate` | Run workforce modeling simulation |
+| GET | `/api/v1/hr/benefits/plans` | List benefit plans |
+| POST | `/api/v1/hr/benefits/enroll` | Enroll employee in benefits |
 
 ### Manufacturing Service
 | Method | Endpoint | Description |
@@ -542,8 +614,24 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/manufacturing/work-orders/{id}/complete` | Complete work order |
 | GET | `/api/v1/manufacturing/quality/inspections` | List quality inspections |
 | POST | `/api/v1/manufacturing/quality/inspections` | Create quality inspection |
+| GET | `/api/v1/manufacturing/quality/spc` | Get SPC charts and data |
 | GET | `/api/v1/manufacturing/work-centers` | List work centers |
 | GET | `/api/v1/manufacturing/routing` | List routing definitions |
+| GET | `/api/v1/manufacturing/plm/revisions` | List product revisions |
+| POST | `/api/v1/manufacturing/plm/revisions` | Create product revision |
+| GET | `/api/v1/manufacturing/plm/eco` | List engineering change orders |
+| POST | `/api/v1/manufacturing/plm/eco` | Create ECO |
+| POST | `/api/v1/manufacturing/plm/eco/{id}/approve` | Approve ECO |
+| POST | `/api/v1/manufacturing/plm/eco/{id}/implement` | Implement ECO |
+| GET | `/api/v1/manufacturing/assets` | List enterprise assets |
+| POST | `/api/v1/manufacturing/assets` | Register asset |
+| GET | `/api/v1/manufacturing/assets/{id}` | Get asset details |
+| POST | `/api/v1/manufacturing/assets/{id}/maintenance` | Schedule asset maintenance |
+| GET | `/api/v1/manufacturing/assets/{id}/history` | Get asset maintenance history |
+| GET | `/api/v1/manufacturing/planning/mrp` | Get MRP results |
+| POST | `/api/v1/manufacturing/planning/mrp/run` | Run MRP |
+| POST | `/api/v1/manufacturing/planning/simulate` | Run ASCP simulation |
+| GET | `/api/v1/manufacturing/sustainability/emissions` | Get production emissions data |
 
 ### CRM / Marketing Service
 | Method | Endpoint | Description |
@@ -561,6 +649,9 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/crm/activities` | List activities |
 | POST | `/api/v1/crm/activities` | Log activity |
 | GET | `/api/v1/crm/analytics/pipeline` | Pipeline analytics |
+| GET | `/api/v1/crm/cases` | List service cases |
+| POST | `/api/v1/crm/cases` | Create service case |
+| POST | `/api/v1/crm/cases/{id}/resolve` | Resolve service case |
 
 ### Project Management Service
 | Method | Endpoint | Description |
@@ -582,8 +673,11 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/projects/{id}/billing/invoice` | Generate project invoice |
 | GET | `/api/v1/projects/{id}/risks` | List project risks |
 | POST | `/api/v1/projects/{id}/risks` | Register risk |
+| GET | `/api/v1/projects/{id}/evm` | Get Earned Value Management metrics |
+| GET | `/api/v1/programs` | List programs |
+| POST | `/api/v1/programs` | Create program |
 
-### Platform Service (Notification + File + Audit)
+### Platform Service (Notification + File + Audit + Digital Assistant + App Builder + GRC)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/v1/platform/notifications` | List notifications |
@@ -594,8 +688,30 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/platform/files/{id}/download` | Download file |
 | DELETE | `/api/v1/platform/files/{id}` | Soft-delete file |
 | GET | `/api/v1/platform/files/{id}/preview` | Get document preview |
+| POST | `/api/v1/platform/files/{id}/ocr` | Extract text via OCR |
 | GET | `/api/v1/platform/audit` | Query audit log |
 | GET | `/api/v1/platform/audit/entity/{type}/{id}` | Get audit trail for entity |
+| POST | `/api/v1/platform/assistant/query` | Query digital assistant (natural language) |
+| GET | `/api/v1/platform/assistant/history` | Get conversation history |
+| POST | `/api/v1/platform/assistant/feedback` | Submit feedback on assistant response |
+| GET | `/api/v1/platform/app-builder/apps` | List custom applications |
+| POST | `/api/v1/platform/app-builder/apps` | Create custom application |
+| GET | `/api/v1/platform/app-builder/apps/{id}` | Get application definition |
+| PUT | `/api/v1/platform/app-builder/apps/{id}` | Update application |
+| POST | `/api/v1/platform/app-builder/apps/{id}/publish` | Publish application |
+| POST | `/api/v1/platform/app-builder/objects` | Create custom business object |
+| GET | `/api/v1/platform/app-builder/objects` | List custom business objects |
+| GET | `/api/v1/platform/grc/sod-rules` | List SoD rules |
+| POST | `/api/v1/platform/grc/sod-rules` | Create SoD rule |
+| GET | `/api/v1/platform/grc/sod-conflicts` | List SoD conflicts |
+| GET | `/api/v1/platform/grc/risks` | List GRC risks |
+| POST | `/api/v1/platform/grc/risks` | Register GRC risk |
+| POST | `/api/v1/platform/grc/assessments` | Run compliance assessment |
+| GET | `/api/v1/platform/grc/incidents` | List GRC incidents |
+| POST | `/api/v1/platform/grc/incidents` | Create GRC incident |
+| GET | `/api/v1/platform/data-masking/rules` | List data masking rules |
+| POST | `/api/v1/platform/data-masking/rules` | Create data masking rule |
+| POST | `/api/v1/platform/data-masking/subset` | Generate masked data subset for non-prod |
 
 ### Workflow Service
 | Method | Endpoint | Description |
@@ -619,7 +735,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/report/reports` | List reports |
 | POST | `/api/v1/report/reports` | Create report |
 | GET | `/api/v1/report/reports/{id}` | Get report result |
-| POST | `/api/v1/report/reports/{id}/export` | Export report (CSV, PDF, Excel) |
+| POST | `/api/v1/report/reports/{id}/export` | Export report (CSV, PDF, Excel, Parquet) |
 | POST | `/api/v1/report/reports/{id}/schedule` | Schedule report delivery |
 | GET | `/api/v1/report/dashboards` | List dashboards |
 | GET | `/api/v1/report/dashboards/{id}` | Get dashboard data |
@@ -627,6 +743,18 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/report/kpis` | List KPIs |
 | POST | `/api/v1/report/kpis` | Define KPI |
 | GET | `/api/v1/report/insights` | Get AI-driven insights and anomalies |
+| GET | `/api/v1/report/esg/emissions` | Get emissions data (Scope 1, 2, 3) |
+| GET | `/api/v1/report/esg/scorecards` | Get ESG scorecards |
+| POST | `/api/v1/report/esg/reports` | Generate ESG regulatory report |
+| GET | `/api/v1/report/carbon/footprint` | Get carbon footprint data |
+| POST | `/api/v1/report/carbon/offsets` | Record carbon offset |
+| GET | `/api/v1/report/carbon/targets` | Get science-based target progress |
+| GET | `/api/v1/report/ml/models` | List ML models |
+| POST | `/api/v1/report/ml/models` | Register ML model |
+| POST | `/api/v1/report/ml/models/{id}/deploy` | Deploy ML model |
+| POST | `/api/v1/report/ml/models/{id}/predict` | Run ML prediction |
+| GET | `/api/v1/report/data-lake/datasets` | List data lake datasets |
+| POST | `/api/v1/report/data-lake/query` | Query data lake (schema-on-read) |
 
 ### Integration Service
 | Method | Endpoint | Description |
@@ -643,6 +771,14 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/integrations/jobs/{id}` | Get import/export job status |
 | GET | `/api/v1/integrations/connectors` | List available connector types |
 | POST | `/api/v1/integrations/webhooks` | Register webhook endpoint |
+| GET | `/api/v1/integrations/mdm/golden-records` | List golden records |
+| GET | `/api/v1/integrations/mdm/golden-records/{entity}/{id}` | Get golden record for entity |
+| POST | `/api/v1/integrations/mdm/match` | Run matching on entity records |
+| POST | `/api/v1/integrations/mdm/merge` | Merge duplicate records |
+| GET | `/api/v1/integrations/mdm/quality` | Get data quality scorecards |
+| GET | `/api/v1/integrations/governance/catalog` | Browse data catalog |
+| GET | `/api/v1/integrations/governance/lineage/{entity}/{id}` | Get data lineage |
+| GET | `/api/v1/integrations/governance/classifications` | List data classifications |
 
 ---
 

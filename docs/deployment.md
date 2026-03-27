@@ -16,10 +16,10 @@
 │  │  │ Traefik │ │ Cert-   │ │Prometheus│ │ Grafana │ │ Jaeger │          │  │
 │  │  │         │ │ Manager │ │          │ │         │ │        │          │  │
 │  │  └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘          │  │
-│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐                                    │  │
-│  │  │ Alert-  │ │  Loki   │ │ Vault / │                                    │  │
-│  │  │ manager │ │         │ │  KMS    │                                    │  │
-│  │  └─────────┘ └─────────┘ └─────────┘                                    │  │
+│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐                       │  │
+│  │  │ Alert-  │ │  Loki   │ │ Vault / │ │ ArgoCD  │                       │  │
+│  │  │ manager │ │         │ │  KMS    │ │         │                       │  │
+│  │  └─────────┘ └─────────┘ └─────────┘ └─────────┘                       │  │
 │  └───────────────────────────────────────────────────────────────────────┘  │
 │                                      │                                       │
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
@@ -64,7 +64,7 @@
 | Workflow | 100m | 500m | 128Mi | 512Mi | 3 |
 | CRM / Marketing | 100m | 500m | 128Mi | 512Mi | 3 |
 | Project Management | 100m | 500m | 128Mi | 512Mi | 3 |
-| Platform (Notif + File + Audit) | 200m | 1000m | 256Mi | 1Gi | 3 |
+| Platform (Notif + File + Audit + Assistant + AppBuilder + GRC) | 200m | 1000m | 256Mi | 1Gi | 3 |
 | Integration | 100m | 500m | 128Mi | 512Mi | 3 |
 
 **Total minimum resources (all services at minimum replicas):**
@@ -90,6 +90,8 @@
 │                               E2E tests     cargo-audit    Kustomize       │
 │                               Contract      Snyk                          │
 │                               tests (Pact)  cargo-deny                    │
+│                                             SAST (Semgrep)                 │
+│                                             DAST (OWASP ZAP)              │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -100,7 +102,7 @@
 |-------|---------|---------------|
 | Build | `cargo build --release`, Docker image build | Block merge |
 | Test | Unit, integration, contract (Pact), saga tests | Block merge |
-| Security | Trivy scan, `cargo audit`, `cargo deny`, Snyk, clippy | Block merge on Critical/High |
+| Security | Trivy scan, `cargo audit`, `cargo deny`, Snyk, clippy, SAST, DAST | Block merge on Critical/High |
 | Deploy (Staging) | ArgoCD auto-sync to staging | Alert on failure |
 | Deploy (Production) | Manual approval + ArgoCD sync | Rollback on health check failure |
 
@@ -225,6 +227,7 @@ spec:
 | RabbitMQ | Federation plugin for cross-region queue mirroring |
 | Redis | Redis Enterprise with active-passive replication |
 | File Storage | MinIO site replication |
+| Data Residency | Region-pinned tenants route to designated cluster; cross-region transfer prohibited without consent |
 
 ### 6.1 Disaster Recovery
 
@@ -246,6 +249,8 @@ spec:
 | MinIO | Versioning + cross-region replication | Continuous | 90 days |
 | Elasticsearch | Snapshot to MinIO | Daily | 14 days |
 | K8s manifests | GitOps (ArgoCD source of truth) | Continuous | Indefinite |
+| Vault | Encrypted snapshots | Daily | 30 days |
+| Data Lake | Cross-region replication via MinIO | Continuous | Indefinite |
 
 ## 7. Autoscaling
 
@@ -284,7 +289,49 @@ spec:
 | Commerce | 5 | 20 | 70% | 80% |
 | Finance | 5 | 20 | 70% | 80% |
 | Report | 3 | 10 | 60% | 70% |
+| Platform | 3 | 15 | 70% | 80% |
 | All others | 2 | 10 | 70% | 80% |
+
+## 8. Deployment Strategies
+
+### 8.1 Rolling Update (Default)
+
+Standard Kubernetes rolling update for all routine deployments. Zero downtime guaranteed by readiness probes.
+
+### 8.2 Blue-Green Deployment
+
+For major version upgrades or breaking schema changes:
+
+```
+1. Deploy new version to "green" environment alongside "blue" (current)
+2. Run smoke tests and integration tests against "green"
+3. Switch traffic from "blue" to "green" via Kubernetes service selector
+4. Monitor for 30 minutes; automatic rollback on error rate > 1%
+5. Scale down "blue" after verification period
+```
+
+### 8.3 Canary Deployment
+
+For high-risk changes to critical services (Commerce, Finance):
+
+```
+1. Deploy new version to 10% of pods
+2. Monitor error rate, latency, and business metrics for 30 minutes
+3. If metrics are within thresholds, gradually increase to 25% → 50% → 100%
+4. Automatic rollback if canary error rate exceeds baseline by 0.5%
+```
+
+## 9. Infrastructure as Code (IaC)
+
+| Tool | Purpose |
+|------|---------|
+| Terraform | Cloud infrastructure provisioning (VPC, databases, load balancers) |
+| Helm | Kubernetes application packaging and templating |
+| Kustomize | Environment-specific overlay configuration |
+| ArgoCD | GitOps continuous delivery — cluster state synced from Git |
+| Crossplane (optional) | Infrastructure composition for multi-cloud deployments |
+
+All infrastructure definitions are version-controlled in the same repository under `infra/`.
 
 ---
 

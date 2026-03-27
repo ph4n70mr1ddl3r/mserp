@@ -23,6 +23,10 @@
 | Log Aggregation | Loki | Latest | Log aggregation and querying |
 | Analytics Engine | DuckDB | Latest | Embedded analytical database for Report Service |
 | Vector Engine | qdrant (optional) | Latest | Vector search for AI/ML similarity queries |
+| ML/AI Runtime | ONNX Runtime | Latest | Embedded ML model inference |
+| Secrets Management | HashiCorp Vault | Latest | Key management, secret storage, dynamic credentials |
+| Data Lake Storage | MinIO (S3-compatible) | RELEASE.2024-01+ | Raw and curated data lake zones |
+| Mobile Framework | React Native | Latest | iOS and Android mobile application |
 
 ## 3. Observability
 
@@ -33,6 +37,7 @@
 | Tracing | Jaeger | Latest | Distributed tracing, request flow visualization |
 | Alerting | Alertmanager | Latest | Incident management, alert routing |
 | Uptime | Blackbox Exporter | Latest | External endpoint monitoring |
+| Synthetics | k6 (cloud) | Latest | Synthetic transaction monitoring |
 
 ## 4. Rust Crate Selection
 
@@ -41,7 +46,7 @@
 # Web
 axum = "0.7"
 tower = "0.4"
-tower-http = { version = "0.5", features = ["cors", "trace", "compression-gzip", "request-id", "propagate-header"] }
+tower-http = { version = "0.5", features = ["cors", "trace", "compression-gzip", "request-id", "propagate-header", "ws"] }
 hyper = "1.0"
 
 # Async
@@ -95,6 +100,15 @@ tracing-opentelemetry = "0.28"
 opentelemetry-otlp = "0.27"
 prometheus = "0.13"
 
+# ML/AI (optional, Report + Platform services)
+ort = { version = "2.0", optional = true }
+candle-core = { version = "0.4", optional = true }
+candle-nn = { version = "0.4", optional = true }
+tokenizers = { version = "0.15", optional = true }
+
+# NLP (Platform Service — Digital Assistant)
+rust-bert = { version = "0.22", optional = true }
+
 # Analytics (Report Service only)
 duckdb = { version = "1.0", optional = true }
 arrow = { version = "50.0", optional = true }
@@ -132,6 +146,9 @@ pact_provider = "1.2"
 | `cargo tarpaulin` | Code coverage reporting | Every PR |
 | `k6` | Load testing | Weekly + pre-release |
 | `cargo deny` | License compliance and ban list checking | Every PR |
+| Cosign | Container image signing for supply chain verification | Every build |
+| SAST | Static application security testing (Semgrep) | Every PR |
+| DAST | Dynamic application security testing (OWASP ZAP) | Weekly + pre-release |
 
 ## 6. Version Policy
 
@@ -142,6 +159,7 @@ pact_provider = "1.2"
 | Dependency Updates | Weekly automated PRs via Dependabot; critical security patches within 24 hours |
 | Breaking Dependency Changes | Require team review and migration plan |
 | Crate Compatibility | All workspace crates share the same Rust edition and MSRV |
+| ML Model Versioning | Models versioned separately; backward-compatible inference via ONNX |
 
 ## 7. Container Images
 
@@ -153,6 +171,7 @@ pact_provider = "1.2"
 | Registry | GitHub Container Registry (ghcr.io) |
 | Image Scanning | Trivy scan on every build; block deployment on Critical/High CVEs |
 | Image Signing | Cosign signatures for supply chain verification |
+| SBOM | Software Bill of Materials generated per image (Syft) |
 
 ---
 

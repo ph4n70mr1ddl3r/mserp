@@ -40,12 +40,13 @@
 
 | Layer | Controls |
 |-------|----------|
-| Network | mTLS, Network policies, DDoS protection, IP allowlisting per tenant |
+| Network | mTLS, Network policies, DDoS protection, IP allowlisting per tenant, egress filtering |
 | Transport | TLS 1.3, Certificate pinning, HSTS headers |
 | Application | Input validation, SQL injection prevention (parameterized queries), XSS protection (output encoding), CSRF tokens for browser clients |
-| Authentication | JWT with short expiry, Refresh tokens with rotation, MFA (TOTP, SMS), SSO (SAML 2.0 bridge), brute-force lockout |
-| Authorization | RBAC + ABAC with granular permissions, Row-level security (tenant + org scope) |
-| Data | Encryption at rest (AES-256), PII masking in logs/responses, Audit logging, Data classification labels |
+| Authentication | JWT with short expiry, Refresh tokens with rotation, MFA (TOTP, SMS, biometric), SSO (SAML 2.0 bridge), brute-force lockout, step-up authentication |
+| Authorization | RBAC + ABAC with granular permissions, Row-level security (tenant + org scope), Segregation of Duties |
+| Data | Encryption at rest (AES-256), PII masking in logs/responses, Audit logging, Data classification labels, Data masking for non-production |
+| GRC | Compliance policy enforcement, risk register, control assessments, incident management, SoD conflict detection |
 
 ## 3. JWT Token Specification
 
@@ -201,6 +202,8 @@ In addition to RBAC, the system supports attribute-based policies for fine-grain
 | Amount threshold | Request data | `amount > 10000` requires manager approval |
 | Time of day | System clock | `outside business hours` triggers additional MFA |
 | IP range | Request source | `source_ip NOT IN corporate_range` triggers step-up auth |
+| Data classification | Resource metadata | `classification = 'Restricted'` limits access to named users |
+| Device trust level | Auth Service | `unmanaged device` triggers step-up auth |
 
 ABAC policies are evaluated by the service layer (not the gateway) since they require access to resource attributes.
 
@@ -222,16 +225,22 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Tenant Admin | Tenant-level admin | `tenant.*`, `identity.*`, `config.*` |
 | Finance Manager | Financial operations | `finance.*`, `report.finance.*` |
 | Accountant | Accounting operations | `finance.journal.*`, `finance.accounts.*` |
+| Treasury Manager | Treasury operations | `finance.treasury.*`, `finance.payment.*` |
 | Sales Manager | Sales operations | `commerce.*` |
 | Sales Rep | Limited sales | `commerce.order.create`, `commerce.quotation.*`, `commerce.customer.read` |
 | Inventory Manager | Stock operations | `commerce.stock.*`, `commerce.warehouse.*` |
+| Procurement Manager | Procurement operations | `finance.purchase-order.*`, `finance.supplier.*`, `finance.contract.*` |
 | HR Manager | HR operations | `hr.*` |
 | HR Specialist | Recruitment & onboarding | `hr.recruitment.*`, `hr.employee.read`, `hr.onboarding.*` |
-| Employee | Self-service | `hr.attendance.own`, `hr.leave.own`, `hr.payroll.own` |
+| Employee | Self-service | `hr.attendance.own`, `hr.leave.own`, `hr.payroll.own`, `finance.expense.own` |
 | Project Manager | Project management | `project.*`, `hr.employee.read` |
 | CRM User | Sales & marketing | `crm.*`, `commerce.customer.read` |
 | Manufacturing Manager | Production operations | `manufacturing.*` |
+| Quality Manager | Quality control | `manufacturing.quality.*`, `manufacturing.bom.read` |
 | Report Viewer | Read-only analytics | `report.*.read` |
+| ESG Analyst | Sustainability reporting | `report.esg.*`, `report.carbon.*` |
+| GRC Officer | Governance, risk, compliance | `platform.grc.*`, `platform.audit.read` |
+| App Builder | Low-code application development | `platform.app-builder.*` |
 
 ## 8. Data Protection
 
@@ -244,6 +253,7 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Backups | AES-256 encrypted before writing to object storage |
 | Redis | TLS in transit; persistence files encrypted at rest |
 | Secrets | Kubernetes secrets (encrypted at rest via etcd encryption configuration) |
+| Data Lake | SSE-S3 encryption on all zones (raw, curated, analytics) |
 
 ### 8.2 PII Handling
 
@@ -256,17 +266,53 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Right to erasure (GDPR) | Hard delete with cascading; audit log retained with anonymized references |
 | Data retention | Configurable per data category; automated purge jobs |
 | Cross-border transfer | Data residency controls per tenant (region pinning) |
+| Data subsetting | PII-compliant data subsets for non-production environments |
 
 ### 8.3 Key Management
 
 | Aspect | Implementation |
 |--------|---------------|
-| Key Storage | HashiCorp Vault or AWS KMS (configurable) |
+| Key Storage | HashiCorp Vault or cloud KMS (AWS KMS, Azure Key Vault — configurable) |
 | Key Rotation | Automated rotation every 90 days for encryption keys |
 | Key Hierarchy | Master key → Data encryption key → Per-table key |
 | Access | Keys accessed via service accounts with audit logging |
+| Key Backup | Split-key shamir backup for master key, stored in separate physical locations |
 
-## 9. Threat Model
+## 9. Governance, Risk & Compliance (GRC)
+
+### 9.1 Segregation of Duties (SoD)
+
+| Aspect | Implementation |
+|--------|---------------|
+| SoD Rules | Configurable rules defining incompatible role/permission combinations |
+| Conflict Detection | Real-time detection on role assignment and workflow approval |
+| Mitigation | Accept risk (with approval), assign compensating controls, or enforce separation |
+| Reporting | SoD conflict report, mitigation status, outstanding violations |
+| Integration | SoD checks integrated into Workflow Service approval flows |
+
+### 9.2 Risk Management
+
+| Aspect | Implementation |
+|--------|---------------|
+| Risk Register | Centralized risk register with risk scoring (likelihood × impact) |
+| Risk Categories | Financial, Operational, Compliance, Strategic, Technology |
+| Assessments | Scheduled and ad-hoc risk assessments with questionnaire workflows |
+| Treatment Plans | Mitigate, Transfer, Accept, Avoid with action items and deadlines |
+| Monitoring | Risk KRI (Key Risk Indicator) dashboards with threshold alerts |
+
+### 9.3 Compliance Management
+
+| Framework | Controls |
+|-----------|----------|
+| SOC 2 Type II | Audit logging, access controls, encryption, incident response |
+| GDPR | Data erasure, data portability, consent management, DPA, privacy impact assessment |
+| HIPAA | PHI encryption, access logging, BAAs, minimum necessary access |
+| PCI DSS | Tokenization, network segmentation, vulnerability scanning |
+| SOX | Financial audit trail, change management, access controls, SoD |
+| ISO 27001 | Information security management system, risk assessment, controls |
+| ESG Regulations | Emissions reporting accuracy, audit trail for sustainability data |
+
+## 10. Threat Model
 
 | Threat Category | Mitigation |
 |----------------|------------|
@@ -276,9 +322,34 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | XSS | Output encoding, Content-Security-Policy headers |
 | CSRF | Same-site cookies, CSRF tokens for state-changing operations |
 | DDoS | API Gateway rate limiting, CDN-based DDoS protection |
-| Insider threat | Audit logging, separation of duties, privileged access management |
-| Supply chain | Container image scanning (Trivy), dependency auditing (cargo audit), image signing (Cosign) |
-| Data exfiltration | Encryption at rest, network policies, egress filtering |
+| Insider threat | Audit logging, separation of duties, privileged access management, SoD enforcement |
+| Supply chain | Container image scanning (Trivy), dependency auditing (cargo audit), image signing (Cosign), SBOM |
+| Data exfiltration | Encryption at rest, network policies, egress filtering, data masking |
+| Privilege escalation | Step-up authentication, SoD conflict detection, least-privilege defaults |
+| API abuse | Rate limiting per tenant/user/endpoint, API key rotation, request validation |
+| Model poisoning | ML model integrity verification, signed models, input sanitization for AI endpoints |
+
+## 11. Security Incident Response
+
+| Phase | Actions | SLA |
+|-------|---------|-----|
+| Detection | Automated alerting (SIEM), anomaly detection, user reports | < 15 min to alert |
+| Triage | Severity assessment, scope determination, incident ticket creation | < 30 min |
+| Containment | Isolate affected systems, revoke compromised credentials, block IPs | < 1 hour |
+| Eradication | Remove threat, patch vulnerability, rotate all affected secrets | < 4 hours |
+| Recovery | Restore from backup if needed, verify system integrity, resume operations | < 8 hours |
+| Post-mortem | Root cause analysis, lessons learned, preventive measures, documentation | < 48 hours |
+
+## 12. Privacy Impact Assessment (PIA)
+
+A PIA MUST be conducted before:
+- Introducing new data processing activities involving PII
+- Adding new data sharing arrangements with third parties
+- Deploying new AI/ML models that process personal data
+- Expanding data collection to new categories of personal data
+- Entering new jurisdictions with different privacy requirements
+
+PIA outcomes are recorded in the GRC module and linked to the data catalog.
 
 ---
 

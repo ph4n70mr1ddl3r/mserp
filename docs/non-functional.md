@@ -15,6 +15,10 @@
 | Database Query (simple) | < 10ms | Prometheus `db_query_duration_seconds` p99 |
 | Database Query (complex) | < 100ms | Prometheus `db_query_duration_seconds` p99 |
 | Cache Hit Rate | > 90% for read-heavy endpoints | `cache_hit_total / (cache_hit_total + cache_miss_total)` |
+| Digital Assistant Response | < 3 seconds (intent to answer) | Platform Service metrics |
+| ML Inference Latency | < 500ms (single prediction) | ONNX Runtime metrics |
+| Mobile API Response (p99) | < 800ms (optimized endpoints) | Mobile performance monitoring |
+| Full-Text Search | < 200ms | Elasticsearch query latency |
 
 ## 2. Availability
 
@@ -25,6 +29,7 @@
 | Recovery Time Objective (RTO) | < 1 hour (region failover) | Disaster recovery drill |
 | Recovery Point Objective (RPO) | < 5 minutes | PostgreSQL replication lag monitoring |
 | Deployment Downtime | Zero (rolling updates) | K8s rolling deployment strategy |
+| Scheduled Maintenance | Zero downtime (rolling) | Blue-green deployment for major upgrades |
 
 ## 3. Scalability
 
@@ -36,21 +41,34 @@
 | Tenant Scaling | Support up to 1,000 tenants per cluster |
 | Concurrent Users | 1,000+ concurrent active users per cluster |
 | Data Volume | Up to 100 GB per tenant, 10 TB per cluster |
+| Data Lake Scaling | Unlimited raw zone storage per tenant |
+| ML Model Serving | Concurrent inference requests scale horizontally via Report Service HPA |
 
 ## 4. Compliance
 
 | Standard | Applicability | Key Controls |
 |----------|---------------|-------------|
 | SOC 2 Type II | Required for all deployments | Audit logging, access controls, encryption, incident response |
-| GDPR | Required for EU customers | Data erasure, data portability, consent management, DPA |
+| GDPR | Required for EU customers | Data erasure, data portability, consent management, DPA, PIA |
 | HIPAA | Per-tenant (healthcare clients) | PHI encryption, access logging, BAAs, minimum necessary access |
 | PCI DSS | Required when payment processing enabled | Tokenization, network segmentation, vulnerability scanning |
-| SOX | Required for publicly traded customers | Financial audit trail, change management, access controls |
+| SOX | Required for publicly traded customers | Financial audit trail, change management, access controls, SoD |
 | ISO 27001 | Recommended | Information security management system |
+| ESG Regulations | Per-tenant (reporting required) | Emissions data accuracy, audit trail, framework compliance (GRI, SASB, TCFD) |
 
-## 5. Testing Strategy
+## 5. Data Residency
 
-### 5.1 Testing Pyramid
+| Requirement | Specification |
+|-------------|---------------|
+| Region Pinning | Tenant data can be pinned to a specific geographic region |
+| Cross-Region Transfer | Data never leaves pinned region except with explicit tenant consent |
+| Data Classification | All data tagged with residency requirement at record level |
+| Backup Compliance | Backups stored in same region as primary data |
+| Enforcement | Enforced at connection routing layer and RLS policies |
+
+## 6. Testing Strategy
+
+### 6.1 Testing Pyramid
 
 ```
            ┌───────────┐
@@ -67,7 +85,7 @@
         └─────────────────┘
 ```
 
-### 5.2 Test Categories
+### 6.2 Test Categories
 
 | Category | Scope | Tooling | Coverage Target | When |
 |----------|-------|---------|-----------------|------|
@@ -77,10 +95,12 @@
 | E2E Tests | Full system (multi-service) | Custom harness + Docker Compose | Critical paths | Nightly + pre-release |
 | Saga Tests | Distributed transaction flows with failure injection | Custom harness + RabbitMQ | All sagas | Every PR |
 | Load Tests | Performance under load | `k6` | N/A | Weekly + pre-release |
-| Security Tests | Vulnerability scanning | Trivy, `cargo audit`, Snyk | N/A | Every PR + weekly |
+| Security Tests | Vulnerability scanning | Trivy, `cargo audit`, Snyk, OWASP ZAP | N/A | Every PR + weekly |
 | Chaos Tests | Resilience under failure | Chaos mesh / Litmus | Critical scenarios | Monthly |
+| Accessibility Tests | WCAG 2.1 AA compliance | axe-core, Pa11y | All web pages | Every PR |
+| AI/ML Tests | Model accuracy, bias, drift | Custom harness | N/A | On model update |
 
-### 5.3 Testing Tools
+### 6.3 Testing Tools
 
 | Tool | Purpose |
 |------|---------|
@@ -94,8 +114,10 @@
 | `k6` | Load testing |
 | Trivy | Container security scanning |
 | `cargo audit` | Dependency vulnerability checking |
+| OWASP ZAP | Dynamic application security testing |
+| axe-core / Pa11y | Accessibility testing |
 
-### 5.4 Test Environment Strategy
+### 6.4 Test Environment Strategy
 
 | Environment | Purpose | Data | Refresh |
 |-------------|---------|------|---------|
@@ -105,16 +127,16 @@
 | Staging | Pre-production validation | Anonymized production snapshot | Weekly |
 | Production | Smoke tests only | Real data (read-only) | N/A |
 
-### 5.5 Test Data Management
+### 6.5 Test Data Management
 
 - Unit tests use `fake` crate for random, realistic data.
 - Integration tests use idempotent seed scripts (`INSERT ... ON CONFLICT DO NOTHING`).
 - E2E tests use a dedicated test tenant with known data.
 - Test data MUST NOT contain real PII.
 - Each test is responsible for its own setup and teardown (no shared mutable state).
-- Staging environment uses anonymized production snapshots (PII replaced with synthetic data).
+- Staging environment uses anonymized production snapshots (PII replaced with synthetic data via Platform Service data masking).
 
-### 5.6 Quality Gates
+### 6.6 Quality Gates
 
 | Gate | Requirement | Enforced By |
 |------|-------------|-------------|
@@ -126,25 +148,28 @@
 | Dependency audit | `cargo audit` passes (no Critical/High) | CI (weekly + PR) |
 | License compliance | `cargo deny` passes | CI (every PR) |
 | Security scan | Trivy scan passes (no Critical CVEs) | CI (every build) |
+| Accessibility | WCAG 2.1 AA compliance on web pages | CI (every PR) |
+| SoD compliance | No unresolved SoD conflicts in production config | CI (pre-release) |
 
 ---
 
-## 6. Monitoring & Observability
+## 7. Monitoring & Observability
 
-### 6.1 Metrics (Prometheus)
+### 7.1 Metrics (Prometheus)
 
 All services MUST expose a `/metrics` endpoint (Prometheus format) with the following metric categories:
 
 | Category | Metrics |
 |----------|---------|
 | HTTP | Request rate, latency (p50, p95, p99), error rate, active requests |
-| Business | Orders created, invoices generated, stock alerts, pipeline conversions |
+| Business | Orders created, invoices generated, stock alerts, pipeline conversions, emissions recorded |
 | Database | Query latency, connection pool usage, replication lag |
 | Messaging | Publish rate, consume rate, consumer lag, DLQ depth |
 | Cache | Hit rate, miss rate, eviction rate, memory usage |
 | Infrastructure | CPU, memory, disk, network (via node exporter) |
+| ML/AI | Inference latency, prediction confidence, model drift, feature store freshness |
 
-### 6.2 Standard Service Metrics
+### 7.2 Standard Service Metrics
 
 All services MUST expose these Prometheus metrics:
 
@@ -164,8 +189,12 @@ All services MUST expose these Prometheus metrics:
 | `cache_miss_total` | Counter | key_pattern | Cache misses |
 | `saga_started_total` | Counter | saga_type | Sagas started |
 | `saga_completed_total` | Counter | saga_type, status | Sagas completed (success/failed/compensated) |
+| `assistant_intent_total` | Counter | intent, status | Digital assistant intent resolution |
+| `assistant_action_duration_seconds` | Histogram | action | Digital assistant action execution time |
+| `ml_inference_duration_seconds` | Histogram | model_name | ML inference latency |
+| `esg_emissions_recorded_total` | Counter | scope, unit | Emissions data points recorded |
 
-### 6.3 Dashboards (Grafana)
+### 7.3 Dashboards (Grafana)
 
 | Dashboard | Audience | Key Panels |
 |-----------|----------|-----------|
@@ -175,10 +204,13 @@ All services MUST expose these Prometheus metrics:
 | Database Performance | DBAs | Query latency, connection pools, replication lag, slow queries |
 | Message Queue Status | SRE | Queue depth, consumer lag, DLQ count, publish rate |
 | Cache Performance | Developers | Hit/miss ratio, eviction rate, memory, key count |
-| Security | Security team | Login failures, auth errors, rate limit hits, audit events |
-| Cost | Finance | Resource utilization, pod counts, storage usage |
+| Security | Security team | Login failures, auth errors, rate limit hits, audit events, SoD conflicts |
+| ESG / Sustainability | ESG analysts | Emissions by scope, carbon intensity, target progress, offset tracking |
+| AI/ML Operations | Data scientists | Model accuracy, inference latency, feature drift, prediction volume |
+| Cost | Finance | Resource utilization, pod counts, storage usage, data lake size |
+| Digital Assistant | Product team | Intent distribution, success rate, response time, user satisfaction |
 
-### 6.4 Structured Logging
+### 7.4 Structured Logging
 
 All services MUST emit structured JSON logs with these fields:
 
@@ -210,7 +242,7 @@ All services MUST emit structured JSON logs with these fields:
 
 **Log Redaction:** PII fields (email, phone, SSN) are automatically redacted in logs using the `mserp-core` redaction utility.
 
-### 6.5 Distributed Tracing
+### 7.5 Distributed Tracing
 
 All services participate in distributed tracing via OpenTelemetry + Jaeger:
 
@@ -220,8 +252,9 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 - Event consumption creates a linked span using `correlation_id`.
 - Database queries are instrumented as child spans.
 - Cache operations are instrumented as child spans.
+- ML inference calls are instrumented as child spans with model metadata.
 
-### 6.6 Alerts
+### 7.6 Alerts
 
 | Alert | Severity | Response Time | Response |
 |-------|----------|---------------|----------|
@@ -237,14 +270,26 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | Pod Restart Loop | Critical | < 5 minutes | Check logs, resource limits |
 | Saga Compensation Failed | Critical | < 5 minutes | Manual intervention, check DLQ |
 | Tenant Quota Exceeded | Info | < 24 hours | Notify tenant admin |
+| SoD Conflict Detected | Warning | < 1 hour | Review and mitigate |
+| ML Model Drift Detected | Warning | < 24 hours | Evaluate retraining, review accuracy |
+| ESG Data Anomaly | Info | < 48 hours | Review emissions data, verify calculations |
 
-### 6.7 Alert Routing
+### 7.7 Alert Routing
 
 | Severity | Channel | Escalation |
 |----------|---------|-----------|
 | Critical | PagerDuty + Slack #incidents | On-call engineer → Engineering lead → CTO |
 | Warning | Slack #alerts | On-call engineer acknowledges |
 | Info | Slack #notifications | No action required |
+
+## 8. Sustainability / Green IT
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Carbon efficiency | Track CO2 per API request | Cloud provider carbon metrics + estimated compute carbon |
+| Resource utilization | > 60% average CPU utilization across cluster | Prometheus metrics |
+| Idle resource cleanup | Automatic scale-to-zero for non-production | K8s HPA minReplicas=0 for dev/staging |
+| Efficient languages | Rust for minimal memory/CPU footprint | Compared to equivalent JVM/Node workloads |
 
 ---
 

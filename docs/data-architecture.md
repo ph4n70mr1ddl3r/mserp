@@ -21,7 +21,10 @@ Each service owns its database exclusively. No service may query another service
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐          │
 │  │ commerce_db │  │ finance_db  │  │   hr_db     │          │
 │  │ (Sales +    │  │ (Finance +  │  │             │          │
-│  │  Inventory) │  │ Procurement)│  │             │          │
+│  │  Inventory +│  │ Procurement+│  │             │          │
+│  │  PIM +      │  │ Treasury +  │  │             │          │
+│  │  Transport) │  │ Expenses +  │  │             │          │
+│  │             │  │ CLM + EPM)  │  │             │          │
 │  └─────────────┘  └─────────────┘  └─────────────┘          │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐          │
 │  │manufacturing│  │ report_db   │  │ workflow_db │          │
@@ -35,7 +38,9 @@ Each service owns its database exclusively. No service may query another service
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐          │
 │  │ platform_db │  │  audit_db   │  │integration_ │          │
 │  │ (Notif +    │  │ (time-series│  │     db      │          │
-│  │  File)      │  │  optimized) │  │             │          │
+│  │  File +     │  │  optimized) │  │ (+ MDM +    │          │
+│  │  Assistant +│  │             │  │  Data Gov)  │          │
+│  │  AppBuilder)│  │             │  │             │          │
 │  └─────────────┘  └─────────────┘  └─────────────┘          │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -78,11 +83,11 @@ CREATE INDEX idx_{table}_is_deleted ON {table} (is_deleted);
 | Data Partitioning | Partition large tables by `tenant_id` using declarative partitioning |
 | Connection Pooling | Shared connection pool; RLS `tenant_id` set per transaction via `app.current_tenant` |
 | Quota Enforcement | Tenant Service tracks usage; API Gateway enforces limits |
+| Data Residency | Region-pinned tenants route to designated PostgreSQL cluster; enforced at connection routing layer |
 
 ### RLS Implementation
 
 ```sql
--- Per-table RLS policy (applied by migration)
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY tenant_isolation ON orders
@@ -173,6 +178,9 @@ CREATE UNIQUE INDEX idx_users_email_active
 | File metadata | Follows linked entity | Cascade with entity |
 | Import/export job data | 90 days | Automated nightly purge |
 | Report execution history | 1 year | Automated nightly purge |
+| ESG / emissions data | Indefinite | Never (regulatory requirement) |
+| ML model artifacts | 2 years | Automated purge of deprecated models |
+| Custom application data (low-code) | Follows app lifecycle | Cascade with application |
 
 ## 6. Audit Trail (Event Log)
 
@@ -192,10 +200,11 @@ CREATE UNIQUE INDEX idx_users_email_active
 │ user_id         UUID                                      │
 │ occurred_at     TIMESTAMPTZ NOT NULL                      │
 │ version         INTEGER NOT NULL                          │
+│ data_classification VARCHAR(20) DEFAULT 'Internal'        │
 └──────────────────────────────────────────────────────────┘
 ```
 
-The `audit_db` database is time-series optimized with automatic partitioning by `occurred_at` (monthly partitions). Old partitions are archived to object storage after 2 years but remain queryable.
+The `audit_db` database is time-series optimized with automatic partitioning by `occurred_at` (monthly partitions). Old partitions are archived to object storage after 2 years but remain queryable. The `data_classification` column enables filtering by data sensitivity level (Public, Internal, Confidential, Restricted).
 
 ## 7. Caching Strategy
 
@@ -217,6 +226,8 @@ MSERP uses **cache-aside** pattern with Redis as the caching layer.
 | Rate limit counters | Sliding window | 1 minute | Automatic expiry |
 | Reference data (currencies, countries) | Cache-aside | 1 hour | On deploy / manual flush |
 | Localization strings | Cache-aside | 1 hour | On `config.changed` (i18n keys) |
+| Golden records (MDM) | Cache-aside | 15 minutes | On `integration.master-data.merged` event |
+| ESG emissions factors | Cache-aside | 24 hours | On `config.changed` (ESG keys) |
 
 ### 7.3 Cache Key Format
 
@@ -233,6 +244,7 @@ Examples:
 - `mserp:tenant-123:tenant:feature_flags` (per-tenant overrides)
 - `mserp:global:config:system` (system configuration)
 - `mserp:global:finance:exchange_rates:USD_EUR` (exchange rates)
+- `mserp:tenant-123:integration:golden_record:customer:cust-001`
 
 ### 7.4 Cache Invalidation
 
@@ -264,14 +276,15 @@ Reference data is seeded during initial deployment and managed via migrations.
 | Locales / Languages | Static seed | On deploy |
 | Exchange Rates | ECB API (automated) + manual override | Daily |
 | Industry Classifications (NAICS/SIC) | Static seed | On deploy |
+| Emission Factors | EPA / DEFRA / configurable source | Annually |
+| ESG Reporting Frameworks | Static seed (GRI, SASB, TCFD) | On deploy |
+| Carrier Service Levels | Static seed + tenant-customizable | On deploy + API |
+| Payroll Tax Jurisdictions | Per-country seed + configurable | On deploy + API |
 
 ### 8.2 Seeding Process
 
 ```bash
-# Seed reference data (run once per environment)
 make seed
-
-# Seed test data (development only)
 make seed-test
 ```
 
@@ -298,9 +311,9 @@ Operational DBs (PostgreSQL) ──▶ ETL Jobs (scheduled) ──▶ DuckDB (St
 
 | Table Type | Examples | Refresh Frequency |
 |-----------|----------|-------------------|
-| Dimension tables | `dim_customer`, `dim_product`, `dim_date`, `dim_employee` | Hourly |
-| Fact tables | `fact_sales`, `fact_inventory_movement`, `fact_payroll` | Hourly |
-| Aggregate tables | `agg_daily_sales`, `agg_monthly_revenue` | Daily |
+| Dimension tables | `dim_customer`, `dim_product`, `dim_date`, `dim_employee`, `dim_facility` | Hourly |
+| Fact tables | `fact_sales`, `fact_inventory_movement`, `fact_payroll`, `fact_emissions` | Hourly |
+| Aggregate tables | `agg_daily_sales`, `agg_monthly_revenue`, `agg_monthly_emissions` | Daily |
 
 ### 9.3 Data Freshness
 
@@ -308,6 +321,91 @@ Operational DBs (PostgreSQL) ──▶ ETL Jobs (scheduled) ──▶ DuckDB (St
 - Historical reports and trend analysis use the data warehouse.
 - Warehouse data is at most 1 hour stale for dimension data and fact data.
 - Aggregate tables are refreshed daily during off-peak hours.
+
+## 10. Data Lake
+
+The Report Service manages a data lake built on MinIO (S3-compatible) for raw and curated analytical data.
+
+### 10.1 Data Lake Zones
+
+| Zone | Purpose | Format | Retention |
+|------|---------|--------|-----------|
+| Raw (Bronze) | Unprocessed event and operational data | JSON, Parquet | 2 years |
+| Curated (Silver) | Cleaned, deduplicated, typed data | Parquet | Indefinite |
+| Analytics (Gold) | Pre-aggregated, business-ready datasets | Parquet | Indefinite |
+
+### 10.2 Ingestion
+
+- Operational events are streamed to the raw zone via the outbox poller (dual-write: RabbitMQ + MinIO).
+- ETL jobs promote raw data to curated, applying schema validation and deduplication.
+- Analytics zone is populated by scheduled aggregation jobs.
+
+### 10.3 Schema-on-Read
+
+The data lake uses a schema-on-read approach for exploratory analytics:
+- Raw zone: No enforced schema; events stored in their original format.
+- Curated zone: Schema enforced by ETL; Apache Arrow schema definitions.
+- Query access via DuckDB's S3/Parquet integration or direct API.
+
+## 11. Master Data Management Schema
+
+### 11.1 Golden Record Tables
+
+The Integration Service maintains golden record tables for core master data entities:
+
+```sql
+CREATE TABLE mdm_golden_records (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    entity_type     VARCHAR(50) NOT NULL,
+    source_id       UUID NOT NULL,
+    source_service  VARCHAR(50) NOT NULL,
+    golden_data     JSONB NOT NULL,
+    match_score     DECIMAL(5,4),
+    status          VARCHAR(20) NOT NULL DEFAULT 'active',
+    tenant_id       UUID NOT NULL,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_mdm_golden_entity ON mdm_golden_records (tenant_id, entity_type);
+```
+
+### 11.2 Data Quality Rules
+
+```sql
+CREATE TABLE mdm_quality_rules (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    entity_type     VARCHAR(50) NOT NULL,
+    rule_name       VARCHAR(100) NOT NULL,
+    rule_type       VARCHAR(30) NOT NULL,
+    rule_config     JSONB NOT NULL,
+    severity        VARCHAR(10) NOT NULL DEFAULT 'warning',
+    is_active       BOOLEAN NOT NULL DEFAULT TRUE,
+    tenant_id       UUID NOT NULL,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+```
+
+Rule types: `completeness`, `uniqueness`, `format`, `range`, `referential`, `custom`.
+
+## 12. Data Masking Strategy
+
+### 12.1 Masking for Non-Production Environments
+
+| Technique | Description | When |
+|-----------|-------------|------|
+| Static masking | Irreversible masking applied to data copies for non-prod environments | On data subset extraction |
+| Dynamic masking | Runtime masking based on user permissions (production) | Per query |
+| Subsetting | Extract a representative subset of production data for testing | On demand |
+
+### 12.2 Masking Rules by Data Classification
+
+| Classification | Masking Rule | Example |
+|---------------|-------------|---------|
+| Public | None | Product names |
+| Internal | Partial masking | `j***@company.com` |
+| Confidential | Full masking / tokenization | `***-**-1234` (SSN) |
+| Restricted | Suppression (replace with placeholder) | `[REDACTED]` |
 
 ---
 

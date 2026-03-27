@@ -40,6 +40,7 @@ mserp/
 │   │       ├── pagination.rs     # Cursor pagination utilities
 │   │       ├── i18n.rs           # Internationalization helpers
 │   │       ├── money.rs          # Currency/money types (rust_decimal based)
+│   │       ├── classification.rs # Data classification types
 │   │       └── utils/            # Utilities
 │   │
 │   ├── mserp-auth/               # Auth domain types
@@ -93,7 +94,7 @@ mserp/
 │   ├── identity-service/
 │   ├── tenant-service/
 │   ├── config-service/
-│   ├── commerce-service/         # Sales + Inventory (merged)
+│   ├── commerce-service/         # Sales + Inventory + PIM + Transportation
 │   │   ├── src/
 │   │   │   ├── main.rs
 │   │   │   ├── config.rs
@@ -109,11 +110,21 @@ mserp/
 │   │   │   │   ├── models/
 │   │   │   │   ├── repository/
 │   │   │   │   └── services/
-│   │   │   └── pricing/          # Pricing engine module
+│   │   │   ├── pricing/          # Pricing engine module
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   └── services/
+│   │   │   ├── pim/              # Product Information Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   └── transportation/   # Fleet & Transportation
 │   │   │       ├── routes/
 │   │   │       ├── handlers/
+│   │   │       ├── models/
 │   │   │       └── services/
-│   ├── finance-service/          # Finance + Procurement (merged)
+│   ├── finance-service/          # Finance + Procurement + Treasury + Expenses + CLM + EPM
 │   │   ├── src/
 │   │   │   ├── finance/          # Finance domain module
 │   │   │   │   ├── routes/
@@ -127,20 +138,147 @@ mserp/
 │   │   │   │   ├── models/
 │   │   │   │   ├── repository/
 │   │   │   │   └── services/
+│   │   │   ├── treasury/         # Corporate Treasury
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── expenses/         # Enterprise Expense Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── contracts/        # Contract Lifecycle Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── epm/              # Enterprise Performance Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
 │   │   │   └── currency/         # Multi-currency module
 │   │   │       └── services/
 │   ├── hr-service/
+│   │   ├── src/
+│   │   │   ├── employee/
+│   │   │   ├── attendance/
+│   │   │   ├── leave/
+│   │   │   ├── payroll/
+│   │   │   │   ├── domestic/     # Single-country payroll
+│   │   │   │   └── multi-country/ # Multi-country payroll localizations
+│   │   │   ├── recruitment/
+│   │   │   ├── onboarding/
+│   │   │   ├── performance/
+│   │   │   ├── talent/           # Talent review & succession planning
+│   │   │   ├── workforce/        # Workforce modeling
+│   │   │   ├── training/
+│   │   │   ├── compensation/
+│   │   │   └── benefits/
 │   ├── manufacturing-service/
+│   │   ├── src/
+│   │   │   ├── bom/
+│   │   │   ├── work-orders/
+│   │   │   ├── planning/         # MPS, MRP
+│   │   │   ├── ascp/             # Advanced Supply Chain Planning
+│   │   │   ├── quality/          # Quality control + AQM + SPC
+│   │   │   ├── maintenance/
+│   │   │   ├── eam/              # Enterprise Asset Management
+│   │   │   ├── work-centers/
+│   │   │   ├── routing/
+│   │   │   ├── cost-accounting/
+│   │   │   ├── shop-floor/
+│   │   │   ├── plm/              # Product Lifecycle Management
+│   │   │   │   ├── revisions/
+│   │   │   │   ├── eco/          # Engineering Change Orders
+│   │   │   │   └── phase-management/
+│   │   │   └── sustainability/   # Energy, waste, emissions tracking
 │   ├── report-service/
+│   │   ├── src/
+│   │   │   ├── reports/
+│   │   │   ├── dashboards/
+│   │   │   ├── kpis/
+│   │   │   ├── insights/         # AI-driven insights
+│   │   │   ├── warehouse/        # DuckDB star schema
+│   │   │   ├── data-lake/        # Data lake zone management
+│   │   │   ├── esg/              # ESG / sustainability reporting
+│   │   │   ├── carbon/           # Carbon accounting
+│   │   │   └── ml/               # Embedded ML/AI platform
+│   │   │       ├── models/       # Model registry
+│   │   │       ├── features/     # Feature store
+│   │   │       └── training/     # Model training pipeline
 │   ├── workflow-service/
+│   │   ├── src/
+│   │   │   ├── engine/           # BPMN engine
+│   │   │   ├── approvals/
+│   │   │   ├── escalations/
+│   │   │   ├── templates/
+│   │   │   ├── sla/
+│   │   │   ├── rules/            # Business rules engine
+│   │   │   └── sod/              # Segregation of Duties checks
 │   ├── crm-service/
+│   │   ├── src/
+│   │   │   ├── contacts/
+│   │   │   ├── leads/
+│   │   │   ├── opportunities/
+│   │   │   ├── campaigns/
+│   │   │   ├── activities/
+│   │   │   ├── cases/            # Customer service cases
+│   │   │   └── analytics/
 │   ├── project-service/
-│   ├── platform-service/         # Notification + File + Audit (merged)
+│   │   ├── src/
+│   │   │   ├── projects/
+│   │   │   ├── tasks/
+│   │   │   ├── resources/
+│   │   │   ├── timesheets/
+│   │   │   ├── expenses/
+│   │   │   ├── billing/
+│   │   │   ├── risks/
+│   │   │   ├── evm/              # Earned Value Management
+│   │   │   └── programs/         # Program management
+│   ├── platform-service/         # Notification + File + Audit + Digital Assistant + App Builder + GRC
 │   │   ├── src/
 │   │   │   ├── notification/
+│   │   │   │   ├── email/
+│   │   │   │   ├── sms/
+│   │   │   │   ├── push/
+│   │   │   │   ├── websocket/    # Real-time notifications
+│   │   │   │   └── webhooks/
 │   │   │   ├── file/
-│   │   │   └── audit/
+│   │   │   │   ├── storage/
+│   │   │   │   ├── preview/
+│   │   │   │   └── ocr/          # Optical character recognition
+│   │   │   ├── audit/
+│   │   │   ├── assistant/        # Digital Assistant
+│   │   │   │   ├── nlp/          # NLP intent recognition
+│   │   │   │   ├── dialog/       # Multi-turn dialog management
+│   │   │   │   └── actions/      # Service API dispatch
+│   │   │   ├── app-builder/      # Low-code Application Builder
+│   │   │   │   ├── designer/     # Page designer
+│   │   │   │   ├── objects/      # Custom business objects
+│   │   │   │   └── publishing/   # App versioning and publishing
+│   │   │   ├── grc/              # Governance, Risk & Compliance
+│   │   │   │   ├── sod/          # Segregation of Duties
+│   │   │   │   ├── risk/         # Risk register
+│   │   │   │   ├── compliance/   # Compliance assessments
+│   │   │   │   └── incidents/    # GRC incidents
+│   │   │   └── data-masking/     # Data masking and subsetting
 │   └── integration-service/
+│       ├── src/
+│       │   ├── connectors/
+│       │   ├── webhooks/
+│       │   ├── edi/
+│       │   ├── import-export/
+│       │   ├── mdm/              # Master Data Management
+│       │   │   ├── golden-records/
+│       │   │   ├── matching/     # Deduplication engine
+│       │   │   ├── quality/      # Data quality rules
+│       │   │   └── stewardship/  # Data steward workflows
+│       │   └── governance/       # Data governance
+│       │       ├── catalog/      # Data catalog
+│       │       ├── lineage/      # Data lineage tracking
+│       │       └── classification/
 │
 ├── migrations/
 │   ├── auth/
@@ -159,18 +297,25 @@ mserp/
 │   ├── audit/
 │   └── integration/
 │
-├── k8s/
-│   ├── base/
-│   │   ├── deployments/
-│   │   ├── services/
-│   │   ├── configmaps/
-│   │   ├── secrets/
-│   │   ├── hpa/               # Horizontal Pod Autoscalers
-│   │   └── pdb/               # Pod Disruption Budgets
-│   └── overlays/
-│       ├── development/
-│       ├── staging/
-│       └── production/
+├── infra/                          # Infrastructure as Code
+│   ├── terraform/                  # Cloud infrastructure
+│   │   ├── modules/
+│   │   └── environments/
+│   │       ├── production/
+│   │       └── staging/
+│   ├── helm/                       # Helm charts
+│   └── k8s/                        # Kubernetes manifests
+│       ├── base/
+│       │   ├── deployments/
+│       │   ├── services/
+│       │   ├── configmaps/
+│       │   ├── secrets/
+│       │   ├── hpa/               # Horizontal Pod Autoscalers
+│       │   └── pdb/               # Pod Disruption Budgets
+│       └── overlays/
+│           ├── development/
+│           ├── staging/
+│           └── production/
 │
 ├── contracts/                    # Pact contract definitions
 │   ├── consumers/
@@ -182,18 +327,29 @@ mserp/
 │   ├── quickbooks/
 │   └── ...
 │
+├── ml/                            # ML model artifacts
+│   ├── models/                    # Trained model storage
+│   ├── features/                  # Feature definitions
+│   └── training/                  # Training scripts and configs
+│
 ├── scripts/
 │   ├── setup.sh
 │   ├── migrate.sh
 │   ├── seed.sh
-│   └── generate-openapi.sh
+│   ├── generate-openapi.sh
+│   ├── mask-data.sh              # Generate masked data subset
+│   └── validate-sod.sh           # Validate SoD rules
 │
 └── reference-data/               # Static seed data
     ├── currencies.csv
     ├── countries.csv
     ├── locales.csv
     ├── tax-jurisdictions.csv
-    └── uoms.csv
+    ├── uoms.csv
+    ├── emission-factors.csv      # EPA/DEFRA emission factors
+    ├── esg-frameworks.csv        # GRI, SASB, TCFD mappings
+    ├── carrier-service-levels.csv
+    └── payroll-jurisdictions/    # Per-country payroll config
 ```
 
 ## 2. Local Development
@@ -228,6 +384,7 @@ make watch SERVICE=commerce-service
 | Elasticsearch | Search (optional, disabled by default) |
 | Grafana | Dashboard UI on `:3000` |
 | Prometheus | Metrics collection on `:9090` |
+| Vault | Secrets management UI on `:8200` |
 
 ### Full Stack Setup (`docker-compose.yml`)
 
@@ -264,8 +421,8 @@ Services communicate via **Kubernetes DNS** in production and **Docker Compose s
 
 | Crate | Purpose | Used By |
 |-------|---------|---------|
-| `mserp-core` | Error types, Result types, config loading, pagination, i18n, money types, utilities | All services |
-| `mserp-auth` | JWT validation, auth middleware, permission checks | All services |
+| `mserp-core` | Error types, Result types, config loading, pagination, i18n, money types, data classification, utilities | All services |
+| `mserp-auth` | JWT validation, auth middleware, permission checks, step-up auth | All services |
 | `mserp-infrastructure` | Database setup (RLS), Redis client, RabbitMQ client, outbox, saga, tracing, metrics | All services |
 | `mserp-proto` | Event type definitions, shared DTOs, contract schemas | All services |
 

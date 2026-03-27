@@ -61,12 +61,12 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 
 | Service Inbox | Binds To (Routing Keys) |
 |--------------|------------------------|
-| `commerce.inbox` | `commerce.#`, `finance.purchase-order.#`, `manufacturing.work-order.#`, `config.changed` |
-| `finance.inbox` | `finance.#`, `commerce.order.#`, `commerce.stock.#`, `hr.payroll.#`, `manufacturing.work-order.#`, `config.changed` |
+| `commerce.inbox` | `commerce.#`, `finance.purchase-order.#`, `manufacturing.work-order.#`, `crm.opportunity.won`, `config.changed` |
+| `finance.inbox` | `finance.#`, `commerce.order.#`, `commerce.stock.#`, `hr.payroll.#`, `manufacturing.work-order.#`, `project.invoice.#`, `project.milestone.#`, `config.changed` |
 | `hr.inbox` | `hr.#`, `workflow.step.#`, `config.changed` |
 | `manufacturing.inbox` | `manufacturing.#`, `commerce.stock.#`, `commerce.order.#`, `config.changed` |
-| `report.inbox` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `config.changed` |
-| `workflow.inbox` | `workflow.#`, `hr.leave.#`, `commerce.order.#`, `finance.purchase-order.#`, `config.changed` |
+| `report.inbox` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.esg.#`, `platform.carbon.#`, `config.changed` |
+| `workflow.inbox` | `workflow.#`, `hr.leave.#`, `commerce.order.#`, `finance.purchase-order.#`, `finance.expense.#`, `manufacturing.eco.#`, `config.changed` |
 | `platform.inbox` | `platform.#`, `auth.login.#`, `tenant.feature.#`, `config.changed` |
 | `integration.inbox` | `integration.#`, `config.changed` |
 | `crm.inbox` | `crm.#`, `commerce.customer.#`, `config.changed` |
@@ -74,7 +74,7 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 
 ## 2. Domain Events
 
-### Commerce Events (Sales + Inventory)
+### Commerce Events (Sales + Inventory + PIM + Transportation)
 | Event | Description |
 |-------|-------------|
 | `commerce.customer.created` | Customer created |
@@ -90,6 +90,8 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `commerce.order.returned` | Return/RMA created for order |
 | `commerce.product.created` | Product created |
 | `commerce.product.updated` | Product updated |
+| `commerce.product.approved` | Product approved and published (PIM workflow) |
+| `commerce.product.published` | Product published to channels |
 | `commerce.stock.updated` | Stock level changed |
 | `commerce.stock.reserved` | Stock reserved for an order (saga step) |
 | `commerce.stock.reservation.failed` | Stock reservation failed (saga compensation trigger) |
@@ -99,8 +101,12 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `commerce.pricing.calculated` | Price calculated by pricing engine |
 | `commerce.delivery.created` | Delivery scheduled |
 | `commerce.delivery.completed` | Delivery confirmed |
+| `commerce.shipment.dispatched` | Shipment dispatched to carrier |
+| `commerce.shipment.in-transit` | Shipment in transit (carrier tracking update) |
+| `commerce.shipment.delivered` | Shipment delivered with POD |
+| `commerce.carrier.assigned` | Carrier assigned to shipment |
 
-### Finance Events (Finance + Procurement)
+### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
 |-------|-------------|
 | `finance.journal.created` | Journal entry created |
@@ -123,6 +129,19 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `finance.budget.created` | Budget created |
 | `finance.budget.exceeded` | Budget threshold exceeded (warning) |
 | `finance.exchange-rate.updated` | Exchange rate updated |
+| `finance.expense.submitted` | Expense report submitted |
+| `finance.expense.approved` | Expense report approved |
+| `finance.expense.rejected` | Expense report rejected |
+| `finance.expense.paid` | Expense reimbursement paid |
+| `finance.treasury.cash-position.updated` | Cash position updated across bank accounts |
+| `finance.treasury.payment-batch.approved` | Payment batch approved for execution |
+| `finance.treasury.payment-batch.executed` | Payment batch executed |
+| `finance.contract.created` | Contract created |
+| `finance.contract.approved` | Contract approved |
+| `finance.contract.renewed` | Contract renewed |
+| `finance.contract.expired` | Contract expired |
+| `finance.plan.created` | Financial plan created (EPM) |
+| `finance.plan.forecast.updated` | Forecast updated in financial plan |
 
 ### HR Events
 | Event | Description |
@@ -136,13 +155,17 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `hr.leave.approved` | Leave request approved |
 | `hr.leave.rejected` | Leave request rejected |
 | `hr.payroll.processed` | Payroll run completed |
+| `hr.payroll.multi-country.completed` | Multi-country payroll cycle completed |
 | `hr.requisition.created` | Job requisition created |
 | `hr.applicant.submitted` | Job application submitted |
 | `hr.review.started` | Performance review cycle started |
 | `hr.review.completed` | Performance review completed |
 | `hr.training.completed` | Training course completed |
+| `hr.talent-review.initiated` | Talent review process initiated |
+| `hr.succession.plan-created` | Succession plan created for a key position |
+| `hr.workforce.simulation-completed` | Workforce modeling simulation completed |
 
-### Manufacturing Events
+### Manufacturing Events (Production + PLM + EAM)
 | Event | Description |
 |-------|-------------|
 | `manufacturing.bom.created` | BOM created |
@@ -153,8 +176,19 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `manufacturing.quality.checked` | Quality check result recorded |
 | `manufacturing.quality.failed` | Quality check failed (NCR created) |
 | `manufacturing.maintenance.due` | Scheduled maintenance due |
+| `manufacturing.eco.submitted` | Engineering Change Order submitted |
+| `manufacturing.eco.approved` | Engineering Change Order approved |
+| `manufacturing.eco.implemented` | Engineering Change Order implemented |
+| `manufacturing.product-lifecycle.revision.created` | Product revision created in PLM |
+| `manufacturing.product-lifecycle.phase-in` | Product phase-in initiated |
+| `manufacturing.product-lifecycle.phase-out` | Product phase-out initiated |
+| `manufacturing.asset.registered` | Enterprise asset registered |
+| `manufacturing.asset.maintenance-completed` | Asset maintenance completed |
+| `manufacturing.asset.decommissioned` | Asset decommissioned |
+| `manufacturing.plan.firmed` | Production plan firmed |
+| `manufacturing.plan.simulation.completed` | ASCP simulation completed |
 
-### Platform Events (Notification + File + Audit)
+### Platform Events (Notification + File + Audit + Digital Assistant + GRC)
 | Event | Description |
 |-------|-------------|
 | `platform.notification.sent` | Notification dispatched |
@@ -162,6 +196,16 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `platform.file.uploaded` | File uploaded and stored |
 | `platform.file.deleted` | File soft-deleted |
 | `platform.audit.logged` | Audit log entry created |
+| `platform.digital-assistant.intent.resolved` | Digital assistant resolved user intent |
+| `platform.digital-assistant.action.executed` | Digital assistant executed an action |
+| `platform.digital-assistant.feedback.recorded` | User feedback on assistant response recorded |
+| `platform.app-builder.app.published` | Low-code application published |
+| `platform.app-builder.app.updated` | Low-code application updated |
+| `platform.grc.compliance.violation.detected` | Compliance violation detected |
+| `platform.grc.risk.assessment.completed` | Risk assessment completed |
+| `platform.grc.sod.conflict.detected` | Segregation of Duties conflict detected |
+| `platform.grc.incident.created` | GRC incident created |
+| `platform.data-mask.applied` | Data masking rule applied to non-production environment |
 
 > **Note:** `platform.audit.logged` is an internal event published for observability. Report Service subscribes for compliance dashboards. The authoritative audit log is stored directly in `audit_db` at write time (not event-sourced).
 
@@ -182,6 +226,7 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `auth.mfa.enabled` | MFA enabled for a user |
 | `auth.password.changed` | Password changed |
 | `auth.session.revoked` | Session revoked |
+| `auth.step-up.requested` | Step-up authentication requested (elevated privilege) |
 
 > **Note:** Auth events are consumed by the Platform Service for security audit logging and alerting (e.g., brute-force detection on repeated `auth.login.failed`). Auth Service does not consume events from other services.
 
@@ -200,6 +245,7 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `workflow.step.rejected` | Workflow step rejected |
 | `workflow.step.escalated` | Workflow step escalated (timeout or threshold) |
 | `workflow.step.delegated` | Workflow step delegated to another user |
+| `workflow.sod.conflict.flagged` | SoD conflict flagged during approval workflow |
 
 ### CRM / Marketing Events
 | Event | Description |
@@ -215,6 +261,8 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `crm.campaign.launched` | Campaign launched |
 | `crm.campaign.completed` | Campaign completed |
 | `crm.activity.logged` | Activity (call, email, meeting) logged |
+| `crm.case.created` | Service case created |
+| `crm.case.resolved` | Service case resolved |
 
 ### Project Events
 | Event | Description |
@@ -238,8 +286,11 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `integration.sync.failed` | External system sync failed |
 | `integration.import.completed` | Data import completed |
 | `integration.import.failed` | Data import failed |
+| `integration.master-data.matched` | Master data matching result produced |
+| `integration.master-data.merged` | Master data records merged into golden record |
+| `integration.master-data.quality.violation` | Data quality rule violated |
 
-> **Note:** Integration Service primarily produces outbound events (sync/import status). It does not consume domain events from other services. External system notifications are handled via direct outbound HTTP calls or webhooks.
+> **Note:** Integration Service primarily produces outbound events (sync/import status). External system notifications are handled via direct outbound HTTP calls or webhooks. MDM events are consumed by Report Service for data quality dashboards.
 
 ### Cross-Domain Events
 | Event | Publisher | Subscribers |
@@ -251,22 +302,34 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `commerce.stock.updated` | Commerce | Manufacturing, Finance, Report |
 | `commerce.customer.created` | Commerce | CRM, Report, Platform |
 | `commerce.pricing.calculated` | Commerce | Report |
+| `commerce.product.approved` | Commerce | Report, Integration (MDM) |
+| `commerce.shipment.dispatched` | Commerce | Report, Platform |
 | `finance.purchase-order.received` | Finance | Commerce, Platform, Report |
 | `finance.invoice.created` | Finance | Commerce (saga), Platform, Report |
 | `finance.invoice.paid` | Finance | Report, CRM |
 | `finance.exchange-rate.updated` | Finance | Commerce, Report |
 | `finance.period.closed` | Finance | Report |
+| `finance.expense.submitted` | Finance | Workflow, Report |
+| `finance.treasury.cash-position.updated` | Finance | Report |
+| `finance.contract.approved` | Finance | Report, Platform |
+| `finance.plan.forecast.updated` | Finance | Report |
 | `manufacturing.work-order.completed` | Manufacturing | Commerce, Finance, Report |
+| `manufacturing.eco.approved` | Manufacturing | Commerce, Report |
+| `manufacturing.product-lifecycle.phase-out` | Manufacturing | Commerce, Report |
 | `hr.employee.hired` | HR | Platform, Report, Identity (HTTP) |
 | `hr.employee.separated` | HR | Platform, Report, Identity (HTTP) |
 | `hr.leave.requested` | HR | Workflow, Report |
 | `hr.payroll.processed` | HR | Finance, Report |
 | `hr.review.completed` | HR | Report |
+| `hr.talent-review.initiated` | HR | Report, Platform |
 | `crm.opportunity.won` | CRM | Commerce, Report |
 | `crm.opportunity.lost` | CRM | Report |
 | `project.milestone.reached` | Project | Platform, Report, Finance |
 | `project.invoice.generated` | Project | Finance, Report |
 | `platform.audit.logged` | Platform | Report |
+| `platform.grc.compliance.violation.detected` | Platform | Report, Workflow |
+| `platform.grc.sod.conflict.detected` | Platform | Report, Workflow |
+| `integration.master-data.merged` | Integration | Report |
 | `tenant.feature.changed` | Tenant | Platform (flushes Redis), Report |
 | `auth.login.failed` | Auth | Platform (security audit) |
 | `config.changed` | Config | All services with inboxes |
@@ -324,7 +387,7 @@ Event versions follow **semantic versioning** with `MAJOR.MINOR` format (no patc
 - **Minor versions** (e.g., `1.0` -> `1.1`) are additive only. Consumers MUST ignore unknown fields.
 - **Major versions** (e.g., `1.1` -> `2.0`) are breaking. Consumers MUST be updated before the new version is activated.
 - Consumers declare the minimum `event_version` they support via configuration.
-- The event bus rejects events with versions below the consumer's minimum.
+- **Version rejection is enforced by consumers, not the broker.** Each consumer's event handler checks the `event_version` field in the event envelope and routes unsupported versions to its DLQ with reason `UNSUPPORTED_VERSION`. RabbitMQ does not perform version filtering.
 
 ### 4.3 Version Lifecycle
 
@@ -348,7 +411,7 @@ Each service declares its supported event versions in its configuration:
 "finance.invoice.paid" = { min = "1.0", max = "1.1" }
 ```
 
-- Events outside the supported range are routed to the DLQ with reason `UNSUPPORTED_VERSION`.
+- Events outside the supported range are routed to the DLQ by the consumer's event handler with reason `UNSUPPORTED_VERSION`.
 - Version ranges are validated at service startup. Misconfiguration prevents service start.
 
 ## 5. Transactional Outbox Pattern
@@ -459,6 +522,9 @@ Invoice fails:         Release stock → cancel order → notify customer
 | Leave Approval | Choreography | Leave requested → Workflow approval → Update leave balance | Reverse balance update |
 | Purchase Requisition | Choreography | Requisition created → Approval workflow → Auto-create PO on approval | Cancel requisition |
 | Project Billing | Choreography | Milestone reached → Generate invoice (Finance) → Notify customer | Cancel invoice |
+| Expense Report | Choreography | Expense submitted → Workflow approval → Create journal entry (Finance) → Notify reimbursement | Reverse journal entry → Notify rejection |
+| Contract Approval | Choreography | Contract created → Legal review (Workflow) → Approve → Notify stakeholders | Cancel contract → notify requester |
+| Engineering Change Order | Choreography | ECO submitted → Review (Workflow) → Update BOM (Manufacturing) → Notify affected orders | Revert BOM → notify stakeholders |
 
 **Rules:**
 - Each saga step MUST have a compensating (undo) action.
