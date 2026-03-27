@@ -1,0 +1,159 @@
+# Technology Stack
+
+## 1. Core Technologies
+
+| Layer | Technology | Version | Purpose |
+|-------|------------|---------|---------|
+| Language | Rust | 1.83+ | Primary development language (Edition 2021) |
+| Runtime | Tokio | 1.x | Async runtime (multi-threaded scheduler) |
+| Web Framework | Axum | 0.7+ | HTTP server/framework (Tower-based) |
+| ORM | SeaORM | 0.12+ | Database operations (async, dynamic queries) |
+| Migration | sea-orm-migration | 0.12+ | Schema migrations (part of SeaORM ecosystem) |
+
+## 2. Infrastructure
+
+| Component | Technology | Version | Purpose |
+|-----------|------------|---------|---------|
+| Database | PostgreSQL | 16 | Primary data store (all services) |
+| Cache | Redis | 7.x | Caching, sessions, rate limiting, pub/sub |
+| Message Broker | RabbitMQ | 3.12 | Event bus, async messaging, DLQ |
+| Search | Elasticsearch | 8.x | Full-text search, log analytics, product search |
+| Object Storage | MinIO | RELEASE.2024-01+ | File/document storage (S3-compatible) |
+| API Gateway | Traefik (primary) / Kong (alternative) | 3.x | Routing, rate limiting, auth, feature flags |
+| Log Aggregation | Loki | Latest | Log aggregation and querying |
+| Analytics Engine | DuckDB | Latest | Embedded analytical database for Report Service |
+| Vector Engine | qdrant (optional) | Latest | Vector search for AI/ML similarity queries |
+
+## 3. Observability
+
+| Component | Technology | Version | Purpose |
+|-----------|------------|---------|---------|
+| Metrics | Prometheus + Grafana | Latest | System metrics, dashboards, alerting |
+| Logging | Loki + Grafana | Latest | Log aggregation, structured log queries |
+| Tracing | Jaeger | Latest | Distributed tracing, request flow visualization |
+| Alerting | Alertmanager | Latest | Incident management, alert routing |
+| Uptime | Blackbox Exporter | Latest | External endpoint monitoring |
+
+## 4. Rust Crate Selection
+
+```toml
+[dependencies]
+# Web
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["cors", "trace", "compression-gzip", "request-id", "propagate-header"] }
+hyper = "1.0"
+
+# Async
+tokio = { version = "1", features = ["full"] }
+
+# Database
+sea-orm = { version = "0.12", features = ["sqlx-postgres", "runtime-tokio-rustls"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Validation
+validator = "0.16"
+
+# Auth
+jsonwebtoken = "9.2"
+argon2 = "0.5"
+totp-rs = "5.0"
+
+# Messaging
+lapin = "2.3"
+deadpool-lapin = "0.10"
+
+# Cache
+redis = { version = "0.24", features = ["tokio-comp"] }
+
+# Config
+config = "0.14"
+dotenvy = "0.15"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# OpenAPI
+utoipa = "4.2"
+utoipa-swagger-ui = "4.0"
+
+# Utils
+uuid = { version = "1.6", features = ["v4", "v7"] }
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.8"
+thiserror = "1.0"
+anyhow = "1.0"
+rust_decimal = { version = "1.33", features = ["serde"] }
+
+# Observability
+opentelemetry = "0.27"
+tracing-opentelemetry = "0.28"
+opentelemetry-otlp = "0.27"
+prometheus = "0.13"
+
+# Analytics (Report Service only)
+duckdb = { version = "1.0", optional = true }
+arrow = { version = "50.0", optional = true }
+
+# CSV/Excel (Integration Service)
+csv = "1.3"
+calamine = "0.22"
+rust_xlsxwriter = "0.60"
+
+# Testing
+tokio-test = "0.4"
+fake = { version = "2.9", features = ["derive"] }
+```
+
+### Dev Dependencies
+
+```toml
+[dev-dependencies]
+mockall = "0.11"
+testcontainers = "0.15"
+testcontainers-modules = { version = "0.3", features = ["postgres", "redis", "rabbitmq"] }
+pact_consumer = "1.2"
+pact_provider = "1.2"
+```
+
+## 5. CI / Security Tooling
+
+| Tool | Purpose | When |
+|------|---------|------|
+| Trivy | Container and filesystem security scanning | Every PR |
+| Snyk | Dependency vulnerability scanning | Every PR |
+| `cargo audit` | Rust crate vulnerability database check | Weekly (CI) + Every PR |
+| `cargo clippy` | Linting (`-- -D warnings`) | Every commit |
+| `cargo fmt` | Code formatting check | Every commit |
+| `cargo tarpaulin` | Code coverage reporting | Every PR |
+| `k6` | Load testing | Weekly + pre-release |
+| `cargo deny` | License compliance and ban list checking | Every PR |
+
+## 6. Version Policy
+
+| Category | Policy |
+|----------|--------|
+| Rust Edition | 2021 |
+| MSRV (Minimum Supported Rust Version) | 1.83 |
+| Dependency Updates | Weekly automated PRs via Dependabot; critical security patches within 24 hours |
+| Breaking Dependency Changes | Require team review and migration plan |
+| Crate Compatibility | All workspace crates share the same Rust edition and MSRV |
+
+## 7. Container Images
+
+| Aspect | Policy |
+|--------|--------|
+| Base Image | `rust:1.83-slim-bookworm` (build), `debian:bookworm-slim` (runtime) |
+| Image Size Target | < 50MB per service (compressed) |
+| Multi-stage Build | Yes — builder stage compiles, runtime stage copies binary only |
+| Registry | GitHub Container Registry (ghcr.io) |
+| Image Scanning | Trivy scan on every build; block deployment on Critical/High CVEs |
+| Image Signing | Cosign signatures for supply chain verification |
+
+---
+
+*See [Deployment](deployment.md) for container orchestration and CI/CD pipeline details.*
