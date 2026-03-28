@@ -145,6 +145,24 @@
 | GET | `/api/v1/commerce/warranties/{id}` | Get warranty details |
 | POST | `/api/v1/commerce/warranties/{id}/claim` | Submit warranty claim |
 | GET | `/api/v1/commerce/warranties/{id}/claims` | List warranty claims |
+| GET | `/api/v1/commerce/loyalty/programs` | List loyalty programs |
+| POST | `/api/v1/commerce/loyalty/programs` | Create loyalty program |
+| GET | `/api/v1/commerce/loyalty/programs/{id}/members` | List program members |
+| POST | `/api/v1/commerce/loyalty/points/accrue` | Accrue loyalty points |
+| POST | `/api/v1/commerce/loyalty/points/redeem` | Redeem loyalty points |
+| GET | `/api/v1/commerce/loyalty/members/{customerId}` | Get customer loyalty status |
+| GET | `/api/v1/commerce/omnichannel/channels` | List sales channels |
+| POST | `/api/v1/commerce/omnichannel/channels` | Configure sales channel |
+| GET | `/api/v1/commerce/omnichannel/cart` | Get unified cart |
+| POST | `/api/v1/commerce/omnichannel/order/route` | Route order to fulfillment location |
+| POST | `/api/v1/commerce/omnichannel/returns` | Create cross-channel return |
+| GET | `/api/v1/commerce/omnichannel/bopis/availability` | Check BOPIS availability |
+| POST | `/api/v1/commerce/omnichannel/ship-from-store` | Create ship-from-store order |
+| GET | `/api/v1/commerce/price-optimization/demand-models` | List demand elasticity models |
+| POST | `/api/v1/commerce/price-optimization/simulate` | Run price change simulation |
+| GET | `/api/v1/commerce/price-optimization/recommendations` | Get price optimization recommendations |
+| POST | `/api/v1/commerce/price-optimization/test` | Create A/B price test |
+| GET | `/api/v1/commerce/price-optimization/tests/{id}/results` | Get price test results |
 
 ### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |
@@ -250,6 +268,27 @@
 | POST | `/api/v1/finance/collections/strategies` | Create collection strategy |
 | GET | `/api/v1/finance/collections/activities` | List collection activities |
 | POST | `/api/v1/finance/collections/cash-application` | Apply cash receipt to invoices |
+| GET | `/api/v1/finance/tax/assessments` | List tax assessments |
+| POST | `/api/v1/finance/tax/calculate` | Calculate tax for transaction |
+| GET | `/api/v1/finance/tax/jurisdictions` | List tax jurisdictions |
+| PUT | `/api/v1/finance/tax/jurisdictions/{id}/rates` | Update jurisdiction tax rates |
+| GET | `/api/v1/finance/tax/exemptions` | List tax exemptions |
+| POST | `/api/v1/finance/tax/exemptions` | Create tax exemption certificate |
+| GET | `/api/v1/finance/tax/nexus` | List nexus tracking data |
+| POST | `/api/v1/finance/tax/reconciliation` | Run tax reconciliation |
+| POST | `/api/v1/finance/commodity/catalog` | Create commodity catalog entry |
+| GET | `/api/v1/finance/commodity/prices` | Get commodity market prices |
+| GET | `/api/v1/commodity/contracts` | List commodity contracts |
+| POST | `/api/v1/finance/commodity/contracts` | Create commodity contract |
+| GET | `/api/v1/finance/commodity/hedging/positions` | List hedging positions |
+| GET | `/api/v1/finance/spend/classification` | Get spend classification results |
+| GET | `/api/v1/finance/spend/analysis` | Get spend analysis dashboard |
+| POST | `/api/v1/finance/spend/classify` | Trigger ML spend classification |
+| GET | `/api/v1/finance/spend/maverick` | Identify maverick spend |
+| GET | `/api/v1/finance/diversity/classifications` | List supplier diversity classifications |
+| GET | `/api/v1/finance/diversity/spend` | Get diverse supplier spend data |
+| GET | `/api/v1/finance/diversity/tier-report` | Generate tier diversity report |
+| POST | `/api/v1/finance/diversity/goals` | Set diversity spend goals |
 
 ### HR Service
 | Method | Endpoint | Description |
@@ -332,6 +371,26 @@
 | GET | `/api/v1/manufacturing/intelligence/production-rate` | Get production rate tracking |
 | GET | `/api/v1/manufacturing/intelligence/energy` | Get energy analytics |
 | GET | `/api/v1/manufacturing/intelligence/predictive-maintenance` | Get predictive maintenance analytics |
+| POST | `/api/v1/manufacturing/ehs/incidents` | Report safety incident |
+| GET | `/api/v1/manufacturing/ehs/incidents` | List safety incidents |
+| GET | `/api/v1/manufacturing/ehs/incidents/{id}` | Get incident details |
+| POST | `/api/v1/manufacturing/ehs/risk-assessments` | Create risk assessment |
+| POST | `/api/v1/manufacturing/ehs/inspections` | Schedule safety inspection |
+| GET | `/api/v1/manufacturing/ehs/chemicals/sds` | List Safety Data Sheets |
+| POST | `/api/v1/manufacturing/ehs/permits` | Create permit-to-work |
+| GET | `/api/v1/manufacturing/ehs/training/compliance` | Get safety training compliance |
+| GET | `/api/v1/manufacturing/mro/catalog` | List MRO catalog items |
+| POST | `/api/v1/manufacturing/mro/catalog` | Create MRO catalog item |
+| GET | `/api/v1/manufacturing/mro/spare-parts` | List spare parts inventory |
+| POST | `/api/v1/manufacturing/mro/repair-orders` | Create repair order |
+| GET | `/api/v1/manufacturing/mro/repair-orders/{id}` | Get repair order |
+| POST | `/api/v1/manufacturing/mro/overhaul` | Create overhaul project |
+| GET | `/api/v1/manufacturing/mro/rotable` | List rotable components |
+| GET | `/api/v1/manufacturing/compliance/regulations` | List regulatory requirements |
+| GET | `/api/v1/manufacturing/compliance/certifications` | List product certifications |
+| POST | `/api/v1/manufacturing/compliance/certifications` | Register certification |
+| GET | `/api/v1/manufacturing/compliance/material-declarations` | List material declarations |
+| POST | `/api/v1/manufacturing/compliance/tests` | Create compliance test plan |
 
 ### CRM / Marketing Service
 | Method | Endpoint | Description |
@@ -373,6 +432,24 @@
 | POST | `/api/v1/crm/cdp/journeys` | Create customer journey |
 | GET | `/api/v1/crm/cdp/journeys/{id}/analytics` | Get journey analytics |
 | GET | `/api/v1/crm/cdp/identity-resolution/{id}` | Get identity resolution graph |
+| GET | `/api/v1/crm/contact-center/interactions` | List contact center interactions |
+| POST | `/api/v1/crm/contact-center/interactions` | Create interaction |
+| GET | `/api/v1/crm/contact-center/queues` | List contact center queues |
+| PUT | `/api/v1/crm/contact-center/queues/{id}` | Update queue configuration |
+| GET | `/api/v1/crm/contact-center/agents` | List agent statuses |
+| GET | `/api/v1/crm/contact-center/scripts` | List agent scripts |
+| POST | `/api/v1/crm/contact-center/outbound-campaigns` | Create outbound campaign |
+| GET | `/api/v1/crm/contact-center/analytics` | Get contact center analytics |
+| GET | `/api/v1/crm/social/profiles/{contactId}` | Get social profile enrichment |
+| POST | `/api/v1/crm/social/engage` | Track social engagement |
+| GET | `/api/v1/crm/social/intelligence` | Get social selling index |
+| GET | `/api/v1/crm/social/relationships` | Get relationship mapping |
+| GET | `/api/v1/crm/ab/tests` | List A/B tests |
+| POST | `/api/v1/crm/ab/tests` | Create A/B test |
+| GET | `/api/v1/crm/ab/tests/{id}` | Get A/B test details |
+| POST | `/api/v1/crm/ab/tests/{id}/start` | Start A/B test |
+| POST | `/api/v1/crm/ab/tests/{id}/stop` | Stop A/B test |
+| GET | `/api/v1/crm/ab/tests/{id}/results` | Get A/B test results |
 
 ### Project Management Service
 | Method | Endpoint | Description |
@@ -494,6 +571,13 @@
 | GET | `/api/v1/platform/idp/models` | List IDP extraction models |
 | POST | `/api/v1/platform/idp/models` | Train IDP extraction model |
 | GET | `/api/v1/platform/idp/jobs/{id}` | Get IDP extraction job status |
+| GET | `/api/v1/platform/compliance-hub/dashboard` | Get unified compliance dashboard |
+| GET | `/api/v1/platform/compliance-hub/calendar` | Get compliance calendar |
+| GET | `/api/v1/platform/compliance-hub/regulatory-changes` | List regulatory changes |
+| POST | `/api/v1/platform/compliance-hub/regulatory-changes/{id}/assess` | Assess regulatory change impact |
+| GET | `/api/v1/platform/compliance-hub/control-mapping` | Get cross-framework control mapping |
+| GET | `/api/v1/platform/compliance-hub/scores` | Get compliance health scores |
+| GET | `/api/v1/platform/compliance-hub/intelligence` | Get AI-powered regulatory intelligence |
 
 ### Workflow Service
 | Method | Endpoint | Description |
@@ -590,6 +674,13 @@
 | POST | `/api/v1/integrations/event-mesh/gateway/publish` | Publish event via HTTP gateway |
 | POST | `/api/v1/integrations/event-mesh/gateway/subscribe` | Subscribe to events via HTTP gateway |
 | GET | `/api/v1/integrations/event-mesh/schema-registry` | List event schemas |
+| POST | `/api/v1/integrations/blockchain/anchor` | Anchor provenance record to blockchain |
+| GET | `/api/v1/integrations/blockchain/verify/{hash}` | Verify blockchain record |
+| POST | `/api/v1/integrations/blockchain/smart-contracts/deploy` | Deploy smart contract |
+| GET | `/api/v1/integrations/blockchain/transactions/{id}` | Get blockchain transaction status |
+| GET | `/api/v1/integrations/developer-portal/docs` | Get developer portal documentation |
+| GET | `/api/v1/integrations/developer-portal/sandbox/status` | Get sandbox environment status |
+| POST | `/api/v1/integrations/developer-portal/api-keys` | Provision developer portal API key |
 
 ---
 

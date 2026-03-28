@@ -1,6 +1,6 @@
 # Monitoring & Observability
 
-### 10.1 Metrics (Prometheus)
+## 1. Metrics (Prometheus)
 
 All services MUST expose a `/metrics` endpoint (Prometheus format) with the following metric categories:
 
@@ -14,7 +14,7 @@ All services MUST expose a `/metrics` endpoint (Prometheus format) with the foll
 | Infrastructure | CPU, memory, disk, network (via node exporter) |
 | ML/AI | Inference latency, prediction confidence, model drift, feature store freshness |
 
-### 10.2 Standard Service Metrics
+## 1.2 Standard Service Metrics
 
 All services MUST expose these Prometheus metrics:
 
@@ -64,7 +64,7 @@ All services MUST expose these Prometheus metrics:
 | `warranty_claim_total` | Counter | result | Warranty claim processing outcomes |
 | `collection_strategy_triggered_total` | Counter | strategy_type | Collection strategy activations |
 
-### 10.3 Dashboards (Grafana)
+## 1.3 Dashboards (Grafana)
 
 | Dashboard | Audience | Key Panels |
 |-----------|----------|-----------|
@@ -105,7 +105,7 @@ All services MUST expose these Prometheus metrics:
 | Warranty Analytics | Commerce, Manufacturing | Claim rates, cost analysis, product quality correlation, resolution times |
 | IDP Operations | Operations, IT | Document volume, extraction accuracy, processing time, model performance |
 
-### 10.4 Structured Logging
+## 1.4 Structured Logging
 
 All services MUST emit structured JSON logs with these fields:
 
@@ -144,7 +144,7 @@ All services MUST emit structured JSON logs with these fields:
 - `WARN`: Recoverable issues (cache miss fallback, retry triggered)
 - `ERROR`: Failures requiring attention (database error, external service failure)
 
-### 10.5 Distributed Tracing
+## 1.5 Distributed Tracing
 
 All services participate in distributed tracing via OpenTelemetry + Jaeger:
 
@@ -161,7 +161,7 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 - Staging: 100% sampling.
 - Trace retention: 7 days (hot), 30 days (cold storage).
 
-### 10.6 Alerts
+## 1.6 Alerts
 
 | Alert | Severity | Response Time | Response |
 |-------|----------|---------------|----------|
@@ -204,7 +204,7 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | IDP Extraction Accuracy < 95% | Warning | < 4 hours | Review extraction models, check document quality |
 | Warranty Claim Spike | Warning | < 1 hour | Investigate product quality, review claim patterns |
 
-### 10.7 Alert Routing
+## 1.7 Alert Routing
 
 | Severity | Channel | Escalation |
 |----------|---------|-----------|

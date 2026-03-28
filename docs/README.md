@@ -54,6 +54,7 @@
 | [ATP / CTP](features/atp-ctp.md) | Available-to-Promise, Capable-to-Promise |
 | [Product Configurator](features/product-configurator.md) | Constraint-based configuration |
 | [Credit Management](features/credit-management.md) | Credit scoring, holds, release |
+| [Data Import/Export](features/data-import-export.md) | File import/export, bulk data operations |
 | [Subscriptions](features/subscriptions.md) | Recurring billing, lifecycle management |
 | [Revenue Recognition](features/revenue-recognition.md) | ASC 606 / IFRS 15 compliance |
 | [Lease Accounting](features/lease-accounting.md) | ASC 842 / IFRS 16 compliance |

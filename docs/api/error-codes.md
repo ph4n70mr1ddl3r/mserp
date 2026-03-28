@@ -47,6 +47,14 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `COMMERCE_DROPSHIP_UNAVAILABLE` | 409 | Drop ship not available for this product/supplier combination |
 | `COMMERCE_WARRANTY_EXPIRED` | 410 | Warranty has expired |
 | `COMMERCE_WARRANTY_CLAIM_DUPLICATE` | 409 | Duplicate warranty claim submitted |
+| `COMMERCE_LOYALTY_INSUFFICIENT_POINTS` | 400 | Customer does not have enough loyalty points for redemption |
+| `COMMERCE_LOYALTY_TIER_INELIGIBLE` | 403 | Customer is not eligible for the requested tier benefit |
+| `COMMERCE_LOYALTY_FRAUD_DETECTED` | 409 | Potential loyalty fraud detected (duplicate account, unusual pattern) |
+| `COMMERCE_OMNICHANNEL_CHANNEL_UNAVAILABLE` | 409 | Requested sales channel is not available |
+| `COMMERCE_OMNICHANNEL_FULFILLMENT_NO_LOCATION` | 409 | No fulfillment location available for order routing |
+| `COMMERCE_OMNICHANNEL_BOPIS_UNAVAILABLE` | 409 | Buy online pick up in store not available for this item/location |
+| `COMMERCE_PRICE_OPTIMIZATION_MODEL_STALE` | 409 | Price optimization model needs retraining |
+| `COMMERCE_PRICE_OPTIMIZATION_SIMULATION_FAILED` | 500 | Price optimization simulation failed to converge |
 
 ### 8.3 Finance Error Codes
 
@@ -76,6 +84,14 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `FINANCE_JOINT_VENTURE_ALLOCATION_INVALID` | 400 | Joint venture cost allocation invalid |
 | `FINANCE_CLOSE_ANOMALY_DETECTED` | 409 | Financial close anomaly detected |
 | `FINANCE_COLLECTION_STRATEGY_INVALID` | 400 | Collection strategy configuration invalid |
+| `FINANCE_TAX_JURISDICTION_UNSUPPORTED` | 400 | Tax jurisdiction not supported |
+| `FINANCE_TAX_EXEMPTION_INVALID` | 400 | Tax exemption certificate is invalid or expired |
+| `FINANCE_TAX_NEXUS_NOT_ESTABLISHED` | 400 | No tax nexus established for the jurisdiction |
+| `FINANCE_COMMODITY_PRICE_UNAVAILABLE` | 400 | Commodity market price unavailable for the requested commodity/date |
+| `FINANCE_COMMODITY_HEDGE_EXPIRED` | 409 | Commodity hedging position has expired |
+| `FINANCE_SPEND_CLASSIFICATION_LOW_CONFIDENCE` | 400 | ML spend classification confidence below threshold |
+| `FINANCE_DIVERSITY_CLASSIFICATION_PENDING` | 409 | Supplier diversity classification pending verification |
+| `FINANCE_DIVERSITY_GOAL_ALREADY_SET` | 409 | Diversity spend goal already exists for this period |
 
 ### 8.4 HR Error Codes
 
@@ -100,6 +116,14 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `MFG_ECO_PENDING_APPROVAL` | 409 | Engineering Change Order pending approval |
 | `MFG_ASSET_NOT_AVAILABLE` | 409 | Asset not available for scheduled time |
 | `MFG_PLAN_CONSTRAINT_VIOLATION` | 400 | Plan violates material or capacity constraints |
+| `MFG_EHS_INCIDENT_DUPLICATE` | 409 | Duplicate safety incident report detected |
+| `MFG_EHS_PERMIT_EXPIRED` | 409 | Work permit has expired |
+| `MFG_EHS_CHEMICAL_NOT_REGISTERED` | 404 | Chemical not found in SDS registry |
+| `MFG_MRO_SPARE_PART_UNAVAILABLE` | 409 | Spare part not available in inventory |
+| `MFG_MRO_ROTABLE_EXCHANGE_POOL_EMPTY` | 409 | No rotable components available in exchange pool |
+| `MFG_COMPLIANCE_CERTIFICATION_EXPIRED` | 409 | Product certification has expired |
+| `MFG_COMPLIANCE_MATERIAL_VIOLATION` | 409 | Material declaration contains restricted substance |
+| `MFG_COMPLIANCE_TEST_IN_PROGRESS` | 409 | Compliance test already in progress for this product |
 
 ### 8.6 CRM Error Codes
 
@@ -111,6 +135,14 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `CRM_SURVEY_CLOSED` | 409 | Survey is no longer accepting responses |
 | `CRM_SERVICE_ORDER_IN_PROGRESS` | 409 | Service order cannot be modified while in progress |
 | `CRM_TERRITORY_CONFLICT` | 409 | Territory assignment conflicts with existing assignment |
+| `CRM_CONTACT_CENTER_QUEUE_FULL` | 409 | Contact center queue at maximum capacity |
+| `CRM_CONTACT_CENTER_AGENT_UNAVAILABLE` | 409 | No agent available for the requested channel |
+| `CRM_CONTACT_CENTER_SCRIPT_INVALID` | 400 | Agent script contains invalid branching logic |
+| `CRM_SOCIAL_PROFILE_NOT_FOUND` | 404 | Social profile not found for contact |
+| `CRM_SOCIAL_ENGAGEMENT_RATE_LIMITED` | 429 | Social platform engagement rate limit reached |
+| `CRM_AB_TEST_INSUFFICIENT_SAMPLE` | 400 | Insufficient sample size for statistical significance |
+| `CRM_AB_TEST_ALREADY_RUNNING` | 409 | A/B test is already running for this target |
+| `CRM_AB_TEST_VARIANT_INVALID` | 400 | A/B test variant configuration invalid |
 
 ### 8.7 Project Error Codes
 
@@ -174,6 +206,10 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `INTEGRATION_SCREENING_MATCH` | 409 | Restricted party match found during screening |
 | `INTEGRATION_LICENSE_EXPIRED` | 409 | Export license has expired |
 | `INTEGRATION_CLASSIFICATION_REQUIRED` | 400 | Export control classification required |
+| `INTEGRATION_BLOCKCHAIN_ANCHOR_FAILED` | 500 | Failed to anchor record to blockchain |
+| `INTEGRATION_BLOCKCHAIN_VERIFICATION_FAILED` | 500 | Blockchain record verification failed |
+| `INTEGRATION_BLOCKCHAIN_SMART_CONTRACT_ERROR` | 500 | Smart contract execution error |
+| `INTEGRATION_DEVELOPER_PORTAL_SANDBOX_UNAVAILABLE` | 503 | Developer portal sandbox environment unavailable |
 
 ### 8.12 Error Code Rules
 

@@ -1,8 +1,8 @@
 # Master Data Management Schema
 
-## 11. Master Data Management Schema
+## 1. Master Data Management Schema
 
-### 11.1 Golden Record Tables
+### 1.1 Golden Record Tables
 
 The Integration Service maintains golden record tables for core master data entities:
 
@@ -23,7 +23,7 @@ CREATE TABLE mdm_golden_records (
 CREATE INDEX idx_mdm_golden_entity ON mdm_golden_records (tenant_id, entity_type);
 ```
 
-### 11.2 Data Quality Rules
+### 1.2 Data Quality Rules
 
 ```sql
 CREATE TABLE mdm_quality_rules (
@@ -41,7 +41,7 @@ CREATE TABLE mdm_quality_rules (
 
 Rule types: `completeness`, `uniqueness`, `format`, `range`, `referential`, `custom`.
 
-### 11.3 Customer Data Platform (CDP) Schema
+### 1.3 Customer Data Platform (CDP) Schema
 
 ```sql
 CREATE TABLE cdp_unified_profiles (
@@ -66,7 +66,7 @@ CREATE INDEX idx_cdp_profiles_tenant ON cdp_unified_profiles (tenant_id);
 CREATE INDEX idx_cdp_profiles_email ON cdp_unified_profiles (tenant_id, email);
 ```
 
-### 11.4 IoT Telemetry Schema
+### 1.4 IoT Telemetry Schema
 
 ```sql
 CREATE TABLE iot_device_telemetry (
@@ -88,7 +88,7 @@ CREATE TABLE iot_device_telemetry (
 - Telemetry data is partitioned monthly and archived to the data lake after 90 days.
 - IoT device registry is stored in `platform_db`.
 
-### 11.5 Process Mining Schema
+### 1.5 Process Mining Schema
 
 ```sql
 CREATE TABLE process_mining_activity_log (
@@ -111,7 +111,7 @@ CREATE INDEX idx_pm_activity_process ON process_mining_activity_log (tenant_id, 
 - Process mining data is derived from existing audit events and domain events.
 - Activities are correlated by `case_id` (mapped from `aggregate_id` in the event store).
 
-### 11.6 RPA Execution Schema
+### 1.6 RPA Execution Schema
 
 ```sql
 CREATE TABLE rpa_bot_executions (
@@ -137,7 +137,7 @@ CREATE INDEX idx_rpa_executions_tenant ON rpa_bot_executions (tenant_id);
 CREATE INDEX idx_rpa_executions_bot ON rpa_bot_executions (tenant_id, bot_id);
 ```
 
-### 11.7 Collaboration Schema
+### 1.7 Collaboration Schema
 
 ```sql
 CREATE TABLE collaboration_channels (
@@ -157,6 +157,140 @@ CREATE TABLE collaboration_channels (
 );
 
 CREATE INDEX idx_collab_channels_tenant ON collaboration_channels (tenant_id);
+```
+
+### 1.8 Loyalty Program Schema
+
+```sql
+CREATE TABLE loyalty_programs (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    program_name    VARCHAR(200) NOT NULL,
+    program_type    VARCHAR(30) NOT NULL DEFAULT 'points',
+    tier_structure  JSONB DEFAULT '[]',
+    earning_rules   JSONB DEFAULT '{}',
+    benefit_catalog JSONB DEFAULT '[]',
+    status          VARCHAR(20) NOT NULL DEFAULT 'active',
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by      UUID,
+    updated_by      UUID,
+    version         INTEGER NOT NULL DEFAULT 1,
+    is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE INDEX idx_loyalty_programs_tenant ON loyalty_programs (tenant_id);
+```
+
+### 1.9 Tax Assessment Schema
+
+```sql
+CREATE TABLE tax_assessments (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    transaction_id  UUID NOT NULL,
+    transaction_type VARCHAR(50) NOT NULL,
+    jurisdiction    VARCHAR(100) NOT NULL,
+    tax_type        VARCHAR(30) NOT NULL,
+    tax_amount      DECIMAL(19,4) NOT NULL,
+    tax_rate        DECIMAL(10,6) NOT NULL,
+    taxable_amount  DECIMAL(19,4) NOT NULL,
+    exemption_uuid  UUID,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by      UUID,
+    updated_by      UUID,
+    version         INTEGER NOT NULL DEFAULT 1,
+    is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE INDEX idx_tax_assessments_tenant ON tax_assessments (tenant_id);
+CREATE INDEX idx_tax_assessments_transaction ON tax_assessments (tenant_id, transaction_id);
+```
+
+### 1.10 Compliance Hub Schema
+
+```sql
+CREATE TABLE compliance_control_mappings (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    control_id      VARCHAR(100) NOT NULL,
+    framework       VARCHAR(30) NOT NULL,
+    control_domain  VARCHAR(100) NOT NULL,
+    description     TEXT,
+    status          VARCHAR(20) NOT NULL DEFAULT 'active',
+    evidence_links  JSONB DEFAULT '[]',
+    last_assessed   TIMESTAMPTZ,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by      UUID,
+    updated_by      UUID,
+    version         INTEGER NOT NULL DEFAULT 1,
+    is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE INDEX idx_compliance_controls_tenant ON compliance_control_mappings (tenant_id);
+CREATE INDEX idx_compliance_controls_framework ON compliance_control_mappings (tenant_id, framework);
+```
+
+### 1.11 Contact Center Schema
+
+```sql
+CREATE TABLE cc_interactions (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    interaction_type VARCHAR(20) NOT NULL,
+    channel         VARCHAR(20) NOT NULL,
+    direction       VARCHAR(10) NOT NULL,
+    customer_id     UUID,
+    agent_id        UUID,
+    queue_id        UUID,
+    started_at      TIMESTAMPTZ NOT NULL,
+    ended_at        TIMESTAMPTZ,
+    duration_seconds INTEGER,
+    outcome         VARCHAR(30),
+    recording_url   VARCHAR(500),
+    transcript      TEXT,
+    sentiment_score DECIMAL(5,4),
+    attributes      JSONB DEFAULT '{}',
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by      UUID,
+    updated_by      UUID,
+    version         INTEGER NOT NULL DEFAULT 1,
+    is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE INDEX idx_cc_interactions_tenant ON cc_interactions (tenant_id);
+CREATE INDEX idx_cc_interactions_customer ON cc_interactions (tenant_id, customer_id);
+```
+
+### 1.12 EHS Incident Schema
+
+```sql
+CREATE TABLE ehs_incidents (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    incident_type   VARCHAR(50) NOT NULL,
+    severity        VARCHAR(10) NOT NULL,
+    location        VARCHAR(200),
+    description     TEXT NOT NULL,
+    reporter_id     UUID NOT NULL,
+    investigation_status VARCHAR(20) NOT NULL DEFAULT 'reported',
+    root_cause      TEXT,
+    capa_id         UUID,
+    occurred_at     TIMESTAMPTZ NOT NULL,
+    attributes      JSONB DEFAULT '{}',
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by      UUID,
+    updated_by      UUID,
+    version         INTEGER NOT NULL DEFAULT 1,
+    is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE INDEX idx_ehs_incidents_tenant ON ehs_incidents (tenant_id);
+CREATE INDEX idx_ehs_incidents_severity ON ehs_incidents (tenant_id, severity);
 ```
 
 ---

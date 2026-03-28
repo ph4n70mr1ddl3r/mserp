@@ -1,10 +1,10 @@
 # Data Warehouse (Report Service)
 
-## 9. Data Warehouse (Report Service)
+## 1. Data Warehouse (Report Service)
 
 The Report Service maintains a DuckDB-based embedded data warehouse for analytical queries, separate from the operational PostgreSQL databases.
 
-### 9.1 ETL Pipeline
+### 1.1 ETL Pipeline
 
 ```
 Operational DBs (PostgreSQL) ──▶ ETL Jobs (scheduled) ──▶ DuckDB (Star Schema)
@@ -14,7 +14,7 @@ Operational DBs (PostgreSQL) ──▶ ETL Jobs (scheduled) ──▶ DuckDB (St
                                         └── Load: Upsert into fact/dimension tables
 ```
 
-### 9.2 Schema Design
+### 1.2 Schema Design
 
 | Table Type | Examples | Refresh Frequency |
 |-----------|----------|-------------------|
@@ -22,7 +22,7 @@ Operational DBs (PostgreSQL) ──▶ ETL Jobs (scheduled) ──▶ DuckDB (St
 | Fact tables | `fact_sales`, `fact_inventory_movement`, `fact_payroll`, `fact_emissions` | Hourly |
 | Aggregate tables | `agg_daily_sales`, `agg_monthly_revenue`, `agg_monthly_emissions` | Daily |
 
-### 9.3 Data Freshness
+### 1.3 Data Freshness
 
 - Real-time dashboards use event stream aggregation (not warehouse).
 - Historical reports and trend analysis use the data warehouse.

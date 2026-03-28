@@ -57,8 +57,8 @@
 | `commerce.warranty.claim.approved` | Warranty claim approved |
 | `commerce.warranty.claim.rejected` | Warranty claim rejected |
 | `commerce.warranty.claim.fulfilled` | Warranty claim fulfilled (repair/replacement) |
-| `commerce.loyalty.points.accrued` | Points accrued for customer | { customer_id, points, tier, order_id } |
-| `commerce.loyalty.points.redeemed` | Points redeemed by customer | { customer_id, points, reward_id } |
+| `commerce.loyalty.points.accrued` | Points accrued for customer |
+| `commerce.loyalty.points.redeemed` | Points redeemed by customer |
 | `commerce.loyalty.tier.changed` | Customer loyalty tier changed | { customer_id, old_tier, new_tier } |
 | `commerce.omnichannel.order.routed` | Order routed to fulfillment location | { order_id, channel, fulfillment_location, routing_reason } |
 | `commerce.price.optimized` | Price optimization suggestion generated | { product_id, current_price, suggested_price, confidence } |
@@ -133,10 +133,10 @@
 | `finance.collection.activity.created` | Collection activity created |
 | `finance.cash-application.matched` | Cash receipt auto-matched to invoice |
 | `finance.cash-application.unmatched` | Cash receipt could not be auto-matched |
-| `finance.tax.assessment.created` | Tax assessment created for transaction | { transaction_id, tax_amount, jurisdiction, tax_type } |
-| `finance.commodity.price.updated` | Commodity market price updated | { commodity_id, market_price, source, timestamp } |
-| `finance.spend.classified` | Spend transaction classified by ML | { transaction_id, category, confidence, supplier_id } |
-| `finance.diversity.spend.recorded` | Diverse supplier spend recorded | { supplier_id, amount, diversity_class, period } |
+| `finance.tax.assessment.created` | Tax assessment created for transaction |
+| `finance.commodity.price.updated` | Commodity market price updated |
+| `finance.spend.classified` | Spend transaction classified by ML |
+| `finance.diversity.spend.recorded` | Diverse supplier spend recorded |
 
 ### HR Events
 | Event | Description |
@@ -342,6 +342,15 @@
 | `integration.trade-compliance.screening.completed` | Trade compliance screening completed |
 | `integration.trade-compliance.screening.flagged` | Trade compliance screening flagged a match |
 | `integration.trade-compliance.license.expiring` | Export license approaching expiration |
+| `integration.blockchain.record.anchored` | Provenance record anchored to blockchain |
+ { anchor_id, asset_id, hash, network, timestamp } |
+| `integration.blockchain.record.verified` | Blockchain record verified by external party |
+ { anchor_id, verifier_id, timestamp } |
+| `integration.blockchain.smart-contract.deployed` | Smart contract deployed to blockchain |
+ { contract_id, address, network, deployer } |
+| `integration.blockchain.smart-contract.executed` | Smart contract executed on blockchain | { contract_id, transaction_hash, result } |
+| `integration.developer-portal.api-key.provisioned` | Developer portal API key provisioned | { key_id, developer_id, scopes } |
+| `integration.developer-portal.sandbox.reset` | Developer portal sandbox environment reset | { sandbox_id, requester_id } |
 
 > **Note:** Integration Service primarily produces outbound events (sync/import status). External system notifications are handled via direct outbound HTTP calls or webhooks. MDM events are consumed by Report Service for data quality dashboards.
 

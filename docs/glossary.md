@@ -20,12 +20,15 @@
 | BOM | Bill of Materials — list of components required for manufacturing a product |
 | BPMN | Business Process Model and Notation — standard for business process diagrams |
 | Cache-Aside | Caching pattern where the application checks the cache first; on miss, fetches from the database and populates the cache |
+| Cap Table | Table tracking loyalty program member tier thresholds, qualification criteria, and benefit entitlements |
 | CAPA | Corrective and Preventive Action — systematic approach to investigating and resolving non-conformances |
 | cert-manager | Kubernetes add-on for automated TLS certificate management and rotation |
 | Changelog | Immutable, append-only log recording all data mutations for compliance and auditing purposes |
 | Choreography (Saga) | Saga coordination style where each service independently reacts to events — no central orchestrator |
 | COA | Chart of Accounts — structured list of all financial account codes |
 | Compensating Action | Undo operation in a saga step that reverses the effect of a previously completed step when a later step fails |
+| Compliance Hub | Unified compliance management dashboard aggregating regulatory status across all compliance domains |
+| Contact Center | Centralized operation handling inbound and outbound customer interactions across multiple channels |
 | CORS | Cross-Origin Resource Sharing — mechanism allowing web applications to access resources from different domains |
 | CRM | Customer Relationship Management — strategy and tools for managing customer interactions and data |
 | CTP | Capable-to-Promise — availability check that considers production capacity and procurement lead times for items not currently in stock |
@@ -48,6 +51,7 @@
 | Grafana | Open-source analytics and monitoring dashboard platform |
 | Graceful Shutdown | Process termination procedure that completes in-flight work, closes connections, and flushes buffers before exiting |
 | GRC | Governance, Risk, and Compliance — integrated approach to organizational governance, risk management, and regulatory compliance |
+| Hedge | Financial derivative position taken to reduce the risk of adverse price movements in an asset |
 | HPA | Horizontal Pod Autoscaler — Kubernetes component that automatically scales pod replicas |
 | HIPAA | Health Insurance Portability and Accountability Act — US regulation for healthcare data protection |
 | IaC | Infrastructure as Code — managing infrastructure through version-controlled configuration files |
@@ -59,6 +63,7 @@
 | Kong | Open-source API gateway and microservices management layer — alternative to Traefik for MSERP |
 | Kustomize | Kubernetes native configuration management tool for overlaying manifests across environments |
 | Loki | Log aggregation system designed to work with Grafana for log querying |
+| Maverick Spend | Organizational purchases made outside of approved contract or preferred suppliers |
 | MDM | Master Data Management — discipline of managing critical enterprise data to provide a single trusted source |
 | MFA | Multi-Factor Authentication — requires two or more verification methods |
 | MinIO | High-performance, S3-compatible object storage server |
@@ -66,6 +71,7 @@
 | MRP | Material Requirements Planning — production planning and inventory control system |
 | mTLS | Mutual TLS — both client and server authenticate each other via certificates |
 | NCR | Non-Conformance Report — document recording a product/process that does not meet quality standards |
+| Nexus | Sufficient connection between a taxing jurisdiction and a business that creates a tax filing obligation |
 | NLP | Natural Language Processing — AI capability enabling computers to understand and respond to human language |
 | NPS | Net Promoter Score — metric measuring customer loyalty based on the question "How likely are you to recommend this company?" |
 | OCR | Optical Character Recognition — technology for extracting text from images and scanned documents |
@@ -82,13 +88,16 @@
 | PII | Personally Identifiable Information — data that can identify a specific individual |
 | PIM | Product Information Management — centralized management of product data across all channels |
 | PLM | Product Lifecycle Management — managing a product from inception through design, manufacturing, service, and disposal |
+| Points Ledger | Accounting ledger tracking loyalty point accruals, redemptions, and expiry for audit and reconciliation |
 | PostgreSQL | Open-source, object-relational database management system — primary data store for MSERP |
+| Price Elasticity | Measure of how demand for a product changes in response to price changes |
 | Prometheus | Open-source monitoring and alerting toolkit with time-series data storage |
 | RBAC | Role-Based Access Control — permissions assigned to roles, roles assigned to users |
 | Redis | In-memory data structure store used as cache, session store, and rate limiting backend in MSERP |
 | RFQ | Request for Quotation — document sent to suppliers inviting them to bid on products or services |
 | RLS | Row-Level Security — PostgreSQL feature restricting data access per row (used for tenant isolation) |
 | RMA | Return Merchandise Authorization — authorization for a customer to return a product |
+| Rotable | Repairable component that can be removed, overhauled, and reinstalled in a maintenance cycle, tracked through an exchange pool |
 | RPO | Recovery Point Objective — maximum acceptable data loss measured in time |
 | RTO | Recovery Time Objective — maximum acceptable downtime after a failure |
 | Saga | Distributed transaction pattern using a sequence of local transactions with compensating (undo) actions on failure |
@@ -96,6 +105,7 @@
 | SLO | Service Level Objective — target value for a service level measured by a metric |
 | SLA | Service Level Agreement — commitment between service provider and client on uptime and performance |
 | SKU | Stock Keeping Unit — unique identifier for a distinct product |
+| Social Selling | Use of social media platforms to identify, connect with, and build relationships with prospects and customers |
 | SoD | Segregation of Duties — internal control mechanism ensuring no single person controls all aspects of a transaction |
 | SOC 2 | Service Organization Control 2 — auditing standard covering security, availability, processing integrity, confidentiality, and privacy |
 | SOX | Sarbanes-Oxley Act — US law mandating financial reporting and audit practices for public companies |
@@ -117,6 +127,7 @@
 | Digital Twin | Virtual representation of a physical asset that mirrors its real-time state and enables simulation, predictive maintenance, and optimization |
 | IoT | Internet of Things — network of physical devices embedded with sensors, software, and connectivity to collect and exchange data |
 | OKR | Objectives and Key Results — goal-setting framework defining objectives (what to achieve) and key results (how to measure progress) |
+| Omnichannel | Retail strategy providing a seamless customer experience across all sales channels (web, mobile, store, marketplace) |
 | Process Mining | Analytical technique that discovers, monitors, and improves business processes by extracting knowledge from event logs |
 | RPA | Robotic Process Automation — technology for automating repetitive, rule-based tasks using software bots that mimic human interactions with applications |
 | Strategic Sourcing | Systematic approach to optimizing an organization's supply base and improving the overall value proposition through structured sourcing events and supplier evaluation |
@@ -144,16 +155,15 @@
 | IDP | Intelligent Document Processing — AI-powered technology that automatically extracts, classifies, and validates data from documents |
 | Warranty Management | End-to-end management of product warranties including policy definition, registration, claims processing, and analytics |
 | A/B Testing | Controlled experiment comparing two variants to determine which performs better against defined goals |
-| ASC 842 / IFRS 16 | Accounting standards for lease accounting requiring lessees to recognize ROU assets and lease liabilities |
-| BOPIS | Buy Online, Pick Up In Store — omnichannel fulfillment model |
+| BOPIS | Buy Online, Pick Up In Store — omnichannel fulfillment model where customers purchase online and collect from a physical store |
 | CMDB | Configuration Management Database — IT asset registry with relationship mapping |
+| Commodity | Raw material or primary agricultural product that can be bought and sold, typically through exchanges with standardized contracts |
 | DPIA | Data Protection Impact Assessment — privacy risk assessment required by GDPR |
 | EHS | Enterprise Health & Safety — workplace safety management and regulatory compliance |
 | ISCC | International Sustainability & Carbon Certification |
 | ITSM | IT Service Management — IT service delivery and support framework |
 | JHA | Job Hazard Analysis — systematic method for identifying workplace hazards |
 | MRO | Maintenance, Repair & Operations — supplies and activities for keeping assets operational |
-| ROU | Right-of-Use — lease accounting asset representing the right to use a leased asset |
 | SDS | Safety Data Sheet — standardized chemical hazard information document |
 | UNSPSC | United Nations Standard Products and Services Code — spend classification taxonomy |
 

@@ -219,9 +219,9 @@ CREATE UNIQUE INDEX idx_users_email_active
 
 The `audit_db` database is time-series optimized with automatic partitioning by `occurred_at` (monthly partitions). Old partitions are archived to object storage after 2 years but remain queryable. The `data_classification` column enables filtering by data sensitivity level (Public, Internal, Confidential, Restricted).
 
-## 8. Reference Data and Seeding
+## 7. Reference Data and Seeding
 
-### 8.1 Reference Data
+### 7.1 Reference Data
 
 Reference data is seeded during initial deployment and managed via migrations.
 
@@ -259,7 +259,7 @@ Reference data is seeded during initial deployment and managed via migrations.
 | Warranty Claim Reasons | Tenant-configurable | Via API |
 | IDP Document Types | Static seed (invoice, PO, contract, receipt, shipping) | On deploy + API |
 
-### 8.2 Seeding Process
+### 7.2 Seeding Process
 
 ```bash
 make seed

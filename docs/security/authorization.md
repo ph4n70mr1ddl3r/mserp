@@ -114,6 +114,7 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Contact Center Agent | Contact center operations | `crm.contact-center.*`, `crm.case.*`, `commerce.customer.read` |
 | Contact Center Manager | Contact center management | `crm.contact-center.*`, `crm.case.*`, `report.contact-center.*` |
 | Social Seller | Social selling activities | `crm.social-selling.*`, `crm.contact.read`, `crm.opportunity.read` |
+| CX Testing Manager | CX digital testing and personalization | `crm.ab-testing.*`, `crm.campaign.*` |
 | EHS Manager | Enterprise health and safety | `manufacturing.ehs.*`, `manufacturing.quality.*`, `report.ehs.*` |
 | EHS Specialist | Safety incident and inspection management | `manufacturing.ehs.incident.*`, `manufacturing.ehs.inspection.*` |
 | MRO Manager | MRO operations management | `manufacturing.mro.*`, `commerce.stock.read`, `finance.purchase-order.read` |

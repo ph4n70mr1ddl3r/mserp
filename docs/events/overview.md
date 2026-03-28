@@ -76,7 +76,7 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `crm.inbox` | `crm.#`, `commerce.customer.#`, `config.changed` |
 | `project.inbox` | `project.#`, `hr.employee.#`, `commerce.order.#`, `config.changed` |
 
-## 3. Event Schema
+## 2. Event Schema
 
 ```json
 {
@@ -107,9 +107,9 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 
 > **Note on `tenant_id`:** Tenant-scoped events always include a `tenant_id`. System-level events (e.g., `config.changed` for global config, `auth.login.failed`, `tenant.created`) use `null` for `tenant_id`. Consumers MUST handle `tenant_id: null` gracefully.
 
-## 4. Event Versioning Strategy
+## 3. Event Versioning Strategy
 
-### 4.1 Versioning Rules
+### 3.1 Versioning Rules
 
 Event versions follow **semantic versioning** with `MAJOR.MINOR` format (no patch).
 
@@ -122,14 +122,14 @@ Event versions follow **semantic versioning** with `MAJOR.MINOR` format (no patc
 | Change field type | Major: `1.1` -> `2.0` | No | Changing `amount` from string to number |
 | Restructure payload | Major: `1.1` -> `2.0` | No | Nesting fields under new structure |
 
-### 4.2 Backward Compatibility
+### 3.2 Backward Compatibility
 
 - **Minor versions** (e.g., `1.0` -> `1.1`) are additive only. Consumers MUST ignore unknown fields.
 - **Major versions** (e.g., `1.1` -> `2.0`) are breaking. Consumers MUST be updated before the new version is activated.
 - Consumers declare the minimum `event_version` they support via configuration.
 - **Version rejection is enforced by consumers, not the broker.** Each consumer's event handler checks the `event_version` field in the event envelope and routes unsupported versions to its DLQ with reason `UNSUPPORTED_VERSION`. RabbitMQ does not perform version filtering.
 
-### 4.3 Version Lifecycle
+### 3.3 Version Lifecycle
 
 ```
 1. Event published at version 1.0
@@ -141,7 +141,7 @@ Event versions follow **semantic versioning** with `MAJOR.MINOR` format (no patc
    d. v1.x support is removed from consumers in the next major release
 ```
 
-### 4.4 Consumer Version Configuration
+### 3.4 Consumer Version Configuration
 
 Each service declares its supported event versions in its configuration:
 
@@ -154,7 +154,7 @@ Each service declares its supported event versions in its configuration:
 - Events outside the supported range are routed to the DLQ by the consumer's event handler with reason `UNSUPPORTED_VERSION`.
 - Version ranges are validated at service startup. Misconfiguration prevents service start.
 
-## 5. Transactional Outbox Pattern
+## 4. Transactional Outbox Pattern
 
 To prevent the dual-write problem (writing to both the database and RabbitMQ), all services MUST use the transactional outbox pattern.
 
@@ -199,7 +199,7 @@ CREATE INDEX idx_outbox_status ON outbox_events (status, next_retry_at)
     WHERE status = 'pending';
 ```
 
-## 6. Dead Letter Queues (DLQ)
+## 5. Dead Letter Queues (DLQ)
 
 Every service inbox queue MUST have an associated dead letter queue.
 
@@ -212,17 +212,17 @@ Every service inbox queue MUST have an associated dead letter queue.
 | Alert on DLQ entry | Yes (Warning severity) |
 | DLQ Replay | Supported via admin API (`POST /api/v1/admin/dlq/{service}/replay`) |
 
-## 7. Event Ordering Guarantees
+## 6. Event Ordering Guarantees
 
-### 7.1 Ordering Within a Service
+### 6.1 Ordering Within a Service
 
 Events published by the same service for the same aggregate are guaranteed to be ordered by the outbox poller. The outbox poller reads pending events in `created_at` order and publishes them sequentially per aggregate.
 
-### 7.2 Ordering Across Services
+### 6.2 Ordering Across Services
 
 Events from different services have NO guaranteed ordering. Consumers MUST be idempotent and handle out-of-order delivery. Use `causation_id` to reconstruct causal chains when needed.
 
-### 7.3 Exactly-Once Processing
+### 6.3 Exactly-Once Processing
 
 MSERP provides **effectively-once** semantics:
 - Producers: Transactional outbox ensures events are published at least once (at-least-once).

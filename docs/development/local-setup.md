@@ -1,6 +1,6 @@
 # Local Development Setup
 
-## 2. Local Development
+## 1. Local Development
 
 ### Minimal Development Setup (`docker-compose.dev.yml`)
 
@@ -55,7 +55,7 @@ make test-contracts
 make load-test
 ```
 
-## 3. Service Discovery
+## 2. Service Discovery
 
 Services communicate via **Kubernetes DNS** in production and **Docker Compose service names** in development. No separate service registry is needed.
 

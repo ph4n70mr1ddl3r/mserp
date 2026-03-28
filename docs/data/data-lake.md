@@ -1,10 +1,10 @@
 # Data Lake
 
-## 10. Data Lake
+## 1. Data Lake
 
 The Report Service manages a data lake built on MinIO (S3-compatible) for raw and curated analytical data.
 
-### 10.1 Data Lake Zones
+### 1.1 Data Lake Zones
 
 | Zone | Purpose | Format | Retention |
 |------|---------|--------|-----------|
@@ -12,13 +12,13 @@ The Report Service manages a data lake built on MinIO (S3-compatible) for raw an
 | Curated (Silver) | Cleaned, deduplicated, typed data | Parquet | Indefinite |
 | Analytics (Gold) | Pre-aggregated, business-ready datasets | Parquet | Indefinite |
 
-### 10.2 Ingestion
+### 1.2 Ingestion
 
 - Operational events are streamed to the raw zone via the outbox poller (dual-write: RabbitMQ + MinIO).
 - ETL jobs promote raw data to curated, applying schema validation and deduplication.
 - Analytics zone is populated by scheduled aggregation jobs.
 
-### 10.3 Schema-on-Read
+### 1.3 Schema-on-Read
 
 The data lake uses a schema-on-read approach for exploratory analytics:
 - Raw zone: No enforced schema; events stored in their original format.

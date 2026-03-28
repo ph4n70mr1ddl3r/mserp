@@ -42,6 +42,22 @@
 | Cash Application Matching | < 2 seconds per receipt | Finance Service metrics |
 | IDP Document Extraction | < 10 seconds per page | Platform Service metrics |
 | Warranty Claim Validation | < 500ms | Commerce Service metrics |
+| Loyalty Points Accrual/Redemption | < 200ms | Commerce Service metrics |
+| Omnichannel Order Routing | < 500ms | Commerce Service metrics |
+| Price Optimization Simulation | < 30 seconds | Commerce Service metrics |
+| Tax Calculation | < 200ms per transaction | Finance Service metrics |
+| Commodity Price Lookup | < 100ms | Finance Service metrics |
+| Spend Classification (ML) | < 5 seconds per batch | Finance Service metrics |
+| Supplier Diversity Report | < 10 seconds | Finance Service metrics |
+| EHS Incident Reporting | < 500ms | Manufacturing Service metrics |
+| MRO Repair Order Creation | < 300ms | Manufacturing Service metrics |
+| Product Compliance Check | < 1 second | Manufacturing Service metrics |
+| Contact Center Interaction | < 500ms (API response) | CRM Service metrics |
+| Social Profile Enrichment | < 3 seconds | CRM Service metrics |
+| A/B Test Statistical Analysis | < 10 seconds | CRM Service metrics |
+| Compliance Hub Dashboard Load | < 3 seconds | Platform Service metrics |
+| Blockchain Record Anchoring | < 30 seconds | Integration Service metrics |
+| Digital Twin Simulation | < 60 seconds | Manufacturing Service metrics |
 
 ## 2. Availability
 

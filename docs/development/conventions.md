@@ -1,6 +1,6 @@
 # Code Conventions
 
-## 4. Shared Libraries
+## 1. Shared Libraries
 
 | Crate | Purpose | Used By |
 |-------|---------|---------|
@@ -9,9 +9,9 @@
 | `mserp-infrastructure` | Database setup (RLS), Redis client, RabbitMQ client, outbox, saga, tracing, metrics | All services |
 | `mserp-proto` | Event type definitions, shared DTOs, contract schemas | All services |
 
-## 5. Code Conventions
+## 2. Code Conventions
 
-### 5.1 Module Structure (per service)
+### 2.1 Module Structure (per service)
 
 ```
 service-name/
@@ -31,7 +31,7 @@ service-name/
 └── tests/                # Integration tests (testcontainers)
 ```
 
-### 5.2 Naming Conventions
+### 2.2 Naming Conventions
 
 | Item | Convention | Example |
 |------|-----------|---------|
@@ -43,6 +43,6 @@ service-name/
 | Event type | `dot.case` | `commerce.order.created` |
 | Environment variable | `UPPER_SNAKE_CASE` | `MSERP_DATABASE_URL` |
 
-### 5.3 Error Handling
+### 2.3 Error Handling
 
 All services use the shared `mserp-core::error` types which implement RFC 7807 Problem Details. Services define domain-specific error variants that map to HTTP status codes.
