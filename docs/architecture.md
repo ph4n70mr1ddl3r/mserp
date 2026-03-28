@@ -115,20 +115,20 @@ Port ranges are reserved by category: **8001-8009** (core), **8010-8019** (busin
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship |
-| Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition (ASC 606/IFRS 15) |
+| Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics |
+| Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition (ASC 606/IFRS 15), strategic sourcing, supplier risk management, account reconciliation, profitability analysis |
 | HR | 8012 | Human resources, payroll, workforce management, recruitment, performance, talent review, succession, multi-country payroll |
-| Manufacturing | 8013 | Production, manufacturing operations, cost accounting, quality management, PLM, EAM |
-| Report | 8014 | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, embedded ML, narrative reporting |
+| Manufacturing | 8013 | Production, manufacturing operations, cost accounting, quality management, PLM, EAM, Digital Twin, IoT |
+| Report | 8014 | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, embedded ML, narrative reporting, process mining, corporate performance management |
 | Workflow | 8015 | Business process automation, approvals, BPMN engine, SLA management |
-| CRM / Marketing | 8016 | Customer relationship management, leads, campaigns, marketing automation, field service management, surveys & feedback, sales territory & quota planning |
+| CRM / Marketing | 8016 | Customer relationship management, leads, campaigns, marketing automation, field service management, surveys & feedback, sales territory & quota planning, customer data platform (CDP), B2B commerce portal |
 | Project Management | 8017 | Project planning, resource allocation, time & expense, project billing, EVM |
 
 ### 3.3 Supporting Services
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Platform (Notif + File + Audit) | 8020 | Notifications, file storage, document management, audit logging, digital assistant, app builder, GRC, enterprise job scheduler, knowledge management, digital signatures |
+| Platform (Notif + File + Audit) | 8020 | Notifications, file storage, document management, audit logging, digital assistant, app builder, GRC, enterprise job scheduler, knowledge management, digital signatures, RPA, collaboration, IoT device registry |
 | Integration | 8021 | External integrations, API management, connector framework, EDI, MDM, data governance, trade compliance |
 
 ## 4. Service Consolidation Rationale
@@ -342,6 +342,132 @@ Constraint-based product configuration managed by the Commerce Service.
 | BOM Generation | Automatic BOM creation from configured product |
 | Validation | Real-time validation of configuration completeness and feasibility |
 | Guided Selling | Step-by-step configuration wizard for sales users |
+
+### 6.15 Customer Data Platform (CDP)
+
+Unified customer intelligence managed by the CRM / Marketing Service with data aggregation from all customer touchpoints.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Unified Profiles | Single customer view aggregated from Commerce, CRM, Support, and Marketing interactions |
+| Identity Resolution | Deterministic and probabilistic matching across channels and devices |
+| Segmentation | Dynamic segment builder with behavioral, demographic, and transactional criteria |
+| Journey Orchestration | Multi-step customer journey designer with trigger-based actions and channel selection |
+| Engagement Scoring | Real-time engagement score based on recency, frequency, and monetary value |
+| Cross-Channel Analytics | Attribution modeling, channel preference analysis, journey completion rates |
+
+### 6.16 IoT Integration
+
+IoT device management and telemetry ingestion managed jointly by Platform Service (device registry) and Manufacturing Service (industrial IoT).
+
+| Aspect | Implementation |
+|--------|---------------|
+| Device Registry | IoT device registration, certification, certificate-based authentication |
+| Telemetry Ingestion | High-throughput telemetry ingestion via MQTT broker or HTTP streaming |
+| Alert Rules | Configurable threshold and anomaly-based alerting on telemetry data |
+| Data Routing | Route telemetry to appropriate services (manufacturing for production data, logistics for tracking) |
+| Edge Processing | Optional edge computing for latency-sensitive processing before cloud ingestion |
+| Digital Twin | Virtual representation of physical assets with real-time state sync and predictive models |
+
+### 6.17 Process Mining & Optimization
+
+Automated process discovery and optimization derived from existing event data, managed by the Report Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Process Discovery | Automated reconstruction of business processes from event logs |
+| Conformance Checking | Compare actual process execution against defined workflows (BPMN) |
+| Bottleneck Analysis | Identify process steps with highest wait times and lowest throughput |
+| Simulation | What-if simulation of process changes with predicted impact |
+| Root Cause Analysis | Drill-down from process KPI deviations to specific events and resources |
+| Continuous Monitoring | Real-time process performance dashboards with deviation alerts |
+
+### 6.18 Robotic Process Automation (RPA)
+
+Bot-based task automation managed by the Platform Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Bot Designer | Visual bot designer with drag-and-drop action sequences |
+| Trigger Types | Schedule-based, event-triggered, and manual bot execution |
+| Action Library | Pre-built actions for common tasks (data entry, report generation, notifications, API calls) |
+| Credential Vaulting | Secure credential management for bot accounts via HashiCorp Vault |
+| Monitoring | Bot execution history, success rates, duration tracking, error alerting |
+| Error Handling | Configurable retry policies, fallback actions, manual intervention queues |
+
+### 6.19 Strategic Sourcing & Supplier Risk
+
+Advanced sourcing and supplier risk capabilities managed by the Finance Service (sourcing) and Integration Service (risk data feeds).
+
+| Aspect | Implementation |
+|--------|---------------|
+| Sourcing Events | Create and manage sourcing events (RFI, RFP, RFQ) with multi-round bidding |
+| Bid Analysis | Side-by-side bid comparison, scoring matrices, total cost of ownership analysis |
+| Award Optimization | Award recommendation engine based on cost, quality, risk, and strategic criteria |
+| Supplier Risk Scoring | Composite risk score from financial, operational, geographic, and regulatory indicators |
+| Risk Monitoring | Continuous monitoring of supplier financial health, sanctions changes, and news alerts |
+| Risk Dashboards | Supplier risk heat maps, risk trend analysis, concentration risk visualization |
+
+### 6.20 Account Reconciliation
+
+Automated financial reconciliation managed by the Finance Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Auto-Matching | Rule-based matching of bank statements to open transactions (amount, date, reference) |
+| Reconciliation Templates | Configurable reconciliation templates by account type |
+| Exception Management | Workflow-driven resolution of unmatched and partially matched transactions |
+| Close Task Management | Financial close checklist with task assignment, dependencies, and deadline tracking |
+| Intercompany Reconciliation | Automated matching of intercompany transactions across business units |
+
+### 6.21 Profitability Analysis
+
+Multi-dimensional profitability analysis managed by the Finance Service with data from the Report Service warehouse.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Cost-to-Serve | Full cost allocation to customer level including indirect costs and overhead |
+| Product Profitability | Margin analysis by product, category, and variant |
+| Customer Profitability | Revenue vs. total cost analysis by customer and customer segment |
+| Dimensional Analysis | Profitability by any combination of dimensions (product, customer, region, channel, business unit) |
+| What-If Modeling | Scenario analysis for pricing changes, cost reductions, and mix shifts |
+
+### 6.22 B2B Commerce Portal
+
+Customer self-service portal managed by the Commerce Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Self-Service Ordering | Customer portal for placing and tracking orders with real-time availability |
+| Reorder Templates | Quick-reorder from order history and saved shopping lists |
+| Approval Workflows | Customer-side approval chains for order value thresholds |
+| Account Management | Customer-managed users, shipping addresses, and payment methods |
+| Order Status | Real-time order and shipment tracking with notification preferences |
+| Invoice Access | Self-service invoice viewing, download, and payment status |
+
+### 6.23 Corporate Performance Management
+
+Executive-level performance management managed jointly by Report Service (dashboards) and Finance Service (planning data).
+
+| Aspect | Implementation |
+|--------|---------------|
+| Executive Dashboards | Role-based executive dashboards with KPI summaries and drill-down |
+| Strategy Maps | Visual strategy maps linking objectives, KPIs, and initiatives |
+| OKRs | Objective and Key Results tracking with progress visualization |
+| Balanced Scorecard | Four-perspective scorecard (financial, customer, process, learning & growth) |
+| Initiative Tracking | Strategic initiative registration, milestone tracking, and resource allocation |
+
+### 6.24 Enterprise Collaboration
+
+Team collaboration tools managed by the Platform Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Team Messaging | Channel-based messaging integrated with business context (order, project, case) |
+| Document Collaboration | Real-time document co-editing with version control and commenting |
+| Task Management | Personal and team task boards with integration to projects and workflows |
+| Presence & Availability | User availability status with calendar integration |
+| Search | Unified search across messages, documents, tasks, and knowledge base |
 
 ---
 

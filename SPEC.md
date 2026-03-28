@@ -36,6 +36,19 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | Narrative Reporting | Management reporting with commentary, collaborative annotations |
 | Sales Territory & Quota Planning | Territory management, quota allocation, what-if modeling |
 | Intercompany Drop Ship | Cross-entity drop ship fulfillment with automated intercompany settlement |
+| Connected Logistics & Track-and-Trace | Real-time shipment tracking, condition monitoring, predictive ETA, geofencing |
+| Customer Data Platform (CDP) | Unified customer profiles, identity resolution, segmentation, journey orchestration |
+| IoT Integration | Device management, telemetry ingestion, alert rules, predictive maintenance integration |
+| Process Mining & Optimization | Process discovery, conformance checking, bottleneck analysis, simulation |
+| Robotic Process Automation (RPA) | Bot designer, task automation, event-triggered bots, monitoring |
+| Strategic Sourcing | Sourcing events, bid analysis, award optimization, negotiation tracking |
+| Supplier Risk Management | Supplier risk scoring, financial health monitoring, geographic and regulatory risk |
+| Account Reconciliation | Auto-matching, reconciliation templates, exception management, close task management |
+| Profitability Analysis | Cost-to-serve, product/customer profitability, margin analysis by dimension |
+| B2B Commerce Portal | Customer self-service ordering, reorder templates, approval workflows |
+| Corporate Performance Management | Executive dashboards, strategy maps, OKRs, balanced scorecard |
+| Enterprise Collaboration | Team messaging, document collaboration, task management, workflow integration |
+| Digital Twin | Asset digital twins, real-time monitoring, predictive maintenance, what-if simulation |
 
 ---
 
@@ -97,6 +110,10 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Enterprise Performance Management (EPM) | Planning & Budgeting | Specified |
 | | Period Management with Soft/Hard Close | Financial Controls | Specified |
 | | Revenue Recognition (ASC 606 / IFRS 15) (automated revenue allocation, performance obligation tracking, contract modification handling) | Revenue Management | Specified |
+| | Supplier Risk Management (supplier risk scoring, financial health monitoring, geographic risk assessment) | Supplier Management | Specified |
+| | Strategic Sourcing (sourcing events, bid analysis, award optimization, negotiation tracking) | Strategic Sourcing | Specified |
+| | Account Reconciliation (auto-matching, reconciliation templates, exception management, close task management) | Financial Close | Specified |
+| | Profitability Analysis (cost-to-serve, product/customer profitability, margin analysis by dimension) | Profitability Management | Specified |
 | **Supply Chain** | | | |
 | | Inventory Management, Warehousing | Inventory Management | Specified |
 | | Procurement & Supplier Management | Procurement | Specified |
@@ -109,6 +126,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Available-to-Promise (ATP) / Capable-to-Promise (CTP) | Order Management | Specified |
 | | Advanced Inventory Optimization (safety stock optimization, demand-driven replenishment) | Inventory Optimization | Specified |
 | | Intercompany Drop Ship | Order Management | Specified |
+| | Connected Logistics & Track-and-Trace (real-time tracking, condition monitoring, predictive ETA, geofencing) | Transportation Management | Specified |
 | **Order Management** | | | |
 | | Sales Orders, Quotations, Commissions | Order Management | Specified |
 | | Customer Management & CRM | CX Sales | Specified |
@@ -125,6 +143,8 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Advanced Quality Management (AQM) | Quality | Specified |
 | | Shop Floor Control with RFID/Barcode | Manufacturing | Specified |
 | | Digital Twin Integration (asset digital twins, predictive maintenance, real-time monitoring) | Manufacturing | Specified |
+| | IoT Integration (device registration, telemetry ingestion, alert rules, integration with manufacturing and logistics) | IoT Application | Specified |
+| | Digital Twin (asset digital twins, real-time monitoring, predictive maintenance, what-if simulation) | Digital Twin | Specified |
 | **HCM** | | | |
 | | Employee Lifecycle Management | HCM Core | Specified |
 | | Payroll & Compensation | Payroll | Specified |
@@ -153,10 +173,14 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Embedded ML/AI Platform | AI Services | Specified |
 | | Predictive Planning & What-If Modeling | Planning | Specified |
 | | Narrative Reporting (management reporting with commentary, collaborative annotations) | Narrative Reporting | Specified |
+| | Process Mining & Optimization (process discovery from event logs, conformance checking, bottleneck analysis, simulation) | Process Mining | Specified |
+| | Corporate Performance Management (executive dashboards, strategy maps, OKRs, balanced scorecard) | Enterprise Performance Management | Specified |
 | **CRM / Customer Experience** | | | |
 | | Field Service Management (service orders, technician scheduling, parts logistics, SLA tracking) | Field Service | Specified |
 | | Survey & Feedback Management (survey creation, NPS/CSAT collection, response analytics) | CX Surveys | Specified |
 | | Sales Territory & Quota Planning (territory management, quota allocation, what-if modeling) | CX Sales | Specified |
+| | Customer Data Platform (unified customer profiles, identity resolution, segmentation, journey orchestration) | Customer Data Platform | Specified |
+| | B2B Commerce Portal (customer self-service ordering, reorder templates, approval workflows, account management) | Commerce | Specified |
 | **Platform** | | | |
 | | Workflow & BPM Engine | BPM / Workflow | Specified |
 | | Notification & Alerting | Notifications | Specified |
@@ -174,6 +198,8 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Knowledge Management (knowledge base, article authoring, search, categorization, versioning) | Knowledge Management | Specified |
 | | Trade Compliance (export controls, restricted party screening, license management, customs documentation) | Global Trade Management | Specified |
 | | Digital Signatures (native digital signature, signature workflows, audit trail) | Digital Signatures | Specified |
+| | Robotic Process Automation (bot designer, task automation, schedule/event-triggered bots, monitoring) | Process Automation | Specified |
+| | Enterprise Collaboration (team messaging, document co-editing, task management, workflow integration) | Collaboration | Specified |
 | **Security & GRC** | | | |
 | | RBAC + ABAC Authorization | Authorization | Specified |
 | | SSO, MFA, OAuth2/OIDC | Security | Specified |
@@ -188,6 +214,6 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 
 ---
 
-*Document Version: 5.0*
+*Document Version: 6.0*
 *Last Updated: 2026-03-28*
 *Authors: MSERP Team*

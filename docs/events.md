@@ -116,6 +116,14 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `commerce.subscription.billing.completed` | Subscription billing cycle completed |
 | `commerce.dropship.order.created` | Drop ship order created and dispatched to supplier |
 | `commerce.dropship.order.delivered` | Drop ship order delivered to end customer |
+| `commerce.b2b.order.placed` | B2B portal order placed by customer |
+| `commerce.b2b.order.approved` | B2B portal order approved by customer approver |
+| `commerce.logistics.tracking.updated` | Real-time tracking update received (GPS/geofence) |
+| `commerce.logistics.condition.alert` | Shipment condition alert triggered (temperature, humidity, shock) |
+| `commerce.logistics.eta.updated` | Predictive ETA recalculated for shipment |
+| `commerce.logistics.geofence.entered` | Shipment entered geofence zone |
+| `commerce.logistics.geofence.exited` | Shipment exited geofence zone |
+| `commerce.logistics.exception.detected` | Logistics exception detected (delay, deviation, damage) |
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
@@ -158,6 +166,17 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `finance.revenue.deferred` | Revenue deferred to future period |
 | `finance.credit-score.updated` | Customer credit score updated |
 | `finance.credit-limit.changed` | Customer credit limit changed |
+| `finance.sourcing.event.created` | Sourcing event (RFI/RFP/RFQ) created |
+| `finance.sourcing.bid.submitted` | Supplier bid submitted for sourcing event |
+| `finance.sourcing.event.awarded` | Sourcing event awarded to supplier(s) |
+| `finance.supplier-risk.score.updated` | Supplier risk score updated |
+| `finance.supplier-risk.alert.triggered` | Supplier risk alert triggered |
+| `finance.supplier-risk.mitigation.created` | Supplier risk mitigation plan created |
+| `finance.reconciliation.matched` | Reconciliation auto-match completed |
+| `finance.reconciliation.exception.created` | Unmatched reconciliation exception created |
+| `finance.reconciliation.completed` | Account reconciliation completed |
+| `finance.close-task.completed` | Financial close task completed |
+| `finance.profitability.analysis.completed` | Profitability analysis run completed |
 
 ### HR Events
 | Event | Description |
@@ -203,6 +222,13 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `manufacturing.asset.decommissioned` | Asset decommissioned |
 | `manufacturing.plan.firmed` | Production plan firmed |
 | `manufacturing.plan.simulation.completed` | ASCP simulation completed |
+| `manufacturing.iot.device.registered` | IoT device registered |
+| `manufacturing.iot.telemetry.received` | Telemetry data received from IoT device |
+| `manufacturing.iot.alert.triggered` | IoT alert rule triggered |
+| `manufacturing.iot.device.offline` | IoT device went offline |
+| `manufacturing.digital-twin.state.updated` | Digital twin state synchronized with physical asset |
+| `manufacturing.digital-twin.simulation.completed` | Digital twin simulation completed |
+| `manufacturing.digital-twin.prediction.generated` | Predictive maintenance prediction generated |
 
 ### Platform Events (Notification + File + Audit + Digital Assistant + GRC)
 | Event | Description |
@@ -230,6 +256,15 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `platform.knowledge.article.updated` | Knowledge base article updated |
 | `platform.signature.requested` | Digital signature requested |
 | `platform.signature.completed` | Digital signature completed |
+| `platform.rpa.bot.created` | RPA bot created |
+| `platform.rpa.bot.executed` | RPA bot execution completed |
+| `platform.rpa.bot.failed` | RPA bot execution failed |
+| `platform.collaboration.message.posted` | Collaboration message posted |
+| `platform.collaboration.task.created` | Collaboration task created |
+| `platform.collaboration.task.completed` | Collaboration task completed |
+| `platform.iot.device.registered` | IoT device registered in device registry |
+| `platform.iot.device.certificate.issued` | IoT device certificate issued |
+| `platform.iot.device.decommissioned` | IoT device decommissioned |
 
 > **Note:** `platform.audit.logged` is an internal event published for observability. Report Service subscribes for compliance dashboards. The authoritative audit log is stored directly in `audit_db` at write time (not event-sourced).
 
@@ -294,6 +329,12 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `crm.survey.response.received` | Survey response submitted |
 | `crm.territory.updated` | Sales territory assignment updated |
 | `crm.quota.allocated` | Sales quota allocated |
+| `crm.cdp.profile.created` | Unified customer profile created in CDP |
+| `crm.cdp.profile.updated` | Unified customer profile updated |
+| `crm.cdp.profile.merged` | Customer profiles merged (identity resolution) |
+| `crm.cdp.segment.updated` | Customer segment membership updated |
+| `crm.cdp.journey.step.completed` | Customer journey step completed |
+| `crm.cdp.engagement-score.updated` | Customer engagement score recalculated |
 
 ### Project Events
 | Event | Description |
@@ -325,6 +366,19 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `integration.trade-compliance.license.expiring` | Export license approaching expiration |
 
 > **Note:** Integration Service primarily produces outbound events (sync/import status). External system notifications are handled via direct outbound HTTP calls or webhooks. MDM events are consumed by Report Service for data quality dashboards.
+
+### Report Events (Analytics + Process Mining + CPM)
+| Event | Description |
+|-------|-------------|
+| `report.process.discovered` | Business process discovered from event log analysis |
+| `report.process.conformance.checked` | Process conformance check completed |
+| `report.process.bottleneck.detected` | Process bottleneck identified |
+| `report.process.simulation.completed` | Process simulation completed |
+| `report.cpm.okr.updated` | OKR progress updated |
+| `report.cpm.initiative.status-changed` | Strategic initiative status changed |
+| `report.cpm.scorecard.updated` | Balanced scorecard recalculated |
+| `report.narrative.package.published` | Report package published for distribution |
+| `report.narrative.commentary.added` | Commentary added to report section |
 
 ### Cross-Domain Events
 | Event | Publisher | Subscribers |
@@ -374,6 +428,17 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `tenant.feature.changed` | Tenant | Platform (flushes Redis), Report |
 | `auth.login.failed` | Auth | Platform (security audit) |
 | `config.changed` | Config | All services with inboxes |
+| `commerce.b2b.order.placed` | Commerce | Finance, Report |
+| `commerce.logistics.exception.detected` | Commerce | Platform, Report |
+| `manufacturing.iot.telemetry.received` | Manufacturing | Report, Platform |
+| `manufacturing.digital-twin.prediction.generated` | Manufacturing | Commerce (spare parts), Report |
+| `finance.sourcing.event.awarded` | Finance | Commerce, Report |
+| `finance.supplier-risk.alert.triggered` | Finance | Platform, Report, Workflow |
+| `finance.reconciliation.completed` | Finance | Report |
+| `crm.cdp.profile.merged` | CRM | Commerce, Report |
+| `crm.cdp.segment.updated` | CRM | Commerce, Platform (notifications) |
+| `report.process.bottleneck.detected` | Report | Workflow, Platform |
+| `platform.rpa.bot.failed` | Platform | Report, Workflow |
 
 > **Note:** Report Service subscribes to key business events for analytics aggregation. Workflow Service subscribes to events that trigger approval workflows. Core services (Auth, Identity, Tenant, Config) do not have inbox queues. Identity receives updates via direct service-to-service HTTP calls.
 

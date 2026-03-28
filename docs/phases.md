@@ -76,6 +76,10 @@
 - [ ] Product Configurator (configuration models, constraint rules, BOM generation)
 - [ ] ATP/CTP (Available-to-Promise / Capable-to-Promise) engine
 - [ ] Subscription Management (subscription lifecycle, billing cycles, amendments)
+- [ ] Strategic Sourcing (sourcing events, bid analysis, award optimization)
+- [ ] Supplier Risk Management (risk scoring, financial health monitoring, risk dashboards)
+- [ ] Account Reconciliation (auto-matching, reconciliation templates, close task management)
+- [ ] Profitability Analysis (cost-to-serve, product/customer profitability, dimensional analysis)
 
 ### Phase 2 Deliverables
 
@@ -97,6 +101,10 @@
 | Product Configurator | Configuration models with constraint rules and dynamic pricing |
 | ATP/CTP | Real-time availability checking with promise date calculation |
 | Subscriptions | Subscription lifecycle, billing, amendments, and analytics |
+| Strategic Sourcing | Sourcing events (RFI/RFP/RFQ), bid analysis, award optimization |
+| Supplier Risk Management | Risk scoring, financial health monitoring, risk dashboards |
+| Account Reconciliation | Auto-matching, reconciliation templates, close task management |
+| Profitability Analysis | Cost-to-serve, product/customer profitability, dimensional analysis |
 
 ---
 
@@ -143,6 +151,15 @@
 - [ ] Digital Signatures (native signature workflows, audit trail)
 - [ ] Advanced Inventory Optimization (safety stock optimization algorithms, demand-driven replenishment)
 - [ ] Employee Self-Service Portal (personal info, payslips, benefits, time-off)
+- [ ] Customer Data Platform (unified profiles, identity resolution, segmentation, journey orchestration)
+- [ ] B2B Commerce Portal (self-service ordering, reorder templates, customer approval workflows)
+- [ ] Connected Logistics & Track-and-Trace (real-time tracking, condition monitoring, predictive ETA)
+- [ ] IoT Integration (device registry, telemetry ingestion, alert rules)
+- [ ] Digital Twin (asset digital twins, real-time monitoring, predictive maintenance)
+- [ ] Robotic Process Automation (bot designer, task automation, event-triggered bots)
+- [ ] Enterprise Collaboration (team messaging, document collaboration, task management)
+- [ ] Process Mining & Optimization (process discovery, conformance checking, bottleneck analysis)
+- [ ] Corporate Performance Management (executive dashboards, strategy maps, OKRs, balanced scorecard)
 
 ### Phase 3 Deliverables
 
@@ -172,6 +189,15 @@
 | Digital Signatures | Native signature workflows with multi-party signing and audit trail |
 | Inventory Optimization | ML-driven safety stock optimization, demand-driven replenishment |
 | Employee Self-Service | Portal for personal info, payslips, benefits, time-off, expenses |
+| CDP | Unified customer profiles, identity resolution, segmentation, journey orchestration |
+| B2B Commerce | Self-service customer portal with ordering, reorder templates, and approvals |
+| Connected Logistics | Real-time tracking, condition monitoring, predictive ETA, geofencing |
+| IoT Integration | Device registry, telemetry ingestion, alert rules |
+| Digital Twin | Asset digital twins with real-time monitoring and predictive maintenance |
+| RPA | Bot designer, task automation, schedule/event-triggered execution |
+| Collaboration | Team messaging, document co-editing, task management |
+| Process Mining | Process discovery, conformance checking, bottleneck analysis |
+| Corporate Performance | Executive dashboards, strategy maps, OKRs, balanced scorecard |
 
 ---
 
@@ -287,7 +313,7 @@ Phase 1 ──────────▶ Phase 2 ──────────
 | Contract tests | All consumer contracts verified | Phase 2 |
 | Saga tests | All saga flows tested with failure scenarios | Phase 3 |
 | Load test baseline | 5,000 req/s with < 500ms p99 | Phase 4 |
-| Production readiness | 10,000 req/s, security audit passed, runbooks validated, ESG compliance | Phase 5 |
+| Production readiness | 10,000 req/s, security audit passed, runbooks validated, ESG compliance, trade compliance validated | Phase 5 |
 
 ---
 

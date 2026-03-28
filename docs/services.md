@@ -229,6 +229,28 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Invoice Reconciliation | Automated reconciliation of supplier invoice, customer invoice, and PO |
 | Multi-Entity Support | Intercompany drop ship across business units with automated intercompany accounting |
 
+**Connected Logistics & Track-and-Trace:**
+
+| Module | Description |
+|--------|-------------|
+| Real-Time Tracking | GPS-based shipment tracking with carrier integration and geofencing |
+| Condition Monitoring | Temperature, humidity, and shock monitoring for sensitive shipments (IoT sensor integration) |
+| Predictive ETA | ML-based estimated delivery time considering traffic, weather, and historical performance |
+| Geofencing | Automatic alerts on geofence entry/exit for proactive logistics management |
+| Exception Management | Automated exception detection and resolution workflows for delayed, damaged, or deviated shipments |
+| Last-Mile Optimization | Route optimization for final delivery with delivery time window management |
+
+**B2B Commerce Portal:**
+
+| Module | Description |
+|--------|-------------|
+| Customer Self-Service | Customer portal for placing and tracking orders with real-time availability checks |
+| Reorder Templates | Quick-reorder from order history and configurable saved shopping lists |
+| Customer Approval Workflows | Customer-side approval chains for configurable order value thresholds |
+| Account Management | Customer-managed users, shipping addresses, payment methods, and preferences |
+| Order Tracking | Real-time order and shipment tracking with configurable notification preferences |
+| Invoice Portal | Self-service invoice viewing, download, dispute initiation, and payment status |
+
 ### 2.2 Finance Service (Finance + Procurement)
 
 | Aspect | Details |
@@ -269,6 +291,27 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | FX Exposure | Foreign currency exposure tracking, hedging recommendations |
 | In-House Banking | Intercompany netting, cash pooling, virtual account management |
 
+**Account Reconciliation:**
+
+| Module | Description |
+|--------|-------------|
+| Auto-Matching | Rule-based matching of bank statements to open transactions by amount, date, and reference |
+| Reconciliation Templates | Configurable reconciliation templates by account type with matching rules |
+| Exception Management | Workflow-driven resolution of unmatched and partially matched transactions |
+| Close Task Management | Financial close checklist with task assignment, dependencies, and deadline tracking |
+| Intercompany Reconciliation | Automated matching of intercompany transactions across business units with elimination entries |
+
+**Profitability Analysis:**
+
+| Module | Description |
+|--------|-------------|
+| Cost-to-Serve | Full cost allocation to customer level including indirect costs, overhead, and logistics |
+| Product Profitability | Gross and net margin analysis by product, category, and variant |
+| Customer Profitability | Revenue vs. total cost analysis by customer and customer segment |
+| Dimensional Analysis | Profitability by any dimension combination (product, customer, region, channel, business unit) |
+| What-If Modeling | Scenario analysis for pricing changes, cost reductions, and product mix shifts |
+| Contribution Margin | Variable cost analysis and contribution margin reporting by product line |
+
 **Enterprise Expense Management:**
 
 | Module | Description |
@@ -307,6 +350,27 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Disclosure Reports | Required disclosures: remaining performance obligations, contract balances, recognized revenue |
 | Revenue Waterfall | Visual waterfall from bookings to recognized revenue with deferral rollforward |
 | Multi-Element Arrangements | Allocation across bundled goods, services, and licenses |
+
+**Strategic Sourcing:**
+
+| Module | Description |
+|--------|-------------|
+| Sourcing Events | Create and manage sourcing events (RFI, RFP, RFQ) with multi-round bidding and supplier collaboration |
+| Bid Analysis | Side-by-side bid comparison with configurable scoring criteria and total cost of ownership calculation |
+| Award Optimization | Award recommendation engine considering cost, quality, risk, diversity, and strategic criteria |
+| Negotiation Tracking | Negotiation round management with version tracking, redline comparison, and term history |
+| Sourcing Analytics | Savings tracking, supplier performance post-award, spend under management metrics |
+
+**Supplier Risk Management:**
+
+| Module | Description |
+|--------|-------------|
+| Risk Scoring | Composite supplier risk score from financial, operational, geographic, and regulatory indicators |
+| Financial Health Monitoring | Automated monitoring of supplier financial data (credit ratings, financial statements, payment behavior) |
+| Geographic Risk | Country and regional risk assessment including political stability, sanctions, and natural disaster exposure |
+| Regulatory Compliance | Supplier compliance monitoring for industry certifications, regulatory requirements, and certifications |
+| Risk Dashboards | Supplier risk heat maps, risk trend analysis, concentration risk visualization, alert management |
+| Risk Mitigation | Mitigation plan tracking with action items, owners, and deadlines for identified risks |
 
 **Contract Lifecycle Management (CLM):**
 
@@ -386,6 +450,27 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Product Lifecycle Management (PLM) | Item concept and revision management, engineering change order (ECO) workflow, BOM versioning, collaboration with suppliers on design, document linking (CAD, specs), product phase-in/phase-out planning |
 | Sustainability Tracking | Energy consumption per production run, waste tracking, emissions per product, material recyclability tracking |
 
+**IoT Integration:**
+
+| Module | Description |
+|--------|-------------|
+| Device Registry | IoT device registration with certificate-based authentication and device metadata |
+| Telemetry Ingestion | High-throughput telemetry data ingestion from sensors and industrial equipment |
+| Alert Rules | Configurable threshold and anomaly-based alerting on real-time telemetry data |
+| Edge Processing | Optional edge computing for latency-sensitive processing before cloud ingestion |
+| Data Routing | Configurable telemetry routing to manufacturing, logistics, or maintenance modules |
+| Device Health Monitoring | Device connectivity status, battery levels, and firmware update management |
+
+**Digital Twin:**
+
+| Module | Description |
+|--------|-------------|
+| Asset Digital Twins | Virtual representation of physical assets with real-time state synchronization |
+| Simulation Engine | What-if simulation for production scenarios, capacity planning, and maintenance impact |
+| Predictive Maintenance | ML-based prediction of equipment failure from telemetry and historical maintenance data |
+| Real-Time Monitoring | Live dashboard of asset health, performance metrics, and anomaly detection |
+| Twin Analytics | Asset performance comparison, degradation trends, and optimization recommendations |
+
 ### 2.5 Report Service
 
 | Aspect | Details |
@@ -433,6 +518,27 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Sentiment Analysis | NLP-based analysis of customer feedback, support tickets, and survey responses |
 | Fraud Detection | Pattern-based fraud detection in financial transactions, expense reports, and procurement |
 | Yield Optimization | ML-driven production yield optimization for manufacturing |
+
+**Process Mining & Optimization:**
+
+| Module | Description |
+|--------|-------------|
+| Process Discovery | Automated reconstruction of business processes from event logs and audit trails |
+| Conformance Checking | Compare actual process execution against defined BPMN workflows |
+| Bottleneck Analysis | Identify process steps with highest wait times, lowest throughput, and resource constraints |
+| Simulation | What-if simulation of process changes with predicted throughput and cost impact |
+| Root Cause Analysis | Drill-down from process KPI deviations to specific events, resources, and transactions |
+| Continuous Monitoring | Real-time process performance dashboards with configurable deviation alerts |
+
+**Corporate Performance Management:**
+
+| Module | Description |
+|--------|-------------|
+| Executive Dashboards | Role-based executive dashboards with KPI summaries and drill-down to operational data |
+| Strategy Maps | Visual strategy maps linking corporate objectives, KPIs, and strategic initiatives |
+| OKRs | Objective and Key Results tracking with progress visualization and alignment reporting |
+| Balanced Scorecard | Four-perspective scorecard: financial, customer, internal process, learning & growth |
+| Initiative Tracking | Strategic initiative registration, milestone tracking, budget allocation, and status reporting |
 
 ### 2.6 Workflow Service
 
@@ -510,6 +616,18 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Historical Analysis | Territory performance trending, quota attainment analysis, overlay comparison |
 | Integration | Territory assignments synced to CRM pipeline and opportunity routing |
 
+**Customer Data Platform (CDP):**
+
+| Module | Description |
+|--------|-------------|
+| Unified Profiles | Single customer view aggregated from Commerce, CRM, Support, and Marketing touchpoints |
+| Identity Resolution | Deterministic and probabilistic matching across channels, devices, and identifiers |
+| Segmentation | Dynamic segment builder with behavioral, demographic, and transactional criteria |
+| Journey Orchestration | Multi-step customer journey designer with trigger-based actions and cross-channel delivery |
+| Engagement Scoring | Real-time engagement score computation based on recency, frequency, and monetary value |
+| Cross-Channel Analytics | Attribution modeling, channel preference analysis, and journey completion rate reporting |
+| Profile Enrichment | Third-party data enrichment integration for enhanced customer attributes |
+
 ### 2.8 Project Management Service
 
 | Aspect | Details |
@@ -566,6 +684,27 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Knowledge Management | Article authoring with rich text and version control, hierarchical categories, tagging, full-text search, role-based access, context-sensitive knowledge suggestions, article analytics (views, ratings) |
 | Digital Signatures | Native digital signature workflows, signature request and tracking, multi-party signing sequences, signature audit trail, integration with e-signature providers (DocuSign, Adobe Sign) for external documents |
 | Employee Self-Service Portal | Personal information management, payslip access, benefits enrollment, time-off requests, expense submission, training enrollment, company directory, organizational announcements |
+
+**Robotic Process Automation (RPA):**
+
+| Module | Description |
+|--------|-------------|
+| Bot Designer | Visual bot designer with drag-and-drop action sequences and conditional logic |
+| Bot Execution | Schedule-based, event-triggered, and manual bot execution with dependency management |
+| Action Library | Pre-built actions for data entry, report generation, notifications, API calls, and file operations |
+| Credential Vaulting | Secure credential management for bot accounts via HashiCorp Vault integration |
+| Bot Monitoring | Execution history, success rates, duration tracking, and error alerting |
+| Error Handling | Configurable retry policies, fallback actions, and manual intervention queues |
+
+**Enterprise Collaboration:**
+
+| Module | Description |
+|--------|-------------|
+| Team Messaging | Channel-based messaging with business context integration (order, project, case context) |
+| Document Collaboration | Real-time document co-editing with version control, commenting, and review workflows |
+| Task Management | Personal and team task boards with integration to projects and workflow tasks |
+| Presence & Availability | User availability status with calendar integration and notification preferences |
+| Unified Search | Search across messages, documents, tasks, and knowledge base articles |
 
 ### 3.2 Integration Service
 

@@ -149,6 +149,16 @@ mserp/
 │   │   │       ├── handlers/
 │   │   │       ├── models/
 │   │   │       └── services/
+│   │   │   ├── logistics/          # Connected Logistics & Track-and-Trace
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── b2b-portal/         # B2B Commerce Portal
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
 │   ├── finance-service/          # Finance + Procurement + Treasury + Expenses + CLM + EPM
 │   │   ├── src/
 │   │   │   ├── finance/          # Finance domain module
@@ -190,6 +200,26 @@ mserp/
 │   │   │       ├── handlers/
 │   │   │       ├── models/
 │   │   │       └── services/
+│   │   │   ├── sourcing/            # Strategic Sourcing
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── supplier-risk/       # Supplier Risk Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── reconciliation/      # Account Reconciliation
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── profitability/       # Profitability Analysis
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
 │   ├── hr-service/
 │   │   ├── src/
 │   │   │   ├── employee/
@@ -224,6 +254,16 @@ mserp/
 │   │   │   │   ├── eco/          # Engineering Change Orders
 │   │   │   │   └── phase-management/
 │   │   │   └── sustainability/   # Energy, waste, emissions tracking
+│   │   │   ├── iot/                 # IoT Integration
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── digital-twin/        # Digital Twin
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
 │   ├── report-service/
 │   │   ├── src/
 │   │   │   ├── reports/
@@ -238,6 +278,16 @@ mserp/
 │   │   │       ├── models/       # Model registry
 │   │   │       ├── features/     # Feature store
 │   │   │       └── training/     # Model training pipeline
+│   │   │   ├── process-mining/       # Process Mining & Optimization
+│   │   │   │   ├── discovery/
+│   │   │   │   ├── conformance/
+│   │   │   │   ├── simulation/
+│   │   │   │   └── dashboards/
+│   │   │   └── cpm/                  # Corporate Performance Management
+│   │   │       ├── okrs/
+│   │   │       ├── scorecard/
+│   │   │       ├── strategy-maps/
+│   │   │       └── initiatives/
 │   ├── workflow-service/
 │   │   ├── src/
 │   │   │   ├── engine/           # BPMN engine
@@ -267,6 +317,11 @@ mserp/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
 │   │   │   └── territories/        # Sales Territory & Quota
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
+│   │   │       └── services/
+│   │   │   └── cdp/                  # Customer Data Platform
 │   │   │       ├── routes/
 │   │   │       ├── handlers/
 │   │   │       ├── models/
@@ -326,6 +381,20 @@ mserp/
 │   │   │       ├── portal/
 │   │   │       ├── dashboard/
 │   │   │       └── preferences/
+│   │   │   ├── rpa/                  # Robotic Process Automation
+│   │   │   │   ├── designer/
+│   │   │   │   ├── execution/
+│   │   │   │   ├── actions/
+│   │   │   │   └── monitoring/
+│   │   │   ├── collaboration/        # Enterprise Collaboration
+│   │   │   │   ├── messaging/
+│   │   │   │   ├── documents/
+│   │   │   │   ├── tasks/
+│   │   │   │   └── search/
+│   │   │   └── iot-registry/         # IoT Device Registry
+│   │   │       ├── devices/
+│   │   │       ├── certificates/
+│   │   │       └── telemetry/
 │   └── integration-service/
 │       ├── src/
 │       │   ├── connectors/
@@ -422,6 +491,11 @@ mserp/
     ├── revenue-recognition-rules.csv # ASC 606/IFRS 15 standard methods
     ├── subscription-cycles.csv    # Standard billing cycle definitions
     └── knowledge-categories.csv   # Knowledge base category seed data
+    ├── iot-device-types.csv          # IoT device type definitions
+    ├── process-activity-classes.csv  # Process mining activity classifications
+    ├── rpa-bot-templates.csv         # RPA bot action templates
+    ├── customer-segments.csv         # CDP default customer segment definitions
+    ├── supplier-risk-indicators.csv  # Supplier risk indicator definitions
 ```
 
 ## 2. Local Development

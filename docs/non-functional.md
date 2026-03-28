@@ -27,6 +27,14 @@
 | Subscription Billing Cycle | < 5 seconds per subscription | Commerce Service metrics |
 | Revenue Recognition Calculation | < 10 seconds per contract | Finance Service metrics |
 | Survey Response Processing | < 500ms | CRM Service metrics |
+| IoT Telemetry Ingestion | < 100ms (event to storage) | Platform Service metrics |
+| Digital Twin State Sync | < 500ms (telemetry to twin update) | Manufacturing Service metrics |
+| RPA Bot Execution Startup | < 3 seconds | Platform Service metrics |
+| Process Mining Analysis | < 60 seconds (standard process) | Report Service metrics |
+| CDP Identity Resolution | < 2 seconds (single profile) | CRM Service metrics |
+| B2B Portal Page Load | < 3 seconds (product catalog) | Commerce Service metrics |
+| Reconciliation Auto-Match | < 30 seconds (per account) | Finance Service metrics |
+| Profitability Calculation | < 15 seconds (full dimension scan) | Finance Service metrics |
 
 ## 2. Availability
 
@@ -267,6 +275,15 @@ All services MUST expose these Prometheus metrics:
 | `credit_check_total` | Counter | result | Credit check outcomes (pass/hold/release) |
 | `trade_compliance_screening_total` | Counter | result | Trade compliance screening outcomes |
 | `knowledge_search_total` | Counter | result | Knowledge base search results (hit/miss) |
+| `iot_telemetry_ingested_total` | Counter | device_id, telemetry_type | IoT telemetry events ingested |
+| `iot_device_alert_total` | Counter | device_id, alert_type | IoT alert rule triggers |
+| `digital_twin_sync_duration_seconds` | Histogram | asset_id | Digital twin state sync latency |
+| `rpa_bot_execution_total` | Counter | bot_id, status | RPA bot execution outcomes |
+| `rpa_bot_execution_duration_seconds` | Histogram | bot_id | RPA bot execution duration |
+| `process_mining_analysis_duration_seconds` | Histogram | process_type | Process mining analysis duration |
+| `cdp_identity_resolution_total` | Counter | result | CDP identity resolution outcomes |
+| `collaboration_message_total` | Counter | channel_id | Collaboration messages posted |
+| `logistics_tracking_update_total` | Counter | carrier, status | Logistics tracking updates received |
 | `rate_limit_exceeded_total` | Counter | tenant_id, endpoint | Rate limit violations |
 
 ### 10.3 Dashboards (Grafana)
@@ -289,6 +306,14 @@ All services MUST expose these Prometheus metrics:
 | Trade Compliance | Legal, Operations | Screening volumes, match rates, license status, shipment holds |
 | Knowledge Base | Support, Operations | Article views, search effectiveness, resolution rate, content gaps |
 | SLI/SLO Dashboard | SRE, Engineering | Error budget burn rate, SLO compliance, alert history |
+| IoT & Digital Twin | Operations, Manufacturing | Device connectivity, telemetry throughput, alert rates, twin sync latency |
+| RPA Operations | Operations, IT | Bot execution rates, success rates, execution duration, error distribution |
+| Process Performance | Process owners, Operations | Process cycle times, conformance rates, bottleneck heatmaps |
+| Supplier Risk | Procurement, Finance | Risk score distribution, alert volumes, mitigation plan status |
+| Customer Intelligence | Marketing, Sales | Profile completeness, segment distribution, journey completion, engagement scores |
+| B2B Portal | Commerce, Sales | Portal adoption, order volume, reorder rates, customer satisfaction |
+| Collaboration | IT, Operations | Message volume, active channels, task completion rates |
+| Financial Close | Finance | Close task progress, reconciliation match rates, close cycle duration |
 
 ### 10.4 Structured Logging
 
@@ -371,6 +396,13 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | Scheduler Job Overdue | Warning | < 30 minutes | Investigate scheduler service, check job queue |
 | Error Budget Exhausted | Warning | < 4 hours | Freeze feature work, prioritize reliability |
 | Backup Verification Failed | Critical | < 1 hour | Investigate backup infrastructure, re-run verification |
+| IoT Device Offline (>10 devices) | Warning | < 30 minutes | Investigate device connectivity, check gateway |
+| RPA Bot Failure Rate > 10% | Warning | < 30 minutes | Investigate failing bots, check target systems |
+| Process Conformance < 90% | Warning | < 4 hours | Review process deviations, update workflow definitions |
+| CDP Identity Resolution Backlog > 1000 | Warning | < 1 hour | Scale CDP processing, check data source connectivity |
+| Supplier Risk Score Critical | Critical | < 1 hour | Review supplier risk detail, notify procurement, initiate mitigation |
+| Digital Twin Sync Lag > 5s | Warning | < 15 minutes | Check telemetry pipeline, investigate device health |
+| Financial Close Task Overdue | Warning | < 1 hour | Notify task owner, escalate to close manager |
 
 ### 10.7 Alert Routing
 

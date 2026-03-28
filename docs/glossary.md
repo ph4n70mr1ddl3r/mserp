@@ -112,6 +112,15 @@
 | WBS | Work Breakdown Structure — hierarchical decomposition of project deliverables into tasks |
 | Write-Through | Caching pattern where the application writes data to both the cache and the database simultaneously |
 | XBRL | eXtensible Business Reporting Language — standard for electronic communication of business and financial data |
+| CDP | Customer Data Platform — system that creates a unified, persistent customer database accessible to other systems for segmentation, analytics, and campaign execution |
+| CPM | Corporate Performance Management — framework and tools for managing organizational strategy, objectives, KPIs, and initiatives across the enterprise |
+| Digital Twin | Virtual representation of a physical asset that mirrors its real-time state and enables simulation, predictive maintenance, and optimization |
+| IoT | Internet of Things — network of physical devices embedded with sensors, software, and connectivity to collect and exchange data |
+| OKR | Objectives and Key Results — goal-setting framework defining objectives (what to achieve) and key results (how to measure progress) |
+| Process Mining | Analytical technique that discovers, monitors, and improves business processes by extracting knowledge from event logs |
+| RPA | Robotic Process Automation — technology for automating repetitive, rule-based tasks using software bots that mimic human interactions with applications |
+| Strategic Sourcing | Systematic approach to optimizing an organization's supply base and improving the overall value proposition through structured sourcing events and supplier evaluation |
+| Identity Resolution | Process of determining that different data points (cookies, device IDs, emails) belong to the same individual across channels and touchpoints |
 
 ## References
 
@@ -136,3 +145,6 @@
 - [qdrant Vector Search](https://qdrant.tech/)
 - [DuckDB](https://duckdb.org/)
 - [Apache Arrow](https://arrow.apache.org/)
+- [BPMN 2.0](https://www.omg.org/spec/BPMN/2.0/)
+- [ASC 606 / IFRS 15](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-15-revenue-from-contracts-with-customers/)
+- [GRI Standards](https://www.globalreporting.org/standards/)

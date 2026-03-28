@@ -389,7 +389,29 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PROJECT_BUDGET_EXCEEDED` | 409 | Project budget exceeded |
 | `PROJECT_TASK_DEPENDENCY` | 409 | Circular task dependency detected |
 
-### 8.8 Platform / GRC Error Codes
+### 8.8 Report Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `REPORT_GENERATION_FAILED` | 500 | Report generation encountered an error |
+| `REPORT_NOT_FOUND` | 404 | Report definition not found |
+| `REPORT_SCHEDULE_CONFLICT` | 409 | Report schedule conflicts with existing schedule |
+| `DASHBOARD_LAYOUT_INVALID` | 400 | Dashboard layout configuration invalid |
+| `ML_MODEL_NOT_TRAINED` | 409 | ML model has not been trained yet |
+| `ML_MODEL_DEPLOYMENT_FAILED` | 500 | ML model deployment failed |
+| `PROCESS_MINING_INSUFFICIENT_DATA` | 400 | Insufficient event data for process mining analysis |
+
+### 8.9 Workflow Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `WORKFLOW_DEFINITION_INVALID` | 400 | Workflow definition contains invalid BPMN |
+| `WORKFLOW_INSTANCE_STALE` | 409 | Workflow instance state has changed |
+| `WORKFLOW_STEP_NOT_ACTIONABLE` | 409 | Workflow step cannot be acted upon in current state |
+| `WORKFLOW_TEMPLATE_NOT_FOUND` | 404 | Workflow template not found |
+| `WORKFLOW_ESCALATION_FAILED` | 500 | Workflow escalation action failed |
+
+### 8.10 Platform / GRC Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -402,7 +424,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PLATFORM_JOB_NOT_FOUND` | 404 | Scheduled job definition not found |
 | `PLATFORM_SCREENING_MATCH_FOUND` | 409 | Trade compliance screening flagged a restricted party match |
 
-### 8.9 Integration Error Codes
+### 8.11 Integration Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -414,7 +436,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `INTEGRATION_LICENSE_EXPIRED` | 409 | Export license has expired |
 | `INTEGRATION_CLASSIFICATION_REQUIRED` | 400 | Export control classification required |
 
-### 8.10 Error Code Rules
+### 8.12 Error Code Rules
 
 - Each service MUST register its error codes in its OpenAPI spec via the `errors` extension.
 - New error codes MUST be additive only (never remove or rename).
@@ -552,6 +574,16 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/commerce/subscriptions/{id}/cancel` | Cancel subscription |
 | POST | `/api/v1/commerce/subscriptions/{id}/renew` | Renew subscription |
 | POST | `/api/v1/commerce/dropship/orders` | Create drop ship order |
+| POST | `/api/v1/commerce/b2b/portal/orders` | Create B2B portal order (customer self-service) |
+| GET | `/api/v1/commerce/b2b/portal/orders` | List B2B portal orders |
+| GET | `/api/v1/commerce/b2b/portal/reorder-templates` | List reorder templates |
+| POST | `/api/v1/commerce/b2b/portal/reorder-templates` | Create reorder template |
+| POST | `/api/v1/commerce/b2b/portal/reorder/{id}` | Execute reorder from template |
+| GET | `/api/v1/commerce/logistics/tracking/{id}` | Get real-time shipment tracking with geofence data |
+| GET | `/api/v1/commerce/logistics/condition/{shipmentId}` | Get shipment condition monitoring data |
+| GET | `/api/v1/commerce/logistics/eta/{shipmentId}` | Get predictive ETA for shipment |
+| POST | `/api/v1/commerce/logistics/geofences` | Create geofence for logistics monitoring |
+| GET | `/api/v1/commerce/logistics/exceptions` | List logistics exceptions (delays, deviations) |
 
 ### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |
@@ -615,6 +647,24 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/finance/revenue/contracts/{id}/recognize` | Recognize revenue for period |
 | GET | `/api/v1/finance/revenue/waterfall` | Get revenue waterfall report |
 | GET | `/api/v1/finance/revenue/disclosures` | Get revenue disclosure data |
+| POST | `/api/v1/finance/sourcing/events` | Create sourcing event (RFI/RFP/RFQ) |
+| GET | `/api/v1/finance/sourcing/events` | List sourcing events |
+| GET | `/api/v1/finance/sourcing/events/{id}/bids` | List bids for sourcing event |
+| POST | `/api/v1/finance/sourcing/events/{id}/award` | Award sourcing event |
+| GET | `/api/v1/finance/supplier-risk/scores` | List supplier risk scores |
+| GET | `/api/v1/finance/supplier-risk/scores/{supplierId}` | Get supplier risk detail |
+| GET | `/api/v1/finance/supplier-risk/alerts` | List supplier risk alerts |
+| POST | `/api/v1/finance/supplier-risk/mitigation-plans` | Create risk mitigation plan |
+| GET | `/api/v1/finance/reconciliation/matches` | List reconciliation matches |
+| POST | `/api/v1/finance/reconciliation/auto-match` | Run auto-matching for account |
+| POST | `/api/v1/finance/reconciliation/exceptions` | Create reconciliation exception |
+| GET | `/api/v1/finance/close/tasks` | List financial close tasks |
+| POST | `/api/v1/finance/close/tasks` | Create close task |
+| POST | `/api/v1/finance/close/tasks/{id}/complete` | Mark close task complete |
+| GET | `/api/v1/finance/profitability/customer` | Get customer profitability analysis |
+| GET | `/api/v1/finance/profitability/product` | Get product profitability analysis |
+| GET | `/api/v1/finance/profitability/cost-to-serve/{customerId}` | Get cost-to-serve analysis |
+| POST | `/api/v1/finance/profitability/what-if` | Run profitability what-if scenario |
 
 ### HR Service
 | Method | Endpoint | Description |
@@ -681,6 +731,14 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/manufacturing/planning/mrp/run` | Run MRP |
 | POST | `/api/v1/manufacturing/planning/simulate` | Run ASCP simulation |
 | GET | `/api/v1/manufacturing/sustainability/emissions` | Get production emissions data |
+| GET | `/api/v1/manufacturing/iot/devices` | List IoT devices |
+| POST | `/api/v1/manufacturing/iot/devices` | Register IoT device |
+| GET | `/api/v1/manufacturing/iot/devices/{id}/telemetry` | Get device telemetry |
+| POST | `/api/v1/manufacturing/iot/alerts` | Create IoT alert rule |
+| GET | `/api/v1/manufacturing/digital-twins` | List digital twins |
+| GET | `/api/v1/manufacturing/digital-twins/{assetId}` | Get asset digital twin state |
+| POST | `/api/v1/manufacturing/digital-twins/{assetId}/simulate` | Run digital twin simulation |
+| GET | `/api/v1/manufacturing/digital-twins/{assetId}/predictions` | Get predictive maintenance predictions |
 
 ### CRM / Marketing Service
 | Method | Endpoint | Description |
@@ -715,6 +773,13 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | PUT | `/api/v1/crm/territories/{id}/assign` | Assign accounts to territory |
 | GET | `/api/v1/crm/quotas` | List sales quotas |
 | POST | `/api/v1/crm/quotas` | Allocate quotas |
+| GET | `/api/v1/crm/cdp/profiles` | List unified customer profiles (CDP) |
+| GET | `/api/v1/crm/cdp/profiles/{id}` | Get unified customer profile |
+| POST | `/api/v1/crm/cdp/segments` | Create customer segment |
+| GET | `/api/v1/crm/cdp/segments` | List customer segments |
+| POST | `/api/v1/crm/cdp/journeys` | Create customer journey |
+| GET | `/api/v1/crm/cdp/journeys/{id}/analytics` | Get journey analytics |
+| GET | `/api/v1/crm/cdp/identity-resolution/{id}` | Get identity resolution graph |
 
 ### Project Management Service
 | Method | Endpoint | Description |
@@ -790,6 +855,26 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/platform/signatures/request` | Request digital signature |
 | GET | `/api/v1/platform/signatures/{id}` | Get signature status |
 | POST | `/api/v1/platform/signatures/{id}/sign` | Sign document |
+| GET | `/api/v1/platform/rpa/bots` | List RPA bots |
+| POST | `/api/v1/platform/rpa/bots` | Create RPA bot |
+| GET | `/api/v1/platform/rpa/bots/{id}` | Get bot definition |
+| POST | `/api/v1/platform/rpa/bots/{id}/execute` | Execute RPA bot |
+| GET | `/api/v1/platform/rpa/bots/{id}/executions` | Get bot execution history |
+| GET | `/api/v1/platform/collaboration/channels` | List collaboration channels |
+| POST | `/api/v1/platform/collaboration/channels` | Create channel |
+| POST | `/api/v1/platform/collaboration/channels/{id}/messages` | Send message |
+| GET | `/api/v1/platform/collaboration/channels/{id}/messages` | List channel messages |
+| GET | `/api/v1/platform/collaboration/tasks` | List collaboration tasks |
+| POST | `/api/v1/platform/collaboration/tasks` | Create collaboration task |
+| GET | `/api/v1/platform/iot/devices` | List IoT devices (device registry) |
+| POST | `/api/v1/platform/iot/devices` | Register IoT device |
+| GET | `/api/v1/platform/iot/devices/{id}` | Get device details |
+| POST | `/api/v1/platform/iot/devices/{id}/certificates` | Issue device certificate |
+| GET | `/api/v1/platform/self-service/portal` | Get employee self-service portal data |
+| GET | `/api/v1/platform/self-service/payslips` | List payslips (self-service) |
+| POST | `/api/v1/platform/self-service/time-off` | Submit time-off request |
+| GET | `/api/v1/platform/self-service/benefits` | List available benefits |
+| POST | `/api/v1/platform/self-service/expenses` | Submit expense (self-service) |
 
 ### Workflow Service
 | Method | Endpoint | Description |
@@ -833,6 +918,19 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/report/ml/models/{id}/predict` | Run ML prediction |
 | GET | `/api/v1/report/data-lake/datasets` | List data lake datasets |
 | POST | `/api/v1/report/data-lake/query` | Query data lake (schema-on-read) |
+| GET | `/api/v1/report/process-mining/processes` | List discovered processes |
+| GET | `/api/v1/report/process-mining/processes/{id}/conformance` | Get conformance checking results |
+| GET | `/api/v1/report/process-mining/bottlenecks` | Get bottleneck analysis |
+| POST | `/api/v1/report/process-mining/simulate` | Run process simulation |
+| GET | `/api/v1/report/cpm/strategy-map` | Get strategy map |
+| GET | `/api/v1/report/cpm/okrs` | List objectives and key results |
+| POST | `/api/v1/report/cpm/okrs` | Create OKR |
+| GET | `/api/v1/report/cpm/scorecard` | Get balanced scorecard |
+| GET | `/api/v1/report/cpm/initiatives` | List strategic initiatives |
+| POST | `/api/v1/report/cpm/initiatives` | Create strategic initiative |
+| GET | `/api/v1/report/narrative/packages` | List report packages |
+| POST | `/api/v1/report/narrative/packages` | Create report package |
+| POST | `/api/v1/report/narrative/commentary` | Add commentary to report section |
 
 ### Integration Service
 | Method | Endpoint | Description |

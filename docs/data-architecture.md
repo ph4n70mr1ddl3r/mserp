@@ -187,10 +187,6 @@ CREATE UNIQUE INDEX idx_users_email_active
 | Scheduled job execution history | 90 days | Automated nightly purge |
 | Knowledge article versions | Follows article lifecycle | Cascade with article deletion |
 | Survey responses | Indefinite (while survey active) | Archive after survey deactivation |
-| Subscription data | Soft-deleted after app lifecycle, 90 days | Cascade with application lifecycle |
-| Custom application data (low-code builder) | Cascade with application lifecycle | Cascade with application lifecycle |
-| Subscription billing schedules | Roll forward after 365 days of inactive subscriptions | Manual cascade with app lifecycle end |
-| ESG / emissions data | Indefinite (regulatory requirement) | Never (regulatory requirement) |
 | Data Lake (curated zone) | Schema-on-read for exploratory analytics | Unlimited raw zone storage per tenant |
 
 ## 6. Audit Trail (Event Log)
@@ -288,21 +284,21 @@ Reference data is seeded during initial deployment and managed via migrations.
 | Exchange Rates | ECB API (automated) + manual override | Daily |
 | Industry Classifications (NAICS/SIC) | Static seed | On deploy |
 | Emission Factors | EPA / DEFRA / configurable source | Annually |
-| ESG Reporting Frameworks | Static seed (GRI, SASB, TCFD) | On deploy |
+| ESG Reporting Frameworks | Static seed (GRI, SASB, TCFD, EU Taxonomy) | On deploy |
 | Carrier Service Levels | Static seed + tenant-customizable | On deploy + API |
 | Payroll Tax Jurisdictions | Per-country seed + configurable | On deploy + API |
 | Trade Compliance Denied Party Lists | Government list feeds (OFAC, EU, UN) | Daily (automated) |
 | Export Control Classifications (ECCN) | Static seed + tenant-configurable | On deploy + API |
 | Subscription Billing Cycles | Tenant-configurable | Via API |
-| Revenue Recognition Rules (ASC 606) | Static seed (standard recognition methods) | On deploy |
+| Revenue Recognition Methods (ASC 606 / IFRS 15) | Static seed (standard recognition methods) | On deploy |
 | Knowledge Base Categories | Tenant-configurable | Via API |
 | Sales Territory Geographies | Static seed (ISO country/region) | On deploy |
-| Export Control Classification (ECCN) | Static seed + tenant-customizable | On deploy + API |
-| IFRS 15 standard methods (ASC 606/IFRS 15) | Per-country seed + configurable | On deploy + API |
-| Trade Compliance Screening lists (OFAC, EU, UN) | Static seed + tenant-customizable | On deploy + API |
-| Subscription billing cycles (standard definitions) | Static seed + tenant-customizable | On deploy + API |
-| XBRL taxonomy mappings | Static seed + tenant-customizable | On deploy + API |
-| Knowledge base category seed data | Static seed + tenant-customizable | On deploy + API |
+| XBRL Taxonomy Mappings | Static seed + tenant-customizable | On deploy + API |
+| IoT Device Types | Static seed + tenant-customizable | On deploy + API |
+| Process Mining Activity Classifications | Static seed + tenant-customizable | On deploy + API |
+| RPA Bot Templates | Static seed + tenant-customizable | On deploy + API |
+| Customer Segments (CDP) | Tenant-configurable | Via API |
+| Supplier Risk Indicators | Static seed + tenant-customizable | On deploy + API |
 
 ### 8.2 Seeding Process
 
@@ -393,51 +389,33 @@ CREATE TABLE mdm_golden_records (
 CREATE INDEX idx_mdm_golden_entity ON mdm_golden_records (tenant_id, entity_type);
 ```
 
-> **Note:** Revenue Recognition obligations are linked to subscription billing schedules and Revenue recognition events (e.g., `finance.revenue.recognized`) for updated revenue waterfall and recognized report.
+> **Note:** Revenue Recognition obligations are linked to subscription billing schedules. Revenue recognition events (e.g., `finance.revenue.recognized`) update the revenue waterfall and disclosure reports.
 
-### Revenue Recognition Schedule
+### Revenue Recognition Data Model
 
-| Field / Event | Source / Description |
-|--------------|---------------------|
-| Revenue Recognition Schedule (`finance.revenue_schedule`) | Subscription data (Commerce) |
-| Revenue Recognition status tracking | Active / expired, linked to Revenue recognized events |
-| Data mask (Subscription ID) | Notify Finance for revenue recognition |
-| `finance.revenue.obligation.identified` | Performance obligation identified for subscription billing — Report service |
-| Revenue Recognition | Not restricted to Finance Service; notify Finance for revenue recognition (no recognition needed) |
-| `finance.revenue.allocateFailed` | Revenue allocation does not allocate the transaction price to standalone selling prices (SP) — Revenue updated to services with correct revenue amount |
-| `finance.revenue.deferred` | Revenue deferred for a subscription |
+| Table / Field | Description |
+|--------------|-------------|
+| `revenue_contracts` | Customer contracts identified for revenue recognition, sourced from sales orders, subscriptions, and project billing |
+| `performance_obligations` | Distinct performance obligations per contract, with standalone selling price allocation |
+| `revenue_schedules` | Recognition schedule entries: period, amount, status (pending/recognized/deferred) |
+| `contract_modifications` | Contract changes with prospective or retrospective adjustment method |
+| `revenue_waterfall` | Aggregate view: bookings → deferred → recognized revenue with rollforward |
 
-- **Report Service:** Display deferred revenue by period, subscription, and report service.
-- **ESG Report Service:** Link to subscription billing to report future offsets and refunds from recognizing as deferred revenue, eliminating phantom revenue from inaccurate billing.
-- **Subscription Management:** Auto-credit and dunning management with configurable rules.
+### Revenue Recognition Event Flow
 
-### Event Reference
+| Event | Source | Consumer |
+|-------|--------|----------|
+| `commerce.subscription.created` | Commerce | Finance (create revenue contract) |
+| `commerce.subscription.amended` | Commerce | Finance (adjust revenue schedule) |
+| `commerce.subscription.billing.completed` | Commerce | Finance (recognize revenue for period) |
+| `finance.revenue.contract.approved` | Finance | Report (update revenue waterfall) |
+| `finance.revenue.recognized` | Finance | Report (update recognized revenue) |
+| `finance.revenue.deferred` | Finance | Report (update deferred revenue) |
+| `finance.revenue.adjusted` | Finance | Report (update schedule adjustments) |
 
-| Event | Description |
-|-------|-------------|
-| `subscription.billing.failed` | Manual retry or subscription cancellation workflow |
-| `subscription.billing.completed` | Subscription billing cycle completed (Revenue recognition triggered) |
-| `commerce.subscription.created` | Subscription created |
-| `commerce.subscription.amended` | Subscription amended |
-| `commerce.subscription.cancelled` | Subscription cancelled |
-| `commerce.subscription.billing.completed` | Subscription billing cycle completed |
-| `commerce.dropship.order.created` | Drop ship order created / dispatched to supplier |
-| `commerce.dropship.order.delivered` | Drop ship order delivered |
-| `finance.revenue.contract.approved` | Revenue contract approved in Finance — contract revenue recognition schedule updated |
-| `crm.territory.updated` | Territory assignment changed (linked to pipeline routing) |
-| `platform.scheduler.job.started` | Scheduled job started |
-| `platform.scheduler.job.completed` | Scheduled job completed |
-| `platform.scheduler.job.failed` | Scheduled job failed |
-| `platform.knowledge.article.created` | Knowledge base article created |
-| `platform.knowledge.article.published` | Knowledge base article published |
-| `platform.knowledge.article.updated` | Knowledge base article updated |
-| `platform.signature.requested` | Digital signature workflow started |
-| `platform.signature.completed` | Digital signature completed |
-| `integration.trade-compliance.screening.completed` | Trade compliance screening completed |
-| `integration.trade-compliance.screening.flagged` | Trade compliance screening flagged a match |
-| `integration.trade-compliance.license.expiring` | Export license approaching expiration |
-
-> **Note:** Integration sync updates EDM reference data categories: Export classifications, subscription billing cycles, and subscription billing models. Subscription management integrates with the configuration model and CRM pipeline. All event data feeds into the Data Lake for analytics.
+- **Finance Service:** Manages revenue contracts, performance obligations, recognition schedules, and disclosure data.
+- **Commerce Service:** Notifies Finance of subscription lifecycle events that trigger revenue recognition.
+- **Report Service:** Displays deferred revenue by period and subscription; provides revenue waterfall and disclosure reports.
 
 ### 11.2 Data Quality Rules
 
@@ -456,6 +434,70 @@ CREATE TABLE mdm_quality_rules (
 ```
 
 Rule types: `completeness`, `uniqueness`, `format`, `range`, `referential`, `custom`.
+
+### 11.3 Customer Data Platform (CDP) Schema
+
+```sql
+CREATE TABLE cdp_unified_profiles (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    customer_id     UUID,
+    email           VARCHAR(255),
+    phone           VARCHAR(50),
+    full_name       VARCHAR(255),
+    segments        JSONB DEFAULT '[]',
+    attributes      JSONB DEFAULT '{}',
+    identity_graph  JSONB DEFAULT '{}',
+    first_seen_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    last_seen_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    engagement_score DECIMAL(5,2),
+    lifetime_value  DECIMAL(19,4),
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_cdp_profiles_tenant ON cdp_unified_profiles (tenant_id);
+CREATE INDEX idx_cdp_profiles_email ON cdp_unified_profiles (tenant_id, email);
+```
+
+### 11.4 IoT Telemetry Schema
+
+```sql
+CREATE TABLE iot_device_telemetry (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    device_id       UUID NOT NULL,
+    telemetry_type  VARCHAR(50) NOT NULL,
+    payload         JSONB NOT NULL,
+    ingested_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+) PARTITION BY RANGE (ingested_at);
+```
+
+- Telemetry data is partitioned monthly and archived to the data lake after 90 days.
+- IoT device registry is stored in `platform_db`.
+
+### 11.5 Process Mining Schema
+
+```sql
+CREATE TABLE process_mining_activity_log (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    process_type    VARCHAR(100) NOT NULL,
+    activity_name   VARCHAR(200) NOT NULL,
+    resource_id     UUID,
+    case_id         UUID NOT NULL,
+    started_at      TIMESTAMPTZ NOT NULL,
+    completed_at    TIMESTAMPTZ,
+    attributes      JSONB DEFAULT '{}',
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_pm_activity_case ON process_mining_activity_log (tenant_id, case_id);
+CREATE INDEX idx_pm_activity_process ON process_mining_activity_log (tenant_id, process_type);
+```
+
+- Process mining data is derived from existing audit events and domain events.
+- Activities are correlated by `case_id` (mapped from `aggregate_id` in the event store).
 
 ## 12. Data Masking Strategy
 
