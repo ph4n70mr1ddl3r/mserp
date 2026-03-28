@@ -42,7 +42,7 @@
 │  │  Commerce   │ │  Finance    │ │     HR      │ │Manufacturing│            │
 │  │ (Sales +    │ │ (Finance +  │ │  Service    │ │  Service    │            │
 │  │  Inventory) │ │ Procurement)│ │  (:8012)    │ │  (:8013)    │            │
-│  │  (:8010)    │ │  (:8011)    │ │             │ │             │            │
+│  │  (:8010)    │ │  (:8011)    │  │             │ │             │            │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘            │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
 │  │   Report    │ │  Workflow   │ │   CRM /     │ │  Project    │            │
@@ -115,21 +115,21 @@ Port ranges are reserved by category: **8001-8009** (core), **8010-8019** (busin
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation |
-| Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses |
+| Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship |
+| Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition (ASC 606/IFRS 15) |
 | HR | 8012 | Human resources, payroll, workforce management, recruitment, performance, talent review, succession, multi-country payroll |
 | Manufacturing | 8013 | Production, manufacturing operations, cost accounting, quality management, PLM, EAM |
-| Report | 8014 | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, embedded ML |
+| Report | 8014 | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, embedded ML, narrative reporting |
 | Workflow | 8015 | Business process automation, approvals, BPMN engine, SLA management |
-| CRM / Marketing | 8016 | Customer relationship management, leads, campaigns, marketing automation |
+| CRM / Marketing | 8016 | Customer relationship management, leads, campaigns, marketing automation, field service management, surveys & feedback, sales territory & quota planning |
 | Project Management | 8017 | Project planning, resource allocation, time & expense, project billing, EVM |
 
 ### 3.3 Supporting Services
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Platform (Notif + File + Audit) | 8020 | Notifications, file storage, document management, audit logging, digital assistant, app builder, GRC |
-| Integration | 8021 | External integrations, API management, connector framework, EDI, MDM, data governance |
+| Platform (Notif + File + Audit) | 8020 | Notifications, file storage, document management, audit logging, digital assistant, app builder, GRC, enterprise job scheduler, knowledge management, digital signatures |
+| Integration | 8021 | External integrations, API management, connector framework, EDI, MDM, data governance, trade compliance |
 
 ## 4. Service Consolidation Rationale
 
@@ -256,7 +256,94 @@ Environmental, Social, and Governance tracking integrated into business operatio
 | Regulatory reporting | Frameworks: GRI, SASB, TCFD, EU Taxonomy |
 | Carbon offsets | Offset tracking, retirement, and verification |
 
+### 6.8 Enterprise Job Scheduler
+
+Centralized scheduling and execution of background jobs across all services, managed by the Platform Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Job Types | Scheduled reports, data import/export, batch processing, ETL jobs, payroll runs, maintenance scheduling |
+| Scheduling | Cron expressions, one-time, recurring, event-triggered |
+| Job Dependencies | DAG-based dependency graph with parallel execution support |
+| Retry Policy | Configurable retry count, exponential backoff, dead letter for permanently failed jobs |
+| Monitoring | Job execution history, duration tracking, failure alerting |
+| Concurrency | Per-tenant job concurrency limits to prevent resource exhaustion |
+
+### 6.9 Trade Compliance
+
+Automated trade compliance screening and documentation managed by the Integration Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Restricted Party Screening | Automated screening against government denied party lists (OFAC, EU, UN) |
+| Export Controls | License determination, exception management, dual-use goods classification |
+| Customs Documentation | Automated generation of commercial invoices, packing lists, certificates of origin |
+| Compliance Screening | Real-time screening on order creation, supplier onboarding, shipment dispatch |
+| Audit Trail | Complete compliance decision log for regulatory audits |
+
+### 6.10 Revenue Recognition
+
+Automated revenue recognition compliant with ASC 606 and IFRS 15, managed by the Finance Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Standard | ASC 606 (US GAAP) and IFRS 15 compliance |
+| Performance Obligations | Automated identification and allocation of performance obligations |
+| Revenue Scheduling | Revenue recognition schedules based on satisfaction methods (point-in-time, over-time) |
+| Contract Modifications | Handling of contract changes with prospective/retrospective adjustment |
+| Allocation | Standalone selling price allocation across multiple performance obligations |
+| Variable Consideration | Estimation and constraint of variable consideration (discounts, rebates, contingencies) |
+
+### 6.11 Knowledge Management
+
+Knowledge base authoring and delivery managed by the Platform Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Article Authoring | Rich text editor with version control and approval workflow |
+| Categorization | Hierarchical categories with tagging and full-text search |
+| Access Control | Role-based access to articles, internal vs. external knowledge bases |
+| Integration | Context-sensitive knowledge suggestions in CRM cases and support workflows |
+| Analytics | Article view counts, helpfulness ratings, search effectiveness |
+
+### 6.12 Field Service Management
+
+End-to-end field service operations managed by the CRM / Marketing Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Service Orders | Creation from CRM cases, warranty claims, maintenance contracts |
+| Technician Scheduling | Skills-based assignment, geographic optimization, calendar integration |
+| Parts Logistics | Spare parts reservation from inventory, van stock management |
+| SLA Tracking | Response time and resolution time monitoring with escalation |
+| Mobile Access | Field technician mobile app with offline capability |
+
+### 6.13 Subscription Management
+
+Full subscription lifecycle management integrated with Commerce and Finance Services.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Subscription Lifecycle | Create, amend, renew, cancel, suspend subscriptions |
+| Billing Models | Recurring, usage-based, tiered, hybrid pricing |
+| Billing Schedules | Automated invoice generation on billing cycle dates |
+| Amendments | Mid-cycle changes with proration calculations |
+| Revenue Recognition | Integration with Finance Service revenue recognition (ASC 606) |
+| Churn Management | Automated renewal reminders, cancellation workflows, retention analytics |
+
+### 6.14 Product Configurator
+
+Constraint-based product configuration managed by the Commerce Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Configuration Rules | Constraint-based rules (compatibility, incompatibility, recommendations) |
+| Pricing Integration | Dynamic pricing based on selected configuration options |
+| BOM Generation | Automatic BOM creation from configured product |
+| Validation | Real-time validation of configuration completeness and feasibility |
+| Guided Selling | Step-by-step configuration wizard for sales users |
+
 ---
 
 *See [Services](services.md) for detailed per-service specifications.*
-*See [Events](events.md) for event schemas and cross-domain communication.*
+*See [Events](events.md) for event schemas and cross-domain communication.

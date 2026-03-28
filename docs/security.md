@@ -42,10 +42,10 @@
 |-------|----------|
 | Network | mTLS, Network policies, DDoS protection, IP allowlisting per tenant, egress filtering |
 | Transport | TLS 1.3, Certificate pinning, HSTS headers |
-| Application | Input validation, SQL injection prevention (parameterized queries), XSS protection (output encoding), CSRF tokens for browser clients |
+| Application | Input validation, SQL injection prevention (parameterized queries), XSS protection (output encoding), CSRF tokens for browser clients, Trade Compliance — screening at network entry, DDoS protection, IP allowlisting for trade compliance systems |
 | Authentication | JWT with short expiry, Refresh tokens with rotation, MFA (TOTP, SMS, biometric), SSO (SAML 2.0 bridge), brute-force lockout, step-up authentication |
 | Authorization | RBAC + ABAC with granular permissions, Row-level security (tenant + org scope), Segregation of Duties |
-| Data | Encryption at rest (AES-256), PII masking in logs/responses, Audit logging, Data classification labels, Data masking for non-production |
+| Data | Encryption at rest (AES-256), PII masking in logs/responses, Audit logging, Data classification labels, Data masking for non-production, Trade compliance data residency controls, denied party list data protection |
 | GRC | Compliance policy enforcement, risk register, control assessments, incident management, SoD conflict detection |
 
 ## 3. JWT Token Specification
@@ -241,6 +241,10 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | ESG Analyst | Sustainability reporting | `report.esg.*`, `report.carbon.*` |
 | GRC Officer | Governance, risk, compliance | `platform.grc.*`, `platform.audit.read` |
 | App Builder | Low-code application development | `platform.app-builder.*` |
+| Subscription Manager | Subscription lifecycle management | `commerce.subscription.*`, `commerce.order.read`, `finance.invoice.read` |
+| Field Service Manager | Field service operations | `crm.service-order.*`, `crm.case.read`, `commerce.stock.read` |
+| Trade Compliance Officer | Trade compliance screening | `integration.trade-compliance.*`, `integration.screening.*` |
+| Knowledge Manager | Knowledge base management | `platform.knowledge.*` |
 
 ## 8. Data Protection
 
@@ -312,6 +316,18 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | ISO 27001 | Information security management system, risk assessment, controls |
 | ESG Regulations | Emissions reporting accuracy, audit trail for sustainability data |
 
+### 9.4 Trade Compliance
+
+| Aspect | Implementation |
+|--------|---------------|
+| Denied Party Screening | Automated screening against OFAC SDN, EU Consolidated List, UN Security Council, and other government denied party lists |
+| Export Control Classification | Product classification per ECCN (US), EU Dual-Use, and other jurisdictional regimes |
+| License Management | Export license tracking with expiration alerts, usage monitoring, and exception management |
+| Customs Compliance | Automated generation of customs declarations, commercial invoices, packing lists, certificates of origin |
+| Screening Triggers | Real-time screening on: customer creation, order submission, supplier onboarding, shipment dispatch |
+| Sanctions Screening | Continuous re-screening of existing customer/supplier base against updated lists |
+| Audit Trail | Complete log of all screening decisions, matches, overrides, and false positive dispositions |
+
 ## 10. Threat Model
 
 | Threat Category | Mitigation |
@@ -328,6 +344,16 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Privilege escalation | Step-up authentication, SoD conflict detection, least-privilege defaults |
 | API abuse | Rate limiting per tenant/user/endpoint, API key rotation, request validation |
 | Model poisoning | ML model integrity verification, signed models, input sanitization for AI endpoints |
+| Trade compliance violation | Automated denied party screening on all transactions, real-time list updates, override audit trail |
+| Data residency violation | Connection routing enforcement, RLS policies, cross-border transfer audit logging |
+| AI/ML model bias | Bias testing in model training, fairness metrics, regular audit, diverse training data |
+| Subscription fraud | Usage anomaly detection, automated billing reconciliation, credit card verification |
+| Trade Compliance | Export control evasion — without proper license, trade compliance data residency violation |
+| Trade compliance fraud | Fraud detection in trade compliance screening results |
+| AI/ML model fairness | Fairness violation monitoring in AI/ML outputs, privacy regulations compliance |
+| Supply chain (ML models) | 3rd-party dependency audit for trade compliance lists (Trivy, cargo audit) |
+| Trade compliance | Cross-border export control enforcement, customs documentation inaccuracy |
+| Screening evasion | Persistent monitoring and logging of screening attempts and alerting |
 
 ## 11. Security Incident Response
 
@@ -339,6 +365,8 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Eradication | Remove threat, patch vulnerability, rotate all affected secrets | < 4 hours |
 | Recovery | Restore from backup if needed, verify system integrity, resume operations | < 8 hours |
 | Post-mortem | Root cause analysis, lessons learned, preventive measures, documentation | < 48 hours |
+| Trade compliance violation | Triage → Containment → Review logs for denied party list match; Eradication → Patch vulnerability → Update denied party lists | < 4 hours |
+| Trade compliance | Triage → Review logs, check screening history, notify affected parties | < 24 hours |
 
 ## 12. Privacy Impact Assessment (PIA)
 
@@ -348,6 +376,9 @@ A PIA MUST be conducted before:
 - Deploying new AI/ML models that process personal data
 - Expanding data collection to new categories of personal data
 - Entering new jurisdictions with different privacy requirements
+- Implementing trade compliance screening that processes customer/supplier entity data against government watchlists
+- Deploying new trade compliance screening capabilities that involve denied party lists
+- Processing cross-border shipments with trade compliance screening results (which may affect data residency)
 
 PIA outcomes are recorded in the GRC module and linked to the data catalog.
 

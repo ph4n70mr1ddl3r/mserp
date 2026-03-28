@@ -4,7 +4,7 @@
 
 MSERP is an enterprise-grade, microservices-based ERP system built in Rust, designed for scalability, reliability, and performance. Inspired by Oracle Fusion Cloud's comprehensive ERP offering, MSERP delivers a unified platform spanning Financial Management, Supply Chain Management, Human Capital Management, Customer Experience, Project Management, Manufacturing, Enterprise Performance Management, and Governance, Risk & Compliance — all built on a modern, cloud-native microservices architecture.
 
-The system consists of 14 services (4 core, 8 business, 2 supporting), supports multi-tenancy with logical isolation, multi-region active-passive deployment, and handles 10,000+ requests/second at peak throughput (approximately 1,000+ concurrent active users). MSERP incorporates advanced enterprise capabilities including dynamic pricing engines, supply chain planning, project portfolio management, AI-driven analytics, multi-currency accounting with real-time exchange rates, a comprehensive workflow/BPM engine, product lifecycle management, ESG/sustainability reporting, digital assistant, enterprise asset management, and low-code application builder.
+The system consists of 14 services (4 core, 8 business, 2 supporting), supports multi-tenancy with logical isolation, multi-region active-passive deployment, and handles 10,000+ requests/second at peak throughput (approximately 1,000+ concurrent active users). MSERP incorporates advanced enterprise capabilities including dynamic pricing engines, supply chain planning, project portfolio management, AI-driven analytics, multi-currency accounting with real-time exchange rates, a comprehensive workflow/BPM engine, product lifecycle management, ESG/sustainability reporting, digital assistant, enterprise asset management, and low-code application builder. Additionally, MSERP provides Available-to-Promise (ATP) / Capable-to-Promise (CTP) for real-time order promising, a Product Configurator for rules-based configurable products, Revenue Recognition (ASC 606 / IFRS 15) compliance, Credit Management with automated scoring and holds, an Enterprise Job Scheduler for batch processing and scheduled tasks, Field Service Management for technician scheduling and SLA tracking, Trade Compliance with export controls and restricted party screening, Subscription Management for recurring billing and lifecycle management, Knowledge Management with article authoring and versioning, Survey & Feedback Management for NPS/CSAT collection, Narrative Reporting for management commentary and collaborative annotations, Sales Territory & Quota Planning with what-if modeling, and Intercompany Drop Ship for cross-entity fulfillment.
 
 ### Key Differentiators
 
@@ -23,6 +23,19 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | Enterprise Performance Management | Planning, budgeting, forecasting, what-if scenario modeling |
 | Low-code Platform | Visual application builder, drag-and-drop page designer, custom business objects |
 | Master Data Management | Cross-domain data governance, deduplication, golden record management, quality rules |
+| Available-to-Promise (ATP) / Capable-to-Promise (CTP) | Real-time order promising based on inventory, production capacity, and supply chain constraints |
+| Product Configurator | Rules-based product configuration with pricing integration and validation |
+| Revenue Recognition (ASC 606 / IFRS 15) | Automated revenue allocation, performance obligation tracking, contract modification handling |
+| Credit Management | Credit scoring, automated credit checks, credit hold/release workflows |
+| Enterprise Job Scheduler | Batch processing, scheduled tasks, job dependencies, retry policies |
+| Field Service Management | Service orders, technician scheduling, parts logistics, SLA tracking |
+| Trade Compliance | Export controls, restricted party screening, license management, customs documentation |
+| Subscription Management | Recurring billing, subscription lifecycle management, renewal automation |
+| Knowledge Management | Knowledge base, article authoring, search, categorization, versioning |
+| Survey & Feedback Management | Survey creation, NPS/CSAT collection, response analytics |
+| Narrative Reporting | Management reporting with commentary, collaborative annotations |
+| Sales Territory & Quota Planning | Territory management, quota allocation, what-if modeling |
+| Intercompany Drop Ship | Cross-entity drop ship fulfillment with automated intercompany settlement |
 
 ---
 
@@ -64,6 +77,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | ML/AI Runtime | ONNX Runtime + candle | Latest |
 | Vector Search | qdrant (optional) | Latest |
 | Mobile | React Native | Latest |
+| Scheduling | Enterprise Job Scheduler (built-in) | Built-in |
 
 ---
 
@@ -82,6 +96,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Contract Lifecycle Management | Contracts | Specified |
 | | Enterprise Performance Management (EPM) | Planning & Budgeting | Specified |
 | | Period Management with Soft/Hard Close | Financial Controls | Specified |
+| | Revenue Recognition (ASC 606 / IFRS 15) (automated revenue allocation, performance obligation tracking, contract modification handling) | Revenue Management | Specified |
 | **Supply Chain** | | | |
 | | Inventory Management, Warehousing | Inventory Management | Specified |
 | | Procurement & Supplier Management | Procurement | Specified |
@@ -91,10 +106,16 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Transportation & Fleet Management | Transportation Management | Specified |
 | | Product Information Management (PIM / Product Hub) | Product Hub | Specified |
 | | Advanced Supply Chain Planning (ASCP) | Supply Chain Planning | Specified |
+| | Available-to-Promise (ATP) / Capable-to-Promise (CTP) | Order Management | Specified |
+| | Advanced Inventory Optimization (safety stock optimization, demand-driven replenishment) | Inventory Optimization | Specified |
+| | Intercompany Drop Ship | Order Management | Specified |
 | **Order Management** | | | |
 | | Sales Orders, Quotations, Commissions | Order Management | Specified |
 | | Customer Management & CRM | CX Sales | Specified |
 | | Returns & Credit Memos | Order Management | Specified |
+| | Credit Management (credit scoring, automated credit checks, credit hold/release) | Order Management | Specified |
+| | Subscription Management (recurring billing, subscription lifecycle) | Subscription Management | Specified |
+| | Product Configurator (configurable products, rules-based configuration, pricing integration) | Configurator | Specified |
 | **Manufacturing** | | | |
 | | BOM, Work Orders, Routing | Manufacturing | Specified |
 | | Production Planning, Quality Control | Manufacturing | Specified |
@@ -103,6 +124,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Enterprise Asset Management (EAM) | Enterprise Asset Management | Specified |
 | | Advanced Quality Management (AQM) | Quality | Specified |
 | | Shop Floor Control with RFID/Barcode | Manufacturing | Specified |
+| | Digital Twin Integration (asset digital twins, predictive maintenance, real-time monitoring) | Manufacturing | Specified |
 | **HCM** | | | |
 | | Employee Lifecycle Management | HCM Core | Specified |
 | | Payroll & Compensation | Payroll | Specified |
@@ -114,6 +136,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Talent Review & Succession Planning | Talent Review | Specified |
 | | Workforce Modeling & Planning | Workforce Modeling | Specified |
 | | Benefits Administration | Benefits | Specified |
+| | Employee Self-Service Portal (personal info, payslips, benefits enrollment, time-off requests) | HCM Core | Specified |
 | **Project Management** | | | |
 | | Project Planning & Gantt | Project Management | Specified |
 | | Resource Allocation | Resource Management | Specified |
@@ -129,6 +152,11 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Carbon Accounting | Sustainability | Specified |
 | | Embedded ML/AI Platform | AI Services | Specified |
 | | Predictive Planning & What-If Modeling | Planning | Specified |
+| | Narrative Reporting (management reporting with commentary, collaborative annotations) | Narrative Reporting | Specified |
+| **CRM / Customer Experience** | | | |
+| | Field Service Management (service orders, technician scheduling, parts logistics, SLA tracking) | Field Service | Specified |
+| | Survey & Feedback Management (survey creation, NPS/CSAT collection, response analytics) | CX Surveys | Specified |
+| | Sales Territory & Quota Planning (territory management, quota allocation, what-if modeling) | CX Sales | Specified |
 | **Platform** | | | |
 | | Workflow & BPM Engine | BPM / Workflow | Specified |
 | | Notification & Alerting | Notifications | Specified |
@@ -142,6 +170,10 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Master Data Management (MDM) | Enterprise Data Management | Specified |
 | | Data Governance Framework | Enterprise Data Management | Specified |
 | | AI/ML Model Training & Deployment | AI Services | Specified |
+| | Enterprise Job Scheduler (batch processing, scheduled tasks, job dependencies, retry policies) | Enterprise Scheduler | Specified |
+| | Knowledge Management (knowledge base, article authoring, search, categorization, versioning) | Knowledge Management | Specified |
+| | Trade Compliance (export controls, restricted party screening, license management, customs documentation) | Global Trade Management | Specified |
+| | Digital Signatures (native digital signature, signature workflows, audit trail) | Digital Signatures | Specified |
 | **Security & GRC** | | | |
 | | RBAC + ABAC Authorization | Authorization | Specified |
 | | SSO, MFA, OAuth2/OIDC | Security | Specified |
@@ -152,9 +184,10 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Advanced Threat Protection | Security | Specified |
 | | Segregation of Duties (SoD) | GRC | Specified |
 | | Privacy Impact Assessment | Privacy | Specified |
+| | Advanced Access Controls (AAC) (advanced SoD, access certification, privileged access management) | Advanced Access Controls | Specified |
 
 ---
 
-*Document Version: 4.0*
+*Document Version: 5.0*
 *Last Updated: 2026-03-28*
 *Authors: MSERP Team*

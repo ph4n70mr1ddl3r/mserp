@@ -56,8 +56,8 @@
 | Identity | 100m | 500m | 128Mi | 512Mi | 3 |
 | Tenant | 50m | 200m | 64Mi | 256Mi | 2 |
 | Config | 50m | 200m | 64Mi | 256Mi | 2 |
-| Commerce (Sales + Inventory) | 250m | 1000m | 256Mi | 1Gi | 5 |
-| Finance (Finance + Procurement) | 250m | 1000m | 256Mi | 1Gi | 5 |
+| Commerce (Sales + Inventory + PIM + Transportation + Subscriptions + Credit) | 250m | 1000m | 256Mi | 1Gi | 5 |
+| Finance (Finance + Procurement + Treasury + Expenses + CLM + EPM + Revenue Recognition) | 250m | 1000m | 256Mi | 1Gi | 5 |
 | HR | 100m | 500m | 128Mi | 512Mi | 3 |
 | Manufacturing | 100m | 500m | 128Mi | 512Mi | 3 |
 | Report | 500m | 2000m | 512Mi | 2Gi | 3 |
@@ -72,7 +72,139 @@
 - Memory: ~3.3 GiB requested, ~13.5 GiB limit
 - Pods: 44
 
-## 3. CI/CD Pipeline
+## 3. Network Policies
+
+All namespaces enforce network policies to restrict traffic flow:
+
+### 3.1 Default Deny All
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: mserp-services
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+```
+
+### 3.2 Allowed Traffic Matrix
+
+| From | To | Ports | Protocol |
+|------|----|-------|----------|
+| Ingress Controller | mserp-services (all) | 8080 | HTTP |
+| mserp-services (all) | mserp-infra (PostgreSQL) | 5432 | TCP |
+| mserp-services (all) | mserp-infra (Redis) | 6379 | TCP |
+| mserp-services (all) | mserp-infra (RabbitMQ) | 5672, 15672 | TCP |
+| mserp-services (all) | mserp-infra (Elasticsearch) | 9200 | HTTP |
+| mserp-services (all) | mserp-infra (MinIO) | 9000 | HTTP |
+| mserp-services (all) | mserp-system (Vault) | 8200 | TCP |
+| mserp-services (all) | External (via egress) | 443 | HTTPS |
+| mserp-system (Prometheus) | mserp-services (all) | 8080 | HTTP (/metrics) |
+
+### 3.3 DNS Egress
+
+All namespaces allow egress to CoreDNS on port 53 (UDP/TCP).
+
+## 4. Pod Disruption Budgets
+
+All critical services define PDBs to ensure availability during voluntary disruptions (node drains, upgrades):
+
+| Service | Min Available | Strategy |
+|---------|---------------|----------|
+| Auth | 2 | `minAvailable` |
+| Commerce | 3 | `minAvailable` |
+| Finance | 3 | `minAvailable` |
+| Report | 2 | `minAvailable` |
+| Platform | 2 | `minAvailable` |
+| PostgreSQL | 1 | `minAvailable` |
+| RabbitMQ | 1 | `minAvailable` |
+| Redis | 1 | `minAvailable` |
+
+```yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: commerce-pdb
+  namespace: mserp-services
+spec:
+  minAvailable: 3
+  selector:
+    matchLabels:
+      app: commerce-service
+```
+
+## 5. Topology Spread Constraints
+
+Services are spread across failure domains to maximize resilience:
+
+```yaml
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app: commerce-service
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        app: commerce-service
+```
+
+**Rules:**
+- Zone-level spreading uses `DoNotSchedule` (strict) for services with >= 3 replicas.
+- Node-level spreading uses `ScheduleAnyway` (soft) to avoid blocking scheduling.
+
+## 6. Resource Quotas
+
+### 6.1 Namespace Quotas
+
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: mserp-services-quota
+  namespace: mserp-services
+spec:
+  hard:
+    requests.cpu: "8"
+    requests.memory: 16Gi
+    limits.cpu: "24"
+    limits.memory: 32Gi
+    pods: "80"
+    persistentvolumeclaims: "20"
+    services: "20"
+```
+
+### 6.2 Limit Ranges
+
+```yaml
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mserp-services-limits
+  namespace: mserp-services
+spec:
+  limits:
+    - default:
+        cpu: "500m"
+        memory: "512Mi"
+      defaultRequest:
+        cpu: "100m"
+        memory: "128Mi"
+      max:
+        cpu: "4"
+        memory: "4Gi"
+      type: Container
+```
+
+## 7. CI/CD Pipeline
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -96,7 +228,7 @@
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.1 Pipeline Stages
+### 7.1 Pipeline Stages
 
 | Stage | Actions | Failure Policy |
 |-------|---------|---------------|
@@ -106,7 +238,24 @@
 | Deploy (Staging) | ArgoCD auto-sync to staging | Alert on failure |
 | Deploy (Production) | Manual approval + ArgoCD sync | Rollback on health check failure |
 
-### 3.2 Contract Testing
+### 7.2 Artifact Promotion
+
+```
+Build (PR) → ghcr.io/mserp/my-service:sha-abc123
+            → Trivy scan + SBOM generation
+            → Cosign sign
+
+Promote (Staging) → Retag: ghcr.io/mserp/my-service:staging
+                  → ArgoCD auto-deploy
+
+Promote (Production) → Retag: ghcr.io/mserp/my-service:v1.2.3
+                     → Manual approval gate
+                     → ArgoCD sync with manual trigger
+```
+
+**The same signed image artifact is promoted through environments — no rebuild between stages.**
+
+### 7.3 Contract Testing
 
 | Aspect | Details |
 |--------|---------|
@@ -116,7 +265,7 @@
 | Event Contracts | Event schemas are versioned; breaking changes bump `event_version` |
 | Enforcement | PR cannot merge if provider verification fails |
 
-### 3.3 Branch Strategy
+### 7.4 Branch Strategy
 
 | Branch | Purpose | Deploy Target |
 |--------|---------|--------------|
@@ -126,9 +275,9 @@
 | `hotfix/*` | Emergency fixes | Production (expedited) |
 | `release/*` | Release candidates | Staging + Production (manual) |
 
-## 4. Health Probes (Kubernetes Configuration)
+## 8. Health Probes (Kubernetes Configuration)
 
-### 4.1 Liveness Probe
+### 8.1 Liveness Probe
 
 ```yaml
 livenessProbe:
@@ -141,7 +290,7 @@ livenessProbe:
   failureThreshold: 3
 ```
 
-### 4.2 Readiness Probe
+### 8.2 Readiness Probe
 
 ```yaml
 readinessProbe:
@@ -154,7 +303,7 @@ readinessProbe:
   failureThreshold: 3
 ```
 
-### 4.3 Startup Probe (for services with slow initialization)
+### 8.3 Startup Probe (for services with slow initialization)
 
 ```yaml
 startupProbe:
@@ -167,9 +316,9 @@ startupProbe:
   failureThreshold: 30  # Up to 150 seconds to start
 ```
 
-## 5. Graceful Shutdown
+## 9. Graceful Shutdown
 
-### 5.1 Shutdown Sequence
+### 9.1 Shutdown Sequence
 
 All services MUST handle `SIGTERM` gracefully to ensure no in-flight requests or events are lost.
 
@@ -186,7 +335,7 @@ All services MUST handle `SIGTERM` gracefully to ensure no in-flight requests or
 10. Exit with code 0
 ```
 
-### 5.2 Configuration
+### 9.2 Configuration
 
 | Setting | Default | Description |
 |---------|---------|-------------|
@@ -195,7 +344,7 @@ All services MUST handle `SIGTERM` gracefully to ensure no in-flight requests or
 | `shutdown.outbox_flush_timeout` | 10s | Max time to flush pending outbox events |
 | `shutdown.total_timeout` | 60s | Hard deadline — process is killed after this |
 
-### 5.3 Kubernetes Integration
+### 9.3 Kubernetes Integration
 
 ```yaml
 spec:
@@ -208,7 +357,7 @@ spec:
             command: ["/bin/sh", "-c", "sleep 5"]  # Wait for pod removal from endpoints
 ```
 
-### 5.4 Implementation Requirements
+### 9.4 Implementation Requirements
 
 - Use `tokio::signal::unix::signal(SIGTERM)` for signal handling.
 - Use `axum::serve()` with graceful shutdown via `tokio::select!`.
@@ -216,7 +365,39 @@ spec:
 - Outbox poller MUST check the draining state and exit its loop.
 - Connection pools (database, Redis, RabbitMQ) MUST be closed explicitly.
 
-## 6. Multi-Region Deployment
+## 10. Database Migrations
+
+### 10.1 Migration Strategy
+
+| Aspect | Policy |
+|--------|--------|
+| Tool | `sea-orm-migration` (part of SeaORM ecosystem) |
+| Execution | Kubernetes Init Container runs migrations before service starts |
+| Backward Compatibility | Migrations MUST be backward-compatible — both old and new service versions must work |
+| Rolling Strategy | Additive changes first (add column), removal in subsequent release |
+| Rollback | Forward-only migrations; rollback = deploy previous version + new forward migration |
+
+### 10.2 Init Container Pattern
+
+```yaml
+initContainers:
+  - name: migrate
+    image: ghcr.io/mserp/my-service:v1.2.3
+    command: ["./my-service", "migrate"]
+    envFrom:
+      - secretRef:
+          name: db-credentials
+```
+
+### 10.3 Migration Rules
+
+- **Add columns**: `NULL` or with `DEFAULT` value only. Never `NOT NULL` without a default in a single step.
+- **Rename columns**: Two-release process — add new column, populate via background job, remove old column in next release.
+- **Drop columns**: Two-release process — stop reading/writing old column in code first, drop in next release.
+- **Index creation**: Use `CONCURRENTLY` to avoid locking tables.
+- **Large data migrations**: Run as background jobs, not in the migration init container.
+
+## 11. Multi-Region Deployment
 
 | Aspect | Specification |
 |--------|---------------|
@@ -229,7 +410,7 @@ spec:
 | File Storage | MinIO site replication |
 | Data Residency | Region-pinned tenants route to designated cluster; cross-region transfer prohibited without consent |
 
-### 6.1 Disaster Recovery
+### 11.1 Disaster Recovery
 
 | Scenario | Recovery Procedure | RTO | RPO |
 |----------|-------------------|-----|-----|
@@ -239,22 +420,22 @@ spec:
 | Region failure | DNS failover to secondary region | < 1 hour | < 5 min |
 | Data corruption | Point-in-time recovery from WAL archive | < 4 hours | < 5 min |
 
-### 6.2 Backup Strategy
+### 11.2 Backup Strategy
 
-| Component | Backup Method | Frequency | Retention |
-|-----------|--------------|-----------|-----------|
-| PostgreSQL | pg_basebackup + WAL archiving | Continuous | 30 days |
-| Redis | RDB snapshots | Hourly | 7 days |
-| RabbitMQ | Definitions export + message backup | Daily | 7 days |
-| MinIO | Versioning + cross-region replication | Continuous | 90 days |
-| Elasticsearch | Snapshot to MinIO | Daily | 14 days |
-| K8s manifests | GitOps (ArgoCD source of truth) | Continuous | Indefinite |
-| Vault | Encrypted snapshots | Daily | 30 days |
-| Data Lake | Cross-region replication via MinIO | Continuous | Indefinite |
+| Component | Backup Method | Frequency | Retention | Verification |
+|-----------|--------------|-----------|-----------|-------------|
+| PostgreSQL | pg_basebackup + WAL archiving | Continuous | 30 days | Weekly restore test to staging |
+| Redis | RDB snapshots | Hourly | 7 days | Monthly restore test |
+| RabbitMQ | Definitions export + message backup | Daily | 7 days | Monthly restore test |
+| MinIO | Versioning + cross-region replication | Continuous | 90 days | Integrity check on restore |
+| Elasticsearch | Snapshot to MinIO | Daily | 14 days | Weekly restore test |
+| K8s manifests | GitOps (ArgoCD source of truth) | Continuous | Indefinite | Git diff on sync |
+| Vault | Encrypted snapshots | Daily | 30 days | Monthly seal/unseal test |
+| Data Lake | Cross-region replication via MinIO | Continuous | Indefinite | Integrity check on replicate |
 
-## 7. Autoscaling
+## 12. Autoscaling
 
-### 7.1 Horizontal Pod Autoscaler (HPA)
+### 12.1 Horizontal Pod Autoscaler (HPA)
 
 All services have HPA configured:
 
@@ -281,7 +462,7 @@ spec:
           averageUtilization: 80
 ```
 
-### 7.2 Autoscaling Thresholds
+### 12.2 Autoscaling Thresholds
 
 | Service | Min Replicas | Max Replicas | CPU Target | Memory Target |
 |---------|-------------|-------------|------------|---------------|
@@ -292,13 +473,40 @@ spec:
 | Platform | 3 | 15 | 70% | 80% |
 | All others | 2 | 10 | 70% | 80% |
 
-## 8. Deployment Strategies
+### 12.3 Vertical Pod Autoscaler (VPA)
 
-### 8.1 Rolling Update (Default)
+VPA runs in recommendation-only mode for all services to inform resource right-sizing:
+
+```yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: commerce-vpa
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: commerce-service
+  updatePolicy:
+    updateMode: "Off"  # Recommendations only — manual application
+```
+
+## 13. Deployment Strategies
+
+### 13.1 Rolling Update (Default)
 
 Standard Kubernetes rolling update for all routine deployments. Zero downtime guaranteed by readiness probes.
 
-### 8.2 Blue-Green Deployment
+```yaml
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+```
+
+### 13.2 Blue-Green Deployment
 
 For major version upgrades or breaking schema changes:
 
@@ -310,7 +518,7 @@ For major version upgrades or breaking schema changes:
 5. Scale down "blue" after verification period
 ```
 
-### 8.3 Canary Deployment
+### 13.3 Canary Deployment
 
 For high-risk changes to critical services (Commerce, Finance):
 
@@ -321,7 +529,7 @@ For high-risk changes to critical services (Commerce, Finance):
 4. Automatic rollback if canary error rate exceeds baseline by 0.5%
 ```
 
-## 9. Infrastructure as Code (IaC)
+## 14. Infrastructure as Code (IaC)
 
 | Tool | Purpose |
 |------|---------|
@@ -332,6 +540,33 @@ For high-risk changes to critical services (Commerce, Finance):
 | Crossplane (optional) | Infrastructure composition for multi-cloud deployments |
 
 All infrastructure definitions are version-controlled in the same repository under `infra/`.
+
+### 14.1 Directory Structure
+
+```
+infra/
+├── terraform/           # Cloud infrastructure (VPC, RDS, etc.)
+│   ├── modules/
+│   └── environments/
+│       ├── staging/
+│       └── production/
+├── helm/                # Helm charts for each service
+│   ├── charts/
+│   │   ├── auth-service/
+│   │   ├── commerce-service/
+│   │   └── ...
+│   └── values/
+│       ├── staging.yaml
+│       └── production.yaml
+├── kustomize/           # Environment overlays
+│   ├── base/
+│   └── overlays/
+│       ├── staging/
+│       └── production/
+└── argocd/              # ArgoCD Application manifests
+    ├── applications/
+    └── app-of-apps.yaml
+```
 
 ---
 

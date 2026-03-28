@@ -71,6 +71,11 @@
 - [ ] Period management (open/close accounting periods)
 - [ ] Data import/export framework (CSV, JSON, Excel, XML)
 - [ ] Supplier Collaboration Portal
+- [ ] Revenue Recognition (ASC 606 / IFRS 15) framework
+- [ ] Credit Management (credit scoring, credit holds, credit release workflow)
+- [ ] Product Configurator (configuration models, constraint rules, BOM generation)
+- [ ] ATP/CTP (Available-to-Promise / Capable-to-Promise) engine
+- [ ] Subscription Management (subscription lifecycle, billing cycles, amendments)
 
 ### Phase 2 Deliverables
 
@@ -87,6 +92,11 @@
 | mTLS + Service JWTs | Secure service-to-service communication |
 | Data Import/Export | CSV, JSON, Excel, XML import/export via Integration Service |
 | Supplier Portal | Supplier collaboration for RFQ, PO, invoice, delivery |
+| Revenue Recognition | ASC 606 / IFRS 15 compliance: performance obligations, recognition schedules, disclosures |
+| Credit Management | Credit scoring, holds, and release workflows integrated with order processing |
+| Product Configurator | Configuration models with constraint rules and dynamic pricing |
+| ATP/CTP | Real-time availability checking with promise date calculation |
+| Subscriptions | Subscription lifecycle, billing, amendments, and analytics |
 
 ---
 
@@ -122,6 +132,17 @@
   - [ ] Automated deduplication
   - [ ] Data quality rules and scorecards
 - [ ] Data Governance: Data catalog, lineage tracking, classification
+- [ ] Field Service Management (service orders, technician scheduling, parts logistics)
+- [ ] Survey & Feedback Management (survey builder, NPS/CSAT, response analytics)
+- [ ] Sales Territory & Quota Planning (territory design, quota allocation)
+- [ ] Enterprise Job Scheduler (cron scheduling, DAG dependencies, job monitoring)
+- [ ] Knowledge Management (article authoring, categorization, search, analytics)
+- [ ] Trade Compliance (denied party screening, export controls, customs documentation)
+- [ ] Intercompany Drop Ship (drop ship orders, supplier collaboration, reconciliation)
+- [ ] Narrative Reporting (management reports, commentary workflows, report packages)
+- [ ] Digital Signatures (native signature workflows, audit trail)
+- [ ] Advanced Inventory Optimization (safety stock optimization algorithms, demand-driven replenishment)
+- [ ] Employee Self-Service Portal (personal info, payslips, benefits, time-off)
 
 ### Phase 3 Deliverables
 
@@ -140,6 +161,17 @@
 | Saga: ECO | Submit → Review → Approve → Implement BOM changes |
 | Digital Assistant | NLP query interface, intent resolution, multi-turn dialog |
 | MDM | Golden record management, deduplication, quality scorecards |
+| Field Service | Service order management, technician scheduling, parts logistics, SLA tracking |
+| Surveys & Feedback | Survey builder, NPS/CSAT collection, response analytics, trigger-based dispatch |
+| Territory & Quota | Territory design, quota allocation, what-if modeling |
+| Enterprise Scheduler | Cron and event-triggered job scheduling with DAG dependencies |
+| Knowledge Management | Article authoring, categorization, search, context-sensitive suggestions |
+| Trade Compliance | Denied party screening, export controls, license management, customs docs |
+| Drop Ship | Intercompany drop ship with automated PO, tracking, and reconciliation |
+| Narrative Reporting | Management reports with commentary, report packages, XBRL tagging |
+| Digital Signatures | Native signature workflows with multi-party signing and audit trail |
+| Inventory Optimization | ML-driven safety stock optimization, demand-driven replenishment |
+| Employee Self-Service | Portal for personal info, payslips, benefits, time-off, expenses |
 
 ---
 
@@ -205,6 +237,9 @@
 - [ ] Data masking and subsetting validation for non-production
 - [ ] ML model bias and fairness audit
 - [ ] Sustainability / green IT metrics baseline
+- [ ] Trade compliance screening accuracy validation
+- [ ] Subscription billing accuracy testing
+- [ ] Revenue recognition audit readiness (ASC 606/IFRS 15)
 
 ### Phase 5 Deliverables
 
@@ -225,6 +260,9 @@
 | Data Masking | Non-production data subsetting with PII masking validated |
 | ML Audit | Model bias, fairness, and drift assessment documented |
 | Green IT | Carbon efficiency baseline established |
+| Trade Compliance | Screening accuracy validated against known denied parties |
+| Subscription Billing | Billing accuracy validated across all billing models |
+| Revenue Recognition | ASC 606/IFRS 15 audit readiness validated |
 
 ---
 

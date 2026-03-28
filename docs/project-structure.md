@@ -119,7 +119,32 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   └── transportation/   # Fleet & Transportation
+│   │   │   ├── transportation/   # Fleet & Transportation
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── atp/                # Available-to-Promise
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── configurator/       # Product Configurator
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── credit/             # Credit Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── subscriptions/      # Subscription Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   └── dropship/           # Intercompany Drop Ship
 │   │   │       ├── routes/
 │   │   │       ├── handlers/
 │   │   │       ├── models/
@@ -158,7 +183,12 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   └── currency/         # Multi-currency module
+│   │   │   ├── currency/         # Multi-currency module
+│   │   │   │   └── services/
+│   │   │   └── revenue-recognition/ # Revenue Recognition (ASC 606/IFRS 15)
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
 │   │   │       └── services/
 │   ├── hr-service/
 │   │   ├── src/
@@ -225,7 +255,22 @@ mserp/
 │   │   │   ├── campaigns/
 │   │   │   ├── activities/
 │   │   │   ├── cases/            # Customer service cases
-│   │   │   └── analytics/
+│   │   │   ├── analytics/
+│   │   │   ├── field-service/      # Field Service Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── surveys/            # Survey & Feedback
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   └── territories/        # Sales Territory & Quota
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
+│   │   │       └── services/
 │   ├── project-service/
 │   │   ├── src/
 │   │   │   ├── projects/
@@ -263,7 +308,24 @@ mserp/
 │   │   │   │   ├── risk/         # Risk register
 │   │   │   │   ├── compliance/   # Compliance assessments
 │   │   │   │   └── incidents/    # GRC incidents
-│   │   │   └── data-masking/     # Data masking and subsetting
+│   │   │   ├── data-masking/     # Data masking and subsetting
+│   │   │   ├── scheduler/          # Enterprise Job Scheduler
+│   │   │   │   ├── jobs/
+│   │   │   │   ├── triggers/
+│   │   │   │   └── monitoring/
+│   │   │   ├── knowledge/          # Knowledge Management
+│   │   │   │   ├── articles/
+│   │   │   │   ├── categories/
+│   │   │   │   ├── search/
+│   │   │   │   └── analytics/
+│   │   │   ├── signatures/         # Digital Signatures
+│   │   │   │   ├── workflows/
+│   │   │   │   ├── audit/
+│   │   │   │   └── providers/
+│   │   │   └── self-service/       # Employee Self-Service Portal
+│   │   │       ├── portal/
+│   │   │       ├── dashboard/
+│   │   │       └── preferences/
 │   └── integration-service/
 │       ├── src/
 │       │   ├── connectors/
@@ -275,10 +337,15 @@ mserp/
 │       │   │   ├── matching/     # Deduplication engine
 │       │   │   ├── quality/      # Data quality rules
 │       │   │   └── stewardship/  # Data steward workflows
-│       │   └── governance/       # Data governance
-│       │       ├── catalog/      # Data catalog
-│       │       ├── lineage/      # Data lineage tracking
-│       │       └── classification/
+│       │   ├── governance/       # Data governance
+│       │   │   ├── catalog/      # Data catalog
+│       │   │   ├── lineage/      # Data lineage tracking
+│       │   │   └── classification/
+│       │   └── trade-compliance/   # Trade Compliance
+│       │       ├── screening/      # Denied party screening
+│       │       ├── classifications/ # Export control classification
+│       │       ├── licenses/       # License management
+│       │       └── customs/        # Customs documentation
 │
 ├── migrations/
 │   ├── auth/
@@ -349,7 +416,12 @@ mserp/
     ├── emission-factors.csv      # EPA/DEFRA emission factors
     ├── esg-frameworks.csv        # GRI, SASB, TCFD mappings
     ├── carrier-service-levels.csv
-    └── payroll-jurisdictions/    # Per-country payroll config
+    ├── payroll-jurisdictions/    # Per-country payroll config
+    ├── denied-party-lists/        # Trade compliance screening lists
+    ├── export-classifications.csv # ECCN classifications
+    ├── revenue-recognition-rules.csv # ASC 606/IFRS 15 standard methods
+    ├── subscription-cycles.csv    # Standard billing cycle definitions
+    └── knowledge-categories.csv   # Knowledge base category seed data
 ```
 
 ## 2. Local Development

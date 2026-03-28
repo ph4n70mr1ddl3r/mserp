@@ -4,8 +4,8 @@
 
 | Term | Definition |
 |------|------------|
+| AAC | Advanced Access Controls — comprehensive access governance including SoD, access certification, and privileged access management |
 | ABAC | Attribute-Based Access Control — authorization model that evaluates attributes (user, resource, environment) to make access decisions, supplementing RBAC |
-| ABP | Activity-Based Pricing — cost allocation method that assigns overhead costs based on actual activities |
 | AES-256 | Advanced Encryption Standard with 256-bit key — symmetric encryption algorithm for data at rest |
 | AMQP | Advanced Message Queuing Protocol — messaging protocol used by RabbitMQ for reliable, standards-based messaging |
 | AP | Accounts Payable — money owed by the company to suppliers |
@@ -13,7 +13,9 @@
 | AQM | Advanced Quality Management — comprehensive quality control including statistical process control, Six Sigma, and continuous improvement |
 | AR | Accounts Receivable — money owed to the company by customers |
 | ArgoCD | GitOps continuous delivery tool for Kubernetes — syncs cluster state from Git repositories |
+| ASC 606 | Accounting Standards Codification Topic 606 — US GAAP standard for revenue recognition from contracts with customers |
 | ASCP | Advanced Supply Chain Planning — constraint-based planning and optimization for supply chain operations |
+| ATP | Available-to-Promise — inventory availability check that considers current stock, open orders, and planned receipts to determine if a customer order can be fulfilled by a specific date |
 | Axum | Ergonomic and modular web framework for Rust — built on Tokio and Tower |
 | BOM | Bill of Materials — list of components required for manufacturing a product |
 | BPMN | Business Process Model and Notation — standard for business process diagrams |
@@ -26,12 +28,14 @@
 | Compensating Action | Undo operation in a saga step that reverses the effect of a previously completed step when a later step fails |
 | CORS | Cross-Origin Resource Sharing — mechanism allowing web applications to access resources from different domains |
 | CRM | Customer Relationship Management — strategy and tools for managing customer interactions and data |
+| CTP | Capable-to-Promise — availability check that considers production capacity and procurement lead times for items not currently in stock |
 | Cursor Pagination | Pagination using opaque tokens (cursors) instead of page numbers — better for large, frequently changing datasets |
 | DLQ | Dead Letter Queue — queue for messages that failed processing after max retries |
 | DuckDB | Embedded analytical database — used in Report Service for data warehouse queries |
 | Dunning | Process of communicating with customers to collect payments on overdue invoices |
 | E2E | End-to-End — testing that validates the entire system flow from user input to final output |
 | EAM | Enterprise Asset Management — lifecycle management of physical assets including maintenance, depreciation, and retirement |
+| ECCN | Export Control Classification Number — code identifying the level of export control for an item under US export regulations |
 | ECO | Engineering Change Order — formal document authorizing changes to a product's design, BOM, or manufacturing process |
 | EDI | Electronic Data Interchange — standardized format for exchanging business documents between organizations |
 | EPM | Enterprise Performance Management — integrated planning, budgeting, forecasting, and financial consolidation |
@@ -47,6 +51,7 @@
 | HPA | Horizontal Pod Autoscaler — Kubernetes component that automatically scales pod replicas |
 | HIPAA | Health Insurance Portability and Accountability Act — US regulation for healthcare data protection |
 | IaC | Infrastructure as Code — managing infrastructure through version-controlled configuration files |
+| IFRS 15 | International Financial Reporting Standard 15 — global standard for revenue recognition from contracts with customers |
 | Idempotency | Property where performing the same operation multiple times produces the same result as performing it once |
 | JE | Journal Entry — a single financial transaction record (debits and credits) |
 | Jaeger | Open-source distributed tracing system for monitoring microservice interactions |
@@ -62,7 +67,9 @@
 | mTLS | Mutual TLS — both client and server authenticate each other via certificates |
 | NCR | Non-Conformance Report — document recording a product/process that does not meet quality standards |
 | NLP | Natural Language Processing — AI capability enabling computers to understand and respond to human language |
+| NPS | Net Promoter Score — metric measuring customer loyalty based on the question "How likely are you to recommend this company?" |
 | OCR | Optical Character Recognition — technology for extracting text from images and scanned documents |
+| OFAC | Office of Foreign Assets Control — US government agency administering economic and trade sanctions |
 | OIDC | OpenID Connect — identity layer on top of OAuth 2.0 for user authentication |
 | ONNX | Open Neural Network Exchange — open format for representing machine learning models |
 | OpenTelemetry | Open-source observability framework for generating, collecting, and exporting telemetry data (traces, metrics, logs) |
@@ -82,7 +89,6 @@
 | RFQ | Request for Quotation — document sent to suppliers inviting them to bid on products or services |
 | RLS | Row-Level Security — PostgreSQL feature restricting data access per row (used for tenant isolation) |
 | RMA | Return Merchandise Authorization — authorization for a customer to return a product |
-| RPA | Robotic Process Automation — technology for automating repetitive tasks using software bots |
 | RPO | Recovery Point Objective — maximum acceptable data loss measured in time |
 | RTO | Recovery Time Objective — maximum acceptable downtime after a failure |
 | Saga | Distributed transaction pattern using a sequence of local transactions with compensating (undo) actions on failure |
@@ -94,6 +100,7 @@
 | SOC 2 | Service Organization Control 2 — auditing standard covering security, availability, processing integrity, confidentiality, and privacy |
 | SOX | Sarbanes-Oxley Act — US law mandating financial reporting and audit practices for public companies |
 | SPC | Statistical Process Control — quality control method using statistical methods to monitor and control processes |
+| SSP | Standalone Selling Price — the price at which an entity would sell a promised good or service separately to a customer |
 | SSO | Single Sign-On — one set of credentials across multiple applications |
 | Star Schema | Database schema design with a central fact table surrounded by dimension tables — used in data warehousing |
 | TDE | Transparent Data Encryption — encryption of database files at the storage level |
@@ -104,6 +111,7 @@
 | WAL | Write-Ahead Log — PostgreSQL mechanism ensuring data durability before writes are committed |
 | WBS | Work Breakdown Structure — hierarchical decomposition of project deliverables into tasks |
 | Write-Through | Caching pattern where the application writes data to both the cache and the database simultaneously |
+| XBRL | eXtensible Business Reporting Language — standard for electronic communication of business and financial data |
 
 ## References
 

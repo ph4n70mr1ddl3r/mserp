@@ -19,6 +19,14 @@
 | ML Inference Latency | < 500ms (single prediction) | ONNX Runtime metrics |
 | Mobile API Response (p99) | < 800ms (optimized endpoints) | Mobile performance monitoring |
 | Full-Text Search | < 200ms | Elasticsearch query latency |
+| ATP Check Response | < 200ms | Commerce Service metrics |
+| Product Configuration | < 1 second | Commerce Service metrics |
+| Credit Check | < 100ms | Commerce Service metrics |
+| Trade Compliance Screening | < 2 seconds per entity | Integration Service metrics |
+| Knowledge Search | < 300ms | Platform Service metrics |
+| Subscription Billing Cycle | < 5 seconds per subscription | Commerce Service metrics |
+| Revenue Recognition Calculation | < 10 seconds per contract | Finance Service metrics |
+| Survey Response Processing | < 500ms | CRM Service metrics |
 
 ## 2. Availability
 
@@ -30,6 +38,20 @@
 | Recovery Point Objective (RPO) | < 5 minutes | PostgreSQL replication lag monitoring |
 | Deployment Downtime | Zero (rolling updates) | K8s rolling deployment strategy |
 | Scheduled Maintenance | Zero downtime (rolling) | Blue-green deployment for major upgrades |
+
+### 2.1 SLI / SLO Error Budget Framework
+
+| SLI | SLO | Error Budget (30-day window) | Calculation |
+|-----|-----|------------------------------|-------------|
+| API Availability | 99.9% | 43.2 minutes/month | `1 - (successful_requests / total_requests)` |
+| Event Processing Reliability | 99.95% | 21.6 minutes/month | `1 - (successfully_consumed / total_published)` |
+| Report Generation Success | 99.5% | 3.6 hours/month | `1 - (completed_reports / total_report_requests)` |
+| Search Availability | 99.9% | 43.2 minutes/month | `1 - (successful_searches / total_searches)` |
+
+**Error Budget Policy:**
+- When error budget is exhausted for a given SLI, all non-critical feature work stops until the SLO is restored.
+- Error budgets reset at the beginning of each calendar month.
+- SLO violations trigger a post-incident review within 48 hours.
 
 ## 3. Scalability
 
@@ -44,7 +66,22 @@
 | Data Lake Scaling | Unlimited raw zone storage per tenant |
 | ML Model Serving | Concurrent inference requests scale horizontally via Report Service HPA |
 
-## 4. Compliance
+## 4. Rate Limiting
+
+| Scope | Limit | Enforcement |
+|-------|-------|-------------|
+| Per-tenant API | 1,000 requests/second (configurable per plan) | API Gateway (Traefik/Kong) |
+| Per-user API | 100 requests/second | API Gateway |
+| Authentication attempts | 10 failed attempts per minute per IP | Auth Service |
+| Report generation | 5 concurrent reports per tenant | Report Service semaphore |
+| File uploads | 50 MB per file, 500 MB per tenant per day | Platform Service |
+| Search queries | 30 requests/second per tenant | Elasticsearch throttling |
+| Webhook deliveries | 100 deliveries/second per tenant (outbound) | Integration Service |
+| Bulk import | 10,000 rows per request, 1 concurrent import per tenant | Integration Service |
+
+**Rate limit responses MUST use HTTP 429 with `Retry-After` header and rate-limit metadata in response headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`).**
+
+## 5. Compliance
 
 | Standard | Applicability | Key Controls |
 |----------|---------------|-------------|
@@ -56,7 +93,7 @@
 | ISO 27001 | Recommended | Information security management system |
 | ESG Regulations | Per-tenant (reporting required) | Emissions data accuracy, audit trail, framework compliance (GRI, SASB, TCFD) |
 
-## 5. Data Residency
+## 6. Data Residency
 
 | Requirement | Specification |
 |-------------|---------------|
@@ -66,9 +103,39 @@
 | Backup Compliance | Backups stored in same region as primary data |
 | Enforcement | Enforced at connection routing layer and RLS policies |
 
-## 6. Testing Strategy
+## 7. Data Retention
 
-### 6.1 Testing Pyramid
+| Data Category | Retention Period | Storage Tier | Disposal Method |
+|---------------|-----------------|-------------|-----------------|
+| Financial transactions | 7 years (regulatory) | PostgreSQL (hot) → S3 (cold) | Secure deletion after retention period |
+| Audit logs | 7 years (SOC 2 / SOX) | Loki (hot, 90 days) → S3 (cold) | Secure deletion |
+| User activity logs | 1 year | Loki (hot, 30 days) → S3 (cold) | Secure deletion |
+| PII (customer/employee) | Duration of contract + 30 days | PostgreSQL | Anonymization or deletion per GDPR/contract |
+| Emissions data | 10 years (regulatory) | PostgreSQL → Data Lake | Anonymization |
+| System metrics | 13 months | Prometheus (hot, 90 days) → Thanos/S3 (cold) | Automatic expiry |
+| Application logs | 90 days (hot), 1 year (cold) | Loki → S3 | Automatic expiry |
+| Session data | 24 hours | Redis TTL | Automatic expiry |
+| Data Lake raw zone | Per-tenant configuration | MinIO | Lifecycle policies |
+| ML training data | 2 years | MinIO | Secure deletion |
+
+**Tenant administrators can configure per-category retention periods that exceed (but not fall below) the minimums above.**
+
+## 8. Internationalization & Localization
+
+| Requirement | Specification |
+|-------------|---------------|
+| Supported Languages | English (default), with framework for additional languages via resource bundles |
+| Time Zones | All timestamps stored in UTC; display converted to user's preferred timezone |
+| Currency | Multi-currency support with configurable exchange rates; amounts stored as decimal with currency code |
+| Date/Time Format | Respects user locale settings (`chrono-tz`) |
+| Number Format | Locale-aware formatting (decimal separators, grouping) |
+| Character Encoding | UTF-8 everywhere (database, API, logs) |
+| Text Direction | Framework supports LTR and RTL layouts for future expansion |
+| Translation API | Platform Service exposes translation endpoint for dynamic content |
+
+## 9. Testing Strategy
+
+### 9.1 Testing Pyramid
 
 ```
            ┌───────────┐
@@ -85,7 +152,7 @@
         └─────────────────┘
 ```
 
-### 6.2 Test Categories
+### 9.2 Test Categories
 
 | Category | Scope | Tooling | Coverage Target | When |
 |----------|-------|---------|-----------------|------|
@@ -98,9 +165,9 @@
 | Security Tests | Vulnerability scanning | Trivy, `cargo audit`, Snyk, OWASP ZAP | N/A | Every PR + weekly |
 | Chaos Tests | Resilience under failure | Chaos mesh / Litmus | Critical scenarios | Monthly |
 | Accessibility Tests | WCAG 2.1 AA compliance | axe-core, Pa11y | All web pages | Every PR |
-| AI/ML Tests | Model accuracy, bias, drift | Custom harness | N/A | On model update |
+| AI/ML Tests | Model accuracy, bias, drift, fairness | Custom harness | N/A | On model update + quarterly |
 
-### 6.3 Testing Tools
+### 9.3 Testing Tools
 
 | Tool | Purpose |
 |------|---------|
@@ -110,6 +177,7 @@
 | `pact_consumer` / `pact_provider` | Contract testing |
 | `tower::ServiceExt` | Test Axum handlers without HTTP server |
 | `mockall` | Mock traits for unit testing |
+| `proptest` | Property-based testing for edge cases |
 | Docker Compose | E2E test environment |
 | `k6` | Load testing |
 | Trivy | Container security scanning |
@@ -117,7 +185,7 @@
 | OWASP ZAP | Dynamic application security testing |
 | axe-core / Pa11y | Accessibility testing |
 
-### 6.4 Test Environment Strategy
+### 9.4 Test Environment Strategy
 
 | Environment | Purpose | Data | Refresh |
 |-------------|---------|------|---------|
@@ -127,7 +195,7 @@
 | Staging | Pre-production validation | Anonymized production snapshot | Weekly |
 | Production | Smoke tests only | Real data (read-only) | N/A |
 
-### 6.5 Test Data Management
+### 9.5 Test Data Management
 
 - Unit tests use `fake` crate for random, realistic data.
 - Integration tests use idempotent seed scripts (`INSERT ... ON CONFLICT DO NOTHING`).
@@ -136,7 +204,7 @@
 - Each test is responsible for its own setup and teardown (no shared mutable state).
 - Staging environment uses anonymized production snapshots (PII replaced with synthetic data via Platform Service data masking).
 
-### 6.6 Quality Gates
+### 9.6 Quality Gates
 
 | Gate | Requirement | Enforced By |
 |------|-------------|-------------|
@@ -153,9 +221,9 @@
 
 ---
 
-## 7. Monitoring & Observability
+## 10. Monitoring & Observability
 
-### 7.1 Metrics (Prometheus)
+### 10.1 Metrics (Prometheus)
 
 All services MUST expose a `/metrics` endpoint (Prometheus format) with the following metric categories:
 
@@ -169,7 +237,7 @@ All services MUST expose a `/metrics` endpoint (Prometheus format) with the foll
 | Infrastructure | CPU, memory, disk, network (via node exporter) |
 | ML/AI | Inference latency, prediction confidence, model drift, feature store freshness |
 
-### 7.2 Standard Service Metrics
+### 10.2 Standard Service Metrics
 
 All services MUST expose these Prometheus metrics:
 
@@ -193,8 +261,15 @@ All services MUST expose these Prometheus metrics:
 | `assistant_action_duration_seconds` | Histogram | action | Digital assistant action execution time |
 | `ml_inference_duration_seconds` | Histogram | model_name | ML inference latency |
 | `esg_emissions_recorded_total` | Counter | scope, unit | Emissions data points recorded |
+| `scheduler_job_duration_seconds` | Histogram | job_type | Scheduled job execution duration |
+| `scheduler_job_active_count` | Gauge | job_type | Currently running scheduled jobs |
+| `subscription_billing_cycle_total` | Counter | status | Subscription billing cycle results |
+| `credit_check_total` | Counter | result | Credit check outcomes (pass/hold/release) |
+| `trade_compliance_screening_total` | Counter | result | Trade compliance screening outcomes |
+| `knowledge_search_total` | Counter | result | Knowledge base search results (hit/miss) |
+| `rate_limit_exceeded_total` | Counter | tenant_id, endpoint | Rate limit violations |
 
-### 7.3 Dashboards (Grafana)
+### 10.3 Dashboards (Grafana)
 
 | Dashboard | Audience | Key Panels |
 |-----------|----------|-----------|
@@ -209,14 +284,19 @@ All services MUST expose these Prometheus metrics:
 | AI/ML Operations | Data scientists | Model accuracy, inference latency, feature drift, prediction volume |
 | Cost | Finance | Resource utilization, pod counts, storage usage, data lake size |
 | Digital Assistant | Product team | Intent distribution, success rate, response time, user satisfaction |
+| Subscription Health | Product, Finance | MRR/ARR, churn rate, renewal rate, billing success rate |
+| Credit & Collections | Finance, Sales | Credit exposure, aging buckets, collection effectiveness index |
+| Trade Compliance | Legal, Operations | Screening volumes, match rates, license status, shipment holds |
+| Knowledge Base | Support, Operations | Article views, search effectiveness, resolution rate, content gaps |
+| SLI/SLO Dashboard | SRE, Engineering | Error budget burn rate, SLO compliance, alert history |
 
-### 7.4 Structured Logging
+### 10.4 Structured Logging
 
 All services MUST emit structured JSON logs with these fields:
 
 ```json
 {
-  "timestamp": "2026-03-27T10:30:00Z",
+  "timestamp": "2026-03-28T10:30:00Z",
   "level": "INFO",
   "service": "commerce-service",
   "tenant_id": "tenant-uuid",
@@ -242,7 +322,14 @@ All services MUST emit structured JSON logs with these fields:
 
 **Log Redaction:** PII fields (email, phone, SSN) are automatically redacted in logs using the `mserp-core` redaction utility.
 
-### 7.5 Distributed Tracing
+**Log Levels Policy:**
+- `TRACE`: Verbose internal state (disabled in production)
+- `DEBUG`: Diagnostic information (disabled in production by default)
+- `INFO`: Business events (order created, invoice generated)
+- `WARN`: Recoverable issues (cache miss fallback, retry triggered)
+- `ERROR`: Failures requiring attention (database error, external service failure)
+
+### 10.5 Distributed Tracing
 
 All services participate in distributed tracing via OpenTelemetry + Jaeger:
 
@@ -254,7 +341,12 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 - Cache operations are instrumented as child spans.
 - ML inference calls are instrumented as child spans with model metadata.
 
-### 7.6 Alerts
+**Trace Sampling:**
+- Production: 10% default sampling rate; 100% for error traces and slow requests (> p99 latency).
+- Staging: 100% sampling.
+- Trace retention: 7 days (hot), 30 days (cold storage).
+
+### 10.6 Alerts
 
 | Alert | Severity | Response Time | Response |
 |-------|----------|---------------|----------|
@@ -273,8 +365,14 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | SoD Conflict Detected | Warning | < 1 hour | Review and mitigate |
 | ML Model Drift Detected | Warning | < 24 hours | Evaluate retraining, review accuracy |
 | ESG Data Anomaly | Info | < 48 hours | Review emissions data, verify calculations |
+| Trade Compliance Screening Failure | Critical | < 5 minutes | Halt affected orders, investigate screening service |
+| Subscription Billing Failure | Critical | < 15 minutes | Investigate, manual billing fallback |
+| Revenue Recognition Discrepancy | Warning | < 1 hour | Finance team review, check recognition rules |
+| Scheduler Job Overdue | Warning | < 30 minutes | Investigate scheduler service, check job queue |
+| Error Budget Exhausted | Warning | < 4 hours | Freeze feature work, prioritize reliability |
+| Backup Verification Failed | Critical | < 1 hour | Investigate backup infrastructure, re-run verification |
 
-### 7.7 Alert Routing
+### 10.7 Alert Routing
 
 | Severity | Channel | Escalation |
 |----------|---------|-----------|
@@ -282,7 +380,7 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | Warning | Slack #alerts | On-call engineer acknowledges |
 | Info | Slack #notifications | No action required |
 
-## 8. Sustainability / Green IT
+## 11. Sustainability / Green IT
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
@@ -290,6 +388,8 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | Resource utilization | > 60% average CPU utilization across cluster | Prometheus metrics |
 | Idle resource cleanup | Automatic scale-to-zero for non-production | K8s HPA minReplicas=0 for dev/staging |
 | Efficient languages | Rust for minimal memory/CPU footprint | Compared to equivalent JVM/Node workloads |
+| Image size | < 50MB per service (compressed) | Container registry metrics |
+| Cold start time | < 5 seconds for auto-scaled pods | Pod startup duration metric |
 
 ---
 

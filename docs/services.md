@@ -171,6 +171,64 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Multi-Currency Pricing | Automatic conversion or fixed prices per currency |
 | Margin Analysis | Real-time margin calculation at line and order level |
 
+**Available-to-Promise (ATP) / Capable-to-Promise (CTP):**
+
+| Module | Description |
+|--------|-------------|
+| ATP Check | Real-time availability check across warehouses considering open orders, safety stock, and lead times |
+| CTP Check | Availability check considering production capacity and procurement lead times for make-to-order items |
+| Allocation Rules | Configurable allocation rules by customer priority, channel, and region |
+| Promise Date Calculation | Earliest ship date calculation considering inventory, production, and logistics constraints |
+| Cross-Region ATP | Aggregate availability across regions with inter-company transfer time |
+| ATP Dashboard | Real-time availability views by product, warehouse, and region |
+
+**Product Configurator:**
+
+| Module | Description |
+|--------|-------------|
+| Configuration Models | Define configurable product models with features, options, and constraints |
+| Constraint Rules | Compatibility and incompatibility rules between options (e.g., engine A requires transmission B) |
+| Pricing Integration | Dynamic price calculation based on selected configuration |
+| BOM Generation | Automatic generation of production BOM from selected configuration |
+| Validation Engine | Real-time completeness and feasibility validation |
+| Guided Selling | Interactive configuration wizard with recommendations and upsell suggestions |
+| Configuration Templates | Pre-defined configurations for common product variants |
+
+**Credit Management:**
+
+| Module | Description |
+|--------|-------------|
+| Credit Scoring | Automated credit scoring based on payment history, financial data, and external credit bureaus |
+| Credit Limits | Customer credit limit management with currency support and multi-entity rules |
+| Credit Hold | Automatic order hold when credit limit exceeded, configurable threshold alerts |
+| Credit Release | Manual and automated credit release workflows with approval chains |
+| Credit Exposure | Real-time credit exposure calculation (open orders + invoices + unbilled) |
+| Collection Scoring | Predictive collection scoring for prioritizing collection activities |
+| Credit Reports | Customer credit history, aging analysis, payment pattern analysis |
+
+**Subscription Management:**
+
+| Module | Description |
+|--------|-------------|
+| Subscription Lifecycle | Create, activate, amend, renew, suspend, cancel subscriptions |
+| Billing Models | Recurring flat-rate, usage-based, tiered/graduated, per-unit, hybrid pricing |
+| Billing Schedules | Automated billing cycle management with proration for mid-cycle changes |
+| Usage Metering | Usage tracking and metering for consumption-based billing |
+| Amendments | Mid-cycle changes with proration: upgrade, downgrade, add/remove items |
+| Renewal Management | Automated renewal with configurable terms, renewal reminders, auto-renewal rules |
+| Subscription Analytics | MRR/ARR tracking, churn analysis, cohort analysis, retention rates |
+| Revenue Recognition Integration | Automatic performance obligation creation for Finance Service revenue recognition |
+
+**Intercompany Drop Ship:**
+
+| Module | Description |
+|--------|-------------|
+| Drop Ship Orders | Customer orders fulfilled directly by supplier or intercompany partner |
+| Supplier Collaboration | Automated PO generation and dispatch to drop ship supplier |
+| Shipment Tracking | Customer-visible tracking from supplier's shipment |
+| Invoice Reconciliation | Automated reconciliation of supplier invoice, customer invoice, and PO |
+| Multi-Entity Support | Intercompany drop ship across business units with automated intercompany accounting |
+
 ### 2.2 Finance Service (Finance + Procurement)
 
 | Aspect | Details |
@@ -235,6 +293,20 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Allocations | Rule-based allocations across dimensions (cost center, product, geography) |
 | Variance Analysis | Actual vs. plan/budget/forecast variance reporting with drill-down |
 | Scorecards | Financial scorecards with KPIs, targets, and traffic-light indicators |
+
+**Revenue Recognition (ASC 606 / IFRS 15):**
+
+| Module | Description |
+|--------|-------------|
+| Contract Identification | Automated identification of customer contracts across sales orders, subscriptions, and project billing |
+| Performance Obligations | Identification and tracking of distinct performance obligations per contract |
+| Transaction Pricing | Allocation of transaction price to performance obligations based on standalone selling prices |
+| Recognition Schedules | Automated recognition schedules: point-in-time, over-time (straight-line, proportional) |
+| Variable Consideration | Estimation, constraint, and reassessment of variable consideration (discounts, rebates, contingencies) |
+| Contract Modifications | Handling of contract changes with prospective and retrospective adjustment methods |
+| Disclosure Reports | Required disclosures: remaining performance obligations, contract balances, recognized revenue |
+| Revenue Waterfall | Visual waterfall from bookings to recognized revenue with deferral rollforward |
+| Multi-Element Arrangements | Allocation across bundled goods, services, and licenses |
 
 **Contract Lifecycle Management (CLM):**
 
@@ -338,6 +410,17 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Predictive Planning | Demand forecasting models, revenue prediction, resource utilization forecasting, what-if scenario modeling |
 | Data Lake Integration | Raw data ingestion to data lake, curated data layers, schema-on-read for exploratory analytics |
 
+**Narrative Reporting:**
+
+| Module | Description |
+|--------|-------------|
+| Management Reports | Structured management reports with financial and operational data |
+| Commentary & Annotations | Collaborative annotations, commentary workflows, and approval chains on report sections |
+| Report Packages | Collection of reports organized for board meetings, investor communications |
+| Versioning | Report version control with audit trail of commentary changes |
+| Distribution | Automated distribution of report packages to stakeholders via email and portal |
+| XBRL Tagging | Automated XBRL tagging for regulatory filing requirements |
+
 **AI/ML Capabilities:**
 
 | Capability | Description |
@@ -392,6 +475,41 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Customer Service | Case management, SLA tracking, knowledge base, escalation workflows |
 | Social Listening | Social media mention tracking, sentiment analysis integration |
 
+**Field Service Management:**
+
+| Module | Description |
+|--------|-------------|
+| Service Orders | Service order creation from CRM cases, warranty claims, and maintenance contracts |
+| Technician Scheduling | Skills-based assignment, geographic optimization, real-time calendar management |
+| Work Orders | Detailed service work orders with tasks, parts, and labor requirements |
+| Parts Logistics | Spare parts reservation and dispatch, van stock management, returns |
+| SLA Management | Response time and resolution time SLA tracking with escalation |
+| Field Technician Portal | Mobile-optimized portal with schedule, work order details, parts inventory, and completion forms |
+| Service Contracts | Service level agreements, warranty tracking, preventive maintenance agreements |
+| Service Analytics | Technician utilization, first-time fix rate, customer satisfaction, cost-per-service-call |
+
+**Survey & Feedback Management:**
+
+| Module | Description |
+|--------|-------------|
+| Survey Builder | Drag-and-drop survey designer with multiple question types (rating, multiple choice, open text, NPS) |
+| Distribution Channels | Email, in-app, SMS, website embed, post-interaction trigger |
+| NPS / CSAT Collection | Automated Net Promoter Score and Customer Satisfaction surveys at configurable touchpoints |
+| Response Analytics | Real-time response dashboards, sentiment analysis, trend analysis, cross-tabulation |
+| Trigger Surveys | Event-driven survey dispatch (post-purchase, post-support, post-delivery) |
+| Integration | Auto-create CRM cases from negative responses, feed sentiment data to customer analytics |
+
+**Sales Territory & Quota Planning:**
+
+| Module | Description |
+|--------|-------------|
+| Territory Design | Geographic, industry, and account-based territory modeling and assignment |
+| Territory Optimization | Balanced territory allocation based on revenue potential, workload, and coverage metrics |
+| Quota Allocation | Top-down and bottom-up quota allocation by territory, product, and sales rep |
+| What-If Modeling | Territory and quota scenario planning with revenue impact analysis |
+| Historical Analysis | Territory performance trending, quota attainment analysis, overlay comparison |
+| Integration | Territory assignments synced to CRM pipeline and opportunity routing |
+
 ### 2.8 Project Management Service
 
 | Aspect | Details |
@@ -444,6 +562,10 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Application Builder | Visual page designer, custom business objects, drag-and-drop form builder, workflow integration, tenant-scoped publishing with versioning |
 | GRC Controls | Segregation of Duties (SoD) rules, compliance policy management, risk register, control assessments, incident management |
 | Data Masking | Dynamic and static data masking rules, PII subsetting for non-production environments, masking templates by compliance framework |
+| Enterprise Job Scheduler | Cron-based and event-triggered job scheduling, DAG-based job dependencies, retry policies, per-tenant concurrency limits, job execution history and monitoring |
+| Knowledge Management | Article authoring with rich text and version control, hierarchical categories, tagging, full-text search, role-based access, context-sensitive knowledge suggestions, article analytics (views, ratings) |
+| Digital Signatures | Native digital signature workflows, signature request and tracking, multi-party signing sequences, signature audit trail, integration with e-signature providers (DocuSign, Adobe Sign) for external documents |
+| Employee Self-Service Portal | Personal information management, payslip access, benefits enrollment, time-off requests, expense submission, training enrollment, company directory, organizational announcements |
 
 ### 3.2 Integration Service
 
@@ -466,6 +588,8 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | OAuth2 Client | OAuth2 client credentials for connecting to external APIs |
 | Master Data Management (MDM) | Golden record management, automated deduplication, data quality rules, matching engine, data stewardship workflows |
 | Data Governance | Data catalog, lineage tracking, quality scorecards, classification and tagging, retention policies |
+| Trade Compliance | Restricted party screening (OFAC, EU, UN denied party lists), export control classification, license management, customs documentation generation, compliance decision audit trail, dual-use goods screening |
+| Compliance Screening Engine | Real-time screening on order creation, supplier onboarding, and shipment dispatch with configurable rules and alerting |
 
 ---
 

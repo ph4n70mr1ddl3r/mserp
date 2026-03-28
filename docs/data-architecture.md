@@ -181,6 +181,17 @@ CREATE UNIQUE INDEX idx_users_email_active
 | ESG / emissions data | Indefinite | Never (regulatory requirement) |
 | ML model artifacts | 2 years | Automated purge of deprecated models |
 | Custom application data (low-code) | Follows app lifecycle | Cascade with application |
+| Subscription billing history | 7 years | Automated archive after 7 years (financial record) |
+| Revenue recognition schedules | 7 years | Automated archive after 7 years (financial record) |
+| Trade compliance screening logs | 5 years | Never (regulatory requirement) |
+| Scheduled job execution history | 90 days | Automated nightly purge |
+| Knowledge article versions | Follows article lifecycle | Cascade with article deletion |
+| Survey responses | Indefinite (while survey active) | Archive after survey deactivation |
+| Subscription data | Soft-deleted after app lifecycle, 90 days | Cascade with application lifecycle |
+| Custom application data (low-code builder) | Cascade with application lifecycle | Cascade with application lifecycle |
+| Subscription billing schedules | Roll forward after 365 days of inactive subscriptions | Manual cascade with app lifecycle end |
+| ESG / emissions data | Indefinite (regulatory requirement) | Never (regulatory requirement) |
+| Data Lake (curated zone) | Schema-on-read for exploratory analytics | Unlimited raw zone storage per tenant |
 
 ## 6. Audit Trail (Event Log)
 
@@ -280,6 +291,18 @@ Reference data is seeded during initial deployment and managed via migrations.
 | ESG Reporting Frameworks | Static seed (GRI, SASB, TCFD) | On deploy |
 | Carrier Service Levels | Static seed + tenant-customizable | On deploy + API |
 | Payroll Tax Jurisdictions | Per-country seed + configurable | On deploy + API |
+| Trade Compliance Denied Party Lists | Government list feeds (OFAC, EU, UN) | Daily (automated) |
+| Export Control Classifications (ECCN) | Static seed + tenant-configurable | On deploy + API |
+| Subscription Billing Cycles | Tenant-configurable | Via API |
+| Revenue Recognition Rules (ASC 606) | Static seed (standard recognition methods) | On deploy |
+| Knowledge Base Categories | Tenant-configurable | Via API |
+| Sales Territory Geographies | Static seed (ISO country/region) | On deploy |
+| Export Control Classification (ECCN) | Static seed + tenant-customizable | On deploy + API |
+| IFRS 15 standard methods (ASC 606/IFRS 15) | Per-country seed + configurable | On deploy + API |
+| Trade Compliance Screening lists (OFAC, EU, UN) | Static seed + tenant-customizable | On deploy + API |
+| Subscription billing cycles (standard definitions) | Static seed + tenant-customizable | On deploy + API |
+| XBRL taxonomy mappings | Static seed + tenant-customizable | On deploy + API |
+| Knowledge base category seed data | Static seed + tenant-customizable | On deploy + API |
 
 ### 8.2 Seeding Process
 
@@ -369,6 +392,52 @@ CREATE TABLE mdm_golden_records (
 
 CREATE INDEX idx_mdm_golden_entity ON mdm_golden_records (tenant_id, entity_type);
 ```
+
+> **Note:** Revenue Recognition obligations are linked to subscription billing schedules and Revenue recognition events (e.g., `finance.revenue.recognized`) for updated revenue waterfall and recognized report.
+
+### Revenue Recognition Schedule
+
+| Field / Event | Source / Description |
+|--------------|---------------------|
+| Revenue Recognition Schedule (`finance.revenue_schedule`) | Subscription data (Commerce) |
+| Revenue Recognition status tracking | Active / expired, linked to Revenue recognized events |
+| Data mask (Subscription ID) | Notify Finance for revenue recognition |
+| `finance.revenue.obligation.identified` | Performance obligation identified for subscription billing — Report service |
+| Revenue Recognition | Not restricted to Finance Service; notify Finance for revenue recognition (no recognition needed) |
+| `finance.revenue.allocateFailed` | Revenue allocation does not allocate the transaction price to standalone selling prices (SP) — Revenue updated to services with correct revenue amount |
+| `finance.revenue.deferred` | Revenue deferred for a subscription |
+
+- **Report Service:** Display deferred revenue by period, subscription, and report service.
+- **ESG Report Service:** Link to subscription billing to report future offsets and refunds from recognizing as deferred revenue, eliminating phantom revenue from inaccurate billing.
+- **Subscription Management:** Auto-credit and dunning management with configurable rules.
+
+### Event Reference
+
+| Event | Description |
+|-------|-------------|
+| `subscription.billing.failed` | Manual retry or subscription cancellation workflow |
+| `subscription.billing.completed` | Subscription billing cycle completed (Revenue recognition triggered) |
+| `commerce.subscription.created` | Subscription created |
+| `commerce.subscription.amended` | Subscription amended |
+| `commerce.subscription.cancelled` | Subscription cancelled |
+| `commerce.subscription.billing.completed` | Subscription billing cycle completed |
+| `commerce.dropship.order.created` | Drop ship order created / dispatched to supplier |
+| `commerce.dropship.order.delivered` | Drop ship order delivered |
+| `finance.revenue.contract.approved` | Revenue contract approved in Finance — contract revenue recognition schedule updated |
+| `crm.territory.updated` | Territory assignment changed (linked to pipeline routing) |
+| `platform.scheduler.job.started` | Scheduled job started |
+| `platform.scheduler.job.completed` | Scheduled job completed |
+| `platform.scheduler.job.failed` | Scheduled job failed |
+| `platform.knowledge.article.created` | Knowledge base article created |
+| `platform.knowledge.article.published` | Knowledge base article published |
+| `platform.knowledge.article.updated` | Knowledge base article updated |
+| `platform.signature.requested` | Digital signature workflow started |
+| `platform.signature.completed` | Digital signature completed |
+| `integration.trade-compliance.screening.completed` | Trade compliance screening completed |
+| `integration.trade-compliance.screening.flagged` | Trade compliance screening flagged a match |
+| `integration.trade-compliance.license.expiring` | Export license approaching expiration |
+
+> **Note:** Integration sync updates EDM reference data categories: Export classifications, subscription billing cycles, and subscription billing models. Subscription management integrates with the configuration model and CRM pipeline. All event data feeds into the Data Lake for analytics.
 
 ### 11.2 Data Quality Rules
 

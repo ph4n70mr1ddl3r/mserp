@@ -65,7 +65,7 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `finance.inbox` | `finance.#`, `commerce.order.#`, `commerce.stock.#`, `hr.payroll.#`, `manufacturing.work-order.#`, `project.invoice.#`, `project.milestone.#`, `config.changed` |
 | `hr.inbox` | `hr.#`, `workflow.step.#`, `config.changed` |
 | `manufacturing.inbox` | `manufacturing.#`, `commerce.stock.#`, `commerce.order.#`, `config.changed` |
-| `report.inbox` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.esg.#`, `platform.carbon.#`, `config.changed` |
+| `report.inbox` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `config.changed` |
 | `workflow.inbox` | `workflow.#`, `hr.leave.#`, `commerce.order.#`, `finance.purchase-order.#`, `finance.expense.#`, `manufacturing.eco.#`, `config.changed` |
 | `platform.inbox` | `platform.#`, `auth.login.#`, `tenant.feature.#`, `config.changed` |
 | `integration.inbox` | `integration.#`, `config.changed` |
@@ -105,6 +105,17 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `commerce.shipment.in-transit` | Shipment in transit (carrier tracking update) |
 | `commerce.shipment.delivered` | Shipment delivered with POD |
 | `commerce.carrier.assigned` | Carrier assigned to shipment |
+| `commerce.credit.hold.applied` | Credit hold applied to order (credit limit exceeded) |
+| `commerce.credit.hold.released` | Credit hold released on order |
+| `commerce.atp.checked` | ATP/CTP availability check performed |
+| `commerce.configurator.completed` | Product configuration completed |
+| `commerce.subscription.created` | Subscription created |
+| `commerce.subscription.amended` | Subscription amended (upgrade/downgrade) |
+| `commerce.subscription.renewed` | Subscription renewed |
+| `commerce.subscription.cancelled` | Subscription cancelled |
+| `commerce.subscription.billing.completed` | Subscription billing cycle completed |
+| `commerce.dropship.order.created` | Drop ship order created and dispatched to supplier |
+| `commerce.dropship.order.delivered` | Drop ship order delivered to end customer |
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
@@ -142,6 +153,11 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `finance.contract.expired` | Contract expired |
 | `finance.plan.created` | Financial plan created (EPM) |
 | `finance.plan.forecast.updated` | Forecast updated in financial plan |
+| `finance.revenue.recognized` | Revenue recognized for a performance obligation |
+| `finance.revenue.adjusted` | Revenue recognition schedule adjusted (contract modification) |
+| `finance.revenue.deferred` | Revenue deferred to future period |
+| `finance.credit-score.updated` | Customer credit score updated |
+| `finance.credit-limit.changed` | Customer credit limit changed |
 
 ### HR Events
 | Event | Description |
@@ -206,6 +222,14 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `platform.grc.sod.conflict.detected` | Segregation of Duties conflict detected |
 | `platform.grc.incident.created` | GRC incident created |
 | `platform.data-mask.applied` | Data masking rule applied to non-production environment |
+| `platform.scheduler.job.started` | Scheduled job started execution |
+| `platform.scheduler.job.completed` | Scheduled job completed |
+| `platform.scheduler.job.failed` | Scheduled job failed |
+| `platform.knowledge.article.created` | Knowledge base article created |
+| `platform.knowledge.article.published` | Knowledge base article published |
+| `platform.knowledge.article.updated` | Knowledge base article updated |
+| `platform.signature.requested` | Digital signature requested |
+| `platform.signature.completed` | Digital signature completed |
 
 > **Note:** `platform.audit.logged` is an internal event published for observability. Report Service subscribes for compliance dashboards. The authoritative audit log is stored directly in `audit_db` at write time (not event-sourced).
 
@@ -263,6 +287,13 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `crm.activity.logged` | Activity (call, email, meeting) logged |
 | `crm.case.created` | Service case created |
 | `crm.case.resolved` | Service case resolved |
+| `crm.service-order.created` | Field service order created |
+| `crm.service-order.completed` | Field service order completed |
+| `crm.service-order.dispatched` | Technician dispatched for service |
+| `crm.survey.created` | Survey created |
+| `crm.survey.response.received` | Survey response submitted |
+| `crm.territory.updated` | Sales territory assignment updated |
+| `crm.quota.allocated` | Sales quota allocated |
 
 ### Project Events
 | Event | Description |
@@ -289,6 +320,9 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `integration.master-data.matched` | Master data matching result produced |
 | `integration.master-data.merged` | Master data records merged into golden record |
 | `integration.master-data.quality.violation` | Data quality rule violated |
+| `integration.trade-compliance.screening.completed` | Trade compliance screening completed |
+| `integration.trade-compliance.screening.flagged` | Trade compliance screening flagged a match |
+| `integration.trade-compliance.license.expiring` | Export license approaching expiration |
 
 > **Note:** Integration Service primarily produces outbound events (sync/import status). External system notifications are handled via direct outbound HTTP calls or webhooks. MDM events are consumed by Report Service for data quality dashboards.
 
@@ -304,6 +338,9 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `commerce.pricing.calculated` | Commerce | Report |
 | `commerce.product.approved` | Commerce | Report, Integration (MDM) |
 | `commerce.shipment.dispatched` | Commerce | Report, Platform |
+| `commerce.credit.hold.applied` | Commerce | Finance, Platform, Report, Workflow |
+| `commerce.subscription.created` | Commerce | Finance, Report |
+| `commerce.subscription.cancelled` | Commerce | Finance, Report |
 | `finance.purchase-order.received` | Finance | Commerce, Platform, Report |
 | `finance.invoice.created` | Finance | Commerce (saga), Platform, Report |
 | `finance.invoice.paid` | Finance | Report, CRM |
@@ -313,6 +350,7 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `finance.treasury.cash-position.updated` | Finance | Report |
 | `finance.contract.approved` | Finance | Report, Platform |
 | `finance.plan.forecast.updated` | Finance | Report |
+| `finance.revenue.recognized` | Finance | Report, Commerce (for subscription billing) |
 | `manufacturing.work-order.completed` | Manufacturing | Commerce, Finance, Report |
 | `manufacturing.eco.approved` | Manufacturing | Commerce, Report |
 | `manufacturing.product-lifecycle.phase-out` | Manufacturing | Commerce, Report |
@@ -324,12 +362,15 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `hr.talent-review.initiated` | HR | Report, Platform |
 | `crm.opportunity.won` | CRM | Commerce, Report |
 | `crm.opportunity.lost` | CRM | Report |
+| `crm.survey.response.received` | CRM | Report |
+| `crm.service-order.completed` | CRM | Commerce (parts), Report |
 | `project.milestone.reached` | Project | Platform, Report, Finance |
 | `project.invoice.generated` | Project | Finance, Report |
 | `platform.audit.logged` | Platform | Report |
 | `platform.grc.compliance.violation.detected` | Platform | Report, Workflow |
 | `platform.grc.sod.conflict.detected` | Platform | Report, Workflow |
 | `integration.master-data.merged` | Integration | Report |
+| `integration.trade-compliance.screening.flagged` | Integration | Platform, Report, Workflow |
 | `tenant.feature.changed` | Tenant | Platform (flushes Redis), Report |
 | `auth.login.failed` | Auth | Platform (security audit) |
 | `config.changed` | Config | All services with inboxes |

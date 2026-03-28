@@ -316,6 +316,13 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `COMMERCE_PRICE_INVALID` | 400 | Pricing rule produced invalid price |
 | `COMMERCE_CARRIER_NOT_AVAILABLE` | 409 | No carrier available for requested route |
 | `COMMERCE_SHIPMENT_INVALID` | 400 | Shipment parameters invalid |
+| `COMMERCE_ATP_UNAVAILABLE` | 409 | No available-to-promise quantity for requested date |
+| `COMMERCE_CREDIT_HOLD` | 409 | Order held due to credit limit exceeded |
+| `COMMERCE_CONFIG_INVALID` | 400 | Product configuration violates constraint rules |
+| `COMMERCE_CONFIG_INCOMPLETE` | 400 | Product configuration is incomplete |
+| `COMMERCE_SUBSCRIPTION_INACTIVE` | 409 | Subscription is not in an active state |
+| `COMMERCE_SUBSCRIPTION_AMENDMENT_INVALID` | 400 | Subscription amendment parameters invalid |
+| `COMMERCE_DROPSHIP_UNAVAILABLE` | 409 | Drop ship not available for this product/supplier combination |
 
 ### 8.3 Finance Error Codes
 
@@ -335,6 +342,9 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `FINANCE_CONTRACT_EXPIRED` | 409 | Contract has expired |
 | `FINANCE_CONTRACT_NOT_APPROVED` | 409 | Contract requires approval before execution |
 | `FINANCE_PLAN_LOCKED` | 409 | Financial plan is locked for editing |
+| `FINANCE_REVENUE_ALREADY_RECOGNIZED` | 409 | Revenue already recognized for this obligation |
+| `FINANCE_REVENUE_ALLOCATION_INVALID` | 400 | Revenue allocation amounts do not sum to transaction price |
+| `FINANCE_SSP_MISSING` | 400 | Standalone selling price not available for allocation |
 
 ### 8.4 HR Error Codes
 
@@ -367,6 +377,9 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `CRM_DUPLICATE_CONTACT` | 409 | Contact already exists with this email |
 | `CRM_LEAD_CONVERTED` | 409 | Lead already converted to opportunity/customer |
 | `CRM_CAMPAIGN_ACTIVE` | 409 | Campaign is active and cannot be modified |
+| `CRM_SURVEY_CLOSED` | 409 | Survey is no longer accepting responses |
+| `CRM_SERVICE_ORDER_IN_PROGRESS` | 409 | Service order cannot be modified while in progress |
+| `CRM_TERRITORY_CONFLICT` | 409 | Territory assignment conflicts with existing assignment |
 
 ### 8.7 Project Error Codes
 
@@ -385,8 +398,23 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PLATFORM_SOD_CONFLICT` | 409 | Segregation of Duties conflict detected |
 | `PLATFORM_COMPLIANCE_VIOLATION` | 403 | Operation violates compliance policy |
 | `PLATFORM_MASKING_RULE_INVALID` | 400 | Data masking rule configuration invalid |
+| `PLATFORM_JOB_ALREADY_RUNNING` | 409 | Scheduled job is already running |
+| `PLATFORM_JOB_NOT_FOUND` | 404 | Scheduled job definition not found |
+| `PLATFORM_SCREENING_MATCH_FOUND` | 409 | Trade compliance screening flagged a restricted party match |
 
-### 8.9 Error Code Rules
+### 8.9 Integration Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `INTEGRATION_SYNC_IN_PROGRESS` | 409 | Sync already in progress for this integration |
+| `INTEGRATION_CONNECTION_FAILED` | 502 | Failed to connect to external system |
+| `INTEGRATION_AUTH_EXPIRED` | 401 | OAuth token or credential expired for external system |
+| `INTEGRATION_MAPPING_INVALID` | 400 | Field mapping configuration invalid |
+| `INTEGRATION_SCREENING_MATCH` | 409 | Restricted party match found during screening |
+| `INTEGRATION_LICENSE_EXPIRED` | 409 | Export license has expired |
+| `INTEGRATION_CLASSIFICATION_REQUIRED` | 400 | Export control classification required |
+
+### 8.10 Error Code Rules
 
 - Each service MUST register its error codes in its OpenAPI spec via the `errors` extension.
 - New error codes MUST be additive only (never remove or rename).
@@ -510,6 +538,20 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/commerce/shipments/{id}/tracking` | Get shipment tracking |
 | POST | `/api/v1/commerce/shipments/{id}/dispatch` | Dispatch shipment to carrier |
 | POST | `/api/v1/commerce/shipments/{id}/deliver` | Confirm delivery with POD |
+| GET | `/api/v1/commerce/atp/check` | Check ATP/CTP availability |
+| POST | `/api/v1/commerce/configurator/configure` | Configure a product |
+| GET | `/api/v1/commerce/configurator/models` | List configurator models |
+| GET | `/api/v1/commerce/credit/{customerId}` | Get customer credit status |
+| PUT | `/api/v1/commerce/credit/{customerId}/limit` | Update credit limit |
+| POST | `/api/v1/commerce/credit/{customerId}/hold` | Apply credit hold |
+| POST | `/api/v1/commerce/credit/{customerId}/release` | Release credit hold |
+| GET | `/api/v1/commerce/subscriptions` | List subscriptions |
+| POST | `/api/v1/commerce/subscriptions` | Create subscription |
+| GET | `/api/v1/commerce/subscriptions/{id}` | Get subscription |
+| POST | `/api/v1/commerce/subscriptions/{id}/amend` | Amend subscription |
+| POST | `/api/v1/commerce/subscriptions/{id}/cancel` | Cancel subscription |
+| POST | `/api/v1/commerce/subscriptions/{id}/renew` | Renew subscription |
+| POST | `/api/v1/commerce/dropship/orders` | Create drop ship order |
 
 ### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |
@@ -566,6 +608,13 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/finance/plans/{id}/forecast` | Generate forecast |
 | POST | `/api/v1/finance/plans/{id}/what-if` | Run what-if scenario |
 | GET | `/api/v1/finance/plans/{id}/variance` | Get variance analysis |
+| GET | `/api/v1/finance/revenue/contracts` | List revenue recognition contracts |
+| POST | `/api/v1/finance/revenue/contracts` | Create revenue contract |
+| GET | `/api/v1/finance/revenue/contracts/{id}/obligations` | List performance obligations |
+| GET | `/api/v1/finance/revenue/contracts/{id}/schedule` | Get revenue recognition schedule |
+| POST | `/api/v1/finance/revenue/contracts/{id}/recognize` | Recognize revenue for period |
+| GET | `/api/v1/finance/revenue/waterfall` | Get revenue waterfall report |
+| GET | `/api/v1/finance/revenue/disclosures` | Get revenue disclosure data |
 
 ### HR Service
 | Method | Endpoint | Description |
@@ -652,6 +701,20 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/crm/cases` | List service cases |
 | POST | `/api/v1/crm/cases` | Create service case |
 | POST | `/api/v1/crm/cases/{id}/resolve` | Resolve service case |
+| GET | `/api/v1/crm/service-orders` | List service orders |
+| POST | `/api/v1/crm/service-orders` | Create service order |
+| GET | `/api/v1/crm/service-orders/{id}` | Get service order |
+| POST | `/api/v1/crm/service-orders/{id}/dispatch` | Dispatch technician |
+| POST | `/api/v1/crm/service-orders/{id}/complete` | Complete service order |
+| GET | `/api/v1/crm/surveys` | List surveys |
+| POST | `/api/v1/crm/surveys` | Create survey |
+| POST | `/api/v1/crm/surveys/{id}/responses` | Submit survey response |
+| GET | `/api/v1/crm/surveys/{id}/analytics` | Get survey analytics |
+| GET | `/api/v1/crm/territories` | List sales territories |
+| POST | `/api/v1/crm/territories` | Create territory |
+| PUT | `/api/v1/crm/territories/{id}/assign` | Assign accounts to territory |
+| GET | `/api/v1/crm/quotas` | List sales quotas |
+| POST | `/api/v1/crm/quotas` | Allocate quotas |
 
 ### Project Management Service
 | Method | Endpoint | Description |
@@ -712,6 +775,21 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/platform/data-masking/rules` | List data masking rules |
 | POST | `/api/v1/platform/data-masking/rules` | Create data masking rule |
 | POST | `/api/v1/platform/data-masking/subset` | Generate masked data subset for non-prod |
+| GET | `/api/v1/platform/scheduler/jobs` | List scheduled jobs |
+| POST | `/api/v1/platform/scheduler/jobs` | Create scheduled job |
+| GET | `/api/v1/platform/scheduler/jobs/{id}` | Get job definition |
+| PUT | `/api/v1/platform/scheduler/jobs/{id}` | Update job definition |
+| POST | `/api/v1/platform/scheduler/jobs/{id}/trigger` | Trigger manual job execution |
+| GET | `/api/v1/platform/scheduler/jobs/{id}/executions` | Get job execution history |
+| GET | `/api/v1/platform/knowledge/articles` | List knowledge articles |
+| POST | `/api/v1/platform/knowledge/articles` | Create knowledge article |
+| GET | `/api/v1/platform/knowledge/articles/{id}` | Get article |
+| PUT | `/api/v1/platform/knowledge/articles/{id}` | Update article |
+| POST | `/api/v1/platform/knowledge/articles/{id}/publish` | Publish article |
+| GET | `/api/v1/platform/knowledge/search` | Search knowledge base |
+| POST | `/api/v1/platform/signatures/request` | Request digital signature |
+| GET | `/api/v1/platform/signatures/{id}` | Get signature status |
+| POST | `/api/v1/platform/signatures/{id}/sign` | Sign document |
 
 ### Workflow Service
 | Method | Endpoint | Description |
@@ -779,6 +857,11 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/integrations/governance/catalog` | Browse data catalog |
 | GET | `/api/v1/integrations/governance/lineage/{entity}/{id}` | Get data lineage |
 | GET | `/api/v1/integrations/governance/classifications` | List data classifications |
+| POST | `/api/v1/integrations/trade-compliance/screen` | Screen entity against denied party lists |
+| GET | `/api/v1/integrations/trade-compliance/screening-results` | Get screening results |
+| GET | `/api/v1/integrations/trade-compliance/licenses` | List export licenses |
+| POST | `/api/v1/integrations/trade-compliance/licenses` | Create export license |
+| GET | `/api/v1/integrations/trade-compliance/classifications` | List export control classifications |
 
 ---
 
