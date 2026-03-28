@@ -229,6 +229,69 @@
 | `compliance_control_mappings` | Cross-framework control mapping entries (SOC 2, GDPR, HIPAA, PCI DSS, SOX, ISO 27001) |
 | `compliance_calendar_events` | Compliance calendar entries with filing deadlines, audit schedules, and certification renewals |
 
+## 22. Dynamic Discounting Data Model
+
+| Table / Field | Description |
+|---|---|
+| `dynamic_discount_programs` | Discount program definitions with supplier enrollment, tier structures, and APR calculations |
+| `dynamic_discount_offers` | Early payment discount offers with invoice linkage, discount rate, early payment date, and APR |
+| `dynamic_discount_acceptances` | Supplier acceptances of early payment offers with acceptance timestamp and terms |
+| `dynamic_discount_payments` | Early payment executions with discount captured, payment reference, and cash flow impact |
+| `working_capital_metrics` | Working capital KPI snapshots (DSO, DPO, DIO, CCC) with trend tracking by entity and period |
+
+## 23. Financial Reporting Studio Data Model
+
+| Table / Field | Description |
+|---|---|
+| `report_templates` | Report template definitions with type, framework (GAAP/IFRS/local), layout, and cells |
+| `report_template_cells` | Individual report cells with data binding, formatting, XBRL tag, and conditional rules |
+| `report_instances` | Generated report instances from templates with period, entities, parameters, and status |
+| `report_xbrl_mappings` | XBRL taxonomy element mappings to financial data elements with validation rules |
+| `report_distributions` | Report distribution records with recipient, format, delivery method, and timestamp |
+| `report_annotations` | Collaborative annotations on report sections with author, thread, and resolution status |
+
+## 24. Enterprise Data Quality Data Model
+
+| Table / Field | Description |
+|---|---|
+| `dq_profiles` | Data profiling results by entity, source, and dimension with statistical summaries |
+| `dq_rules` | Data quality rule definitions with type, configuration, severity, and active status |
+| `dq_violations` | Data quality rule violation records with entity, record, rule, and remediation status |
+| `dq_match_rules` | Matching and deduplication rule configurations with match criteria and survivorship rules |
+| `dq_match_results` | Matching execution results with matched pairs, confidence scores, and merge actions |
+| `dq_scorecards` | Data quality scorecards by entity, dimension (completeness, accuracy, consistency, timeliness, validity), and period |
+
+## 25. Supply Chain Collaboration Data Model
+
+| Table / Field | Description |
+|---|---|
+| `scc_supplier_connections` | Supplier network connections with tier, collaboration level, and data sharing preferences |
+| `scc_demand_shares` | Demand signal sharing records with supplier, products, forecast data, and sharing frequency |
+| `scc_capacity_commitments` | Supplier capacity commitments with product, quantity, period, and confidence level |
+| `scc_cpfr_sessions` | CPFR collaboration sessions with buyer forecast, supplier forecast, and consensus forecast |
+| `scc_asn_records` | Advanced Shipment Notice records with supplier, PO linkage, items, and expected delivery |
+| `scc_scorecards` | Supplier collaboration scorecards with responsiveness, accuracy, on-time, and quality metrics |
+
+## 26. Connected Planning Data Model
+
+| Table / Field | Description |
+|---|---|
+| `planning_assumptions` | Shared planning assumptions library with values, effective dates, and source domain |
+| `planning_models` | Planning model definitions by domain (financial, workforce, supply chain) with drivers and parameters |
+| `planning_scenarios` | Planning scenario instances with versions, assumptions, and simulation results |
+| `planning_drivers` | Cross-domain planning drivers with linkage to affected models and impact weights |
+| `planning_model_versions` | Planning model version history with snapshots, baseline, and variance analysis |
+
+## 27. Intelligent Process Automation Data Model
+
+| Table / Field | Description |
+|---|---|
+| `ipa_cognitive_bots` | Cognitive bot definitions with type, ML model references, and capability profile |
+| `ipa_bot_learning_events` | Bot self-learning events with feedback type, model adjustment, and improvement metrics |
+| `ipa_process_discoveries` | Discovered automation opportunities with process signature, frequency, and automation potential |
+| `ipa_orchestration_flows` | Multi-bot orchestration flow definitions with steps, dependencies, and shared state |
+| `ipa_exception_patterns` | Classified exception patterns with auto-resolution rules and escalation thresholds |
+
 ---
 
 *See [Data Architecture Overview](overview.md) for database patterns and schema elements.*

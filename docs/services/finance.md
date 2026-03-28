@@ -114,6 +114,19 @@
 | Dispute Management | Dispute tracking linked to collection activities with resolution workflows |
 | Scoring | Predictive collection scoring for prioritizing collection activities |
 
+## Dynamic Discounting & Early Payment Optimization
+
+| Module | Description |
+|--------|-------------|
+| Discount Program Setup | Configure dynamic discount programs with sliding-scale discount tiers based on payment timing (e.g., 2% for payment within 10 days, 1% within 20 days) |
+| Early Payment Offers | Automated early payment offer generation based on cash position, discount thresholds, and supplier discount terms |
+| Discount Optimization | ML-powered optimization of which invoices to pay early based on discount APR vs. cost of capital, maximizing discount capture |
+| Working Capital Analytics | Real-time working capital dashboards with DSO, DPO, DIO metrics and cash conversion cycle analysis |
+| Discount Capture Rate | Discount capture rate tracking by supplier, category, and period with opportunity identification |
+| APR Calculation | Automatic annualized percentage rate calculation for early payment discounts (e.g., 2/10 Net 30 = ~36.5% APR) |
+| Cash Flow Impact | Simulation of early payment scenarios on cash position, liquidity, and banking covenants |
+| Supplier Portal Integration | Supplier self-service portal for discount program enrollment, offer acceptance, and payment tracking |
+
 ## Enterprise Expense Management
 
 | Module | Description |
@@ -273,6 +286,21 @@
 | Goal Setting | Configurable diversity spend targets with progress tracking |
 | Compliance Reporting | Government-mandated diversity reporting with automated form generation |
 | Sourcing Integration | Diversity criteria in sourcing events with weighted scoring |
+
+## Advanced Financial Reporting Studio
+
+| Module | Description |
+|--------|-------------|
+| Report Designer | Drag-and-drop report builder with grid cells, embedded charts, conditional formatting, and calculated fields |
+| XBRL Taxonomy | XBRL taxonomy mapping with automated tagging of financial data elements for regulatory filing |
+| Regulatory Templates | Pre-built report templates for SEC filings, IFRS/GAAP financial statements, and local regulatory requirements |
+| Management Reporting | Management report builder with narrative sections, commentary, and collaborative annotations |
+| Consolidated Reporting | Multi-entity consolidated report generation with elimination entries and currency translation |
+| Report Scheduling | Scheduled report generation and distribution with burst-by entity/department |
+| Interactive Drill-Down | Interactive reports with drill-down from summary to transaction-level detail |
+| Report Versioning | Report template versioning with approval workflows and audit trail |
+| Export Formats | Export to PDF, Excel, HTML, XBRL instance documents, and PowerPoint |
+| Report Bursting | Automated report distribution to specific recipients based on entity, department, or role |
 
 ## See Also
 

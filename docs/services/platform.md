@@ -117,6 +117,19 @@
 | Validation | Extracted data validation against business rules and reference data |
 | Integration | Auto-create business documents (invoices, expenses) from extracted data |
 
+## Intelligent Process Automation (IPA)
+
+| Module | Description |
+|--------|-------------|
+| Cognitive Bots | AI-enhanced RPA bots with computer vision, NLP understanding, and adaptive decision-making |
+| Self-Learning Bots | Bots that improve from feedback loops, learning from exception handling patterns and user corrections |
+| Process Discovery | ML-based process discovery from user interaction analytics to identify automation opportunities |
+| Human-in-the-Loop | Configurable human intervention points for exception handling, approval, and validation |
+| Bot Orchestration | Multi-bot orchestration with parallel execution, dependency management, and shared state |
+| Exception Classification | ML-based classification of bot exceptions with auto-resolution for known patterns |
+| Automation ROI | ROI dashboards tracking time saved, error reduction, cost savings, and throughput improvement |
+| Attended Automation | Desktop assistant bots that work alongside users, triggered by context and user actions |
+
 ## See Also
 
 - [Integration Service](integration.md)

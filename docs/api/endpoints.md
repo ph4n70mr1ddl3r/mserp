@@ -278,7 +278,7 @@
 | POST | `/api/v1/finance/tax/reconciliation` | Run tax reconciliation |
 | POST | `/api/v1/finance/commodity/catalog` | Create commodity catalog entry |
 | GET | `/api/v1/finance/commodity/prices` | Get commodity market prices |
-| GET | `/api/v1/commodity/contracts` | List commodity contracts |
+| GET | `/api/v1/finance/commodity/contracts` | List commodity contracts |
 | POST | `/api/v1/finance/commodity/contracts` | Create commodity contract |
 | GET | `/api/v1/finance/commodity/hedging/positions` | List hedging positions |
 | GET | `/api/v1/finance/spend/classification` | Get spend classification results |

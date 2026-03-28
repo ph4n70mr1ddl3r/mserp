@@ -29,6 +29,13 @@ MSERP uses **cache-aside** pattern with Redis as the caching layer.
 | Digital twin state | Write-through | 30 seconds | On `manufacturing.digital-twin.state.updated` event |
 | Contact center queue status | Cache-aside | 10 seconds | On `crm.contact-center.*` events |
 | Supplier diversity classifications | Cache-aside | 30 minutes | On `finance.diversity.*` events |
+| Data quality scorecards | Cache-aside | 15 minutes | On `integration.data-quality.*` events |
+| Dynamic discount programs | Cache-aside | 30 minutes | On `finance.dynamic-discount.offer-created` event |
+| Planning scenarios | Cache-aside | 5 minutes | On `report.planning.scenario.*` events |
+| Planning assumptions | Cache-aside | 15 minutes | On `report.planning.driver.updated` event |
+| Supply chain collaboration scorecards | Cache-aside | 30 minutes | On `commerce.collaboration.*` events |
+| Report templates | Cache-aside | 1 hour | On `finance.report.template-created` event |
+| Supplier collaboration connections | Cache-aside | 15 minutes | On `commerce.collaboration.*` events |
 
 ### 3.3 Cache Key Format
 
@@ -51,6 +58,12 @@ Examples:
 - `mserp:tenant-123:finance:commodity:price:GOLD`
 - `mserp:tenant-123:platform:compliance:controls:SOC2`
 - `mserp:tenant-123:manufacturing:digital_twin:asset-456`
+- `mserp:tenant-123:integration:data_quality:scorecard:customer`
+- `mserp:tenant-123:finance:dynamic_discount:program:prog-001`
+- `mserp:tenant-123:report:planning:scenario:sce-001`
+- `mserp:tenant-123:report:planning:assumptions:global`
+- `mserp:tenant-123:commerce:collaboration:scorecard:supplier-001`
+- `mserp:tenant-123:finance:report_template:tmpl-001`
 
 ### 3.4 Cache Invalidation
 

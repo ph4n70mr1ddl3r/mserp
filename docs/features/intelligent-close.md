@@ -133,7 +133,7 @@ Intelligent Close transforms the traditional batch-oriented financial close into
 
 - [Account Reconciliation](reconciliation.md) — Auto-matching and reconciliation features
 - [Adaptive Intelligence](adaptive-intelligence.md) — ML model training and inference pipeline
-- [Workflow Engine](workflow.md) — Close task workflow definitions and escalation rules
+- [Workflow Engine](../services/workflow.md) — Close task workflow definitions and escalation rules
 - [Revenue Recognition](revenue-recognition.md) — Revenue recognition close tasks
 - [Finance Service](../services/finance.md) — Period management and GL operations
 - [Report Service](../services/report.md) — Dashboard and ML inference

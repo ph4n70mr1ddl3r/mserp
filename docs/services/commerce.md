@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8010 |
 | Database | `commerce_db` |
-| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, B2B commerce portal, adaptive intelligence, loyalty management, omnichannel management, price optimization |
+| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, B2B commerce portal, Adaptive Intelligence integration with Report Service, loyalty management, omnichannel management, price optimization |
 | Rationale | See [Architecture — Service Consolidation](../architecture/overview.md#4-service-consolidation-rationale) |
 
 ## Sales Modules
@@ -218,6 +218,19 @@
 | Fair Share Allocation | Proportional allocation of limited supply across customers based on order date, quantity, and priority |
 | Allocation Scheduling | Scheduled allocation runs with reallocation triggers on supply or demand changes |
 | Allocation Analytics | Allocation fill rate analysis, shortage impact reporting, and customer satisfaction scoring |
+
+## Supply Chain Collaboration Network
+
+| Module | Description |
+|--------|-------------|
+| Supplier Collaboration Portal | Multi-tier supplier portal for demand visibility, order collaboration, and performance tracking |
+| Demand Signal Sharing | Configurable demand signal sharing with suppliers based on forecast, order book, and POS data |
+| Collaborative Forecasting (CPFR) | Collaborative Planning, Forecasting & Replenishment with supplier joint planning workflows |
+| Capacity Commitment | Supplier capacity commitment exchange with automated alerting on capacity constraints |
+| Joint Inventory Planning | Multi-party inventory planning with VMI, consignment, and safety stock sharing |
+| Supply Risk Network | Multi-tier supply risk visibility with automated escalation and alternative sourcing |
+| Performance Benchmarking | Supplier performance benchmarking with industry peer comparison and best practice identification |
+| ASN Management | Advanced Shipment Notice collaboration with automated receiving preparation |
 
 ## See Also
 

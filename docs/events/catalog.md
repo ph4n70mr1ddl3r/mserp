@@ -62,6 +62,10 @@
 | `commerce.loyalty.tier.changed` | Customer loyalty tier changed. Payload: `{ customer_id, old_tier, new_tier }` |
 | `commerce.omnichannel.order.routed` | Order routed to fulfillment location. Payload: `{ order_id, channel, fulfillment_location, routing_reason }` |
 | `commerce.price.optimized` | Price optimization suggestion generated. Payload: `{ product_id, current_price, suggested_price, confidence }` |
+| `commerce.collaboration.demand-shared` | Demand signal shared with supplier. Payload: `{ share_id, supplier_id, product_ids, forecast_data, confidence }` |
+| `commerce.collaboration.capacity.committed` | Supplier capacity commitment received. Payload: `{ commitment_id, supplier_id, product_id, quantity, period }` |
+| `commerce.collaboration.cpfr.updated` | CPFR forecast updated collaboratively. Payload: `{ cpfr_id, supplier_id, buyer_forecast, supplier_forecast, consensus_forecast }` |
+| `commerce.collaboration.asn.submitted` | Advanced Shipment Notice submitted by supplier. Payload: `{ asn_id, supplier_id, po_id, expected_delivery, items }` |
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
@@ -137,6 +141,13 @@
 | `finance.commodity.price.updated` | Commodity market price updated |
 | `finance.spend.classified` | Spend transaction classified by ML |
 | `finance.diversity.spend.recorded` | Diverse supplier spend recorded |
+| `finance.dynamic-discount.offer-created` | Early payment discount offer generated. Payload: `{ offer_id, invoice_id, discount_rate, discount_amount, early_payment_date, apr }` |
+| `finance.dynamic-discount.offer-accepted` | Supplier accepted early payment discount offer. Payload: `{ offer_id, supplier_id, accepted_at }` |
+| `finance.dynamic-discount.payment-executed` | Early payment executed with discount applied. Payload: `{ offer_id, payment_id, discount_captured, payment_date }` |
+| `finance.report.template-created` | Financial report template created. Payload: `{ template_id, report_type, framework, created_by }` |
+| `finance.report.generated` | Financial report generated from template. Payload: `{ report_id, template_id, period, entity_ids }` |
+| `finance.report.published` | Financial report published for distribution. Payload: `{ report_id, published_by, distribution_list }` |
+| `finance.xbrl.filing-completed` | XBRL filing completed and validated. Payload: `{ filing_id, taxonomy_version, validation_status }` |
 
 ### HR Events
 | Event | Description |
@@ -240,6 +251,9 @@
 | `platform.itsm.incident.created` | IT service incident created. Payload: `{ incident_id, priority, category, requester_id }` |
 | `platform.itsm.change.approved` | IT change request approved. Payload: `{ change_id, risk_level, implementation_date }` |
 | `platform.compliance.alert.triggered` | Compliance hub alert triggered. Payload: `{ alert_id, domain, severity, regulation, affected_entities }` |
+| `platform.ipa.cognitive-bot.executed` | Intelligent process automation bot completed cognitive task. Payload: `{ bot_id, execution_id, task_type, confidence, human_override }` |
+| `platform.ipa.process.discovered` | New automation opportunity discovered from usage analytics. Payload: `{ discovery_id, process_type, automation_potential, estimated_savings }` |
+| `platform.ipa.bot.self-learned` | Bot updated its model from feedback. Payload: `{ bot_id, model_version, improvement_metric }` |
 
 > **Note:** `platform.audit.logged` is an internal event published for observability. Report Service subscribes for compliance dashboards. The authoritative audit log is stored directly in `audit_db` at write time (not event-sourced).
 
@@ -348,6 +362,10 @@
 | `integration.blockchain.smart-contract.executed` | Smart contract executed on blockchain. Payload: `{ contract_id, transaction_hash, result }` |
 | `integration.developer-portal.api-key.provisioned` | Developer portal API key provisioned. Payload: `{ key_id, developer_id, scopes }` |
 | `integration.developer-portal.sandbox.reset` | Developer portal sandbox environment reset. Payload: `{ sandbox_id, requester_id }` |
+| `integration.data-quality.profile.completed` | Data profiling completed for entity. Payload: `{ profile_id, entity_type, records_profiled, quality_score }` |
+| `integration.data-quality.rule.violated` | Data quality rule violation detected. Payload: `{ violation_id, rule_id, entity_type, record_id, violation_details }` |
+| `integration.data-quality.cleansing.completed` | Data cleansing batch completed. Payload: `{ batch_id, records_processed, records_cleansed, records_flagged }` |
+| `integration.data-quality.match.completed` | Data matching and deduplication completed. Payload: `{ match_id, entity_type, records_matched, records_merged, survivors }` |
 
 > **Note:** Integration Service primarily produces outbound events (sync/import status). External system notifications are handled via direct outbound HTTP calls or webhooks. MDM events are consumed by Report Service for data quality dashboards.
 
@@ -363,6 +381,9 @@
 | `report.cpm.scorecard.updated` | Balanced scorecard recalculated |
 | `report.narrative.package.published` | Report package published for distribution |
 | `report.narrative.commentary.added` | Commentary added to report section |
+| `report.planning.scenario.created` | Connected planning scenario created. Payload: `{ scenario_id, planning_domains, assumptions, created_by }` |
+| `report.planning.scenario.compared` | Planning scenarios compared side-by-side. Payload: `{ comparison_id, scenario_ids, metrics_compared }` |
+| `report.planning.driver.updated` | Planning driver value updated affecting connected models. Payload: `{ driver_id, old_value, new_value, affected_models }` |
 
 ### Cross-Domain Events
 | Event | Publisher | Subscribers |

@@ -145,7 +145,7 @@ Account Reconciliation provides end-to-end automation of the financial reconcili
 
 - [Intelligent Close](intelligent-close.md) — AI-driven close automation and anomaly detection
 - [Adaptive Intelligence](adaptive-intelligence.md) — ML model training and inference pipeline
-- [Workflow Engine](workflow.md) — Exception management workflow definitions
+- [Workflow Engine](../services/workflow.md) — Exception management workflow definitions
 - [Data Import/Export](data-import-export.md) — Statement import framework
 - [Architecture Overview](../architecture/overview.md) — System communication patterns
 - [Finance Service](../services/finance.md) — Finance service specification

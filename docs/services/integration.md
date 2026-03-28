@@ -28,6 +28,20 @@
 | Developer Portal | Self-service portal for API consumers with sandbox access, documentation, and migration guides |
 | Blockchain Integration | Distributed ledger integration for supply chain provenance, smart contracts, and cross-party settlement via Hyperledger Fabric / Ethereum-compatible adapter |
 
+## Enterprise Data Quality Management
+
+| Module | Description |
+|--------|-------------|
+| Data Profiling | Automated data profiling across all connected data sources with statistical analysis (completeness, uniqueness, distribution, patterns) |
+| Cleansing Rules | Configurable cleansing rules engine with standardization, normalization, and enrichment transformations |
+| Matching & Deduplication | Deterministic and probabilistic matching with configurable match rules, survivorship rules, and merge workflows |
+| Data Enrichment | Automated data enrichment from internal and external sources (firmographics, geocoding, standardization) |
+| Quality Scorecards | Data quality scorecards by entity, source, and dimension (completeness, accuracy, consistency, timeliness, validity) |
+| Anomaly Detection | ML-based data quality anomaly detection with configurable thresholds and alerting |
+| Stewardship Workflows | Data steward review and remediation workflows with task assignment and SLA tracking |
+| Quality SLAs | Data quality service level agreements with threshold monitoring and escalation |
+| Integration with MDM | Seamless integration with MDM golden records for master data quality enforcement |
+
 ## See Also
 
 - [Platform Service](platform.md)

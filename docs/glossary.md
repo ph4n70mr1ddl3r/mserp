@@ -185,6 +185,21 @@
 | MRO | Maintenance, Repair & Operations — supplies and activities for keeping assets operational |
 | SDS | Safety Data Sheet — standardized chemical hazard information document |
 | UNSPSC | United Nations Standard Products and Services Code — spend classification taxonomy |
+| IPA | Intelligent Process Automation — combination of RPA with AI/ML for cognitive automation, self-learning bots, and process discovery |
+| Dynamic Discounting | Early payment discount strategy where buyers offer suppliers sliding-scale discounts based on payment timing to optimize working capital |
+| XBRL | eXtensible Business Reporting Language — XML-based standard for electronic transmission of business and financial data |
+| CPFR | Collaborative Planning, Forecasting & Replenishment — supply chain collaboration framework for joint demand planning between trading partners |
+| Connected Planning | Unified planning approach that links financial, workforce, and supply chain planning models through shared assumptions and drivers |
+| APR | Annual Percentage Rate — yearly interest rate used to compare early payment discount value to cost of capital |
+| DSO | Days Sales Outstanding — average number of days to collect payment after a sale |
+| DPO | Days Payable Outstanding — average number of days to pay suppliers after invoice receipt |
+| DIO | Days Inventory Outstanding — average number of days inventory is held before sale |
+| CCC | Cash Conversion Cycle — time between paying for raw materials and collecting cash from sales (DIO + DSO - DPO) |
+| Data Profiling | Statistical analysis of data to assess quality, structure, and content including completeness, uniqueness, and distribution |
+| VMI | Vendor Managed Inventory — supplier manages buyer's inventory levels based on agreed parameters |
+| ASN | Advanced Shipment Notice — electronic notification from supplier to buyer about pending delivery |
+| WORM | Write Once Read Many — storage model where data, once written, cannot be modified, used for compliance archiving |
+| Data Quality Dimension | Measurable aspect of data quality: completeness, accuracy, consistency, timeliness, validity, uniqueness |
 
 ## References
 

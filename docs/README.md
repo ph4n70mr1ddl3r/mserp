@@ -82,6 +82,12 @@
 | [Enterprise Contact Center](features/contact-center.md) | Omnichannel routing, IVR, workforce management |
 | [Product Compliance & Regulatory](features/product-compliance.md) | Regulatory database, certifications, material compliance |
 | [Compliance Hub](features/compliance-hub.md) | Unified compliance dashboard, regulatory change tracker |
+| [Enterprise Data Quality](features/enterprise-data-quality.md) | Data profiling, cleansing, matching, enrichment, quality scorecards |
+| [Connected Planning](features/connected-planning.md) | Unified financial, workforce, and supply chain planning |
+| [Intelligent Process Automation](features/intelligent-process-automation.md) | Cognitive RPA with AI, self-learning bots, process discovery |
+| [Dynamic Discounting](features/dynamic-discounting.md) | Early payment discount optimization, working capital analytics |
+| [Supply Chain Collaboration](features/supply-chain-collaboration.md) | Multi-tier supplier visibility, CPFR, joint planning |
+| [Financial Reporting Studio](features/financial-reporting-studio.md) | XBRL report builder, regulatory templates, collaborative annotations |
 | [Full feature index →](features/) | All feature specifications |
 
 ## Security

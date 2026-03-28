@@ -4,7 +4,7 @@
 
 MSERP is an enterprise-grade, microservices-based ERP system built in Rust, designed for scalability, reliability, and performance. Inspired by Oracle Fusion Cloud's comprehensive ERP offering, MSERP delivers a unified platform spanning Financial Management, Supply Chain Management, Human Capital Management, Customer Experience, Project Management, Manufacturing, Enterprise Performance Management, and Governance, Risk & Compliance — all built on a modern, cloud-native microservices architecture.
 
-The system consists of 14 services (4 core, 8 business, 2 supporting), supports multi-tenancy with logical isolation, multi-region active-passive deployment, and handles 10,000+ requests/second at peak throughput (approximately 1,000+ concurrent active users). MSERP incorporates advanced enterprise capabilities including dynamic pricing engines, supply chain planning, project portfolio management, AI-driven analytics, multi-currency accounting with real-time exchange rates, a comprehensive workflow/BPM engine, product lifecycle management, ESG/sustainability reporting, digital assistant, enterprise asset management, and low-code application builder. Additionally, MSERP provides Available-to-Promise (ATP) / Capable-to-Promise (CTP) for real-time order promising, a Product Configurator for rules-based configurable products, Revenue Recognition (ASC 606 / IFRS 15) compliance, Credit Management with automated scoring and holds, an Enterprise Job Scheduler for batch processing and scheduled tasks, Field Service Management for technician scheduling and SLA tracking, Trade Compliance with export controls and restricted party screening, Subscription Management for recurring billing and lifecycle management, Knowledge Management with article authoring and versioning, Survey & Feedback Management for NPS/CSAT collection, Narrative Reporting for management commentary and collaborative annotations, Sales Territory & Quota Planning with what-if modeling, and Intercompany Drop Ship for cross-entity fulfillment, Blockchain & Distributed Ledger Integration for supply chain transparency and smart contracts, Enterprise Health & Safety (EHS) for workplace safety management, Customer Loyalty Management for rewards and retention, Advanced Tax Management with external engine integration, CX Digital & A/B Testing Platform, Supplier Diversity Management, Commodity Management & Trading, Advanced Spend Analysis, Unified Omnichannel Management, AI-Driven Price Optimization, IT Service Management (ITSM), Enterprise Contact Center, Social Selling, Project Portfolio Analysis, Product Compliance & Regulatory Management, and Compliance Hub for unified regulatory oversight.
+The system consists of 14 services (4 core, 8 business, 2 supporting), supports multi-tenancy with logical isolation, multi-region active-passive deployment, and handles 10,000+ requests/second at peak throughput (approximately 1,000+ concurrent active users). MSERP incorporates advanced enterprise capabilities including dynamic pricing engines, supply chain planning, project portfolio management, AI-driven analytics, multi-currency accounting with real-time exchange rates, a comprehensive workflow/BPM engine, product lifecycle management, ESG/sustainability reporting, digital assistant, enterprise asset management, and low-code application builder. Additionally, MSERP provides Available-to-Promise (ATP) / Capable-to-Promise (CTP) for real-time order promising, a Product Configurator for rules-based configurable products, Revenue Recognition (ASC 606 / IFRS 15) compliance, Credit Management with automated scoring and holds, an Enterprise Job Scheduler for batch processing and scheduled tasks, Field Service Management for technician scheduling and SLA tracking, Trade Compliance with export controls and restricted party screening, Subscription Management for recurring billing and lifecycle management, Knowledge Management with article authoring and versioning, Survey & Feedback Management for NPS/CSAT collection, Narrative Reporting for management commentary and collaborative annotations, Sales Territory & Quota Planning with what-if modeling, and Intercompany Drop Ship for cross-entity fulfillment, Blockchain & Distributed Ledger Integration for supply chain transparency and smart contracts, Enterprise Health & Safety (EHS) for workplace safety management, Customer Loyalty Management for rewards and retention, Advanced Tax Management with external engine integration, CX Digital & A/B Testing Platform, Supplier Diversity Management, Commodity Management & Trading, Advanced Spend Analysis, Unified Omnichannel Management, AI-Driven Price Optimization, Enterprise Data Quality Management for data profiling, cleansing, and enrichment, Connected Planning for unified financial, workforce, and supply chain planning, Intelligent Process Automation combining RPA with AI for cognitive automation, Dynamic Discounting & Early Payment Optimization for working capital management, Supply Chain Collaboration Network for multi-tier supplier visibility and joint planning, Advanced Financial Reporting Studio with XBRL taxonomy, regulatory templates, and collaborative annotations, IT Service Management (ITSM), Enterprise Contact Center, Social Selling, Project Portfolio Analysis, Product Compliance & Regulatory Management, and Compliance Hub for unified regulatory oversight.
 
 ### Key Differentiators
 
@@ -78,6 +78,12 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | Project Portfolio Analysis | Portfolio balancing, investment analysis, resource capacity planning, benefit realization tracking |
 | Product Compliance | Regulatory database, certification management, material compliance, testing management |
 | Compliance Hub | Unified compliance dashboard, regulatory change tracker, cross-framework control mapping, compliance scoring |
+| Enterprise Data Quality | Data profiling, cleansing, matching, enrichment, and quality scorecards |
+| Connected Planning | Unified financial, workforce, and supply chain planning with shared assumptions |
+| Intelligent Process Automation | RPA + AI cognitive automation with self-learning bots and process discovery |
+| Dynamic Discounting | Early payment discount optimization with working capital analytics |
+| Supply Chain Collaboration | Multi-tier supplier network for demand visibility and joint planning |
+| Financial Reporting Studio | XBRL-enabled report builder with regulatory templates and drill-down analytics |
 
 ---
 
@@ -138,18 +144,18 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 
 | Oracle Fusion Cloud Product Family | Oracle Modules | MSERP Equivalent | MSERP Service(s) |
 |------------------------------------|----------------|------------------|-------------------|
-| **Financials** | General Ledger, AP, AR, Fixed Assets, Cash Management, Expenses, Collections, Revenue Management, Lease Accounting, Grant Management, Joint Venture, Tax | Finance Service (GL, AP/AR, Fixed Assets, Treasury, Expenses, Collections, Revenue Recognition, Lease, Grant, JV, Tax) | Finance Service |
-| **Supply Chain (SCM)** | Inventory, Procurement, Order Management, Logistics, Product Hub, Strategic Sourcing, Supplier Management | Commerce Service (Orders, Pricing, Subscriptions, Loyalty) + Manufacturing Service (Inventory, Procurement, Logistics, ATP/CTP, Drop Ship) | Commerce Service, Manufacturing Service |
+| **Financials** | General Ledger, AP, AR, Fixed Assets, Cash Management, Expenses, Collections, Revenue Management, Lease Accounting, Grant Management, Joint Venture, Tax | Finance Service (GL, AP/AR, Fixed Assets, Treasury, Expenses, Collections, Revenue Recognition, Lease, Grant, JV, Tax, Dynamic Discounting, Financial Reporting Studio, Connected Planning) | Finance Service |
+| **Supply Chain (SCM)** | Inventory, Procurement, Order Management, Logistics, Product Hub, Strategic Sourcing, Supplier Management | Commerce Service (Orders, Pricing, Subscriptions, Loyalty) + Manufacturing Service (Inventory, Procurement, Logistics, ATP/CTP, Drop Ship, Supply Chain Collaboration Network) | Commerce Service, Manufacturing Service |
 | **HCM** | Core HR, Payroll, Recruiting, Performance, Time & Labor, Learning, Benefits, Talent Review, Workforce Modeling, Global HR | HCM Service (Employee Lifecycle, Payroll, Recruitment, Performance, Time & Attendance, Learning, Benefits, Succession, Global HR) | HCM Service |
 | **CX (Customer Experience)** | Sales, Service, Marketing, Commerce, CPQ, Field Service, Surveys, Contact Center, Social, Loyalty, CDP | CRM Service (Customer Management, Field Service, Surveys, Contact Center, Social Selling, CDP, Territory Planning) + Commerce Service (B2B Portal, Omnichannel, Loyalty, CX Testing) | CRM Service, Commerce Service |
 | **ERP (Enterprise Resource Planning)** | Project Management, Costing, Billing, Manufacturing, Maintenance, Quality | Project Service (Planning, Resource Allocation, Billing, EVM, Portfolio Analysis) + Manufacturing Service (BOM, Work Orders, Routing, Costing, Quality, EAM, Digital Twin, EHS, MRO) | Project Service, Manufacturing Service |
 | **SCM (Supply Chain Planning)** | Demand Planning, Supply Planning, Inventory Optimization, ATP/CTP | Manufacturing Service (Demand Planning, ASCP, Inventory Optimization) | Manufacturing Service |
 | **Manufacturing** | Manufacturing Execution, Quality, Costing, Production Planning, Digital Twin, IoT | Manufacturing Service (Production Planning, Shop Floor, Quality, Costing, Digital Twin, IoT, Digital Thread, Manufacturing Intelligence) | Manufacturing Service |
 | **Project Management (PM)** | Project Planning, Resource Management, Project Costing, Project Billing, Portfolio Management | Project Service (Planning, Gantt, Resource Allocation, Time/Expense, Billing, Revenue Recognition, EVM, Portfolio Analysis) | Project Service |
-| **Enterprise Performance Management (EPM)** | Planning, Budgeting, Forecasting, Consolidation, Reporting, Profitability | Finance Service (Budgeting, Consolidation, Profitability Analysis) + Report Service (Dashboards, ESG, Carbon Accounting, Narrative Reporting, Corporate Performance Management) | Finance Service, Report Service |
+| **Enterprise Performance Management (EPM)** | Planning, Budgeting, Forecasting, Consolidation, Reporting, Profitability | Finance Service (Budgeting, Consolidation, Profitability Analysis) + Report Service (Dashboards, ESG, Carbon Accounting, Narrative Reporting, Corporate Performance Management, Connected Planning) | Finance Service, Report Service |
 | **GRC** | Access Controls, Audit, Risk Management, Compliance, Privacy, SoD | Platform Service (GRC, DLP, Privacy, Compliance Hub, SoD, Advanced Access Controls, Threat Protection) + Auth Service (RBAC, ABAC, SSO, MFA) | Platform Service, Auth Service |
 | **Integration** | Integration Cloud, B2B, EDI, Connectors | Integration Service (50+ connectors, EDI, webhooks, Event Mesh, API Marketplace, Blockchain, Trade Compliance) | Integration Service |
-| **Platform** | Application Builder, Digital Assistant, Mobile, Search, Workflow, Notifications, Scheduler, MDM, RPA, Content, Collaboration | Platform Service (Workflow/BPM, Notifications, Digital Assistant, App Builder, Job Scheduler, MDM, Knowledge, RPA, Collaboration, Content Management, IDP, Digital Signatures) | Platform Service |
+| **Platform** | Application Builder, Digital Assistant, Mobile, Search, Workflow, Notifications, Scheduler, MDM, RPA, Content, Collaboration | Platform Service (Workflow/BPM, Notifications, Digital Assistant, App Builder, Job Scheduler, MDM, Knowledge, RPA, Collaboration, Content Management, IDP, Digital Signatures, Enterprise Data Quality, Intelligent Process Automation) | Platform Service |
 
 ---
 
@@ -475,6 +481,9 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 | | Commodity Management & Trading (market price integration, hedging, futures, supply risk, price simulation) | Commodity Management | Specified |
 | | Advanced Spend Analysis (ML-powered classification, maverick detection, savings identification, predictive analytics) | Procurement | Specified |
 | | Supplier Diversity Management (diversity classification, spend tracking, tier reporting, compliance reporting) | Supplier Management | Specified |
+| | Dynamic Discounting (sliding-scale early payment discounts, working capital optimization, discount capture analytics) | Advanced Payment Solutions | Specified |
+| | Financial Reporting Studio (drag-and-drop report builder, XBRL taxonomy, regulatory templates, collaborative annotations) | Financial Reporting | Specified |
+| | Enterprise Data Quality Management (data profiling, cleansing rules, matching, enrichment, quality dashboards) — implemented by Integration Service | Enterprise Data Quality | Specified |
 | **Supply Chain** | | | |
 | | Inventory Management, Warehousing | Inventory Management | Specified |
 | | Procurement & Supplier Management | Procurement | Specified |
@@ -491,6 +500,7 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 | | Warranty Management (warranty claims, entitlement validation, warranty analytics, supplier recovery) | Warranty Management | Specified |
 | | Unified Omnichannel Management (cross-channel cart, order routing, click-and-collect, ship-from-store) | Order Management | Specified |
 | | Blockchain & Distributed Ledger (supply chain provenance, smart contracts, cross-party settlement) | Supply Chain Blockchain | Specified |
+| | Supply Chain Collaboration Network (multi-tier supplier visibility, demand signal sharing, CPFR, collaborative forecasting) | Supply Chain Collaboration | Specified |
 | **Order Management** | | | |
 | | Sales Orders, Quotations, Commissions | Order Management | Specified |
 | | Customer Management & CRM | CX Sales | Specified |
@@ -585,6 +595,8 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 | | Compliance Hub (unified compliance dashboard, regulatory change tracking) | GRC | Specified |
 | | IT Service Management (incident, problem, change, CMDB, service catalog, SLA management) | IT Service Management | Specified |
 | | Blockchain & Distributed Ledger Integration (supply chain provenance, smart contracts, cross-party settlement) | Blockchain | Specified |
+| | Connected Planning (unified financial, workforce, and supply chain planning with shared assumptions and integrated what-if simulation) | Enterprise Planning Cloud | Specified |
+| | Intelligent Process Automation (cognitive RPA, self-learning bots, process discovery, human-in-the-loop automation) | Process Automation | Specified |
 | **Security & GRC** | | | |
 | | RBAC + ABAC Authorization | Authorization | Specified |
 | | SSO, MFA, OAuth2/OIDC | Security | Specified |
@@ -602,6 +614,6 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 
 ---
 
-*Document Version: 10.0*
-*Last Updated: 2026-03-28*
+*Document Version: 11.0*
+*Last Updated: 2026-03-29*
 *Authors: MSERP Team*

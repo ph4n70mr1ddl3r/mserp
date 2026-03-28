@@ -13,21 +13,59 @@ mserp/
 ├── SPEC.md                       # Master spec index
 │
 ├── docs/                         # Documentation
-│   ├── architecture.md
-│   ├── services.md
-│   ├── technology.md
-│   ├── api/standards.md
-│   ├── data/overview.md
-│   ├── events.md
-│   ├── security.md
-│   ├── deployment.md
-│   ├── project-structure.md
-│   ├── phases.md
-│   ├── non-functional.md
+│   ├── README.md
 │   ├── glossary.md
-│   ├── api/                    # OpenAPI specs (generated)
-│   ├── architecture/           # Architecture diagrams (generated)
-│   └── runbooks/               # Operational runbooks
+│   ├── api/                       # API documentation
+│   │   ├── endpoints.md
+│   │   ├── error-codes.md
+│   │   └── standards.md
+│   ├── architecture/              # Architecture documentation
+│   │   └── overview.md
+│   ├── data/                      # Data documentation
+│   │   ├── caching.md
+│   │   ├── data-lake.md
+│   │   ├── domain-models.md
+│   │   ├── mdm.md
+│   │   ├── overview.md
+│   │   └── warehouse.md
+│   ├── development/               # Development guides
+│   │   ├── conventions.md
+│   │   ├── local-setup.md
+│   │   └── project-structure.md
+│   ├── events/                    # Event documentation
+│   │   ├── catalog.md
+│   │   ├── overview.md
+│   │   └── sagas.md
+│   ├── features/                  # Feature documentation
+│   ├── infrastructure/            # Infrastructure documentation
+│   │   ├── deployment.md
+│   │   ├── observability.md
+│   │   └── technology.md
+│   ├── planning/                  # Planning documentation
+│   │   ├── nfr.md
+│   │   └── phases.md
+│   ├── security/                  # Security documentation
+│   │   ├── authorization.md
+│   │   ├── data-protection.md
+│   │   ├── grc.md
+│   │   ├── overview.md
+│   │   └── threat-model.md
+│   └── services/                  # Service documentation
+│       ├── auth.md
+│       ├── commerce.md
+│       ├── config.md
+│       ├── crm.md
+│       ├── finance.md
+│       ├── hr.md
+│       ├── identity.md
+│       ├── integration.md
+│       ├── manufacturing.md
+│       ├── overview.md
+│       ├── platform.md
+│       ├── project.md
+│       ├── report.md
+│       ├── tenant.md
+│       └── workflow.md
 │
 ├── crates/
 │   ├── mserp-core/               # Shared core library

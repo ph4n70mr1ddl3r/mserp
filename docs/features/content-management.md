@@ -139,7 +139,7 @@ Enterprise Content Management provides a comprehensive system for creating, orga
 
 - [Knowledge Management](knowledge-management.md) — Knowledge base features
 - [Privacy Management](privacy.md) — Data retention and erasure policies
-- [Digital Signatures](digital-signatures.md) — Document signing workflows
+- [Digital Signatures](../services/platform.md) — Document signing workflows
 - [Collaboration](collaboration.md) — Document sharing and co-editing
 - [Intelligent Document Processing](idp.md) — Automated document ingestion
 - [Compliance Hub](compliance-hub.md) — Compliance archive and retention monitoring

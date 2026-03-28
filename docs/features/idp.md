@@ -172,7 +172,7 @@ Intelligent Document Processing automates the ingestion, classification, extract
 - [Data Import/Export Framework](data-import-export.md) — Bulk data operations
 - [Adaptive Intelligence](adaptive-intelligence.md) — ML model lifecycle management
 - [Content Management](content-management.md) — Document storage and lifecycle
-- [Digital Signatures](digital-signatures.md) — Signed document verification
+- [Digital Signatures](../services/platform.md) — Signed document verification
 - [Architecture Overview](../architecture/overview.md) — System context and communication patterns
 - [Platform Service](../services/platform.md) — Platform service specification
 - [NFR: Performance](../planning/nfr.md) — IDP document extraction < 10s per page
