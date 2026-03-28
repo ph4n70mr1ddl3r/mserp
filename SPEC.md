@@ -67,20 +67,54 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 
 ## Specification Documents
 
+See [docs/README.md](docs/README.md) for the full documentation index.
+
+### Architecture & Design
+
 | # | Document | Description |
 |---|----------|-------------|
-| 1 | [Architecture](docs/architecture.md) | High-level architecture, design principles, system topology, communication patterns |
-| 2 | [Services](docs/services.md) | All 14 microservices breakdown, responsibilities, modules, consolidation rationale |
-| 3 | [Technology Stack](docs/technology.md) | Core technologies, infrastructure, Rust crate selection, version policy |
-| 4 | [API Design](docs/api-design.md) | API standards, endpoints, error codes, bulk operations, health checks, async APIs |
-| 5 | [Data Architecture](docs/data-architecture.md) | Database patterns, schema, migrations, caching, multi-tenancy, data warehouse, data lake, MDM |
-| 6 | [Events](docs/events.md) | Event-driven architecture, event schemas, outbox, saga, versioning, cross-domain flows |
-| 7 | [Security](docs/security.md) | Authentication, authorization, RBAC, ABAC, mTLS, CORS, data encryption, threat model, GRC |
-| 8 | [Deployment](docs/deployment.md) | Kubernetes, CI/CD, health probes, graceful shutdown, multi-region, disaster recovery |
-| 9 | [Project Structure](docs/project-structure.md) | Repository layout, local development, service discovery, shared libraries |
-| 10 | [Development Phases](docs/phases.md) | Implementation roadmap, milestones, quality gates |
-| 11 | [Non-Functional Requirements](docs/non-functional.md) | Performance, availability, scalability, compliance, testing strategy, observability |
-| 12 | [Glossary](docs/glossary.md) | Terminology, abbreviations, references |
+| 1 | [Architecture Overview](docs/architecture/overview.md) | High-level architecture, design principles, system topology, communication patterns |
+| 2 | [Security Architecture](docs/security/overview.md) | Authentication, authorization, RBAC, ABAC, mTLS, CORS, data encryption, threat model |
+| 3 | [Event-Driven Architecture](docs/events/overview.md) | Event schemas, outbox, saga, versioning, cross-domain flows |
+
+### Services
+
+| # | Document | Description |
+|---|----------|-------------|
+| 4 | [Services Overview](docs/services/overview.md) | All 14 microservices breakdown, consolidation rationale |
+| 5 | Individual service docs in [docs/services/](docs/services/) | Per-service specifications (auth, commerce, finance, etc.) |
+
+### API & Data
+
+| # | Document | Description |
+|---|----------|-------------|
+| 6 | [API Design Standards](docs/api/standards.md) | API standards, pagination, idempotency, bulk operations, health checks |
+| 7 | [API Endpoints](docs/api/endpoints.md) | Endpoint listings for all services |
+| 8 | [Error Codes](docs/api/error-codes.md) | Complete error code taxonomy |
+| 9 | [Data Architecture](docs/data/overview.md) | Database patterns, schema, migrations, caching, multi-tenancy |
+| 10 | [Event Catalog](docs/events/catalog.md) | All domain events by service |
+
+### Infrastructure & Development
+
+| # | Document | Description |
+|---|----------|-------------|
+| 11 | [Technology Stack](docs/infrastructure/technology.md) | Core technologies, infrastructure, Rust crate selection, version policy |
+| 12 | [Deployment](docs/infrastructure/deployment.md) | Kubernetes, CI/CD, health probes, graceful shutdown, multi-region |
+| 13 | [Observability](docs/infrastructure/observability.md) | Metrics, dashboards, logging, tracing, alerts |
+| 14 | [Project Structure](docs/development/project-structure.md) | Repository layout, local development, service discovery |
+| 15 | [Code Conventions](docs/development/conventions.md) | Naming, error handling, module structure |
+
+### Planning & Reference
+
+| # | Document | Description |
+|---|----------|-------------|
+| 16 | [Development Phases](docs/planning/phases.md) | Implementation roadmap, milestones, quality gates |
+| 17 | [Non-Functional Requirements](docs/planning/nfr.md) | Performance, availability, scalability, compliance, testing strategy |
+| 18 | [Glossary](docs/glossary.md) | Terminology, abbreviations, references |
+
+### Feature Specifications
+
+All feature specifications are in [docs/features/](docs/features/). See the full [documentation index](docs/README.md) for the complete list.
 
 ---
 

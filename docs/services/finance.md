@@ -1,0 +1,209 @@
+# Finance Service (Finance + Procurement)
+
+| Aspect | Details |
+|--------|---------|
+| Port | 8011 |
+| Database | `finance_db` |
+| Responsibilities | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition, strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting, grant management, joint venture accounting, intelligent close, advanced collections, adaptive intelligence |
+| Rationale | See [Architecture — Service Consolidation](../architecture/overview.md#4-service-consolidation-rationale) |
+
+## Finance Modules
+
+| Module | Description |
+|--------|-------------|
+| Chart of Accounts | Multi-level account hierarchy, account segments, consolidation mapping |
+| Journal Entries | Manual and automated journal entries, reversal, recurring entries |
+| General Ledger | Periodic posting, trial balance, automatic posting from subledgers |
+| Accounts Payable | Vendor invoices, payment batches, payment terms, early payment discounts |
+| Accounts Receivable | Customer invoices, receipt application, dunning, collections management |
+| Fixed Assets | Asset registration, depreciation (straight-line, declining balance, units-of-production), disposal, revaluation |
+| Budgeting | Budget entry by account/period, budget vs. actual, budget approval workflow, multi-year budgets, rolling forecasts |
+| Tax Management | Tax codes, tax rates, tax jurisdictions, automatic tax calculation, tax reporting (VAT, GST, sales tax) |
+| Multi-Currency | Real-time exchange rates, triangulation, realized/unrealized gains/losses, revaluation |
+| Cash Management | Cash position, bank reconciliation, cash flow forecasting |
+| Intercompany | Intercompany transactions, elimination entries, consolidated reporting |
+| Financial Reports | Balance sheet, P&L, cash flow statement, custom financial reports |
+| Cost Centers | Cost center hierarchy, profit center allocation, overhead distribution |
+| Period Management | Open/close accounting periods, soft-close (prevent modifications), hard-close (audit lock) |
+
+## Corporate Treasury
+
+| Module | Description |
+|--------|-------------|
+| Cash Position | Real-time cash position across all bank accounts and currencies |
+| Bank Integration | Bank statement import (ISO 20022, OFX, BAI2), automatic reconciliation |
+| Payment Formats | Multiple payment file formats (SEPA, ACH, SWIFT, local formats) |
+| Debt Management | Loan tracking, interest calculation, amortization schedules |
+| Investment Management | Short-term investment tracking, yield calculation |
+| FX Exposure | Foreign currency exposure tracking, hedging recommendations |
+| In-House Banking | Intercompany netting, cash pooling, virtual account management |
+
+## Account Reconciliation
+
+| Module | Description |
+|--------|-------------|
+| Auto-Matching | Rule-based matching of bank statements to open transactions by amount, date, and reference |
+| Reconciliation Templates | Configurable reconciliation templates by account type with matching rules |
+| Exception Management | Workflow-driven resolution of unmatched and partially matched transactions |
+| Close Task Management | Financial close checklist with task assignment, dependencies, and deadline tracking |
+| Intercompany Reconciliation | Automated matching of intercompany transactions across business units with elimination entries |
+
+## Profitability Analysis
+
+| Module | Description |
+|--------|-------------|
+| Cost-to-Serve | Full cost allocation to customer level including indirect costs, overhead, and logistics |
+| Product Profitability | Gross and net margin analysis by product, category, and variant |
+| Customer Profitability | Revenue vs. total cost analysis by customer and customer segment |
+| Dimensional Analysis | Profitability by any dimension combination (product, customer, region, channel, business unit) |
+| What-If Modeling | Scenario analysis for pricing changes, cost reductions, and product mix shifts |
+| Contribution Margin | Variable cost analysis and contribution margin reporting by product line |
+
+## Lease Accounting (ASC 842 / IFRS 16)
+
+| Module | Description |
+|--------|-------------|
+| Lease Contracts | Lease contract registration with classification (operating vs. finance), terms, and payment schedules |
+| Right-of-Use Assets | Right-of-use (ROU) asset calculation, amortization schedules, and impairment tracking |
+| Lease Liabilities | Lease liability measurement with present value calculations, remeasurement on changes |
+| Lease Payments | Payment schedule management with variable lease payment handling |
+| Lease Modifications | Lease modification tracking with remeasurement and reclassification |
+| Disclosure Reports | ASC 842 / IFRS 16 required disclosures: lease liabilities maturity, weighted-average discount rates, operating lease costs |
+
+## Grant Management
+
+| Module | Description |
+|--------|-------------|
+| Grant Registration | Grant registration with funding source, period, conditions, and budget |
+| Grant Budgeting | Budget tracking against grant with allowable and unallowable cost categories |
+| Cost Allocation | Grant cost allocation with indirect cost rate calculation |
+| Revenue Recognition | Grant revenue recognition with milestone-based and cost-reimbursable methods |
+| Compliance Tracking | Grant compliance monitoring with reporting requirements and audit trail |
+| Grant Reporting | Grant financial reports, utilization dashboards, and funder-facing reports |
+
+## Joint Venture Accounting
+
+| Module | Description |
+|--------|-------------|
+| Joint Venture Setup | Joint venture creation with partner ownership percentages and cost sharing rules |
+| Cost Allocation | Automated cost and revenue allocation across venture partners |
+| Partner Billing | Partner billing statements with detailed cost breakdowns |
+| Equity Accounting | Equity method accounting for joint venture investments |
+| Reconciliation | Inter-partner reconciliation with automated matching |
+| Reporting | Joint venture financial reports, partner statements, and contribution tracking |
+
+## Intelligent Close
+
+| Module | Description |
+|--------|-------------|
+| Close Automation | AI-driven financial close task automation with intelligent task assignment |
+| Anomaly Detection | Automatic detection of anomalies in close data (unexpected balances, missing entries) |
+| Close Dashboard | Real-time close progress dashboard with bottleneck identification |
+| Auto-Reconciliation | ML-assisted auto-reconciliation with confidence scoring |
+| Close Journal | Automated close journal entries (accruals, allocations, eliminations) |
+| Continuous Close | Real-time period-end processing replacing batch close cycles |
+
+## Advanced Collections
+
+| Module | Description |
+|--------|-------------|
+| Collection Strategies | Configurable collection strategies based on aging, risk, and customer segmentation |
+| Aging Analysis | Multi-dimensional aging analysis with historical trending |
+| Collection Activities | Activity tracking (calls, emails, promises to pay) with outcome recording |
+| Cash Application | Automated cash application with ML-based invoice matching |
+| Dispute Management | Dispute tracking linked to collection activities with resolution workflows |
+| Scoring | Predictive collection scoring for prioritizing collection activities |
+
+## Enterprise Expense Management
+
+| Module | Description |
+|--------|-------------|
+| Expense Reports | Expense report creation, itemization, receipt attachment |
+| Per Diem | Configurable per diem rates by location and employee grade |
+| Mileage Tracking | GPS-based mileage capture, configurable reimbursement rates |
+| Corporate Cards | Corporate credit card transaction import, auto-matching to expenses |
+| Approval Workflow | Multi-level approval with policy enforcement (amount, category, compliance) |
+| Policy Compliance | Automatic policy violation detection, flagging, exception handling |
+| Tax Recovery | VAT/GST recovery on eligible expenses |
+| Expense Analytics | Spend by category, policy violation trends, reimbursement timing |
+
+## Enterprise Performance Management (EPM)
+
+| Module | Description |
+|--------|-------------|
+| Planning | Top-down and bottom-up planning by account, department, project |
+| Forecasting | Rolling forecasts with driver-based models, statistical methods |
+| What-If Scenarios | Scenario modeling with side-by-side comparison |
+| Consolidation | Multi-entity financial consolidation with currency translation adjustments |
+| Allocations | Rule-based allocations across dimensions (cost center, product, geography) |
+| Variance Analysis | Actual vs. plan/budget/forecast variance reporting with drill-down |
+| Scorecards | Financial scorecards with KPIs, targets, and traffic-light indicators |
+
+## Revenue Recognition (ASC 606 / IFRS 15)
+
+| Module | Description |
+|--------|-------------|
+| Contract Identification | Automated identification of customer contracts across sales orders, subscriptions, and project billing |
+| Performance Obligations | Identification and tracking of distinct performance obligations per contract |
+| Transaction Pricing | Allocation of transaction price to performance obligations based on standalone selling prices |
+| Recognition Schedules | Automated recognition schedules: point-in-time, over-time (straight-line, proportional) |
+| Variable Consideration | Estimation, constraint, and reassessment of variable consideration (discounts, rebates, contingencies) |
+| Contract Modifications | Handling of contract changes with prospective and retrospective adjustment methods |
+| Disclosure Reports | Required disclosures: remaining performance obligations, contract balances, recognized revenue |
+| Revenue Waterfall | Visual waterfall from bookings to recognized revenue with deferral rollforward |
+| Multi-Element Arrangements | Allocation across bundled goods, services, and licenses |
+
+## Strategic Sourcing
+
+| Module | Description |
+|--------|-------------|
+| Sourcing Events | Create and manage sourcing events (RFI, RFP, RFQ) with multi-round bidding and supplier collaboration |
+| Bid Analysis | Side-by-side bid comparison with configurable scoring criteria and total cost of ownership calculation |
+| Award Optimization | Award recommendation engine considering cost, quality, risk, diversity, and strategic criteria |
+| Negotiation Tracking | Negotiation round management with version tracking, redline comparison, and term history |
+| Sourcing Analytics | Savings tracking, supplier performance post-award, spend under management metrics |
+
+## Supplier Risk Management
+
+| Module | Description |
+|--------|-------------|
+| Risk Scoring | Composite supplier risk score from financial, operational, geographic, and regulatory indicators |
+| Financial Health Monitoring | Automated monitoring of supplier financial data (credit ratings, financial statements, payment behavior) |
+| Geographic Risk | Country and regional risk assessment including political stability, sanctions, and natural disaster exposure |
+| Regulatory Compliance | Supplier compliance monitoring for industry certifications, regulatory requirements, and certifications |
+| Risk Dashboards | Supplier risk heat maps, risk trend analysis, concentration risk visualization, alert management |
+| Risk Mitigation | Mitigation plan tracking with action items, owners, and deadlines for identified risks |
+
+## Contract Lifecycle Management (CLM)
+
+| Module | Description |
+|--------|-------------|
+| Contract Authoring | Template-based contract creation with clause library |
+| Clause Library | Reusable contract clauses with version control and approval status |
+| Negotiation | Redline editing, version comparison, term tracking |
+| Approval Workflow | Multi-level contract approval with legal review routing |
+| Electronic Signatures | Integration with e-signature providers (DocuSign, Adobe Sign) |
+| Obligation Tracking | Milestone and deliverable tracking against contract terms |
+| Renewal Management | Automatic renewal alerts, renegotiation workflows |
+| Contract Analytics | Contract value analysis, renewal rates, obligation compliance |
+
+## Procurement Modules
+
+| Module | Description |
+|--------|-------------|
+| Suppliers | Supplier registration, qualification, classification, bank details, tax information |
+| Purchase Requisitions | Internal request for goods/services, approval workflow |
+| RFQ (Request for Quotation) | Send RFQ to multiple suppliers, compare bids, award |
+| Purchase Orders | PO creation from requisition or standalone, blanket orders, release orders |
+| Goods Receipt | Receive against PO, inspection, put-away, quality hold |
+| Supplier Evaluation | Scorecard (quality, delivery, price, responsiveness), periodic review |
+| Contracts | Supplier contracts, terms, renewal tracking, compliance |
+| Self-Service Procurement | Catalog-based purchasing for non-procurement users |
+| Supplier Collaboration | Supplier portal for RFQ response, PO acknowledgment, invoice submission, delivery scheduling |
+
+## See Also
+
+- [Commerce Service](commerce.md)
+- [HR Service](hr.md)
+- [Report Service](report.md)
+- [Architecture Overview](../architecture/overview.md)
