@@ -26,6 +26,7 @@
 | Changelog | Immutable, append-only log recording all data mutations for compliance and auditing purposes |
 | Choreography (Saga) | Saga coordination style where each service independently reacts to events — no central orchestrator |
 | COA | Chart of Accounts — structured list of all financial account codes |
+| COGS | Cost of Goods Sold — direct costs attributable to the production of goods sold by a company |
 | Compensating Action | Undo operation in a saga step that reverses the effect of a previously completed step when a later step fails |
 | Compliance Hub | Unified compliance management dashboard aggregating regulatory status across all compliance domains |
 | Contact Center | Centralized operation handling inbound and outbound customer interactions across multiple channels |
@@ -34,6 +35,7 @@
 | CTP | Capable-to-Promise — availability check that considers production capacity and procurement lead times for items not currently in stock |
 | Cursor Pagination | Pagination using opaque tokens (cursors) instead of page numbers — better for large, frequently changing datasets |
 | DLQ | Dead Letter Queue — queue for messages that failed processing after max retries |
+| Demand Planning | Process of forecasting customer demand for products and services using historical data, market analysis, and statistical models |
 | DuckDB | Embedded analytical database — used in Report Service for data warehouse queries |
 | Dunning | Process of communicating with customers to collect payments on overdue invoices |
 | E2E | End-to-End — testing that validates the entire system flow from user input to final output |
@@ -45,6 +47,7 @@
 | ESG | Environmental, Social, and Governance — framework for evaluating corporate sustainability and societal impact |
 | ETL | Extract, Transform, Load — process of moving data from source systems to a data warehouse |
 | EVM | Earned Value Management — project management technique for measuring performance |
+| Financial Consolidation | Process of combining financial statements of multiple entities into a single set of consolidated statements |
 | GDPR | General Data Protection Regulation — EU regulation governing data protection and privacy |
 | GL | General Ledger — central accounting record of all financial transactions |
 | Golden Record | Single, authoritative version of a data entity maintained by MDM — the trusted source across all systems |
@@ -56,14 +59,19 @@
 | HIPAA | Health Insurance Portability and Accountability Act — US regulation for healthcare data protection |
 | IaC | Infrastructure as Code — managing infrastructure through version-controlled configuration files |
 | IFRS 15 | International Financial Reporting Standard 15 — global standard for revenue recognition from contracts with customers |
+| Intercompany | Transactions between related entities within the same corporate group requiring elimination entries in consolidation |
 | Idempotency | Property where performing the same operation multiple times produces the same result as performing it once |
 | JE | Journal Entry — a single financial transaction record (debits and credits) |
 | Jaeger | Open-source distributed tracing system for monitoring microservice interactions |
 | JWT | JSON Web Token — compact, URL-safe means of representing claims between two parties |
+| KPI | Key Performance Indicator — measurable value demonstrating how effectively a company achieves business objectives |
 | Kong | Open-source API gateway and microservices management layer — alternative to Traefik for MSERP |
 | Kustomize | Kubernetes native configuration management tool for overlaying manifests across environments |
+| Ledger | Principal accounting record containing all financial transactions of an organization |
+| Liquidity | Measure of an organization's ability to meet short-term financial obligations |
 | Loki | Log aggregation system designed to work with Grafana for log querying |
 | Maverick Spend | Organizational purchases made outside of approved contract or preferred suppliers |
+| Markup | Amount added to the cost of goods to arrive at a selling price |
 | MDM | Master Data Management — discipline of managing critical enterprise data to provide a single trusted source |
 | MFA | Multi-Factor Authentication — requires two or more verification methods |
 | MinIO | High-performance, S3-compatible object storage server |
@@ -71,6 +79,7 @@
 | MRP | Material Requirements Planning — production planning and inventory control system |
 | mTLS | Mutual TLS — both client and server authenticate each other via certificates |
 | NCR | Non-Conformance Report — document recording a product/process that does not meet quality standards |
+| Netting | Process of offsetting intercompany payables and receivables to reduce the number and value of payments |
 | Nexus | Sufficient connection between a taxing jurisdiction and a business that creates a tax filing obligation |
 | NLP | Natural Language Processing — AI capability enabling computers to understand and respond to human language |
 | NPS | Net Promoter Score — metric measuring customer loyalty based on the question "How likely are you to recommend this company?" |
@@ -84,6 +93,7 @@
 | Pact | Consumer-driven contract testing framework for verifying service integrations |
 | PCI DSS | Payment Card Industry Data Security Standard — security standard for organizations handling credit card data |
 | PDB | Pod Disruption Budget — Kubernetes policy limiting voluntary pod evictions during maintenance |
+| Period Close | Process of finalizing accounting entries for a specific period, ensuring completeness and accuracy before reporting |
 | PgBouncer | Lightweight connection pooler for PostgreSQL |
 | PII | Personally Identifiable Information — data that can identify a specific individual |
 | PIM | Product Information Management — centralized management of product data across all channels |
@@ -92,16 +102,21 @@
 | PostgreSQL | Open-source, object-relational database management system — primary data store for MSERP |
 | Price Elasticity | Measure of how demand for a product changes in response to price changes |
 | Prometheus | Open-source monitoring and alerting toolkit with time-series data storage |
+| Purchase Requisition | Internal document requesting the procurement team to purchase goods or services |
 | RBAC | Role-Based Access Control — permissions assigned to roles, roles assigned to users |
 | Redis | In-memory data structure store used as cache, session store, and rate limiting backend in MSERP |
+| Revenue Waterfall | Financial report showing the flow from total bookings through deferred revenue to recognized revenue |
 | RFQ | Request for Quotation — document sent to suppliers inviting them to bid on products or services |
 | RLS | Row-Level Security — PostgreSQL feature restricting data access per row (used for tenant isolation) |
 | RMA | Return Merchandise Authorization — authorization for a customer to return a product |
 | Rotable | Repairable component that can be removed, overhauled, and reinstalled in a maintenance cycle, tracked through an exchange pool |
 | RPO | Recovery Point Objective — maximum acceptable data loss measured in time |
 | RTO | Recovery Time Objective — maximum acceptable downtime after a failure |
+| Safety Stock | Extra inventory maintained to mitigate the risk of stockouts caused by demand and supply variability |
 | Saga | Distributed transaction pattern using a sequence of local transactions with compensating (undo) actions on failure |
+| SCM | Supply Chain Management — management of the flow of goods, data, and finances related to a product or service |
 | SeaORM | Async, dynamic, and relational ORM for Rust built on SQLx — primary database toolkit for MSERP |
+| Segment Reporting | Financial reporting by business segment, geography, or product line as required by IFRS 8 / ASC 280 |
 | SLO | Service Level Objective — target value for a service level measured by a metric |
 | SLA | Service Level Agreement — commitment between service provider and client on uptime and performance |
 | SKU | Stock Keeping Unit — unique identifier for a distinct product |
@@ -110,16 +125,20 @@
 | SOC 2 | Service Organization Control 2 — auditing standard covering security, availability, processing integrity, confidentiality, and privacy |
 | SOX | Sarbanes-Oxley Act — US law mandating financial reporting and audit practices for public companies |
 | SPC | Statistical Process Control — quality control method using statistical methods to monitor and control processes |
+| Spend Analysis | Process of collecting, cleansing, classifying, and analyzing expenditure data to reduce costs and improve efficiency |
 | SSP | Standalone Selling Price — the price at which an entity would sell a promised good or service separately to a customer |
 | SSO | Single Sign-On — one set of credentials across multiple applications |
 | Star Schema | Database schema design with a central fact table surrounded by dimension tables — used in data warehousing |
+| Supply Planning | Process of determining how to meet demand through production, procurement, and inventory replenishment |
 | TDE | Transparent Data Encryption — encryption of database files at the storage level |
+| Tier Reporting | Reporting of diversity spend broken down by direct (Tier 1) and subcontractor (Tier 2) supplier relationships |
 | TLS | Transport Layer Security — cryptographic protocol for secure communications over a network |
 | Traefik | Cloud-native edge router and reverse proxy for microservices — primary API Gateway for MSERP |
 | Trivy | Open-source security scanner for containers, filesystems, and Git repositories |
 | UoM | Unit of Measure — standard quantity used to express measurements (e.g., kg, liter, piece) |
 | WAL | Write-Ahead Log — PostgreSQL mechanism ensuring data durability before writes are committed |
 | WBS | Work Breakdown Structure — hierarchical decomposition of project deliverables into tasks |
+| Working Capital | Difference between current assets and current liabilities, representing short-term liquidity |
 | Write-Through | Caching pattern where the application writes data to both the cache and the database simultaneously |
 | XBRL | eXtensible Business Reporting Language — standard for electronic communication of business and financial data |
 | CDP | Customer Data Platform — system that creates a unified, persistent customer database accessible to other systems for segmentation, analytics, and campaign execution |
@@ -194,5 +213,10 @@
 - [ASC 606 / IFRS 15](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-15-revenue-from-contracts-with-customers/)
 - [GRI Standards](https://www.globalreporting.org/standards/)
 - [GraphQL](https://graphql.org/)
+- [ASC 842 / IFRS 16 (Lease Accounting)](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-16-leases/)
+- [SASB Standards](https://sasb.org/standards/)
+- [TCFD Recommendations](https://www.fsb-tcfd.org/)
+- [ISO 45001](https://www.iso.org/iso-45001-occupational-health-and-safety.html)
+- [Candle (ML Framework)](https://github.com/huggingface/candle)
 - [Oracle Fusion Cloud](https://www.oracle.com/cloud/applications/)
 - [OWASP ZAP](https://www.zaproxy.org/)

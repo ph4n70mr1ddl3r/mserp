@@ -37,6 +37,31 @@
 | Energy Analytics | Energy consumption per unit produced, cost allocation, efficiency trends |
 | Predictive Maintenance Analytics | Maintenance cost analysis, MTBF/MTTR tracking, maintenance effectiveness |
 
+## Advanced Planning & Scheduling (APS)
+
+| Module | Description |
+|--------|-------------|
+| Finite Capacity Scheduling | Finite capacity scheduling across work centers considering machine, labor, and tooling constraints |
+| Constraint-Based Optimization | Multi-constraint optimization (material, capacity, tooling) for production scheduling |
+| What-If Scheduling | Interactive what-if scheduling scenarios with drag-and-drop Gantt chart manipulation |
+| Scheduling Optimization | Automated schedule optimization for throughput, cost, or delivery performance objectives |
+
+## Lean Manufacturing
+
+| Module | Description |
+|--------|-------------|
+| Kanban Management | Electronic Kanban board management with pull-based replenishment triggers and card circulation tracking |
+| Value Stream Mapping | Value stream mapping tools for identifying waste, measuring lead time, and tracking improvement |
+| Pull-Based Production | Pull-based production control with demand-driven work order release and WIP limits |
+
+## Connected Worker
+
+| Module | Description |
+|--------|-------------|
+| Digital Work Instructions | Interactive digital work instructions with multimedia content (video, 3D models) replacing paper-based procedures |
+| Real-Time Quality Feedback | In-line quality feedback at the workstation with SPC integration and immediate corrective action alerts |
+| AR Guidance | Augmented reality guidance for complex assembly operations with overlay instructions and part verification |
+
 ## Digital Thread
 
 | Module | Description |

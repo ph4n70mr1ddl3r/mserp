@@ -193,9 +193,36 @@
 | Price Testing | A/B price testing with statistical significance tracking and revenue impact measurement |
 | What-If Simulation | Price change scenario modeling with projected revenue, margin, and volume impact |
 
+## Advanced Inventory Optimization
+
+| Module | Description |
+|--------|-------------|
+| Safety Stock Optimization | ML-driven safety stock calculation using demand variability, lead time variability, and target service levels |
+| Demand-Driven Replenishment | Demand-driven material requirements planning (DDMRP) with strategically placed decoupling points |
+| Service Level Planning | Service level-based inventory planning with fill rate and ready rate optimization |
+| Replenishment Simulation | What-if simulation for replenishment policy changes with projected stockout and overstock impact |
+
+## Demand Planning Integration
+
+| Module | Description |
+|--------|-------------|
+| Forecast Ingestion | Integration with Report Service demand forecasting models for inventory planning |
+| Forecast Consumption | Sales order consumption of forecast quantities with variance tracking |
+| Collaborative Planning | Cross-functional demand review workflows with consensus forecasting |
+
+## Supply Allocation
+
+| Module | Description |
+|--------|-------------|
+| Allocation Rules | Rules-based supply allocation during shortage scenarios with configurable customer prioritization |
+| Fair Share Allocation | Proportional allocation of limited supply across customers based on order date, quantity, and priority |
+| Allocation Scheduling | Scheduled allocation runs with reallocation triggers on supply or demand changes |
+| Allocation Analytics | Allocation fill rate analysis, shortage impact reporting, and customer satisfaction scoring |
+
 ## See Also
 
 - [Finance Service](finance.md)
 - [CRM / Marketing Service](crm.md)
 - [Manufacturing Service](manufacturing.md)
+- [Report Service](report.md)
 - [Architecture Overview](../architecture/overview.md)

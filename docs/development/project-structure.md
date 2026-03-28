@@ -16,8 +16,8 @@ mserp/
 │   ├── architecture.md
 │   ├── services.md
 │   ├── technology.md
-│   ├── api-design.md
-│   ├── data-architecture.md
+│   ├── api/standards.md
+│   ├── data/overview.md
 │   ├── events.md
 │   ├── security.md
 │   ├── deployment.md

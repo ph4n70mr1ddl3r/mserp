@@ -69,6 +69,32 @@
 | Balanced Scorecard | Four-perspective scorecard: financial, customer, internal process, learning & growth |
 | Initiative Tracking | Strategic initiative registration, milestone tracking, budget allocation, and status reporting |
 
+## Embedded Analytics
+
+| Module | Description |
+|--------|-------------|
+| In-Context Analytics | Analytics embedded directly in business application screens for contextual decision-making |
+| Actionable Insights | One-click drill-through from analytical findings to operational transactions for immediate action |
+| Embedded Dashboards | Lightweight dashboard widgets embeddable in any service UI via iframe or web component |
+
+## Predictive Analytics
+
+| Module | Description |
+|--------|-------------|
+| Demand Prediction | Predictive models for product demand by region, channel, and customer segment |
+| Revenue Prediction | Revenue forecasting models incorporating pipeline, seasonality, and macroeconomic indicators |
+| Resource Utilization | Predictive resource utilization modeling for workforce, equipment, and capacity planning |
+| Customer Behavior | Predictive customer behavior models for churn, lifetime value, and next-best-action |
+
+## Self-Service BI
+
+| Module | Description |
+|--------|-------------|
+| Drag-and-Drop Designer | Drag-and-drop report creation for business users without SQL knowledge |
+| Visual Data Exploration | Interactive visual data exploration with chart type recommendations and auto-formatting |
+| Data Preparation | Self-service data preparation with join suggestions, cleansing, and transformation |
+| Scheduled Delivery | Self-service report scheduling with email, Slack, and portal delivery options |
+
 ## Augmented Analytics
 
 | Module | Description |

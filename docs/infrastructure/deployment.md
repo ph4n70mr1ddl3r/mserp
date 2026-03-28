@@ -570,5 +570,5 @@ infra/
 
 ---
 
-*See [Project Structure](project-structure.md) for local development setup.*
-*See [Security](security.md) for mTLS and certificate management.*
+*See [Project Structure](../development/project-structure.md) for local development setup.*
+*See [Security](../security/overview.md) for mTLS and certificate management.*

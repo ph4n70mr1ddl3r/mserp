@@ -42,7 +42,7 @@
 | DELETE | `/api/v1/identity/api-keys/{id}` | Revoke API key |
 
 ### Tenant Service
-> Feature flag types, evaluation flow, and rules are specified in [Services — Feature Flags](../services.md#4-feature-flag-implementation).
+> Feature flag types, evaluation flow, and rules are specified in [Services — Feature Flags](../services/tenant.md).
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -58,7 +58,7 @@
 | PUT | `/api/v1/tenant/data-residency` | Update data residency settings (Super Admin only) |
 
 ### Config Service
-> Config hierarchy, propagation, and schema are specified in [Services — Config Service](../services.md#14-config-service).
+> Config hierarchy, propagation, and schema are specified in [Services — Config Service](../services/config.md).
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -684,7 +684,7 @@
 
 ---
 
-*See [Security](../security.md) for authentication and authorization details.*
-*See [Events](../events.md) for event schemas and async communication patterns.*
+*See [Security](../security/overview.md) for authentication and authorization details.*
+*See [Events](../events/overview.md) for event schemas and async communication patterns.*
 *See [Standards](standards.md) for API design standards.*
 *See [Error Codes](error-codes.md) for the full error code taxonomy.*

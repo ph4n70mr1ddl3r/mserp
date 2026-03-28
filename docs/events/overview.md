@@ -239,5 +239,5 @@ MSERP provides **effectively-once** semantics:
 
 *See [Event Catalog](./catalog.md) for the full list of domain events.*
 *See [Saga Patterns](./sagas.md) for distributed transaction patterns.*
-*See [Data Architecture](../data-architecture.md) for database and schema details.*
-*See [API Design](../api-design.md) for synchronous communication patterns.*
+*See [Data Architecture](../data/overview.md) for database and schema details.*
+*See [API Design](../api/standards.md) for synchronous communication patterns.*

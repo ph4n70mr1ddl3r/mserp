@@ -25,6 +25,11 @@
 | Compensation | Salary surveys, compa-ratio analysis, merit planning, variable pay |
 | Benefits Administration | Benefit plans, enrollment windows, dependents, cost sharing |
 | HR Analytics | Turnover analysis, time-to-fill, diversity metrics, workforce planning |
+| Employee Self-Service Portal | Personal information management, payslip access, benefits enrollment, time-off requests, expense submission, training enrollment, company directory (see [Platform Service](platform.md)) |
+| Global HR Localization | Country-specific HR localizations, regulatory compliance, localized reporting, jurisdiction-specific employment law support |
+| Compensation Planning | Salary surveys integration, compa-ratio analysis, merit planning, variable pay, stock option management |
+| HR Analytics Enhancement | Diversity metrics, equity analysis, workforce planning dashboards, predictive attrition modeling |
+| Document Management | Employee document storage, e-signatures for employment contracts, document templates |
 
 ## See Also
 

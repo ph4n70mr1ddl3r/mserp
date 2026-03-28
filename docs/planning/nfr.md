@@ -266,7 +266,7 @@ Where:
 
 ---
 
-## 11. Sustainability / Green IT
+## 10. Sustainability / Green IT
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|

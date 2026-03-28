@@ -139,6 +139,34 @@
 | Variance Analysis | Actual vs. plan/budget/forecast variance reporting with drill-down |
 | Scorecards | Financial scorecards with KPIs, targets, and traffic-light indicators |
 
+## Financial Consolidation
+
+| Module | Description |
+|--------|-------------|
+| Multi-Entity Consolidation | Consolidation of multiple legal entities with automated elimination entries and ownership percentage handling |
+| Currency Translation | Foreign currency translation adjustments (temporal and current rate methods) with CTA posting |
+| Elimination Entries | Automated intercompany elimination for revenue, expenses, receivables, and payables |
+| Minority Interest | Non-controlling interest calculation and disclosure reporting |
+| Segment Reporting | IFRS 8 / ASC 280 segment reporting with configurable segment dimensions (business unit, geography, product line) |
+
+## Intercompany Netting
+
+| Module | Description |
+|--------|-------------|
+| Netting Agreements | Configurable netting agreements between business units with settlement scheduling |
+| Automated Netting | Automated offsetting of intercompany payables and receivables to reduce gross payment volumes |
+| Settlement Processing | Netting settlement execution with payment file generation and reconciliation |
+| Netting Dashboards | Netting exposure analysis, settlement history, and participant balance summaries |
+
+## Cash Flow Statement (Direct Method)
+
+| Module | Description |
+|--------|-------------|
+| Direct Method Reporting | Cash flow statement using the direct method showing major classes of gross cash receipts and payments |
+| Indirect Method Reporting | Cash flow statement using the indirect method (net income to operating cash flow reconciliation) |
+| Cash Flow Classification | Configurable mapping of GL accounts and transaction types to operating, investing, and financing activities |
+| Comparative Reporting | Side-by-side cash flow comparison across periods with variance analysis |
+
 ## Revenue Recognition (ASC 606 / IFRS 15)
 
 | Module | Description |

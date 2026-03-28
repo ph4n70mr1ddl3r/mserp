@@ -159,6 +159,6 @@ Notifications, file storage, and audit logging are cross-cutting concerns with n
 | Streaming | Real-time data feeds for dashboards, live updates | WebSocket via Platform Service | Real-time order status, live KPI dashboards |
 | Digital Assistant | Natural language queries, conversational interactions | NLP intent recognition → service API dispatch | "Show me Q3 revenue by region" → Report Service API |
 
-> **Note:** Service-to-service authentication (mTLS + Service JWT) is a security mechanism that applies to all communication patterns — it is not a separate communication pattern. See [Security](../security.md) for details.
+> **Note:** Service-to-service authentication (mTLS + Service JWT) is a security mechanism that applies to all communication patterns — it is not a separate communication pattern. See [Security](../security/overview.md) for details.
 
 *See [Services](../services/overview.md) for detailed per-service specifications.*

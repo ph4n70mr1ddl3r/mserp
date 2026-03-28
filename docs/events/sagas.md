@@ -1,6 +1,6 @@
 # Saga Patterns
 
-## 8. Saga Pattern — Distributed Transactions
+## 1. Saga Pattern — Distributed Transactions
 
 Cross-service operations that require atomicity use the **choreography-based saga** pattern. Each step is an event handler that performs its work and emits a success or failure event.
 
@@ -66,5 +66,5 @@ Invoice fails:         Release stock → cancel order → notify customer
 
 *See [Event-Driven Architecture Overview](./overview.md) for exchange structure, schema, and versioning.*
 *See [Event Catalog](./catalog.md) for the full list of domain events.*
-*See [Data Architecture](../data-architecture.md) for database and schema details.*
-*See [API Design](../api-design.md) for synchronous communication patterns.*
+*See [Data Architecture](../data/overview.md) for database and schema details.*
+*See [API Design](../api/standards.md) for synchronous communication patterns.*

@@ -1,6 +1,6 @@
 # Event Catalog
 
-## 2. Domain Events
+## 1. Domain Events
 
 ### Commerce Events (Sales + Inventory + PIM + Transportation)
 | Event | Description |
@@ -59,9 +59,9 @@
 | `commerce.warranty.claim.fulfilled` | Warranty claim fulfilled (repair/replacement) |
 | `commerce.loyalty.points.accrued` | Points accrued for customer |
 | `commerce.loyalty.points.redeemed` | Points redeemed by customer |
-| `commerce.loyalty.tier.changed` | Customer loyalty tier changed | { customer_id, old_tier, new_tier } |
-| `commerce.omnichannel.order.routed` | Order routed to fulfillment location | { order_id, channel, fulfillment_location, routing_reason } |
-| `commerce.price.optimized` | Price optimization suggestion generated | { product_id, current_price, suggested_price, confidence } |
+| `commerce.loyalty.tier.changed` | Customer loyalty tier changed. Payload: `{ customer_id, old_tier, new_tier }` |
+| `commerce.omnichannel.order.routed` | Order routed to fulfillment location. Payload: `{ order_id, channel, fulfillment_location, routing_reason }` |
+| `commerce.price.optimized` | Price optimization suggestion generated. Payload: `{ product_id, current_price, suggested_price, confidence }` |
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
@@ -193,10 +193,10 @@
 | `manufacturing.intelligence.downtime.categorized` | Downtime event categorized by root cause |
 | `manufacturing.intelligence.energy.anomaly` | Energy consumption anomaly detected |
 | `manufacturing.intelligence.predictive-maintenance.alert` | Predictive maintenance alert triggered |
-| `manufacturing.safety.incident.created` | Safety incident reported | { incident_id, severity, location, type, reporter_id } |
-| `manufacturing.safety.inspection.completed` | Safety inspection completed | { inspection_id, findings, location, inspector_id } |
-| `manufacturing.mro.repair.completed` | MRO repair order completed | { repair_id, asset_id, cost, downtime_hours } |
-| `manufacturing.compliance.certification.updated` | Product certification updated | { product_id, cert_type, status, expiry_date } |
+| `manufacturing.safety.incident.created` | Safety incident reported. Payload: `{ incident_id, severity, location, type, reporter_id }` |
+| `manufacturing.safety.inspection.completed` | Safety inspection completed. Payload: `{ inspection_id, findings, location, inspector_id }` |
+| `manufacturing.mro.repair.completed` | MRO repair order completed. Payload: `{ repair_id, asset_id, cost, downtime_hours }` |
+| `manufacturing.compliance.certification.updated` | Product certification updated. Payload: `{ product_id, cert_type, status, expiry_date }` |
 
 ### Platform Events (Notification + File + Audit + Digital Assistant + GRC)
 | Event | Description |
@@ -237,9 +237,9 @@
 | `platform.idp.extraction.completed` | Data extraction from document completed |
 | `platform.idp.extraction.failed` | Data extraction from document failed |
 | `platform.idp.model.trained` | IDP extraction model training completed |
-| `platform.itsm.incident.created` | IT service incident created | { incident_id, priority, category, requester_id } |
-| `platform.itsm.change.approved` | IT change request approved | { change_id, risk_level, implementation_date } |
-| `platform.compliance.alert.triggered` | Compliance hub alert triggered | { alert_id, domain, severity, regulation, affected_entities } |
+| `platform.itsm.incident.created` | IT service incident created. Payload: `{ incident_id, priority, category, requester_id }` |
+| `platform.itsm.change.approved` | IT change request approved. Payload: `{ change_id, risk_level, implementation_date }` |
+| `platform.compliance.alert.triggered` | Compliance hub alert triggered. Payload: `{ alert_id, domain, severity, regulation, affected_entities }` |
 
 > **Note:** `platform.audit.logged` is an internal event published for observability. Report Service subscribes for compliance dashboards. The authoritative audit log is stored directly in `audit_db` at write time (not event-sourced).
 
@@ -310,9 +310,9 @@
 | `crm.cdp.segment.updated` | Customer segment membership updated |
 | `crm.cdp.journey.step.completed` | Customer journey step completed |
 | `crm.cdp.engagement-score.updated` | Customer engagement score recalculated |
-| `crm.contact.center.interaction.created` | Contact center interaction received | { interaction_id, channel, customer_id, queue_id, agent_id } |
-| `crm.social.mention.detected` | Social media mention detected | { mention_id, platform, contact_id, sentiment, content } |
-| `crm.ab.test.completed` | A/B test completed with results | { test_id, variant_winner, confidence, lift } |
+| `crm.contact.center.interaction.created` | Contact center interaction received. Payload: `{ interaction_id, channel, customer_id, queue_id, agent_id }` |
+| `crm.social.mention.detected` | Social media mention detected. Payload: `{ mention_id, platform, contact_id, sentiment, content }` |
+| `crm.ab.test.completed` | A/B test completed with results. Payload: `{ test_id, variant_winner, confidence, lift }` |
 
 ### Project Events
 | Event | Description |
@@ -342,15 +342,12 @@
 | `integration.trade-compliance.screening.completed` | Trade compliance screening completed |
 | `integration.trade-compliance.screening.flagged` | Trade compliance screening flagged a match |
 | `integration.trade-compliance.license.expiring` | Export license approaching expiration |
-| `integration.blockchain.record.anchored` | Provenance record anchored to blockchain |
- { anchor_id, asset_id, hash, network, timestamp } |
-| `integration.blockchain.record.verified` | Blockchain record verified by external party |
- { anchor_id, verifier_id, timestamp } |
-| `integration.blockchain.smart-contract.deployed` | Smart contract deployed to blockchain |
- { contract_id, address, network, deployer } |
-| `integration.blockchain.smart-contract.executed` | Smart contract executed on blockchain | { contract_id, transaction_hash, result } |
-| `integration.developer-portal.api-key.provisioned` | Developer portal API key provisioned | { key_id, developer_id, scopes } |
-| `integration.developer-portal.sandbox.reset` | Developer portal sandbox environment reset | { sandbox_id, requester_id } |
+| `integration.blockchain.record.anchored` | Provenance record anchored to blockchain. Payload: `{ anchor_id, asset_id, hash, network, timestamp }` |
+| `integration.blockchain.record.verified` | Blockchain record verified by external party. Payload: `{ anchor_id, verifier_id, timestamp }` |
+| `integration.blockchain.smart-contract.deployed` | Smart contract deployed to blockchain. Payload: `{ contract_id, address, network, deployer }` |
+| `integration.blockchain.smart-contract.executed` | Smart contract executed on blockchain. Payload: `{ contract_id, transaction_hash, result }` |
+| `integration.developer-portal.api-key.provisioned` | Developer portal API key provisioned. Payload: `{ key_id, developer_id, scopes }` |
+| `integration.developer-portal.sandbox.reset` | Developer portal sandbox environment reset. Payload: `{ sandbox_id, requester_id }` |
 
 > **Note:** Integration Service primarily produces outbound events (sync/import status). External system notifications are handled via direct outbound HTTP calls or webhooks. MDM events are consumed by Report Service for data quality dashboards.
 
