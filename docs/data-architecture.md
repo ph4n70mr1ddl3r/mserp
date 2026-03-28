@@ -389,34 +389,6 @@ CREATE TABLE mdm_golden_records (
 CREATE INDEX idx_mdm_golden_entity ON mdm_golden_records (tenant_id, entity_type);
 ```
 
-> **Note:** Revenue Recognition obligations are linked to subscription billing schedules. Revenue recognition events (e.g., `finance.revenue.recognized`) update the revenue waterfall and disclosure reports.
-
-### Revenue Recognition Data Model
-
-| Table / Field | Description |
-|--------------|-------------|
-| `revenue_contracts` | Customer contracts identified for revenue recognition, sourced from sales orders, subscriptions, and project billing |
-| `performance_obligations` | Distinct performance obligations per contract, with standalone selling price allocation |
-| `revenue_schedules` | Recognition schedule entries: period, amount, status (pending/recognized/deferred) |
-| `contract_modifications` | Contract changes with prospective or retrospective adjustment method |
-| `revenue_waterfall` | Aggregate view: bookings → deferred → recognized revenue with rollforward |
-
-### Revenue Recognition Event Flow
-
-| Event | Source | Consumer |
-|-------|--------|----------|
-| `commerce.subscription.created` | Commerce | Finance (create revenue contract) |
-| `commerce.subscription.amended` | Commerce | Finance (adjust revenue schedule) |
-| `commerce.subscription.billing.completed` | Commerce | Finance (recognize revenue for period) |
-| `finance.revenue.contract.approved` | Finance | Report (update revenue waterfall) |
-| `finance.revenue.recognized` | Finance | Report (update recognized revenue) |
-| `finance.revenue.deferred` | Finance | Report (update deferred revenue) |
-| `finance.revenue.adjusted` | Finance | Report (update schedule adjustments) |
-
-- **Finance Service:** Manages revenue contracts, performance obligations, recognition schedules, and disclosure data.
-- **Commerce Service:** Notifies Finance of subscription lifecycle events that trigger revenue recognition.
-- **Report Service:** Displays deferred revenue by period and subscription; provides revenue waterfall and disclosure reports.
-
 ### 11.2 Data Quality Rules
 
 ```sql
@@ -469,7 +441,13 @@ CREATE TABLE iot_device_telemetry (
     device_id       UUID NOT NULL,
     telemetry_type  VARCHAR(50) NOT NULL,
     payload         JSONB NOT NULL,
-    ingested_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    ingested_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by      UUID,
+    updated_by      UUID,
+    version         INTEGER NOT NULL DEFAULT 1,
+    is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
 ) PARTITION BY RANGE (ingested_at);
 ```
 
@@ -499,9 +477,85 @@ CREATE INDEX idx_pm_activity_process ON process_mining_activity_log (tenant_id, 
 - Process mining data is derived from existing audit events and domain events.
 - Activities are correlated by `case_id` (mapped from `aggregate_id` in the event store).
 
-## 12. Data Masking Strategy
+### 11.6 RPA Execution Schema
 
-### 12.1 Masking for Non-Production Environments
+```sql
+CREATE TABLE rpa_bot_executions (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    bot_id          UUID NOT NULL,
+    execution_status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    trigger_type    VARCHAR(20) NOT NULL,
+    started_at      TIMESTAMPTZ,
+    completed_at    TIMESTAMPTZ,
+    duration_ms     INTEGER,
+    error_message   TEXT,
+    result_data     JSONB,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by      UUID,
+    updated_by      UUID,
+    version         INTEGER NOT NULL DEFAULT 1,
+    is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE INDEX idx_rpa_executions_tenant ON rpa_bot_executions (tenant_id);
+CREATE INDEX idx_rpa_executions_bot ON rpa_bot_executions (tenant_id, bot_id);
+```
+
+### 11.7 Collaboration Schema
+
+```sql
+CREATE TABLE collaboration_channels (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id       UUID NOT NULL,
+    channel_type    VARCHAR(20) NOT NULL DEFAULT 'team',
+    name            VARCHAR(200) NOT NULL,
+    context_type    VARCHAR(50),
+    context_id      UUID,
+    members         JSONB DEFAULT '[]',
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by      UUID,
+    updated_by      UUID,
+    version         INTEGER NOT NULL DEFAULT 1,
+    is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE INDEX idx_collab_channels_tenant ON collaboration_channels (tenant_id);
+```
+
+## 12. Revenue Recognition Data Model
+
+| Table / Field | Description |
+|--------------|-------------|
+| `revenue_contracts` | Customer contracts identified for revenue recognition, sourced from sales orders, subscriptions, and project billing |
+| `performance_obligations` | Distinct performance obligations per contract, with standalone selling price allocation |
+| `revenue_schedules` | Recognition schedule entries: period, amount, status (pending/recognized/deferred) |
+| `contract_modifications` | Contract changes with prospective or retrospective adjustment method |
+| `revenue_waterfall` | Aggregate view: bookings → deferred → recognized revenue with rollforward |
+
+### Revenue Recognition Event Flow
+
+| Event | Source | Consumer |
+|-------|--------|----------|
+| `commerce.subscription.created` | Commerce | Finance (create revenue contract) |
+| `commerce.subscription.amended` | Commerce | Finance (adjust revenue schedule) |
+| `commerce.subscription.billing.completed` | Commerce | Finance (recognize revenue for period) |
+| `finance.revenue.contract.approved` | Finance | Report (update revenue waterfall) |
+| `finance.revenue.recognized` | Finance | Report (update recognized revenue) |
+| `finance.revenue.deferred` | Finance | Report (update deferred revenue) |
+| `finance.revenue.adjusted` | Finance | Report (update schedule adjustments) |
+
+- **Finance Service:** Manages revenue contracts, performance obligations, recognition schedules, and disclosure data.
+- **Commerce Service:** Notifies Finance of subscription lifecycle events that trigger revenue recognition.
+- **Report Service:** Displays deferred revenue by period and subscription; provides revenue waterfall and disclosure reports.
+
+> **Note:** Revenue Recognition obligations are linked to subscription billing schedules. Revenue recognition events (e.g., `finance.revenue.recognized`) update the revenue waterfall and disclosure reports.
+
+## 13. Data Masking Strategy
+
+### 13.1 Masking for Non-Production Environments
 
 | Technique | Description | When |
 |-----------|-------------|------|
@@ -509,7 +563,7 @@ CREATE INDEX idx_pm_activity_process ON process_mining_activity_log (tenant_id, 
 | Dynamic masking | Runtime masking based on user permissions (production) | Per query |
 | Subsetting | Extract a representative subset of production data for testing | On demand |
 
-### 12.2 Masking Rules by Data Classification
+### 13.2 Masking Rules by Data Classification
 
 | Classification | Masking Rule | Example |
 |---------------|-------------|---------|

@@ -124,7 +124,6 @@
 - [ ] Workflow service (BPMN engine, approval chains, process templates, SLAs, SoD checks)
 - [ ] Platform service (Notification + File + Audit)
   - [ ] Digital Assistant: NLP intent recognition, action dispatch, conversation management
-  - [ ] Application Builder: Page designer, custom business objects, workflow integration
   - [ ] GRC: SoD rules, risk register, compliance assessments, incident management
   - [ ] Data Masking: Static/dynamic masking, subsetting for non-production
 - [ ] CRM / Marketing service (Contacts, Leads, Opportunities, Campaigns, Customer Service)
@@ -220,6 +219,16 @@
 - [ ] AI-driven insights (anomaly detection, demand forecasting, churn prediction, fraud detection)
 - [ ] GRC module (SoD enforcement, risk assessments, compliance reporting)
 - [ ] Advanced workflows (escalations, conditional routing, email approvals, SoD conflict routing)
+- [ ] Adaptive Intelligence (ML-powered recommendations in CRM, procurement, and project workflows)
+- [ ] Augmented Analytics (NLQ to SQL, auto-generated insights, smart data discovery)
+- [ ] Enterprise Content Management (content repository, document lifecycle, records management)
+- [ ] Privacy Management (consent management, data subject rights, DPIA workflows)
+- [ ] Data Loss Prevention (sensitive data detection, policy enforcement, DLP incidents)
+- [ ] API Marketplace (API catalog, developer portal, API monetization)
+- [ ] Event Mesh (HTTP-to-event gateway, schema registry, event filtering)
+- [ ] Digital Thread (end-to-end traceability, product genealogy, change impact analysis)
+- [ ] Manufacturing Intelligence (OEE tracking, downtime analysis, production analytics)
+- [ ] GraphQL API support (optional GraphQL endpoint for complex data queries)
 
 ### Phase 4 Deliverables
 
@@ -237,6 +246,16 @@
 | Low-Code Builder | Visual page designer, custom business objects, workflow integration |
 | GRC | SoD enforcement, risk register, compliance assessments, incident management |
 | ML/AI Platform | Model training/deployment pipeline, feature store, model registry, A/B testing |
+| Adaptive Intelligence | ML-powered recommendations embedded in CRM, procurement, and project workflows |
+| Augmented Analytics | NLQ-to-SQL, auto-generated insights, smart data discovery |
+| Content Management | Content repository, document lifecycle, records management, compliance archive |
+| Privacy Management | Consent management, data subject rights automation, DPIA workflows, processing register |
+| DLP | Sensitive data classification, policy engine, DLP incident management |
+| API Marketplace | API catalog, developer portal, API key management, usage analytics |
+| Event Mesh | HTTP-to-event gateway, schema registry, event filtering |
+| Digital Thread | End-to-end traceability from design through manufacturing to service |
+| Manufacturing Intelligence | OEE, downtime analysis, production analytics, capacity utilization |
+| GraphQL | Optional GraphQL endpoint for flexible data queries alongside REST APIs |
 
 ---
 
@@ -266,6 +285,12 @@
 - [ ] Trade compliance screening accuracy validation
 - [ ] Subscription billing accuracy testing
 - [ ] Revenue recognition audit readiness (ASC 606/IFRS 15)
+- [ ] Privacy compliance validation (GDPR Article 30 register, consent audit, DSAR fulfillment testing)
+- [ ] DLP policy effectiveness validation
+- [ ] Content management compliance (retention policies, records disposition)
+- [ ] Adaptive Intelligence recommendation accuracy testing
+- [ ] Augmented Analytics query accuracy validation
+- [ ] API Marketplace security and rate limiting validation
 
 ### Phase 5 Deliverables
 
@@ -289,6 +314,10 @@
 | Trade Compliance | Screening accuracy validated against known denied parties |
 | Subscription Billing | Billing accuracy validated across all billing models |
 | Revenue Recognition | ASC 606/IFRS 15 audit readiness validated |
+| Privacy Compliance | GDPR register validated, consent audit passed, DSAR fulfillment within SLA |
+| DLP Validation | Policy effectiveness tested, incident response validated |
+| Content Compliance | Retention policies verified, records disposition tested |
+| AI Accuracy | Adaptive Intelligence recommendation accuracy > 85%, Augmented Analytics query accuracy validated |
 
 ---
 

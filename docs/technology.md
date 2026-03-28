@@ -131,6 +131,13 @@ cron = "0.12"
 # Regular Expressions (Trade Compliance screening, Configurator rules)
 regex = "1.10"
 
+# GraphQL (Report Service — optional)
+async-graphql = { version = "7.0", optional = true }
+async-graphql-axum = { version = "7.0", optional = true }
+
+# Privacy / PII Detection (Platform Service — optional)
+regex-fancy = { version = "0.5", optional = true }
+
 # Testing
 tokio-test = "0.4"
 fake = { version = "2.9", features = ["derive"] }

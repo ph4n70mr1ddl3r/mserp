@@ -578,7 +578,30 @@ Every service inbox queue MUST have an associated dead letter queue.
 | Alert on DLQ entry | Yes (Warning severity) |
 | DLQ Replay | Supported via admin API (`POST /api/v1/admin/dlq/{service}/replay`) |
 
-## 7. Saga Pattern — Distributed Transactions
+## 7. Event Ordering Guarantees
+
+### 7.1 Ordering Within a Service
+
+Events published by the same service for the same aggregate are guaranteed to be ordered by the outbox poller. The outbox poller reads pending events in `created_at` order and publishes them sequentially per aggregate.
+
+### 7.2 Ordering Across Services
+
+Events from different services have NO guaranteed ordering. Consumers MUST be idempotent and handle out-of-order delivery. Use `causation_id` to reconstruct causal chains when needed.
+
+### 7.3 Exactly-Once Processing
+
+MSERP provides **effectively-once** semantics:
+- Producers: Transactional outbox ensures events are published at least once (at-least-once).
+- Consumers: Idempotent event handlers using `event_id` as the deduplication key. Each consumer tracks processed `event_id` values with a 24-hour TTL.
+
+| Guarantee | Scope | Mechanism |
+|-----------|-------|-----------|
+| In-order per aggregate | Within a service | Outbox sequential publish per aggregate_id |
+| At-least-once delivery | All events | Outbox retry with exponential backoff |
+| Effectively-once consumption | Per consumer | Idempotent handler + event_id deduplication |
+| No cross-service ordering | Across services | Consumers handle out-of-order events |
+
+## 8. Saga Pattern — Distributed Transactions
 
 Cross-service operations that require atomicity use the **choreography-based saga** pattern. Each step is an event handler that performs its work and emits a success or failure event.
 

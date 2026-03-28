@@ -60,7 +60,7 @@
 | Finance (Finance + Procurement + Treasury + Expenses + CLM + EPM + Revenue Recognition) | 250m | 1000m | 256Mi | 1Gi | 5 |
 | HR | 100m | 500m | 128Mi | 512Mi | 3 |
 | Manufacturing | 100m | 500m | 128Mi | 512Mi | 3 |
-| Report | 500m | 2000m | 512Mi | 2Gi | 3 |
+| Report | 500m | 2000m | 512Mi | 4Gi | 3 |
 | Workflow | 100m | 500m | 128Mi | 512Mi | 3 |
 | CRM / Marketing | 100m | 500m | 128Mi | 512Mi | 3 |
 | Project Management | 100m | 500m | 128Mi | 512Mi | 3 |
@@ -469,7 +469,7 @@ spec:
 | Auth | 3 | 10 | 70% | 80% |
 | Commerce | 5 | 20 | 70% | 80% |
 | Finance | 5 | 20 | 70% | 80% |
-| Report | 3 | 10 | 60% | 70% |
+| Report | 3 | 10 | 55% | 70% |
 | Platform | 3 | 15 | 70% | 80% |
 | All others | 2 | 10 | 70% | 80% |
 

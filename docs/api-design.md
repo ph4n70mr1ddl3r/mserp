@@ -423,6 +423,12 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PLATFORM_JOB_ALREADY_RUNNING` | 409 | Scheduled job is already running |
 | `PLATFORM_JOB_NOT_FOUND` | 404 | Scheduled job definition not found |
 | `PLATFORM_SCREENING_MATCH_FOUND` | 409 | Trade compliance screening flagged a restricted party match |
+| `PLATFORM_CONTENT_REPOSITORY_FULL` | 413 | Content repository storage limit exceeded |
+| `PLATFORM_CONTENT_INVALID_LIFECYCLE` | 400 | Invalid document lifecycle transition |
+| `PLATFORM_PRIVACY_CONSENT_REQUIRED` | 403 | Consent required for this data processing operation |
+| `PLATFORM_PRIVACY_DSAR_IN_PROGRESS` | 409 | Data subject access request already in progress |
+| `PLATFORM_DLP_VIOLATION` | 403 | Data loss prevention policy violation |
+| `PLATFORM_DLP_BLOCKED` | 403 | Operation blocked by DLP policy |
 
 ### 8.11 Integration Error Codes
 
@@ -584,6 +590,10 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/commerce/logistics/eta/{shipmentId}` | Get predictive ETA for shipment |
 | POST | `/api/v1/commerce/logistics/geofences` | Create geofence for logistics monitoring |
 | GET | `/api/v1/commerce/logistics/exceptions` | List logistics exceptions (delays, deviations) |
+| GET | `/api/v1/commerce/manufacturing-intelligence/oee` | Get OEE metrics |
+| GET | `/api/v1/commerce/manufacturing-intelligence/downtime` | Get downtime analysis |
+| GET | `/api/v1/commerce/digital-thread/traceability/{serialId}` | Get full traceability for serial/lot |
+| GET | `/api/v1/commerce/digital-thread/genealogy/{productId}` | Get product genealogy |
 
 ### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |
@@ -875,6 +885,28 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | POST | `/api/v1/platform/self-service/time-off` | Submit time-off request |
 | GET | `/api/v1/platform/self-service/benefits` | List available benefits |
 | POST | `/api/v1/platform/self-service/expenses` | Submit expense (self-service) |
+| GET | `/api/v1/platform/content/repositories` | List content repositories |
+| POST | `/api/v1/platform/content/repositories` | Create content repository |
+| GET | `/api/v1/platform/content/documents` | List documents |
+| POST | `/api/v1/platform/content/documents` | Create document |
+| GET | `/api/v1/platform/content/documents/{id}` | Get document |
+| PUT | `/api/v1/platform/content/documents/{id}` | Update document metadata |
+| POST | `/api/v1/platform/content/documents/{id}/lifecycle` | Transition document lifecycle state |
+| GET | `/api/v1/platform/content/records/retention-policies` | List retention policies |
+| POST | `/api/v1/platform/content/records/retention-policies` | Create retention policy |
+| GET | `/api/v1/platform/privacy/consents` | List consent records |
+| POST | `/api/v1/platform/privacy/consents` | Record consent |
+| GET | `/api/v1/platform/privacy/dsar` | List data subject access requests |
+| POST | `/api/v1/platform/privacy/dsar` | Create DSAR |
+| POST | `/api/v1/platform/privacy/dsar/{id}/fulfill` | Fulfill DSAR |
+| GET | `/api/v1/platform/privacy/processing-register` | Get processing register |
+| POST | `/api/v1/platform/privacy/dpia` | Create DPIA |
+| GET | `/api/v1/platform/privacy/dpia` | List DPIAs |
+| GET | `/api/v1/platform/dlp/policies` | List DLP policies |
+| POST | `/api/v1/platform/dlp/policies` | Create DLP policy |
+| GET | `/api/v1/platform/dlp/incidents` | List DLP incidents |
+| POST | `/api/v1/platform/dlp/incidents/{id}/resolve` | Resolve DLP incident |
+| GET | `/api/v1/platform/dlp/classifications` | List data classifications |
 
 ### Workflow Service
 | Method | Endpoint | Description |
@@ -931,6 +963,9 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/report/narrative/packages` | List report packages |
 | POST | `/api/v1/report/narrative/packages` | Create report package |
 | POST | `/api/v1/report/narrative/commentary` | Add commentary to report section |
+| POST | `/api/v1/report/augmented/query` | Natural language query |
+| GET | `/api/v1/report/augmented/insights` | Get auto-generated insights |
+| POST | `/api/v1/report/augmented/discovery` | Run smart data discovery |
 
 ### Integration Service
 | Method | Endpoint | Description |
@@ -960,6 +995,14 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/integrations/trade-compliance/licenses` | List export licenses |
 | POST | `/api/v1/integrations/trade-compliance/licenses` | Create export license |
 | GET | `/api/v1/integrations/trade-compliance/classifications` | List export control classifications |
+| GET | `/api/v1/integrations/api-marketplace/catalog` | Browse API catalog |
+| POST | `/api/v1/integrations/api-marketplace/subscriptions` | Subscribe to API |
+| GET | `/api/v1/integrations/api-marketplace/usage` | Get API usage analytics |
+| GET | `/api/v1/integrations/api-marketplace/consumers` | List API consumers |
+| GET | `/api/v1/integrations/event-mesh/topics` | List event topics |
+| POST | `/api/v1/integrations/event-mesh/gateway/publish` | Publish event via HTTP gateway |
+| POST | `/api/v1/integrations/event-mesh/gateway/subscribe` | Subscribe to events via HTTP gateway |
+| GET | `/api/v1/integrations/event-mesh/schema-registry` | List event schemas |
 
 ---
 

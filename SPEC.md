@@ -49,6 +49,12 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | Corporate Performance Management | Executive dashboards, strategy maps, OKRs, balanced scorecard |
 | Enterprise Collaboration | Team messaging, document collaboration, task management, workflow integration |
 | Digital Twin | Asset digital twins, real-time monitoring, predictive maintenance, what-if simulation |
+| Augmented Analytics | NLQ to SQL, auto-generated insights, smart data discovery across all business data |
+| Digital Thread | End-to-end traceability from design through manufacturing to service |
+| Adaptive Intelligence | ML-powered recommendations embedded in every business workflow |
+| Content Management | Enterprise content repository with document lifecycle and records management |
+| Privacy by Design | Consent management, data subject rights automation, privacy impact assessments |
+| Event Mesh | Event backbone with topic-based routing and event gateway for cross-system integration |
 
 ---
 
@@ -114,6 +120,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Strategic Sourcing (sourcing events, bid analysis, award optimization, negotiation tracking) | Strategic Sourcing | Specified |
 | | Account Reconciliation (auto-matching, reconciliation templates, exception management, close task management) | Financial Close | Specified |
 | | Profitability Analysis (cost-to-serve, product/customer profitability, margin analysis by dimension) | Profitability Management | Specified |
+| | Treasury Management Integration (real-time bank connectivity, cash pooling, in-house banking) | Cash Management | Specified |
 | **Supply Chain** | | | |
 | | Inventory Management, Warehousing | Inventory Management | Specified |
 | | Procurement & Supplier Management | Procurement | Specified |
@@ -142,9 +149,9 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Enterprise Asset Management (EAM) | Enterprise Asset Management | Specified |
 | | Advanced Quality Management (AQM) | Quality | Specified |
 | | Shop Floor Control with RFID/Barcode | Manufacturing | Specified |
-| | Digital Twin Integration (asset digital twins, predictive maintenance, real-time monitoring) | Manufacturing | Specified |
 | | IoT Integration (device registration, telemetry ingestion, alert rules, integration with manufacturing and logistics) | IoT Application | Specified |
 | | Digital Twin (asset digital twins, real-time monitoring, predictive maintenance, what-if simulation) | Digital Twin | Specified |
+| | Manufacturing Intelligence (production analytics, OEE tracking, downtime analysis) | Manufacturing Intelligence | Specified |
 | **HCM** | | | |
 | | Employee Lifecycle Management | HCM Core | Specified |
 | | Payroll & Compensation | Payroll | Specified |
@@ -175,6 +182,8 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Narrative Reporting (management reporting with commentary, collaborative annotations) | Narrative Reporting | Specified |
 | | Process Mining & Optimization (process discovery from event logs, conformance checking, bottleneck analysis, simulation) | Process Mining | Specified |
 | | Corporate Performance Management (executive dashboards, strategy maps, OKRs, balanced scorecard) | Enterprise Performance Management | Specified |
+| | Augmented Analytics (NLQ to SQL, auto-generated insights, smart data discovery) | Analytics Cloud | Specified |
+| | Enterprise Data Management (data quality, data lifecycle, archival policies) | Enterprise Data Management | Specified |
 | **CRM / Customer Experience** | | | |
 | | Field Service Management (service orders, technician scheduling, parts logistics, SLA tracking) | Field Service | Specified |
 | | Survey & Feedback Management (survey creation, NPS/CSAT collection, response analytics) | CX Surveys | Specified |
@@ -200,6 +209,12 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Digital Signatures (native digital signature, signature workflows, audit trail) | Digital Signatures | Specified |
 | | Robotic Process Automation (bot designer, task automation, schedule/event-triggered bots, monitoring) | Process Automation | Specified |
 | | Enterprise Collaboration (team messaging, document co-editing, task management, workflow integration) | Collaboration | Specified |
+| | Content Management (enterprise content repository, document lifecycle, records management) | Content and Experience Cloud | Specified |
+| | API Marketplace (API catalog, developer portal, API monetization) | API Platform | Specified |
+| | Event Mesh (event backbone, topic-based routing, event gateway) | Integration Cloud | Specified |
+| | Adaptive Intelligence (ML-powered recommendations embedded in business workflows) | Adaptive Intelligence | Specified |
+| | Digital Thread (end-to-end traceability from design through manufacturing to service) | Product Lifecycle Management | Specified |
+| | Compliance Hub (unified compliance dashboard, regulatory change tracking) | GRC | Specified |
 | **Security & GRC** | | | |
 | | RBAC + ABAC Authorization | Authorization | Specified |
 | | SSO, MFA, OAuth2/OIDC | Security | Specified |
@@ -211,9 +226,12 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Segregation of Duties (SoD) | GRC | Specified |
 | | Privacy Impact Assessment | Privacy | Specified |
 | | Advanced Access Controls (AAC) (advanced SoD, access certification, privileged access management) | Advanced Access Controls | Specified |
+| | Privacy Management (consent management, data subject rights, privacy by design) | Privacy Management | Specified |
+| | Data Loss Prevention (DLP) (sensitive data detection, policy enforcement, incident response) | Data Security | Specified |
+| | Advanced Access Controls (access certification, privileged access management, access request workflows) | Advanced Access Controls | Specified |
 
 ---
 
-*Document Version: 6.0*
+*Document Version: 7.0*
 *Last Updated: 2026-03-28*
 *Authors: MSERP Team*

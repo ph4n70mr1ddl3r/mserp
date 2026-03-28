@@ -245,6 +245,12 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Field Service Manager | Field service operations | `crm.service-order.*`, `crm.case.read`, `commerce.stock.read` |
 | Trade Compliance Officer | Trade compliance screening | `integration.trade-compliance.*`, `integration.screening.*` |
 | Knowledge Manager | Knowledge base management | `platform.knowledge.*` |
+| Data Privacy Officer | Privacy management and GDPR compliance | `platform.privacy.*`, `platform.grc.audit.read`, `platform.data-masking.*` |
+| Content Manager | Enterprise content and records management | `platform.content.*`, `platform.file.*` |
+| DLP Analyst | Data loss prevention monitoring | `platform.dlp.*`, `platform.audit.read` |
+| IoT Manager | IoT device and digital twin operations | `manufacturing.iot.*`, `manufacturing.digital-twin.*` |
+| Collaboration Admin | Team collaboration administration | `platform.collaboration.*` |
+| Logistics Manager | Connected logistics operations | `commerce.logistics.*`, `commerce.shipment.*` |
 
 ## 8. Data Protection
 
@@ -328,7 +334,20 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Sanctions Screening | Continuous re-screening of existing customer/supplier base against updated lists |
 | Audit Trail | Complete log of all screening decisions, matches, overrides, and false positive dispositions |
 
-## 10. Threat Model
+## 10. Privacy Management
+
+| Aspect | Implementation |
+|--------|---------------|
+| Consent Management | Granular consent capture per processing purpose with versioned consent records |
+| Data Subject Rights | Automated workflows for access (Article 15), rectification (Article 16), erasure (Article 17), portability (Article 20), and objection (Article 21) requests |
+| Privacy by Design | Default privacy-protective settings, data minimization enforcement, purpose limitation at API level |
+| DPIA | Automated Data Protection Impact Assessment workflows with risk scoring and approval chains |
+| Processing Register | Auto-generated register of data processing activities per GDPR Article 30 |
+| Data Flow Mapping | Visual mapping of personal data flows across services and third-party integrations |
+| Cookie Consent | Configurable cookie consent management for web and mobile applications |
+| Breach Notification | Automated breach detection, assessment, and notification workflow within 72-hour GDPR requirement |
+
+## 11. Threat Model
 
 | Threat Category | Mitigation |
 |----------------|------------|
@@ -351,8 +370,12 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Subscription fraud | Usage anomaly detection, automated billing reconciliation, payment verification |
 | IoT device compromise | Device certificate authentication, firmware integrity verification, network segmentation for IoT devices, telemetry anomaly detection |
 | RPA bot hijacking | Bot execution audit trail, credential vaulting for bot credentials, execution sandboxing, anomaly detection on bot behavior |
+| Data exfiltration via content export | DLP policy enforcement, export auditing, content classification, watermarking |
+| Privacy violation | Consent enforcement, purpose limitation, data minimization, automated DPIA, processing register audit |
+| Content tampering | Document version control, immutable audit trail, digital signatures, integrity checksums |
+| IoT firmware tampering | Firmware integrity verification, secure boot, certificate-based device authentication |
 
-## 11. Security Incident Response
+## 12. Security Incident Response
 
 | Phase | Actions | SLA |
 |-------|---------|-----|
@@ -365,7 +388,7 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 
 > **Trade Compliance Incident Procedure:** Trade compliance violations follow the standard incident response flow with additional steps: (1) halt affected orders/shipments immediately during Containment, (2) review screening logs and denied party match details during Eradication, (3) update denied party lists and screening rules as part of Recovery, (4) document regulatory notification requirements in Post-mortem. SLA: < 4 hours to containment.
 
-## 12. Privacy Impact Assessment (PIA)
+## 13. Privacy Impact Assessment (PIA)
 
 A PIA MUST be conducted before:
 - Introducing new data processing activities involving PII

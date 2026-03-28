@@ -61,6 +61,20 @@
 - Error budgets reset at the beginning of each calendar month.
 - SLO violations trigger a post-incident review within 48 hours.
 
+### 2.2 SLA Calculation Methodology
+
+SLA percentages are calculated monthly based on calendar availability:
+
+```
+SLA = ((total_minutes_in_month - downtime_minutes) / total_minutes_in_month) × 100
+```
+
+Where:
+- `total_minutes_in_month` = number of minutes in the calendar month
+- `downtime_minutes` = sum of all unplanned downtime minutes
+- Planned maintenance windows are excluded if published via Config Service at least 72 hours in advance
+- Downtime is measured at the API Gateway level (5xx error rate > 50% for > 1 consecutive minute)
+
 ## 3. Scalability
 
 | Requirement | Specification |
@@ -314,6 +328,11 @@ All services MUST expose these Prometheus metrics:
 | B2B Portal | Commerce, Sales | Portal adoption, order volume, reorder rates, customer satisfaction |
 | Collaboration | IT, Operations | Message volume, active channels, task completion rates |
 | Financial Close | Finance | Close task progress, reconciliation match rates, close cycle duration |
+| Privacy & Compliance | DPO, Legal | Consent rates, DSAR volumes, DPIA status, processing register, breach notifications |
+| DLP Monitoring | Security team | DLP policy violations, sensitive data movement, incident resolution |
+| Content Management | Content managers | Document lifecycle, records retention, compliance archive status |
+| API Marketplace | API product managers | API adoption, consumer usage, rate limit utilization, monetization revenue |
+| Digital Thread | Engineering, Quality | Traceability coverage, change impact analysis, genealogy completeness |
 
 ### 10.4 Structured Logging
 
@@ -403,6 +422,9 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | Supplier Risk Score Critical | Critical | < 1 hour | Review supplier risk detail, notify procurement, initiate mitigation |
 | Digital Twin Sync Lag > 5s | Warning | < 15 minutes | Check telemetry pipeline, investigate device health |
 | Financial Close Task Overdue | Warning | < 1 hour | Notify task owner, escalate to close manager |
+| DLP Policy Violation | Critical | < 5 minutes | Investigate data exfiltration attempt, block if confirmed |
+| Privacy Breach Detected | Critical | < 15 minutes | Activate breach notification workflow, assess scope |
+| Content Repository Storage > 80% | Warning | < 1 hour | Review retention policies, archive old content |
 
 ### 10.7 Alert Routing
 

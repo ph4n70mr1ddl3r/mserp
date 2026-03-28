@@ -144,21 +144,21 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   └── dropship/           # Intercompany Drop Ship
-│   │   │       ├── routes/
-│   │   │       ├── handlers/
-│   │   │       ├── models/
-│   │   │       └── services/
+│   │   │   ├── dropship/           # Intercompany Drop Ship
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
 │   │   │   ├── logistics/          # Connected Logistics & Track-and-Trace
 │   │   │   │   ├── routes/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   ├── b2b-portal/         # B2B Commerce Portal
-│   │   │   │   ├── routes/
-│   │   │   │   ├── handlers/
-│   │   │   │   ├── models/
-│   │   │   │   └── services/
+│   │   │   └── b2b-portal/         # B2B Commerce Portal
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
+│   │   │       └── services/
 │   ├── finance-service/          # Finance + Procurement + Treasury + Expenses + CLM + EPM
 │   │   ├── src/
 │   │   │   ├── finance/          # Finance domain module
@@ -195,11 +195,11 @@ mserp/
 │   │   │   │   └── services/
 │   │   │   ├── currency/         # Multi-currency module
 │   │   │   │   └── services/
-│   │   │   └── revenue-recognition/ # Revenue Recognition (ASC 606/IFRS 15)
-│   │   │       ├── routes/
-│   │   │       ├── handlers/
-│   │   │       ├── models/
-│   │   │       └── services/
+│   │   │   ├── revenue-recognition/ # Revenue Recognition (ASC 606/IFRS 15)
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
 │   │   │   ├── sourcing/            # Strategic Sourcing
 │   │   │   │   ├── routes/
 │   │   │   │   ├── handlers/
@@ -215,11 +215,11 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   ├── profitability/       # Profitability Analysis
-│   │   │   │   ├── routes/
-│   │   │   │   ├── handlers/
-│   │   │   │   ├── models/
-│   │   │   │   └── services/
+│   │   │   └── profitability/       # Profitability Analysis
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
+│   │   │       └── services/
 │   ├── hr-service/
 │   │   ├── src/
 │   │   │   ├── employee/
@@ -253,17 +253,17 @@ mserp/
 │   │   │   │   ├── revisions/
 │   │   │   │   ├── eco/          # Engineering Change Orders
 │   │   │   │   └── phase-management/
-│   │   │   └── sustainability/   # Energy, waste, emissions tracking
+│   │   │   ├── sustainability/   # Energy, waste, emissions tracking
 │   │   │   ├── iot/                 # IoT Integration
 │   │   │   │   ├── routes/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   ├── digital-twin/        # Digital Twin
-│   │   │   │   ├── routes/
-│   │   │   │   ├── handlers/
-│   │   │   │   ├── models/
-│   │   │   │   └── services/
+│   │   │   └── digital-twin/        # Digital Twin
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
+│   │   │       └── services/
 │   ├── report-service/
 │   │   ├── src/
 │   │   │   ├── reports/
@@ -274,10 +274,10 @@ mserp/
 │   │   │   ├── data-lake/        # Data lake zone management
 │   │   │   ├── esg/              # ESG / sustainability reporting
 │   │   │   ├── carbon/           # Carbon accounting
-│   │   │   └── ml/               # Embedded ML/AI platform
-│   │   │       ├── models/       # Model registry
-│   │   │       ├── features/     # Feature store
-│   │   │       └── training/     # Model training pipeline
+│   │   │   ├── ml/               # Embedded ML/AI platform
+│   │   │   │   ├── models/       # Model registry
+│   │   │   │   ├── features/     # Feature store
+│   │   │   │   └── training/     # Model training pipeline
 │   │   │   ├── process-mining/       # Process Mining & Optimization
 │   │   │   │   ├── discovery/
 │   │   │   │   ├── conformance/
@@ -316,11 +316,11 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   └── territories/        # Sales Territory & Quota
-│   │   │       ├── routes/
-│   │   │       ├── handlers/
-│   │   │       ├── models/
-│   │   │       └── services/
+│   │   │   ├── territories/        # Sales Territory & Quota
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
 │   │   │   └── cdp/                  # Customer Data Platform
 │   │   │       ├── routes/
 │   │   │       ├── handlers/
@@ -377,10 +377,10 @@ mserp/
 │   │   │   │   ├── workflows/
 │   │   │   │   ├── audit/
 │   │   │   │   └── providers/
-│   │   │   └── self-service/       # Employee Self-Service Portal
-│   │   │       ├── portal/
-│   │   │       ├── dashboard/
-│   │   │       └── preferences/
+│   │   │   ├── self-service/       # Employee Self-Service Portal
+│   │   │   │   ├── portal/
+│   │   │   │   ├── dashboard/
+│   │   │   │   └── preferences/
 │   │   │   ├── rpa/                  # Robotic Process Automation
 │   │   │   │   ├── designer/
 │   │   │   │   ├── execution/
@@ -490,12 +490,12 @@ mserp/
     ├── export-classifications.csv # ECCN classifications
     ├── revenue-recognition-rules.csv # ASC 606/IFRS 15 standard methods
     ├── subscription-cycles.csv    # Standard billing cycle definitions
-    └── knowledge-categories.csv   # Knowledge base category seed data
+    ├── knowledge-categories.csv   # Knowledge base category seed data
     ├── iot-device-types.csv          # IoT device type definitions
     ├── process-activity-classes.csv  # Process mining activity classifications
     ├── rpa-bot-templates.csv         # RPA bot action templates
     ├── customer-segments.csv         # CDP default customer segment definitions
-    ├── supplier-risk-indicators.csv  # Supplier risk indicator definitions
+    └── supplier-risk-indicators.csv  # Supplier risk indicator definitions
 ```
 
 ## 2. Local Development

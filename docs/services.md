@@ -107,7 +107,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8010 |
 | Database | `commerce_db` |
-| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing, PIM, transportation |
+| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing, PIM, transportation, adaptive intelligence |
 | Rationale | See [Architecture — Service Consolidation](architecture.md#41-commerce-service-sales--inventory) |
 
 **Sales Modules:**
@@ -257,7 +257,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8011 |
 | Database | `finance_db` |
-| Responsibilities | Financial accounting, purchasing, supplier management, treasury, EPM, CLM, expenses |
+| Responsibilities | Financial accounting, purchasing, supplier management, treasury, EPM, CLM, expenses, adaptive intelligence |
 | Rationale | See [Architecture — Service Consolidation](architecture.md#42-finance-service-finance--procurement) |
 
 **Finance Modules:**
@@ -431,7 +431,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8013 |
 | Database | `manufacturing_db` |
-| Responsibilities | Production operations, quality management, cost accounting, PLM, EAM |
+| Responsibilities | Production operations, quality management, cost accounting, PLM, EAM, manufacturing intelligence, digital thread |
 
 | Module | Description |
 |--------|-------------|
@@ -449,6 +449,26 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Shop Floor Control | Real-time production tracking, barcode/RFID scanning, operator assignments |
 | Product Lifecycle Management (PLM) | Item concept and revision management, engineering change order (ECO) workflow, BOM versioning, collaboration with suppliers on design, document linking (CAD, specs), product phase-in/phase-out planning |
 | Sustainability Tracking | Energy consumption per production run, waste tracking, emissions per product, material recyclability tracking |
+
+**Manufacturing Intelligence:**
+
+| Module | Description |
+|--------|-------------|
+| OEE Tracking | Overall Equipment Effectiveness measurement by work center, line, and plant |
+| Downtime Analysis | Downtime categorization, root cause tracking, Pareto analysis |
+| Production Analytics | Real-time production rate tracking, yield analysis, scrap monitoring |
+| Capacity Utilization | Work center utilization dashboards, bottleneck identification |
+| Energy Analytics | Energy consumption per unit produced, cost allocation, efficiency trends |
+| Predictive Maintenance Analytics | Maintenance cost analysis, MTBF/MTTR tracking, maintenance effectiveness |
+
+**Digital Thread:**
+
+| Module | Description |
+|--------|-------------|
+| Traceability Graph | Unified traceability linking design, manufacturing, quality, and service records |
+| Serial/Lot Genealogy | Full genealogy from raw material to finished product to customer delivery |
+| Change Impact Analysis | Impact analysis for ECOs showing affected orders, inventory, and production plans |
+| Product Instance Tracking | Lifecycle tracking of individual product instances from manufacture to disposal |
 
 **IoT Integration:**
 
@@ -477,7 +497,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8014 |
 | Database | `report_db` (materialized views, pre-aggregated data); reads from other services' event streams |
-| Responsibilities | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting |
+| Responsibilities | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, augmented analytics |
 
 | Module | Description |
 |--------|-------------|
@@ -540,6 +560,16 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Balanced Scorecard | Four-perspective scorecard: financial, customer, internal process, learning & growth |
 | Initiative Tracking | Strategic initiative registration, milestone tracking, budget allocation, and status reporting |
 
+**Augmented Analytics:**
+
+| Module | Description |
+|--------|-------------|
+| Natural Language Queries | NLQ-to-SQL engine for ad-hoc data exploration without SQL knowledge |
+| Auto-Insights | Automated pattern discovery, trend detection, and anomaly flagging |
+| Smart Discovery | Automated correlation analysis across dimensions and measures |
+| Explainable AI | Human-readable explanations for analytical findings and ML predictions |
+| Contextual Narratives | Auto-generated narrative summaries for dashboards and reports |
+
 ### 2.6 Workflow Service
 
 | Aspect | Details |
@@ -566,7 +596,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8016 |
 | Database | `crm_db` |
-| Responsibilities | Customer relationship management, marketing automation, customer analytics |
+| Responsibilities | Customer relationship management, marketing automation, customer analytics, adaptive intelligence |
 
 | Module | Description |
 |--------|-------------|
@@ -628,6 +658,16 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Cross-Channel Analytics | Attribution modeling, channel preference analysis, and journey completion rate reporting |
 | Profile Enrichment | Third-party data enrichment integration for enhanced customer attributes |
 
+**Adaptive Intelligence (CRM):**
+
+| Module | Description |
+|--------|-------------|
+| Lead Scoring | ML-driven lead scoring based on engagement patterns and conversion history |
+| Next-Best-Action | Recommended actions for sales reps based on deal context and history |
+| Churn Prediction | Real-time churn risk scoring with retention action recommendations |
+| Cross-Sell / Up-Sell | Product recommendations based on purchase history and customer profile |
+| Deal Risk Assessment | Automated deal risk scoring based on engagement, timeline, and competitive signals |
+
 ### 2.8 Project Management Service
 
 | Aspect | Details |
@@ -659,7 +699,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8020 |
 | Database | `platform_db` (notifications + file metadata), `audit_db` (time-series optimized — see [Data Architecture](data-architecture.md)) |
-| Responsibilities | Multi-channel notifications, file storage, document management, audit logging, digital assistant, low-code application builder, GRC |
+| Responsibilities | Multi-channel notifications, file storage, document management, audit logging, digital assistant, low-code application builder, GRC, content management, privacy management, DLP |
 | Rationale | See [Architecture — Service Consolidation](architecture.md#43-platform-service-notification--file--audit) |
 
 | Module | Description |
@@ -706,13 +746,43 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Presence & Availability | User availability status with calendar integration and notification preferences |
 | Unified Search | Search across messages, documents, tasks, and knowledge base articles |
 
+**Content Management:**
+
+| Module | Description |
+|--------|-------------|
+| Content Repository | Hierarchical content storage with configurable metadata schemas |
+| Document Lifecycle | Draft → Review → Approved → Published → Archived lifecycle with configurable workflows |
+| Records Management | Retention policies, legal hold, disposition schedules, records classification |
+| Content Search | Full-text search with faceted navigation across all content types |
+| Compliance Archive | Immutable archive for regulatory-compliant document retention |
+
+**Privacy Management:**
+
+| Module | Description |
+|--------|-------------|
+| Consent Management | Granular consent capture, tracking, and enforcement per processing purpose |
+| Data Subject Rights | Automated handling of access, rectification, erasure, portability, and objection requests |
+| DPIA Workflows | Automated Data Protection Impact Assessment workflows with risk scoring |
+| Processing Register | Automated register of data processing activities (GDPR Article 30) |
+| Data Flow Mapping | Visual mapping of personal data flows across services and third parties |
+
+**Data Loss Prevention (DLP):**
+
+| Module | Description |
+|--------|-------------|
+| Data Classification | Automated sensitive data classification (PII, PHI, financial, IP) |
+| Policy Engine | Configurable DLP policies with detection, blocking, and alerting rules |
+| Access Monitoring | Monitoring of data access patterns for anomalous exfiltration behavior |
+| DLP Incidents | Automated DLP incident creation, investigation workflows, remediation tracking |
+| Compliance Reporting | DLP compliance dashboards, incident metrics, policy effectiveness analysis |
+
 ### 3.2 Integration Service
 
 | Aspect | Details |
 |--------|---------|
 | Port | 8021 |
 | Database | `integration_db` |
-| Responsibilities | External integrations, API management, connector framework, data import/export, MDM, data governance |
+| Responsibilities | External integrations, API management, API marketplace, connector framework, data import/export, MDM, data governance, event mesh |
 
 | Module | Description |
 |--------|-------------|
@@ -729,6 +799,9 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Data Governance | Data catalog, lineage tracking, quality scorecards, classification and tagging, retention policies |
 | Trade Compliance | Restricted party screening (OFAC, EU, UN denied party lists), export control classification, license management, customs documentation generation, compliance decision audit trail, dual-use goods screening |
 | Compliance Screening Engine | Real-time screening on order creation, supplier onboarding, and shipment dispatch with configurable rules and alerting |
+| API Marketplace | Centralized API catalog, developer portal, API key provisioning, usage analytics, API monetization |
+| Event Mesh | Event gateway (HTTP-to-event bridge), topic hierarchy management, schema registry, event filtering |
+| Developer Portal | Self-service portal for API consumers with sandbox access, documentation, and migration guides |
 
 ---
 

@@ -121,6 +121,19 @@
 | RPA | Robotic Process Automation — technology for automating repetitive, rule-based tasks using software bots that mimic human interactions with applications |
 | Strategic Sourcing | Systematic approach to optimizing an organization's supply base and improving the overall value proposition through structured sourcing events and supplier evaluation |
 | Identity Resolution | Process of determining that different data points (cookies, device IDs, emails) belong to the same individual across channels and touchpoints |
+| DLP | Data Loss Prevention — strategies and tools for preventing unauthorized data exfiltration |
+| ECM | Enterprise Content Management — strategy and tools for managing an organization's content lifecycle |
+| GraphQL | Query language and runtime for APIs enabling clients to request exactly the data they need |
+| Digital Thread | End-to-end traceability framework connecting data across the product lifecycle from design through manufacturing to service |
+| Augmented Analytics | AI-powered analytics that automate data preparation, insight discovery, and narrative generation |
+| Adaptive Intelligence | ML-powered recommendations and predictions embedded directly into business workflows |
+| API Marketplace | Centralized portal for discovering, subscribing to, and managing API consumption |
+| Event Mesh | Event routing infrastructure enabling event-driven communication across distributed systems and services |
+| Privacy by Design | Framework requiring privacy considerations to be embedded into the design of systems from inception |
+| NLQ | Natural Language Query — ability to query data using natural language instead of SQL or code |
+| OEE | Overall Equipment Effectiveness — manufacturing metric combining availability, performance, and quality |
+| MTBF | Mean Time Between Failures — average time between equipment breakdowns |
+| MTTR | Mean Time To Repair — average time to restore equipment to operational status |
 
 ## References
 
@@ -148,3 +161,6 @@
 - [BPMN 2.0](https://www.omg.org/spec/BPMN/2.0/)
 - [ASC 606 / IFRS 15](https://www.ifrs.org/issued-standards/list-of-standards/ifrs-15-revenue-from-contracts-with-customers/)
 - [GRI Standards](https://www.globalreporting.org/standards/)
+- [GraphQL](https://graphql.org/)
+- [Oracle Fusion Cloud](https://www.oracle.com/cloud/applications/)
+- [OWASP ZAP](https://www.zaproxy.org/)
