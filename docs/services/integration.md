@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8021 |
 | Database | `integration_db` |
-| Responsibilities | External integrations, API management, API marketplace, connector framework, data import/export, MDM, data governance, event mesh |
+| Responsibilities | External integrations, API management, API marketplace, connector framework, data import/export, MDM, data governance, event mesh, blockchain integration |
 
 ## Modules
 
@@ -26,6 +26,7 @@
 | API Marketplace | Centralized API catalog, developer portal, API key provisioning, usage analytics, API monetization |
 | Event Mesh | Event gateway (HTTP-to-event bridge), topic hierarchy management, schema registry, event filtering |
 | Developer Portal | Self-service portal for API consumers with sandbox access, documentation, and migration guides |
+| Blockchain Integration | Distributed ledger integration for supply chain provenance, smart contracts, and cross-party settlement via Hyperledger Fabric / Ethereum-compatible adapter |
 
 ## See Also
 

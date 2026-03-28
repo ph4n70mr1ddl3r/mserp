@@ -34,6 +34,8 @@
 | ASC 842 / IFRS 16 | Lease accounting audit trail, ROU asset verification, lease liability accuracy, disclosure completeness |
 | ISO 27001 | Information security management system, risk assessment, controls |
 | ESG Regulations | Emissions reporting accuracy, audit trail for sustainability data |
+| Product Safety | Product certification tracking, material compliance (RoHS/REACH), testing management, recall procedures |
+| ISO 45001 | Occupational health and safety management systems, hazard identification, worker participation |
 
 ### 9.4 Trade Compliance
 
@@ -46,6 +48,18 @@
 | Screening Triggers | Real-time screening on: customer creation, order submission, supplier onboarding, shipment dispatch |
 | Sanctions Screening | Continuous re-screening of existing customer/supplier base against updated lists |
 | Audit Trail | Complete log of all screening decisions, matches, overrides, and false positive dispositions |
+| Blockchain Provenance | Blockchain-anchored provenance records for supply chain transparency and customs verification |
+
+### 9.5 Product Compliance
+
+| Aspect | Implementation |
+|--------|---------------|
+| Regulatory Database | Configurable regulatory requirements database by product category, market, and jurisdiction |
+| Certification Tracking | Product certification lifecycle management with renewal tracking and expiration alerts |
+| Material Compliance | Restricted substance tracking with material declaration management and supplier declarations |
+| Testing Management | Compliance test planning with lab integration, result tracking, and certification linkage |
+| Market Access | Market-specific compliance requirements for product registration and import authorization |
+| Regulatory Change | Regulatory change monitoring with automated impact analysis on existing product portfolio |
 
 ## 10. Privacy Management
 

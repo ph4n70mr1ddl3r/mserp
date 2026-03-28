@@ -115,21 +115,21 @@ Port ranges are reserved by category: **8001-8009** (core), **8010-8019** (busin
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management |
-| Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition (ASC 606/IFRS 15), strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting (ASC 842/IFRS 16), grant management, joint venture accounting, intelligent close, advanced collections |
+| Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, loyalty management, omnichannel management, price optimization |
+| Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition (ASC 606/IFRS 15), strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting (ASC 842/IFRS 16), grant management, joint venture accounting, intelligent close, advanced collections, advanced tax management, commodity management, spend analysis, supplier diversity management |
 | HR | 8012 | Human resources, payroll, workforce management, recruitment, performance, talent review, succession, multi-country payroll |
-| Manufacturing | 8013 | Production, manufacturing operations, cost accounting, quality management, PLM, EAM, Digital Twin, IoT, Manufacturing Intelligence, Digital Thread |
+| Manufacturing | 8013 | Production, manufacturing operations, cost accounting, quality management, PLM, EAM, Digital Twin, IoT, Manufacturing Intelligence, Digital Thread, enterprise health & safety (EHS), MRO, product compliance & regulatory management |
 | Report | 8014 | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, embedded ML, narrative reporting, process mining, corporate performance management, augmented analytics |
 | Workflow | 8015 | Business process automation, approvals, BPMN engine, SLA management |
-| CRM / Marketing | 8016 | Customer relationship management, leads, campaigns, marketing automation, field service management, surveys & feedback, sales territory & quota planning, customer data platform (CDP), B2B commerce portal |
+| CRM / Marketing | 8016 | Customer relationship management, leads, campaigns, marketing automation, field service management, surveys & feedback, sales territory & quota planning, customer data platform (CDP), enterprise contact center, social selling, CX digital & A/B testing |
 | Project Management | 8017 | Project planning, resource allocation, time & expense, project billing, EVM |
 
 ### 3.3 Supporting Services
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Platform (Notif + File + Audit) | 8020 | Notifications, file storage, document management, audit logging, digital assistant, app builder, GRC, enterprise job scheduler, knowledge management, digital signatures, RPA, collaboration, IoT device registry, content management, privacy management, DLP, intelligent document processing (IDP) |
-| Integration | 8021 | External integrations, API management, API marketplace, connector framework, EDI, MDM, data governance, trade compliance, event mesh |
+| Platform (Notif + File + Audit) | 8020 | Notifications, file storage, document management, audit logging, digital assistant, app builder, GRC, enterprise job scheduler, knowledge management, digital signatures, RPA, collaboration, IoT device registry, content management, privacy management, DLP, intelligent document processing (IDP), ITSM, compliance hub |
+| Integration | 8021 | External integrations, API management, API marketplace, connector framework, EDI, MDM, data governance, trade compliance, event mesh, blockchain integration |
 
 ## 4. Service Consolidation Rationale
 

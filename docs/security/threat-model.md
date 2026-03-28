@@ -32,6 +32,14 @@
 | JV partner data manipulation | Partner access restricted to own venture data, allocation audit trail, approval workflow for JV modifications |
 | IDP data poisoning | Input document validation, extraction confidence thresholds, human review for low-confidence extractions |
 | Collection bypass | Collection strategy enforcement rules, approval workflow for write-offs, audit trail for all collection actions |
+| Blockchain smart contract vulnerability | Smart contract code auditing, formal verification, multi-signature controls, testnet deployment |
+| Contact center social engineering | Agent verification protocols, caller authentication, call recording, anomaly detection on access patterns |
+| Loyalty points fraud | Points laundering detection, duplicate account prevention, velocity checks, geographic anomaly detection |
+| Tax evasion via misclassification | Automated tax determination validation, cross-jurisdiction consistency checks, audit trail for all tax overrides |
+| MRO spare parts theft | Spare parts inventory tracking, issuance authorization, cycle counting, anomaly detection on consumption patterns |
+| ITSM privilege escalation | ITSM role-based access, change approval workflows, configuration item access logging, admin action audit trail |
+| Price manipulation | Price change audit trail, approval workflows for manual overrides, ML-based price anomaly detection |
+| Compliance hub data tampering | Immutable compliance records, digital signatures on compliance evidence, role-based access with SoD |
 
 ## 12. Security Incident Response
 
@@ -63,8 +71,8 @@ PIA outcomes are recorded in the GRC module and linked to the data catalog.
 
 ---
 
-*See [API Design](../api-design.md) for rate limiting and idempotency details.*
-*See [Data Architecture](../data-architecture.md) for row-level security and encryption at rest.*
+*See [API Design](../api/standards.md) for rate limiting and idempotency details.*
+*See [Data Architecture](../data/overview.md) for row-level security and encryption at rest.*
 
 - [Security Architecture](./overview.md)
 - [Authorization (RBAC + ABAC)](./authorization.md)

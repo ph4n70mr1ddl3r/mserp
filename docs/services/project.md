@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8017 |
 | Database | `project_db` |
-| Responsibilities | Project planning, execution, resource management, project accounting |
+| Responsibilities | Project planning, execution, resource management, project accounting, project portfolio analysis |
 
 ## Modules
 
@@ -20,6 +20,20 @@
 | Project Templates | Pre-built templates for common project types (implementation, consulting, internal) |
 | Project Analytics | Project health dashboards, resource utilization, margin analysis, portfolio view |
 | Program Management | Program-level oversight, cross-project dependency tracking, program dashboards |
+
+## Project Portfolio Analysis
+
+| Module | Description |
+|--------|-------------|
+| Portfolio Registration | Strategic portfolio definition with business alignment and investment categories |
+| Project Scoring | Multi-criteria project scoring model (strategic fit, ROI, risk, resources, urgency) |
+| Portfolio Balancing | Portfolio balance analysis across risk/reward, short/long-term, and strategic dimensions |
+| Resource Capacity Planning | Aggregate resource demand across portfolio with capacity gap analysis and scenario modeling |
+| Investment Analysis | NPV, IRR, payback period, and benefit-cost ratio calculations for project proposals |
+| Portfolio Dashboards | Executive portfolio dashboards with status summaries, budget consumption, and milestone tracking |
+| What-If Modeling | Portfolio scenario planning for resource allocation, budget changes, and priority shifts |
+| Benefit Realization | Post-implementation benefit tracking against business case projections with variance analysis |
+| Interdependency Mapping | Cross-project dependency identification and critical path analysis across the portfolio |
 
 ## See Also
 

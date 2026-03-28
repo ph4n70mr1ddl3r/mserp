@@ -57,6 +57,11 @@
 | `commerce.warranty.claim.approved` | Warranty claim approved |
 | `commerce.warranty.claim.rejected` | Warranty claim rejected |
 | `commerce.warranty.claim.fulfilled` | Warranty claim fulfilled (repair/replacement) |
+| `commerce.loyalty.points.accrued` | Points accrued for customer | { customer_id, points, tier, order_id } |
+| `commerce.loyalty.points.redeemed` | Points redeemed by customer | { customer_id, points, reward_id } |
+| `commerce.loyalty.tier.changed` | Customer loyalty tier changed | { customer_id, old_tier, new_tier } |
+| `commerce.omnichannel.order.routed` | Order routed to fulfillment location | { order_id, channel, fulfillment_location, routing_reason } |
+| `commerce.price.optimized` | Price optimization suggestion generated | { product_id, current_price, suggested_price, confidence } |
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
@@ -128,6 +133,10 @@
 | `finance.collection.activity.created` | Collection activity created |
 | `finance.cash-application.matched` | Cash receipt auto-matched to invoice |
 | `finance.cash-application.unmatched` | Cash receipt could not be auto-matched |
+| `finance.tax.assessment.created` | Tax assessment created for transaction | { transaction_id, tax_amount, jurisdiction, tax_type } |
+| `finance.commodity.price.updated` | Commodity market price updated | { commodity_id, market_price, source, timestamp } |
+| `finance.spend.classified` | Spend transaction classified by ML | { transaction_id, category, confidence, supplier_id } |
+| `finance.diversity.spend.recorded` | Diverse supplier spend recorded | { supplier_id, amount, diversity_class, period } |
 
 ### HR Events
 | Event | Description |
@@ -184,6 +193,10 @@
 | `manufacturing.intelligence.downtime.categorized` | Downtime event categorized by root cause |
 | `manufacturing.intelligence.energy.anomaly` | Energy consumption anomaly detected |
 | `manufacturing.intelligence.predictive-maintenance.alert` | Predictive maintenance alert triggered |
+| `manufacturing.safety.incident.created` | Safety incident reported | { incident_id, severity, location, type, reporter_id } |
+| `manufacturing.safety.inspection.completed` | Safety inspection completed | { inspection_id, findings, location, inspector_id } |
+| `manufacturing.mro.repair.completed` | MRO repair order completed | { repair_id, asset_id, cost, downtime_hours } |
+| `manufacturing.compliance.certification.updated` | Product certification updated | { product_id, cert_type, status, expiry_date } |
 
 ### Platform Events (Notification + File + Audit + Digital Assistant + GRC)
 | Event | Description |
@@ -224,6 +237,9 @@
 | `platform.idp.extraction.completed` | Data extraction from document completed |
 | `platform.idp.extraction.failed` | Data extraction from document failed |
 | `platform.idp.model.trained` | IDP extraction model training completed |
+| `platform.itsm.incident.created` | IT service incident created | { incident_id, priority, category, requester_id } |
+| `platform.itsm.change.approved` | IT change request approved | { change_id, risk_level, implementation_date } |
+| `platform.compliance.alert.triggered` | Compliance hub alert triggered | { alert_id, domain, severity, regulation, affected_entities } |
 
 > **Note:** `platform.audit.logged` is an internal event published for observability. Report Service subscribes for compliance dashboards. The authoritative audit log is stored directly in `audit_db` at write time (not event-sourced).
 
@@ -294,6 +310,9 @@
 | `crm.cdp.segment.updated` | Customer segment membership updated |
 | `crm.cdp.journey.step.completed` | Customer journey step completed |
 | `crm.cdp.engagement-score.updated` | Customer engagement score recalculated |
+| `crm.contact.center.interaction.created` | Contact center interaction received | { interaction_id, channel, customer_id, queue_id, agent_id } |
+| `crm.social.mention.detected` | Social media mention detected | { mention_id, platform, contact_id, sentiment, content } |
+| `crm.ab.test.completed` | A/B test completed with results | { test_id, variant_winner, confidence, lift } |
 
 ### Project Events
 | Event | Description |

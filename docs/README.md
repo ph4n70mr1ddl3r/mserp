@@ -25,7 +25,7 @@
 | [Workflow Service](services/workflow.md) | 8015 | BPMN engine, approvals, SLA management |
 | [CRM / Marketing Service](services/crm.md) | 8016 | Contacts, leads, campaigns, field service, CDP |
 | [Project Management Service](services/project.md) | 8017 | Projects, tasks, resources, EVM |
-| [Platform Service](services/platform.md) | 8020 | Notifications, files, audit, assistant, GRC, scheduler |
+| [Platform Service](services/platform.md) | 8020 | Notifications, files, audit, assistant, GRC, scheduler, ITSM, compliance hub |
 | [Integration Service](services/integration.md) | 8021 | Connectors, EDI, MDM, trade compliance |
 
 ## API & Data
@@ -64,6 +64,23 @@
 | [Process Mining](features/process-mining.md) | Process discovery, conformance checking |
 | [RPA](features/rpa.md) | Bot designer, task automation |
 | [CDP](features/cdp.md) | Customer Data Platform, identity resolution |
+| [Blockchain & Distributed Ledger](features/blockchain.md) | Supply chain provenance, smart contracts, cross-party settlement |
+| [Enterprise Health & Safety (EHS)](features/health-safety.md) | Incident management, risk assessment, chemical management, OSHA/ISO 45001 |
+| [Maintenance, Repair & Operations](features/mro.md) | MRO catalog, spare parts, repair orders, rotable management |
+| [Customer Loyalty Management](features/loyalty.md) | Tiered programs, points engine, reward catalogs, coalition programs |
+| [Advanced Tax Management](features/tax-management.md) | Multi-jurisdiction tax, external engine integration, nexus tracking |
+| [CX Digital & A/B Testing](features/ab-testing.md) | A/B testing, multivariate testing, personalization |
+| [Supplier Diversity Management](features/supplier-diversity.md) | Diversity classification, spend tracking, tier reporting |
+| [Commodity Management & Trading](features/commodity-management.md) | Market pricing, hedging, futures, supply risk |
+| [Advanced Spend Analysis](features/spend-analysis.md) | ML classification, maverick detection, savings identification |
+| [Unified Omnichannel Management](features/omnichannel.md) | Cross-channel cart, order routing, click-and-collect |
+| [AI-Driven Price Optimization](features/price-optimization.md) | Demand elasticity, dynamic pricing, markdown optimization |
+| [IT Service Management](features/itsm.md) | Incident, problem, change, CMDB, service catalog |
+| [Social Selling](features/social-selling.md) | Social enrichment, engagement tracking, relationship mapping |
+| [Project Portfolio Analysis](features/project-portfolio.md) | Portfolio balancing, investment analysis, benefit realization |
+| [Enterprise Contact Center](features/contact-center.md) | Omnichannel routing, IVR, workforce management |
+| [Product Compliance & Regulatory](features/product-compliance.md) | Regulatory database, certifications, material compliance |
+| [Compliance Hub](features/compliance-hub.md) | Unified compliance dashboard, regulatory change tracker |
 | [Full feature index →](features/) | All feature specifications |
 
 ## Security

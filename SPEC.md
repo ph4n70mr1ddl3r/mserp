@@ -4,7 +4,7 @@
 
 MSERP is an enterprise-grade, microservices-based ERP system built in Rust, designed for scalability, reliability, and performance. Inspired by Oracle Fusion Cloud's comprehensive ERP offering, MSERP delivers a unified platform spanning Financial Management, Supply Chain Management, Human Capital Management, Customer Experience, Project Management, Manufacturing, Enterprise Performance Management, and Governance, Risk & Compliance — all built on a modern, cloud-native microservices architecture.
 
-The system consists of 14 services (4 core, 8 business, 2 supporting), supports multi-tenancy with logical isolation, multi-region active-passive deployment, and handles 10,000+ requests/second at peak throughput (approximately 1,000+ concurrent active users). MSERP incorporates advanced enterprise capabilities including dynamic pricing engines, supply chain planning, project portfolio management, AI-driven analytics, multi-currency accounting with real-time exchange rates, a comprehensive workflow/BPM engine, product lifecycle management, ESG/sustainability reporting, digital assistant, enterprise asset management, and low-code application builder. Additionally, MSERP provides Available-to-Promise (ATP) / Capable-to-Promise (CTP) for real-time order promising, a Product Configurator for rules-based configurable products, Revenue Recognition (ASC 606 / IFRS 15) compliance, Credit Management with automated scoring and holds, an Enterprise Job Scheduler for batch processing and scheduled tasks, Field Service Management for technician scheduling and SLA tracking, Trade Compliance with export controls and restricted party screening, Subscription Management for recurring billing and lifecycle management, Knowledge Management with article authoring and versioning, Survey & Feedback Management for NPS/CSAT collection, Narrative Reporting for management commentary and collaborative annotations, Sales Territory & Quota Planning with what-if modeling, and Intercompany Drop Ship for cross-entity fulfillment.
+The system consists of 14 services (4 core, 8 business, 2 supporting), supports multi-tenancy with logical isolation, multi-region active-passive deployment, and handles 10,000+ requests/second at peak throughput (approximately 1,000+ concurrent active users). MSERP incorporates advanced enterprise capabilities including dynamic pricing engines, supply chain planning, project portfolio management, AI-driven analytics, multi-currency accounting with real-time exchange rates, a comprehensive workflow/BPM engine, product lifecycle management, ESG/sustainability reporting, digital assistant, enterprise asset management, and low-code application builder. Additionally, MSERP provides Available-to-Promise (ATP) / Capable-to-Promise (CTP) for real-time order promising, a Product Configurator for rules-based configurable products, Revenue Recognition (ASC 606 / IFRS 15) compliance, Credit Management with automated scoring and holds, an Enterprise Job Scheduler for batch processing and scheduled tasks, Field Service Management for technician scheduling and SLA tracking, Trade Compliance with export controls and restricted party screening, Subscription Management for recurring billing and lifecycle management, Knowledge Management with article authoring and versioning, Survey & Feedback Management for NPS/CSAT collection, Narrative Reporting for management commentary and collaborative annotations, Sales Territory & Quota Planning with what-if modeling, and Intercompany Drop Ship for cross-entity fulfillment, Blockchain & Distributed Ledger Integration for supply chain transparency and smart contracts, Enterprise Health & Safety (EHS) for workplace safety management, Customer Loyalty Management for rewards and retention, Advanced Tax Management with external engine integration, CX Digital & A/B Testing Platform, Supplier Diversity Management, Commodity Management & Trading, Advanced Spend Analysis, Unified Omnichannel Management, AI-Driven Price Optimization, IT Service Management (ITSM), Enterprise Contact Center, Social Selling, Project Portfolio Analysis, Product Compliance & Regulatory Management, and Compliance Hub for unified regulatory oversight.
 
 ### Key Differentiators
 
@@ -62,6 +62,22 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | Advanced Collections | Collection strategies, automated dunning, dispute management, promise-to-pay tracking |
 | Warranty Management | Warranty claims processing, entitlement validation, analytics, supplier cost recovery |
 | Intelligent Document Processing | AI-powered document classification, data extraction, template learning, batch processing |
+| Blockchain Integration | Distributed ledger for supply chain provenance, smart contracts, and cross-party settlement |
+| Enterprise Health & Safety | Incident management, risk assessment, chemical management, occupational health, OSHA/ISO 45001 compliance |
+| Customer Loyalty Management | Tiered loyalty programs, points engine, reward catalogs, coalition programs, fraud prevention |
+| Advanced Tax Management | Multi-jurisdiction tax determination, external engine integration (Vertex/Avalara), nexus tracking, tax audit support |
+| CX Digital & A/B Testing | Controlled testing, multivariate testing, AI-driven personalization, statistical significance engine |
+| Supplier Diversity Management | Diversity classification, spend tracking, tier reporting, compliance reporting, sourcing integration |
+| Commodity Management | Market price integration, hedging, futures tracking, supply risk management, price simulation |
+| Advanced Spend Analysis | ML-powered classification, maverick spend detection, savings identification, predictive spend analytics |
+| Unified Omnichannel | Cross-channel cart, order routing, click-and-collect, ship-from-store, channel analytics |
+| AI-Driven Price Optimization | Demand elasticity modeling, competitive pricing, dynamic pricing, markdown optimization, what-if simulation |
+| IT Service Management | Incident, problem, change management, CMDB, service catalog, SLA management |
+| Enterprise Contact Center | Omnichannel routing, IVR/voice bot, workforce management, quality management, interaction analytics |
+| Social Selling | Social profile enrichment, engagement tracking, relationship mapping, social intelligence scoring |
+| Project Portfolio Analysis | Portfolio balancing, investment analysis, resource capacity planning, benefit realization tracking |
+| Product Compliance | Regulatory database, certification management, material compliance, testing management |
+| Compliance Hub | Unified compliance dashboard, regulatory change tracker, cross-framework control mapping, compliance scoring |
 
 ---
 
@@ -166,6 +182,10 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 | | Joint Venture Accounting (JV agreement management, ownership splits, automated distribution, partner reporting) | Joint Venture Management | Specified |
 | | Intelligent Close (AI-assisted close, anomaly detection during close, predictive close analytics) | Financial Close | Specified |
 | | Advanced Collections (collection strategies, automated dunning, dispute management, promise-to-pay tracking) | Advanced Collections | Specified |
+| | Advanced Tax Management (multi-jurisdiction tax determination, external engine integration, nexus tracking, tax audit support) | Tax Management | Specified |
+| | Commodity Management & Trading (market price integration, hedging, futures, supply risk, price simulation) | Commodity Management | Specified |
+| | Advanced Spend Analysis (ML-powered classification, maverick detection, savings identification, predictive analytics) | Procurement | Specified |
+| | Supplier Diversity Management (diversity classification, spend tracking, tier reporting, compliance reporting) | Supplier Management | Specified |
 | **Supply Chain** | | | |
 | | Inventory Management, Warehousing | Inventory Management | Specified |
 | | Procurement & Supplier Management | Procurement | Specified |
@@ -180,6 +200,8 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 | | Intercompany Drop Ship | Order Management | Specified |
 | | Connected Logistics & Track-and-Trace (real-time tracking, condition monitoring, predictive ETA, geofencing) | Transportation Management | Specified |
 | | Warranty Management (warranty claims, entitlement validation, warranty analytics, supplier recovery) | Warranty Management | Specified |
+| | Unified Omnichannel Management (cross-channel cart, order routing, click-and-collect, ship-from-store) | Order Management | Specified |
+| | Blockchain & Distributed Ledger (supply chain provenance, smart contracts, cross-party settlement) | Supply Chain Blockchain | Specified |
 | **Order Management** | | | |
 | | Sales Orders, Quotations, Commissions | Order Management | Specified |
 | | Customer Management & CRM | CX Sales | Specified |
@@ -187,6 +209,8 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 | | Credit Management (credit scoring, automated credit checks, credit hold/release) | Order Management | Specified |
 | | Subscription Management (recurring billing, subscription lifecycle) | Subscription Management | Specified |
 | | Product Configurator (configurable products, rules-based configuration, pricing integration) | Configurator | Specified |
+| | AI-Driven Price Optimization (demand elasticity, competitive pricing, dynamic pricing, markdown optimization) | Pricing | Specified |
+| | Customer Loyalty Management (tiered programs, points engine, reward catalogs, coalition programs) | Loyalty | Specified |
 | **Manufacturing** | | | |
 | | BOM, Work Orders, Routing | Manufacturing | Specified |
 | | Production Planning, Quality Control | Manufacturing | Specified |
@@ -199,6 +223,9 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 | | Digital Twin (asset digital twins, real-time monitoring, predictive maintenance, what-if simulation) | Digital Twin | Specified |
 | | Manufacturing Intelligence (production analytics, OEE tracking, downtime analysis) | Manufacturing Intelligence | Specified |
 | | Digital Thread (end-to-end traceability from design through manufacturing to service) | Product Lifecycle Management | Specified |
+| | Enterprise Health & Safety (EHS) (incident management, risk assessment, chemical management, OSHA/ISO 45001) | EHS | Specified |
+| | Maintenance, Repair & Operations (MRO catalog, spare parts, repair orders, rotable management) | Maintenance Management | Specified |
+| | Product Compliance & Regulatory Management (regulatory database, certifications, material compliance) | Product Compliance | Specified |
 | **HCM** | | | |
 | | Employee Lifecycle Management | HCM Core | Specified |
 | | Payroll & Compensation | Payroll | Specified |
@@ -218,6 +245,7 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 | | Time & Expense Tracking | Project Costing | Specified |
 | | Project Billing & Revenue Recognition | Project Billing | Specified |
 | | Earned Value Management (EVM) | Project Costing | Specified |
+| | Project Portfolio Analysis (portfolio balancing, investment analysis, benefit realization, interdependency mapping) | Project Portfolio | Specified |
 | **Analytics & BI** | | | |
 | | Embedded Analytics & Dashboards | OTBI / BI Publisher | Specified |
 | | Report Builder & Scheduled Reports | BI Publisher | Specified |
@@ -238,6 +266,9 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 | | Sales Territory & Quota Planning (territory management, quota allocation, what-if modeling) | CX Sales | Specified |
 | | Customer Data Platform (unified customer profiles, identity resolution, segmentation, journey orchestration) | Customer Data Platform | Specified |
 | | B2B Commerce Portal (customer self-service ordering, reorder templates, approval workflows, account management) | Commerce | Specified |
+| | Enterprise Contact Center (omnichannel routing, IVR, workforce management, quality management) | Contact Center | Specified |
+| | Social Selling (social enrichment, engagement tracking, relationship mapping, social intelligence) | CX Sales | Specified |
+| | CX Digital & A/B Testing (A/B testing, multivariate testing, personalization, statistical engine) | CX Testing | Specified |
 | **Platform** | | | |
 | | Workflow & BPM Engine | BPM / Workflow | Specified |
 | | Notification & Alerting | Notifications | Specified |
@@ -263,6 +294,8 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 | | Event Mesh (event backbone, topic-based routing, event gateway) | Integration Cloud | Specified |
 | | Adaptive Intelligence (ML-powered recommendations embedded in business workflows) | Adaptive Intelligence | Specified |
 | | Compliance Hub (unified compliance dashboard, regulatory change tracking) | GRC | Specified |
+| | IT Service Management (incident, problem, change, CMDB, service catalog, SLA management) | IT Service Management | Specified |
+| | Blockchain & Distributed Ledger Integration (supply chain provenance, smart contracts, cross-party settlement) | Blockchain | Specified |
 | **Security & GRC** | | | |
 | | RBAC + ABAC Authorization | Authorization | Specified |
 | | SSO, MFA, OAuth2/OIDC | Security | Specified |
@@ -276,9 +309,10 @@ All feature specifications are in [docs/features/](docs/features/). See the full
 | | Advanced Access Controls (AAC) (advanced SoD, access certification, privileged access management) | Advanced Access Controls | Specified |
 | | Privacy Management (consent management, data subject rights, privacy by design) | Privacy Management | Specified |
 | | Data Loss Prevention (DLP) (sensitive data detection, policy enforcement, incident response) | Data Security | Specified |
+| | Product Compliance & Regulatory Management (regulatory database, certification lifecycle, material compliance) | Product Governance | Specified |
 
 ---
 
-*Document Version: 8.0*
+*Document Version: 9.0*
 *Last Updated: 2026-03-28*
 *Authors: MSERP Team*

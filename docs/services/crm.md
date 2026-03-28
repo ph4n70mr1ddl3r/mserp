@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8016 |
 | Database | `crm_db` |
-| Responsibilities | Customer relationship management, marketing automation, customer analytics, adaptive intelligence |
+| Responsibilities | Customer relationship management, marketing automation, customer analytics, adaptive intelligence, contact center, social selling, A/B testing |
 
 ## Modules
 
@@ -77,6 +77,41 @@
 | Churn Prediction | Real-time churn risk scoring with retention action recommendations |
 | Cross-Sell / Up-Sell | Product recommendations based on purchase history and customer profile |
 | Deal Risk Assessment | Automated deal risk scoring based on engagement, timeline, and competitive signals |
+
+## Enterprise Contact Center
+
+| Module | Description |
+|--------|-------------|
+| Omnichannel Routing | Intelligent routing of voice, email, chat, SMS, and social interactions with skills-based assignment |
+| IVR / Voice Bot | Interactive voice response with NLP-powered voice bot for self-service and intelligent call routing |
+| Workforce Management | Contact center agent scheduling, forecast-based staffing, real-time adherence monitoring |
+| Quality Management | Call recording, screen capture, evaluation forms, and calibration workflows for agent quality |
+| Script Management | Configurable agent scripts with branching logic, compliance prompts, and knowledge base integration |
+| Queue Management | Configurable queues with priority rules, overflow strategies, and callback scheduling |
+| Agent Dashboard | Unified agent desktop with customer 360 view, interaction history, and knowledge base |
+| Interaction Analytics | Speech analytics, sentiment analysis, and interaction trend reporting across all channels |
+| Outbound Campaigns | Predictive and preview dialer campaigns with compliance controls (DNC, TCPA) |
+
+## Social Selling
+
+| Module | Description |
+|--------|-------------|
+| Social Profile Enrichment | Automatic enrichment of CRM contacts with social media profile data and activity signals |
+| Social Engagement Tracking | Track social interactions linked to CRM contacts and opportunities |
+| Social Intelligence | AI-driven social selling index scoring with recommended actions for sales representatives |
+| Relationship Mapping | Social network relationship visualization for identifying warm introduction paths |
+| Compliance Guardrails | Configurable social media policy enforcement with content approval workflows |
+
+## CX Digital & A/B Testing
+
+| Module | Description |
+|--------|-------------|
+| A/B Testing | Controlled A/B tests for web pages, email campaigns, and in-app experiences |
+| Multivariate Testing | Multi-factor testing with fractional factorial designs for complex experience optimization |
+| Statistical Engine | Automated statistical significance calculation with confidence intervals and sample size recommendations |
+| Personalization | AI-driven personalization rules based on customer profile, behavior, and context |
+| Content Variants | Visual content editor for creating test variants without developer involvement |
+| Reporting | Test performance dashboards with lift measurement, confidence levels, and revenue impact |
 
 ## See Also
 

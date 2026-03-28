@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8010 |
 | Database | `commerce_db` |
-| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, B2B commerce portal, adaptive intelligence |
+| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, B2B commerce portal, adaptive intelligence, loyalty management, omnichannel management, price optimization |
 | Rationale | See [Architecture — Service Consolidation](../architecture/overview.md#4-service-consolidation-rationale) |
 
 ## Sales Modules
@@ -157,6 +157,41 @@
 | Account Management | Customer-managed users, shipping addresses, payment methods, and preferences |
 | Order Tracking | Real-time order and shipment tracking with configurable notification preferences |
 | Invoice Portal | Self-service invoice viewing, download, dispute initiation, and payment status |
+
+## Customer Loyalty Management
+
+| Module | Description |
+|--------|-------------|
+| Loyalty Programs | Configurable loyalty programs with tier structures, earning rules, and benefit catalogs |
+| Points Engine | Real-time points accrual and redemption with configurable earning rates by product, channel, and tier |
+| Tier Management | Automated tier qualification, promotion, and demotion based on configurable thresholds |
+| Reward Catalog | Digital reward catalog with merchandise, discounts, partner offers, and experiential rewards |
+| Partner Programs | Coalition loyalty programs with partner point earning and shared reward pools |
+| Fraud Prevention | Duplicate account detection, unusual redemption patterns, and points laundering prevention |
+| Loyalty Analytics | Program ROI, member engagement, breakage rates, tier migration, and lifetime value analysis |
+
+## Unified Omnichannel Management
+
+| Module | Description |
+|--------|-------------|
+| Channel Management | Configure and manage sales channels (web, mobile, B2B portal, marketplace, POS, call center, social commerce) |
+| Unified Cart | Persistent shopping cart synchronized across channels with real-time inventory visibility |
+| Order Routing | Intelligent order routing across fulfillment locations based on proximity, cost, and stock availability |
+| Cross-Channel Returns | Return-anywhere capability with centralized return policy enforcement and refund processing |
+| Click-and-Collect | Buy online, pick up in-store (BOPIS) with real-time store inventory and notification management |
+| Ship-from-Store | Store fulfillment capability with inventory reservation and carrier integration |
+
+## AI-Driven Price Optimization
+
+| Module | Description |
+|--------|-------------|
+| Demand-Based Pricing | ML models predicting demand elasticity by product, segment, channel, and season |
+| Competitive Pricing | Automated competitive price monitoring and response strategies with floor/ceiling constraints |
+| Dynamic Pricing | Real-time price adjustments based on inventory levels, demand signals, and competitive landscape |
+| Markdown Optimization | Optimal markdown scheduling for seasonal and aging inventory with margin preservation targets |
+| Margin Optimization | Multi-constraint optimization balancing margin, volume, revenue, and inventory targets |
+| Price Testing | A/B price testing with statistical significance tracking and revenue impact measurement |
+| What-If Simulation | Price change scenario modeling with projected revenue, margin, and volume impact |
 
 ## See Also
 

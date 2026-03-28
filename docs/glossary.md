@@ -143,6 +143,19 @@
 | Cash Application | Process of matching incoming payments (cash, checks, wire transfers) to the corresponding open invoices |
 | IDP | Intelligent Document Processing — AI-powered technology that automatically extracts, classifies, and validates data from documents |
 | Warranty Management | End-to-end management of product warranties including policy definition, registration, claims processing, and analytics |
+| A/B Testing | Controlled experiment comparing two variants to determine which performs better against defined goals |
+| ASC 842 / IFRS 16 | Accounting standards for lease accounting requiring lessees to recognize ROU assets and lease liabilities |
+| BOPIS | Buy Online, Pick Up In Store — omnichannel fulfillment model |
+| CMDB | Configuration Management Database — IT asset registry with relationship mapping |
+| DPIA | Data Protection Impact Assessment — privacy risk assessment required by GDPR |
+| EHS | Enterprise Health & Safety — workplace safety management and regulatory compliance |
+| ISCC | International Sustainability & Carbon Certification |
+| ITSM | IT Service Management — IT service delivery and support framework |
+| JHA | Job Hazard Analysis — systematic method for identifying workplace hazards |
+| MRO | Maintenance, Repair & Operations — supplies and activities for keeping assets operational |
+| ROU | Right-of-Use — lease accounting asset representing the right to use a leased asset |
+| SDS | Safety Data Sheet — standardized chemical hazard information document |
+| UNSPSC | United Nations Standard Products and Services Code — spend classification taxonomy |
 
 ## References
 

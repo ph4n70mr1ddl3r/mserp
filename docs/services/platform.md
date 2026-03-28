@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8020 |
 | Database | `platform_db` (notifications + file metadata), `audit_db` (time-series optimized) |
-| Responsibilities | Multi-channel notifications, file storage, document management, audit logging, digital assistant, low-code application builder, GRC, content management, privacy management, DLP |
+| Responsibilities | Multi-channel notifications, file storage, document management, audit logging, digital assistant, low-code application builder, GRC, content management, privacy management, DLP, ITSM, compliance hub |
 | Rationale | See [Architecture — Service Consolidation](../architecture/overview.md#4-service-consolidation-rationale) |
 
 ## Modules
@@ -82,6 +82,29 @@
 | Access Monitoring | Monitoring of data access patterns for anomalous exfiltration behavior |
 | DLP Incidents | Automated DLP incident creation, investigation workflows, remediation tracking |
 | Compliance Reporting | DLP compliance dashboards, incident metrics, policy effectiveness analysis |
+
+## IT Service Management (ITSM)
+
+| Module | Description |
+|--------|-------------|
+| Incident Management | IT incident logging, categorization, prioritization, assignment, and resolution tracking with SLA |
+| Service Request Catalog | Self-service catalog for IT service requests with approval workflows |
+| Problem Management | Root cause analysis, known error database, and proactive problem prevention workflows |
+| Change Management | Change request workflows with risk assessment, approval matrices, and change calendars |
+| Configuration Management | IT asset configuration item registry with relationship mapping and dependency tracking |
+| CMDB Integration | Configuration Management Database with auto-discovery for network, server, and application inventory |
+| Release Management | Release planning, deployment scheduling, rollback procedures, and post-deployment verification |
+
+## Compliance Hub
+
+| Module | Description |
+|--------|-------------|
+| Unified Dashboard | Single compliance dashboard aggregating status from GRC, Trade, Privacy, Tax, ESG, and Product Compliance |
+| Regulatory Change Tracker | Automated monitoring of regulatory changes with impact assessment workflows |
+| Compliance Calendar | Unified compliance calendar with filing deadlines, audit schedules, and certification renewals |
+| Control Mapping | Cross-framework control mapping (SOC 2, GDPR, HIPAA, PCI DSS, SOX, ISO 27001) |
+| Compliance Score | Composite compliance health score per domain with trend tracking |
+| Regulatory Intelligence | AI-powered regulatory content feed with relevance scoring and automated impact analysis |
 
 ## Intelligent Document Processing (IDP)
 

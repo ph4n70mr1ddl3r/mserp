@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8011 |
 | Database | `finance_db` |
-| Responsibilities | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition, strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting, grant management, joint venture accounting, intelligent close, advanced collections, adaptive intelligence |
+| Responsibilities | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition, strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting, grant management, joint venture accounting, intelligent close, advanced collections, adaptive intelligence, advanced tax management, commodity management, spend analysis, supplier diversity |
 | Rationale | See [Architecture — Service Consolidation](../architecture/overview.md#4-service-consolidation-rationale) |
 
 ## Finance Modules
@@ -200,6 +200,51 @@
 | Contracts | Supplier contracts, terms, renewal tracking, compliance |
 | Self-Service Procurement | Catalog-based purchasing for non-procurement users |
 | Supplier Collaboration | Supplier portal for RFQ response, PO acknowledgment, invoice submission, delivery scheduling |
+
+## Advanced Tax Management
+
+| Module | Description |
+|--------|-------------|
+| Tax Determination | Automated taxability determination based on product classification, jurisdiction, and customer exemption status |
+| Tax Calculation | Multi-jurisdiction tax calculation with support for VAT, GST, sales tax, use tax, withholding tax, and excise duties |
+| Exemption Management | Customer and product exemption certificate management with validity tracking and renewal alerts |
+| Tax Reporting | Jurisdiction-specific tax returns, VAT/GST returns, sales tax reports, and withholding tax certificates |
+| Tax Reconciliation | Tax liability reconciliation with general ledger tax accounts, adjustment tracking, and audit trail |
+| External Tax Engine | Pre-built connector for external tax engines (Vertex, Avalara, Sovos) for complex scenarios |
+| Nexus Management | Multi-state / multi-country nexus tracking with economic nexus thresholds and filing obligation alerts |
+| Tax Audit Support | Tax audit trail with transaction-level detail, exemption documentation, and assessment management |
+
+## Commodity Management & Trading
+
+| Module | Description |
+|--------|-------------|
+| Commodity Catalog | Commodity classification with specifications, grade standards, and market reference pricing |
+| Market Price Integration | Real-time commodity market price feeds from exchanges and benchmark providers |
+| Commodity Contracts | Commodity purchase contracts with quantity, price, delivery schedules, and escalation clauses |
+| Hedging Integration | Commodity hedging position tracking with mark-to-market valuation and hedge effectiveness reporting |
+| Futures & Forwards | Forward contract tracking with settlement scheduling and gain/loss recognition |
+
+## Advanced Spend Analysis
+
+| Module | Description |
+|--------|-------------|
+| Spend Classification | ML-powered automatic spend classification using UNSPSC, SIC, or custom category taxonomies |
+| Spend Visibility | Real-time spend dashboards by supplier, category, business unit, geography, and contract |
+| Contract Compliance | Spend under contract vs. off-contract analysis with maverick spend identification |
+| Savings Identification | AI-driven savings opportunity identification across categories with estimated impact |
+| Tail Spend Analysis | Automated tail spend identification with optimization recommendations |
+| Predictive Analytics | Spend forecasting with trend analysis, seasonality detection, and anomaly alerting |
+
+## Supplier Diversity Management
+
+| Module | Description |
+|--------|-------------|
+| Diversity Classification | Supplier diversity classification with certification tracking |
+| Spend Tracking | Real-time diverse supplier spend tracking by category, business unit, and classification |
+| Tier Reporting | Tier 1 (direct) and Tier 2 (subcontractor) diversity spend reporting |
+| Goal Setting | Configurable diversity spend targets with progress tracking |
+| Compliance Reporting | Government-mandated diversity reporting with automated form generation |
+| Sourcing Integration | Diversity criteria in sourcing events with weighted scoring |
 
 ## See Also
 

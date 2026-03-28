@@ -106,6 +106,24 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Joint Venture Accountant | Joint venture accounting | `finance.joint-venture.*`, `finance.gl.read` |
 | Collections Specialist | Accounts receivable collections | `finance.collections.*`, `finance.invoice.read`, `commerce.customer.read` |
 | Warranty Manager | Warranty policy and claims management | `commerce.warranty.*`, `manufacturing.quality.read` |
+| Tax Manager | Tax determination and reporting | `finance.tax.*`, `report.tax.*` |
+| Commodity Manager | Commodity procurement and trading | `finance.commodity.*`, `finance.purchase-order.*` |
+| Spend Analyst | Spend analysis and procurement analytics | `report.spend.*`, `finance.supplier.read` |
+| Diversity Program Manager | Supplier diversity program management | `finance.diversity.*`, `finance.supplier.read`, `report.diversity.*` |
+| Loyalty Manager | Customer loyalty program management | `crm.loyalty.*`, `commerce.customer.read` |
+| Contact Center Agent | Contact center operations | `crm.contact-center.*`, `crm.case.*`, `commerce.customer.read` |
+| Contact Center Manager | Contact center management | `crm.contact-center.*`, `crm.case.*`, `report.contact-center.*` |
+| Social Seller | Social selling activities | `crm.social-selling.*`, `crm.contact.read`, `crm.opportunity.read` |
+| EHS Manager | Enterprise health and safety | `manufacturing.ehs.*`, `manufacturing.quality.*`, `report.ehs.*` |
+| EHS Specialist | Safety incident and inspection management | `manufacturing.ehs.incident.*`, `manufacturing.ehs.inspection.*` |
+| MRO Manager | MRO operations management | `manufacturing.mro.*`, `commerce.stock.read`, `finance.purchase-order.read` |
+| Product Compliance Manager | Product regulatory compliance | `manufacturing.compliance.*`, `report.compliance.*` |
+| IT Service Agent | IT service desk operations | `platform.itsm.incident.*`, `platform.itsm.request.*`, `platform.knowledge.read` |
+| IT Service Manager | IT service management | `platform.itsm.*`, `report.itsm.*` |
+| Omnichannel Manager | Omnichannel operations | `commerce.omnichannel.*`, `commerce.order.*`, `commerce.stock.read` |
+| Price Analyst | Price optimization and analysis | `commerce.pricing.*`, `report.pricing.*` |
+| Portfolio Manager | Project portfolio management | `project.portfolio.*`, `project.project.read`, `report.project.*` |
+| Compliance Hub Manager | Unified compliance oversight | `platform.compliance-hub.*`, `platform.grc.read`, `report.compliance.*` |
 
 ---
 
