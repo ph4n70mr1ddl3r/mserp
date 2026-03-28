@@ -159,7 +159,12 @@ mserp/
 │   │   │       ├── handlers/
 │   │   │       ├── models/
 │   │   │       └── services/
-│   ├── finance-service/          # Finance + Procurement + Treasury + Expenses + CLM + EPM
+│   │   │   ├── warranty/               # Warranty Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   ├── finance-service/          # Finance Service (all finance, procurement, treasury, revenue, lease, grants, JV, collections)
 │   │   ├── src/
 │   │   │   ├── finance/          # Finance domain module
 │   │   │   │   ├── routes/
@@ -220,6 +225,31 @@ mserp/
 │   │   │       ├── handlers/
 │   │   │       ├── models/
 │   │   │       └── services/
+│   │   │   ├── lease-accounting/      # Lease Accounting (ASC 842 / IFRS 16)
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── grants/               # Grant Management
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── joint-venture/         # Joint Venture Accounting
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── intelligent-close/     # Intelligent Close
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── collections/           # Advanced Collections
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
 │   ├── hr-service/
 │   │   ├── src/
 │   │   │   ├── employee/
@@ -259,7 +289,17 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   └── digital-twin/        # Digital Twin
+│   │   │   ├── digital-twin/        # Digital Twin
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── manufacturing-intelligence/ # Manufacturing Intelligence
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   └── digital-thread/     # Digital Thread
 │   │   │       ├── routes/
 │   │   │       ├── handlers/
 │   │   │       ├── models/
@@ -283,11 +323,19 @@ mserp/
 │   │   │   │   ├── conformance/
 │   │   │   │   ├── simulation/
 │   │   │   │   └── dashboards/
-│   │   │   └── cpm/                  # Corporate Performance Management
-│   │   │       ├── okrs/
-│   │   │       ├── scorecard/
-│   │   │       ├── strategy-maps/
-│   │   │       └── initiatives/
+│   │   │   ├── cpm/                  # Corporate Performance Management
+│   │   │   │   ├── okrs/
+│   │   │   │   ├── scorecard/
+│   │   │   │   ├── strategy-maps/
+│   │   │   │   └── initiatives/
+│   │   │   ├── narrative/            # Narrative Reporting
+│   │   │   │   ├── packages/
+│   │   │   │   ├── commentary/
+│   │   │   │   └── xbrl/
+│   │   │   └── augmented-analytics/  # Augmented Analytics
+│   │   │       ├── nlq/
+│   │   │       ├── insights/
+│   │   │       └── discovery/
 │   ├── workflow-service/
 │   │   ├── src/
 │   │   │   ├── engine/           # BPMN engine
@@ -391,10 +439,20 @@ mserp/
 │   │   │   │   ├── documents/
 │   │   │   │   ├── tasks/
 │   │   │   │   └── search/
-│   │   │   └── iot-registry/         # IoT Device Registry
-│   │   │       ├── devices/
-│   │   │       ├── certificates/
-│   │   │       └── telemetry/
+│   │   │   ├── iot-registry/         # IoT Device Registry
+│   │   │   │   ├── devices/
+│   │   │   │   ├── certificates/
+│   │   │   │   └── telemetry/
+│   │   │   ├── content/              # Enterprise Content Management
+│   │   │   │   ├── repositories/
+│   │   │   │   ├── lifecycle/
+│   │   │   │   ├── records/
+│   │   │   │   └── search/
+│   │   │   └── idp/                    # Intelligent Document Processing
+│   │   │   │   ├── classification/
+│   │   │   │   ├── extraction/
+│   │   │   │   ├── training/
+│   │   │   │   └── integration/
 │   └── integration-service/
 │       ├── src/
 │       │   ├── connectors/
@@ -495,7 +553,13 @@ mserp/
     ├── process-activity-classes.csv  # Process mining activity classifications
     ├── rpa-bot-templates.csv         # RPA bot action templates
     ├── customer-segments.csv         # CDP default customer segment definitions
-    └── supplier-risk-indicators.csv  # Supplier risk indicator definitions
+    ├── supplier-risk-indicators.csv  # Supplier risk indicator definitions
+    ├── lease-classifications.csv      # ASC 842/IFRS 16 classification types
+    ├── grant-funding-sources.csv      # Grant funding source types
+    ├── jv-partner-types.csv           # Joint venture partner types
+    ├── collection-strategy-templates.csv # Collection strategy templates
+    ├── warranty-claim-reasons.csv     # Warranty claim reason codes
+    └── idp-document-types.csv         # IDP document type definitions
 ```
 
 ## 2. Local Development

@@ -206,7 +206,7 @@ Returns `200 OK` only when all critical dependencies are reachable. Returns `503
 | Config | + RabbitMQ (connection — publish only) |
 | Identity | Database, Redis only (does not use RabbitMQ) |
 | Commerce, Finance, HR, Manufacturing, Workflow, CRM/Marketing, Project, Integration | + RabbitMQ (connection + queue reachable) |
-| Platform | + RabbitMQ (connection + queue reachable), Database x2 (`platform_db` + `audit_db`), ONNX Runtime |
+| Platform | + RabbitMQ (connection + queue reachable), Database x2 (`platform_db` + `audit_db`), ONNX Runtime, IDP Service |
 | Report | + RabbitMQ (connection + queue reachable), Elasticsearch, DuckDB |
 
 - Each individual dependency check within `/readyz` has a 1-second timeout.
@@ -323,6 +323,8 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `COMMERCE_SUBSCRIPTION_INACTIVE` | 409 | Subscription is not in an active state |
 | `COMMERCE_SUBSCRIPTION_AMENDMENT_INVALID` | 400 | Subscription amendment parameters invalid |
 | `COMMERCE_DROPSHIP_UNAVAILABLE` | 409 | Drop ship not available for this product/supplier combination |
+| `COMMERCE_WARRANTY_EXPIRED` | 410 | Warranty has expired |
+| `COMMERCE_WARRANTY_CLAIM_DUPLICATE` | 409 | Duplicate warranty claim submitted |
 
 ### 8.3 Finance Error Codes
 
@@ -345,6 +347,13 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `FINANCE_REVENUE_ALREADY_RECOGNIZED` | 409 | Revenue already recognized for this obligation |
 | `FINANCE_REVENUE_ALLOCATION_INVALID` | 400 | Revenue allocation amounts do not sum to transaction price |
 | `FINANCE_SSP_MISSING` | 400 | Standalone selling price not available for allocation |
+| `FINANCE_LEASE_NOT_FOUND` | 404 | Lease contract not found |
+| `FINANCE_LEASE_AMENDMENT_INVALID` | 400 | Lease amendment parameters invalid |
+| `FINANCE_GRANT_NOT_FOUND` | 404 | Grant not found |
+| `FINANCE_GRANT_COMPLIANCE_VIOLATION` | 409 | Grant compliance violation detected |
+| `FINANCE_JOINT_VENTURE_ALLOCATION_INVALID` | 400 | Joint venture cost allocation invalid |
+| `FINANCE_CLOSE_ANOMALY_DETECTED` | 409 | Financial close anomaly detected |
+| `FINANCE_COLLECTION_STRATEGY_INVALID` | 400 | Collection strategy configuration invalid |
 
 ### 8.4 HR Error Codes
 
@@ -429,6 +438,8 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PLATFORM_PRIVACY_DSAR_IN_PROGRESS` | 409 | Data subject access request already in progress |
 | `PLATFORM_DLP_VIOLATION` | 403 | Data loss prevention policy violation |
 | `PLATFORM_DLP_BLOCKED` | 403 | Operation blocked by DLP policy |
+| `PLATFORM_IDP_EXTRACTION_FAILED` | 500 | Intelligent document processing extraction failed |
+| `PLATFORM_IDP_MODEL_NOT_TRAINED` | 409 | IDP extraction model has not been trained |
 
 ### 8.11 Integration Error Codes
 
@@ -590,10 +601,11 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/commerce/logistics/eta/{shipmentId}` | Get predictive ETA for shipment |
 | POST | `/api/v1/commerce/logistics/geofences` | Create geofence for logistics monitoring |
 | GET | `/api/v1/commerce/logistics/exceptions` | List logistics exceptions (delays, deviations) |
-| GET | `/api/v1/commerce/manufacturing-intelligence/oee` | Get OEE metrics |
-| GET | `/api/v1/commerce/manufacturing-intelligence/downtime` | Get downtime analysis |
-| GET | `/api/v1/commerce/digital-thread/traceability/{serialId}` | Get full traceability for serial/lot |
-| GET | `/api/v1/commerce/digital-thread/genealogy/{productId}` | Get product genealogy |
+| GET | `/api/v1/commerce/warranties` | List warranty policies |
+| POST | `/api/v1/commerce/warranties` | Create warranty policy |
+| GET | `/api/v1/commerce/warranties/{id}` | Get warranty details |
+| POST | `/api/v1/commerce/warranties/{id}/claim` | Submit warranty claim |
+| GET | `/api/v1/commerce/warranties/{id}/claims` | List warranty claims |
 
 ### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |
@@ -675,6 +687,30 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/finance/profitability/product` | Get product profitability analysis |
 | GET | `/api/v1/finance/profitability/cost-to-serve/{customerId}` | Get cost-to-serve analysis |
 | POST | `/api/v1/finance/profitability/what-if` | Run profitability what-if scenario |
+| GET | `/api/v1/finance/leases` | List lease contracts |
+| POST | `/api/v1/finance/leases` | Create lease contract |
+| GET | `/api/v1/finance/leases/{id}` | Get lease details |
+| POST | `/api/v1/finance/leases/{id}/amend` | Amend lease |
+| GET | `/api/v1/finance/leases/{id}/schedule` | Get lease payment schedule |
+| POST | `/api/v1/finance/leases/{id}/recognize` | Recognize lease expense for period |
+| GET | `/api/v1/finance/leases/{id}/right-of-use` | Get right-of-use asset data |
+| GET | `/api/v1/finance/grants` | List grants |
+| POST | `/api/v1/finance/grants` | Create grant |
+| GET | `/api/v1/finance/grants/{id}` | Get grant details |
+| POST | `/api/v1/finance/grants/{id}/recognize` | Recognize grant revenue |
+| GET | `/api/v1/finance/grants/{id}/compliance` | Get grant compliance status |
+| GET | `/api/v1/finance/joint-ventures` | List joint ventures |
+| POST | `/api/v1/finance/joint-ventures` | Create joint venture |
+| GET | `/api/v1/finance/joint-ventures/{id}` | Get joint venture details |
+| POST | `/api/v1/finance/joint-ventures/{id}/allocate` | Allocate joint venture costs |
+| GET | `/api/v1/finance/joint-ventures/{id}/billing` | Get partner billing statements |
+| GET | `/api/v1/finance/intelligent-close/status` | Get financial close automation status |
+| POST | `/api/v1/finance/intelligent-close/tasks/auto-assign` | Auto-assign close tasks |
+| GET | `/api/v1/finance/intelligent-close/anomalies` | Get close anomaly detection results |
+| GET | `/api/v1/finance/collections/aging` | Get accounts receivable aging |
+| POST | `/api/v1/finance/collections/strategies` | Create collection strategy |
+| GET | `/api/v1/finance/collections/activities` | List collection activities |
+| POST | `/api/v1/finance/collections/cash-application` | Apply cash receipt to invoices |
 
 ### HR Service
 | Method | Endpoint | Description |
@@ -749,6 +785,14 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/manufacturing/digital-twins/{assetId}` | Get asset digital twin state |
 | POST | `/api/v1/manufacturing/digital-twins/{assetId}/simulate` | Run digital twin simulation |
 | GET | `/api/v1/manufacturing/digital-twins/{assetId}/predictions` | Get predictive maintenance predictions |
+| GET | `/api/v1/manufacturing/intelligence/oee` | Get OEE metrics |
+| GET | `/api/v1/manufacturing/intelligence/downtime` | Get downtime analysis |
+| GET | `/api/v1/manufacturing/digital-thread/traceability/{serialId}` | Get full traceability for serial/lot |
+| GET | `/api/v1/manufacturing/digital-thread/genealogy/{productId}` | Get product genealogy |
+| GET | `/api/v1/manufacturing/intelligence/capacity` | Get capacity utilization |
+| GET | `/api/v1/manufacturing/intelligence/production-rate` | Get production rate tracking |
+| GET | `/api/v1/manufacturing/intelligence/energy` | Get energy analytics |
+| GET | `/api/v1/manufacturing/intelligence/predictive-maintenance` | Get predictive maintenance analytics |
 
 ### CRM / Marketing Service
 | Method | Endpoint | Description |
@@ -907,6 +951,10 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | GET | `/api/v1/platform/dlp/incidents` | List DLP incidents |
 | POST | `/api/v1/platform/dlp/incidents/{id}/resolve` | Resolve DLP incident |
 | GET | `/api/v1/platform/dlp/classifications` | List data classifications |
+| POST | `/api/v1/platform/idp/extract` | Extract data from document (Intelligent Document Processing) |
+| GET | `/api/v1/platform/idp/models` | List IDP extraction models |
+| POST | `/api/v1/platform/idp/models` | Train IDP extraction model |
+| GET | `/api/v1/platform/idp/jobs/{id}` | Get IDP extraction job status |
 
 ### Workflow Service
 | Method | Endpoint | Description |

@@ -107,7 +107,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8010 |
 | Database | `commerce_db` |
-| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing, PIM, transportation, adaptive intelligence |
+| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, B2B commerce portal, adaptive intelligence |
 | Rationale | See [Architecture — Service Consolidation](architecture.md#41-commerce-service-sales--inventory) |
 
 **Sales Modules:**
@@ -240,6 +240,16 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Exception Management | Automated exception detection and resolution workflows for delayed, damaged, or deviated shipments |
 | Last-Mile Optimization | Route optimization for final delivery with delivery time window management |
 
+**Warranty Management:**
+
+| Module | Description |
+|--------|-------------|
+| Warranty Policies | Warranty policy definition with coverage terms, duration, and conditions |
+| Warranty Registration | Product warranty registration linked to serial/lot numbers |
+| Warranty Claims | Claim submission, validation, approval, and fulfillment workflow |
+| Warranty Analytics | Claim frequency, cost analysis, and product quality correlation |
+| Extended Warranties | Extended warranty sales and management with revenue recognition |
+
 **B2B Commerce Portal:**
 
 | Module | Description |
@@ -257,7 +267,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8011 |
 | Database | `finance_db` |
-| Responsibilities | Financial accounting, purchasing, supplier management, treasury, EPM, CLM, expenses, adaptive intelligence |
+| Responsibilities | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition, strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting, grant management, joint venture accounting, intelligent close, advanced collections, adaptive intelligence |
 | Rationale | See [Architecture — Service Consolidation](architecture.md#42-finance-service-finance--procurement) |
 
 **Finance Modules:**
@@ -311,6 +321,61 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Dimensional Analysis | Profitability by any dimension combination (product, customer, region, channel, business unit) |
 | What-If Modeling | Scenario analysis for pricing changes, cost reductions, and product mix shifts |
 | Contribution Margin | Variable cost analysis and contribution margin reporting by product line |
+
+**Lease Accounting (ASC 842 / IFRS 16):**
+
+| Module | Description |
+|--------|-------------|
+| Lease Contracts | Lease contract registration with classification (operating vs. finance), terms, and payment schedules |
+| Right-of-Use Assets | Right-of-use (ROU) asset calculation, amortization schedules, and impairment tracking |
+| Lease Liabilities | Lease liability measurement with present value calculations, remeasurement on changes |
+| Lease Payments | Payment schedule management with variable lease payment handling |
+| Lease Modifications | Lease modification tracking with remeasurement and reclassification |
+| Disclosure Reports | ASC 842 / IFRS 16 required disclosures: lease liabilities maturity, weighted-average discount rates, operating lease costs |
+
+**Grant Management:**
+
+| Module | Description |
+|--------|-------------|
+| Grant Registration | Grant registration with funding source, period, conditions, and budget |
+| Grant Budgeting | Budget tracking against grant with allowable and unallowable cost categories |
+| Cost Allocation | Grant cost allocation with indirect cost rate calculation |
+| Revenue Recognition | Grant revenue recognition with milestone-based and cost-reimbursable methods |
+| Compliance Tracking | Grant compliance monitoring with reporting requirements and audit trail |
+| Grant Reporting | Grant financial reports, utilization dashboards, and funder-facing reports |
+
+**Joint Venture Accounting:**
+
+| Module | Description |
+|--------|-------------|
+| Joint Venture Setup | Joint venture creation with partner ownership percentages and cost sharing rules |
+| Cost Allocation | Automated cost and revenue allocation across venture partners |
+| Partner Billing | Partner billing statements with detailed cost breakdowns |
+| Equity Accounting | Equity method accounting for joint venture investments |
+| Reconciliation | Inter-partner reconciliation with automated matching |
+| Reporting | Joint venture financial reports, partner statements, and contribution tracking |
+
+**Intelligent Close:**
+
+| Module | Description |
+|--------|-------------|
+| Close Automation | AI-driven financial close task automation with intelligent task assignment |
+| Anomaly Detection | Automatic detection of anomalies in close data (unexpected balances, missing entries) |
+| Close Dashboard | Real-time close progress dashboard with bottleneck identification |
+| Auto-Reconciliation | ML-assisted auto-reconciliation with confidence scoring |
+| Close Journal | Automated close journal entries (accruals, allocations, eliminations) |
+| Continuous Close | Real-time period-end processing replacing batch close cycles |
+
+**Advanced Collections:**
+
+| Module | Description |
+|--------|-------------|
+| Collection Strategies | Configurable collection strategies based on aging, risk, and customer segmentation |
+| Aging Analysis | Multi-dimensional aging analysis with historical trending |
+| Collection Activities | Activity tracking (calls, emails, promises to pay) with outcome recording |
+| Cash Application | Automated cash application with ML-based invoice matching |
+| Dispute Management | Dispute tracking linked to collection activities with resolution workflows |
+| Scoring | Predictive collection scoring for prioritizing collection activities |
 
 **Enterprise Expense Management:**
 
@@ -457,6 +522,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | OEE Tracking | Overall Equipment Effectiveness measurement by work center, line, and plant |
 | Downtime Analysis | Downtime categorization, root cause tracking, Pareto analysis |
 | Production Analytics | Real-time production rate tracking, yield analysis, scrap monitoring |
+| Production Rate Tracking | Real-time production rate monitoring against targets with variance alerting |
 | Capacity Utilization | Work center utilization dashboards, bottleneck identification |
 | Energy Analytics | Energy consumption per unit produced, cost allocation, efficiency trends |
 | Predictive Maintenance Analytics | Maintenance cost analysis, MTBF/MTTR tracking, maintenance effectiveness |
@@ -497,7 +563,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 |--------|---------|
 | Port | 8014 |
 | Database | `report_db` (materialized views, pre-aggregated data); reads from other services' event streams |
-| Responsibilities | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, augmented analytics |
+| Responsibilities | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, embedded ML, narrative reporting, process mining, corporate performance management, augmented analytics |
 
 | Module | Description |
 |--------|-------------|
@@ -746,7 +812,7 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Presence & Availability | User availability status with calendar integration and notification preferences |
 | Unified Search | Search across messages, documents, tasks, and knowledge base articles |
 
-**Content Management:**
+**Enterprise Content Management:**
 
 | Module | Description |
 |--------|-------------|
@@ -775,6 +841,17 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | Access Monitoring | Monitoring of data access patterns for anomalous exfiltration behavior |
 | DLP Incidents | Automated DLP incident creation, investigation workflows, remediation tracking |
 | Compliance Reporting | DLP compliance dashboards, incident metrics, policy effectiveness analysis |
+
+**Intelligent Document Processing (IDP):**
+
+| Module | Description |
+|--------|-------------|
+| Document Classification | AI-powered document type classification (invoices, POs, contracts, receipts) |
+| Data Extraction | Intelligent field extraction from documents with confidence scoring |
+| Template Learning | Self-learning extraction models that improve from user corrections |
+| Batch Processing | High-volume document batch processing with parallel extraction |
+| Validation | Extracted data validation against business rules and reference data |
+| Integration | Auto-create business documents (invoices, expenses) from extracted data |
 
 ### 3.2 Integration Service
 

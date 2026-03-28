@@ -115,8 +115,8 @@ Port ranges are reserved by category: **8001-8009** (core), **8010-8019** (busin
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics |
-| Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition (ASC 606/IFRS 15), strategic sourcing, supplier risk management, account reconciliation, profitability analysis |
+| Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management |
+| Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition (ASC 606/IFRS 15), strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting (ASC 842/IFRS 16), grant management, joint venture accounting, intelligent close, advanced collections |
 | HR | 8012 | Human resources, payroll, workforce management, recruitment, performance, talent review, succession, multi-country payroll |
 | Manufacturing | 8013 | Production, manufacturing operations, cost accounting, quality management, PLM, EAM, Digital Twin, IoT, Manufacturing Intelligence, Digital Thread |
 | Report | 8014 | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, embedded ML, narrative reporting, process mining, corporate performance management, augmented analytics |
@@ -128,7 +128,7 @@ Port ranges are reserved by category: **8001-8009** (core), **8010-8019** (busin
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Platform (Notif + File + Audit) | 8020 | Notifications, file storage, document management, audit logging, digital assistant, app builder, GRC, enterprise job scheduler, knowledge management, digital signatures, RPA, collaboration, IoT device registry, content management, privacy management, DLP |
+| Platform (Notif + File + Audit) | 8020 | Notifications, file storage, document management, audit logging, digital assistant, app builder, GRC, enterprise job scheduler, knowledge management, digital signatures, RPA, collaboration, IoT device registry, content management, privacy management, DLP, intelligent document processing (IDP) |
 | Integration | 8021 | External integrations, API management, API marketplace, connector framework, EDI, MDM, data governance, trade compliance, event mesh |
 
 ## 4. Service Consolidation Rationale
@@ -571,7 +571,80 @@ Event backbone for cross-system event routing and integration.
 | Dead Letter Management | Centralized DLQ monitoring and replay across all services |
 | Schema Registry | Event schema registry with compatibility checking and version management |
 
+### 6.33 Lease Accounting
+
+Lease accounting compliant with ASC 842 and IFRS 16, managed by the Finance Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Lease Classification | Automated classification as operating or finance lease based on criteria (ownership transfer, purchase option, lease term, present value test, specialized asset) |
+| Right-of-Use Assets | ROU asset calculation with initial direct costs, lease incentives, and prepayments |
+| Lease Liabilities | Present value calculation of lease payments using incremental borrowing rate |
+| Amortization | ROU asset amortization (finance) or straight-line expense (operating) |
+| Modifications | Lease modification handling with remeasurement and reclassification |
+| Disclosures | ASC 842 / IFRS 16 disclosure reports with maturity analysis |
+
+### 6.34 Grant Management
+
+End-to-end grant lifecycle management, managed by the Finance Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Grant Registration | Grant registration with funding source, award period, conditions, and budget allocation |
+| Cost Tracking | Grant-dedicated cost tracking with allowable and unallowable cost classification |
+| Revenue Recognition | Milestone-based and cost-reimbursable recognition methods |
+| Compliance | Automated compliance monitoring against grant terms and reporting deadlines |
+| Reporting | Grant utilization reports, funder-facing financial reports, audit trail |
+
+### 6.35 Joint Venture Accounting
+
+Joint venture cost sharing and partner accounting, managed by the Finance Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Venture Setup | Joint venture creation with partner ownership percentages and venturer codes |
+| Cost Pooling | Shared cost pool management with automated allocation by ownership percentage |
+| Partner Billing | Automated partner billing statements with detailed cost breakdowns |
+| Equity Method | Equity method accounting for investments in joint ventures |
+| Reconciliation | Inter-partner reconciliation with automated matching and exception handling |
+
+### 6.36 Intelligent Close
+
+AI-driven financial close automation, managed by the Finance Service with ML models from the Report Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Task Automation | AI-driven assignment of close tasks based on historical patterns and workload |
+| Anomaly Detection | Automatic detection of unusual balances, missing entries, and outliers during close |
+| Auto-Reconciliation | ML-assisted reconciliation with confidence scoring and human review for low-confidence matches |
+| Continuous Close | Real-time period-end processing enabling continuous accounting vs. batch close |
+| Close Dashboard | Real-time close progress tracking with bottleneck identification and ETA |
+
+### 6.37 Warranty Management
+
+Product warranty lifecycle management, managed by the Commerce Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Policy Management | Warranty policy definition with coverage terms, duration, and conditions |
+| Registration | Product warranty registration linked to serial/lot tracking |
+| Claims Processing | Claim submission, validation against policy terms, approval workflow, and fulfillment |
+| Analytics | Claim frequency analysis, cost tracking, and product quality correlation |
+| Extended Warranties | Extended warranty sales and management with revenue recognition integration |
+
+### 6.38 Intelligent Document Processing
+
+AI-powered document processing, managed by the Platform Service.
+
+| Aspect | Implementation |
+|--------|---------------|
+| Classification | AI-powered document type classification (invoices, POs, contracts, receipts, shipping docs) |
+| Extraction | Intelligent field extraction with confidence scoring and human review for low-confidence fields |
+| Template Learning | Self-learning extraction models that improve from user corrections and feedback |
+| Batch Processing | High-volume document batch processing with parallel extraction |
+| Business Integration | Auto-create business documents from extracted data (invoices, expense reports, receipts) |
+
 ---
 
 *See [Services](services.md) for detailed per-service specifications.*
-*See [Events](events.md) for event schemas and cross-domain communication.
+*See [Events](events.md) for event schemas and cross-domain communication.*

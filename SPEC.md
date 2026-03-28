@@ -55,6 +55,13 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | Content Management | Enterprise content repository with document lifecycle and records management |
 | Privacy by Design | Consent management, data subject rights automation, privacy impact assessments |
 | Event Mesh | Event backbone with topic-based routing and event gateway for cross-system integration |
+| Lease Accounting | Lease classification, ROU asset tracking, lease liability management (ASC 842 / IFRS 16) |
+| Grant Management | Award tracking, compliance reporting, fund accounting for grants and sponsored projects |
+| Joint Venture Accounting | JV agreement management, ownership splits, automated distribution and reporting |
+| Intelligent Close | AI-assisted financial close with anomaly detection and predictive close analytics |
+| Advanced Collections | Collection strategies, automated dunning, dispute management, promise-to-pay tracking |
+| Warranty Management | Warranty claims processing, entitlement validation, analytics, supplier cost recovery |
+| Intelligent Document Processing | AI-powered document classification, data extraction, template learning, batch processing |
 
 ---
 
@@ -93,7 +100,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | CI/CD | GitHub Actions + ArgoCD | Latest |
 | Observability | Prometheus + Grafana + Jaeger + Loki | Latest |
 | Data Warehouse | Apache Arrow + DuckDB (embedded analytics) | Latest |
-| ML/AI Runtime | ONNX Runtime + candle | Latest |
+| ML/AI Runtime | ONNX Runtime + Candle | Latest |
 | Vector Search | qdrant (optional) | Latest |
 | Mobile | React Native | Latest |
 | Scheduling | Enterprise Job Scheduler (built-in) | Built-in |
@@ -110,7 +117,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Budgeting & Forecasting | Budgeting | Specified |
 | | Financial Reporting & Consolidation | Financial Reporting | Specified |
 | | Intercompany Transactions | Intercompany | Specified |
-| | Corporate Treasury & Cash Management | Treasury Management | Specified |
+| | Corporate Treasury & Cash Management (real-time bank connectivity, cash pooling, in-house banking) | Treasury Management | Specified |
 | | Enterprise Expense Management | Expenses | Specified |
 | | Contract Lifecycle Management | Contracts | Specified |
 | | Enterprise Performance Management (EPM) | Planning & Budgeting | Specified |
@@ -120,7 +127,11 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Strategic Sourcing (sourcing events, bid analysis, award optimization, negotiation tracking) | Strategic Sourcing | Specified |
 | | Account Reconciliation (auto-matching, reconciliation templates, exception management, close task management) | Financial Close | Specified |
 | | Profitability Analysis (cost-to-serve, product/customer profitability, margin analysis by dimension) | Profitability Management | Specified |
-| | Treasury Management Integration (real-time bank connectivity, cash pooling, in-house banking) | Cash Management | Specified |
+| | Lease Accounting (lease classification, ROU asset tracking, lease liability management, ASC 842 / IFRS 16) | Lease Management | Specified |
+| | Grant Management (award tracking, compliance reporting, fund accounting, sponsored projects) | Grant Management | Specified |
+| | Joint Venture Accounting (JV agreement management, ownership splits, automated distribution, partner reporting) | Joint Venture Management | Specified |
+| | Intelligent Close (AI-assisted close, anomaly detection during close, predictive close analytics) | Financial Close | Specified |
+| | Advanced Collections (collection strategies, automated dunning, dispute management, promise-to-pay tracking) | Advanced Collections | Specified |
 | **Supply Chain** | | | |
 | | Inventory Management, Warehousing | Inventory Management | Specified |
 | | Procurement & Supplier Management | Procurement | Specified |
@@ -134,6 +145,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Advanced Inventory Optimization (safety stock optimization, demand-driven replenishment) | Inventory Optimization | Specified |
 | | Intercompany Drop Ship | Order Management | Specified |
 | | Connected Logistics & Track-and-Trace (real-time tracking, condition monitoring, predictive ETA, geofencing) | Transportation Management | Specified |
+| | Warranty Management (warranty claims, entitlement validation, warranty analytics, supplier recovery) | Warranty Management | Specified |
 | **Order Management** | | | |
 | | Sales Orders, Quotations, Commissions | Order Management | Specified |
 | | Customer Management & CRM | CX Sales | Specified |
@@ -152,6 +164,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | IoT Integration (device registration, telemetry ingestion, alert rules, integration with manufacturing and logistics) | IoT Application | Specified |
 | | Digital Twin (asset digital twins, real-time monitoring, predictive maintenance, what-if simulation) | Digital Twin | Specified |
 | | Manufacturing Intelligence (production analytics, OEE tracking, downtime analysis) | Manufacturing Intelligence | Specified |
+| | Digital Thread (end-to-end traceability from design through manufacturing to service) | Product Lifecycle Management | Specified |
 | **HCM** | | | |
 | | Employee Lifecycle Management | HCM Core | Specified |
 | | Payroll & Compensation | Payroll | Specified |
@@ -164,6 +177,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Workforce Modeling & Planning | Workforce Modeling | Specified |
 | | Benefits Administration | Benefits | Specified |
 | | Employee Self-Service Portal (personal info, payslips, benefits enrollment, time-off requests) | HCM Core | Specified |
+| | Global HR / Localization Engine (country-specific localizations, regulatory compliance, localized reporting) | Global HR | Specified |
 | **Project Management** | | | |
 | | Project Planning & Gantt | Project Management | Specified |
 | | Resource Allocation | Resource Management | Specified |
@@ -202,6 +216,7 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Mobile Platform | Mobile | Specified |
 | | Master Data Management (MDM) | Enterprise Data Management | Specified |
 | | Data Governance Framework | Enterprise Data Management | Specified |
+| | Enterprise Data Quality Management (data profiling, cleansing rules, matching, enrichment, quality dashboards) — implemented by Integration Service | Enterprise Data Quality | Specified |
 | | AI/ML Model Training & Deployment | AI Services | Specified |
 | | Enterprise Job Scheduler (batch processing, scheduled tasks, job dependencies, retry policies) | Enterprise Scheduler | Specified |
 | | Knowledge Management (knowledge base, article authoring, search, categorization, versioning) | Knowledge Management | Specified |
@@ -213,7 +228,6 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | API Marketplace (API catalog, developer portal, API monetization) | API Platform | Specified |
 | | Event Mesh (event backbone, topic-based routing, event gateway) | Integration Cloud | Specified |
 | | Adaptive Intelligence (ML-powered recommendations embedded in business workflows) | Adaptive Intelligence | Specified |
-| | Digital Thread (end-to-end traceability from design through manufacturing to service) | Product Lifecycle Management | Specified |
 | | Compliance Hub (unified compliance dashboard, regulatory change tracking) | GRC | Specified |
 | **Security & GRC** | | | |
 | | RBAC + ABAC Authorization | Authorization | Specified |
@@ -228,10 +242,9 @@ The system consists of 14 services (4 core, 8 business, 2 supporting), supports 
 | | Advanced Access Controls (AAC) (advanced SoD, access certification, privileged access management) | Advanced Access Controls | Specified |
 | | Privacy Management (consent management, data subject rights, privacy by design) | Privacy Management | Specified |
 | | Data Loss Prevention (DLP) (sensitive data detection, policy enforcement, incident response) | Data Security | Specified |
-| | Advanced Access Controls (access certification, privileged access management, access request workflows) | Advanced Access Controls | Specified |
 
 ---
 
-*Document Version: 7.0*
+*Document Version: 8.0*
 *Last Updated: 2026-03-28*
 *Authors: MSERP Team*

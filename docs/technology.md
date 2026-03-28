@@ -138,6 +138,9 @@ async-graphql-axum = { version = "7.0", optional = true }
 # Privacy / PII Detection (Platform Service — optional)
 regex-fancy = { version = "0.5", optional = true }
 
+# Intelligent Document Processing (Platform Service — optional)
+tract-onnx = { version = "0.21", optional = true }
+
 # Testing
 tokio-test = "0.4"
 fake = { version = "2.9", features = ["derive"] }
@@ -153,6 +156,7 @@ testcontainers-modules = { version = "0.3", features = ["postgres", "redis", "ra
 pact_consumer = "1.2"
 pact_provider = "1.2"
 proptest = "1.4"
+criterion = { version = "0.5", features = ["html_reports"] }
 ```
 
 ## 5. Workspace Dependency Management
@@ -248,6 +252,19 @@ USER 1000:1000
 EXPOSE 8080
 ENTRYPOINT ["my-service"]
 ```
+
+## 9. Performance Benchmarking
+
+| Component | Tool | Benchmark Target |
+|-----------|------|-----------------|
+| API Handlers | Criterion | p99 < 5ms per handler (no I/O) |
+| Database Queries | Criterion + testcontainers | p99 < 100ms for complex queries |
+| Event Processing | Custom harness | p99 < 100ms end-to-end |
+| Cache Operations | Criterion | p99 < 1ms |
+| ML Inference | Custom harness | p99 < 500ms per prediction |
+| IDP Extraction | Custom harness | < 10 seconds per page |
+
+Benchmarks run automatically in CI on every PR to the `main` branch.
 
 ---
 

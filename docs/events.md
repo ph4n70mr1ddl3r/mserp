@@ -35,6 +35,10 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 │                      │  mserp.crm.events               │    │
 │                      ├─────────────────────────────────┤    │
 │                      │  mserp.project.events           │    │
+│                      ├─────────────────────────────────┤    │
+│                      │  mserp.report.events            │    │
+│                      ├─────────────────────────────────┤    │
+│                      │  mserp.integration.events       │    │
 │                      └─────────────────────────────────┘    │
 │                                      │                       │
 │                                      ▼                       │
@@ -124,6 +128,11 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `commerce.logistics.geofence.entered` | Shipment entered geofence zone |
 | `commerce.logistics.geofence.exited` | Shipment exited geofence zone |
 | `commerce.logistics.exception.detected` | Logistics exception detected (delay, deviation, damage) |
+| `commerce.warranty.created` | Warranty policy created |
+| `commerce.warranty.claim.submitted` | Warranty claim submitted |
+| `commerce.warranty.claim.approved` | Warranty claim approved |
+| `commerce.warranty.claim.rejected` | Warranty claim rejected |
+| `commerce.warranty.claim.fulfilled` | Warranty claim fulfilled (repair/replacement) |
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
@@ -177,6 +186,24 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `finance.reconciliation.completed` | Account reconciliation completed |
 | `finance.close-task.completed` | Financial close task completed |
 | `finance.profitability.analysis.completed` | Profitability analysis run completed |
+| `finance.lease.created` | Lease contract created |
+| `finance.lease.modified` | Lease contract modified |
+| `finance.lease.payment.due` | Lease payment due |
+| `finance.lease.right-of-use.adjusted` | Right-of-use asset value adjusted |
+| `finance.grant.created` | Grant registered |
+| `finance.grant.milestone.reached` | Grant milestone reached |
+| `finance.grant.revenue.recognized` | Grant revenue recognized |
+| `finance.grant.compliance.check-due` | Grant compliance check due |
+| `finance.joint-venture.created` | Joint venture created |
+| `finance.joint-venture.cost.allocated` | Joint venture cost allocated to partners |
+| `finance.joint-venture.billing.generated` | Joint venture partner billing generated |
+| `finance.intelligent-close.task.auto-assigned` | Close task automatically assigned by AI |
+| `finance.intelligent-close.anomaly.detected` | Financial close anomaly detected |
+| `finance.intelligent-close.auto-reconciled` | Account auto-reconciled during intelligent close |
+| `finance.collection.strategy.triggered` | Collection strategy automatically triggered |
+| `finance.collection.activity.created` | Collection activity created |
+| `finance.cash-application.matched` | Cash receipt auto-matched to invoice |
+| `finance.cash-application.unmatched` | Cash receipt could not be auto-matched |
 
 ### HR Events
 | Event | Description |
@@ -229,6 +256,10 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `manufacturing.digital-twin.state.updated` | Digital twin state synchronized with physical asset |
 | `manufacturing.digital-twin.simulation.completed` | Digital twin simulation completed |
 | `manufacturing.digital-twin.prediction.generated` | Predictive maintenance prediction generated |
+| `manufacturing.intelligence.oee.threshold-breached` | OEE dropped below configured threshold |
+| `manufacturing.intelligence.downtime.categorized` | Downtime event categorized by root cause |
+| `manufacturing.intelligence.energy.anomaly` | Energy consumption anomaly detected |
+| `manufacturing.intelligence.predictive-maintenance.alert` | Predictive maintenance alert triggered |
 
 ### Platform Events (Notification + File + Audit + Digital Assistant + GRC)
 | Event | Description |
@@ -265,6 +296,10 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `platform.iot.device.registered` | IoT device registered in device registry |
 | `platform.iot.device.certificate.issued` | IoT device certificate issued |
 | `platform.iot.device.decommissioned` | IoT device decommissioned |
+| `platform.idp.document.classified` | Document classified by intelligent document processing |
+| `platform.idp.extraction.completed` | Data extraction from document completed |
+| `platform.idp.extraction.failed` | Data extraction from document failed |
+| `platform.idp.model.trained` | IDP extraction model training completed |
 
 > **Note:** `platform.audit.logged` is an internal event published for observability. Report Service subscribes for compliance dashboards. The authoritative audit log is stored directly in `audit_db` at write time (not event-sourced).
 
@@ -439,6 +474,13 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `crm.cdp.segment.updated` | CRM | Commerce, Platform (notifications) |
 | `report.process.bottleneck.detected` | Report | Workflow, Platform |
 | `platform.rpa.bot.failed` | Platform | Report, Workflow |
+| `finance.lease.created` | Finance | Report, Platform |
+| `finance.intelligent-close.anomaly.detected` | Finance | Report, Platform, Workflow |
+| `finance.cash-application.matched` | Finance | Commerce, Report |
+| `commerce.warranty.claim.submitted` | Commerce | Finance, Report |
+| `commerce.warranty.claim.fulfilled` | Commerce | Manufacturing, Finance, Report |
+| `platform.idp.extraction.completed` | Platform | Finance (auto-invoice), Report |
+| `manufacturing.intelligence.oee.threshold-breached` | Manufacturing | Report, Platform |
 
 > **Note:** Report Service subscribes to key business events for analytics aggregation. Workflow Service subscribes to events that trigger approval workflows. Core services (Auth, Identity, Tenant, Config) do not have inbox queues. Identity receives updates via direct service-to-service HTTP calls.
 

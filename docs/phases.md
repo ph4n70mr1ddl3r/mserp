@@ -80,6 +80,11 @@
 - [ ] Supplier Risk Management (risk scoring, financial health monitoring, risk dashboards)
 - [ ] Account Reconciliation (auto-matching, reconciliation templates, close task management)
 - [ ] Profitability Analysis (cost-to-serve, product/customer profitability, dimensional analysis)
+- [ ] Lease Accounting (ASC 842 / IFRS 16): lease classification, right-of-use assets, lease liabilities, disclosures
+- [ ] Grant Management: grant registration, budgeting, revenue recognition, compliance tracking
+- [ ] Joint Venture Accounting: venture setup, cost allocation, partner billing, equity method
+- [ ] Intelligent Close: AI-driven close automation, anomaly detection, auto-reconciliation
+- [ ] Advanced Collections: collection strategies, aging analysis, cash application, dispute management
 
 ### Phase 2 Deliverables
 
@@ -105,6 +110,11 @@
 | Supplier Risk Management | Risk scoring, financial health monitoring, risk dashboards |
 | Account Reconciliation | Auto-matching, reconciliation templates, close task management |
 | Profitability Analysis | Cost-to-serve, product/customer profitability, dimensional analysis |
+| Lease Accounting | ASC 842 / IFRS 16 compliance: lease classification, ROU assets, liabilities, disclosures |
+| Grant Management | Grant lifecycle management with budgeting, recognition, and compliance |
+| Joint Venture Accounting | Cost sharing, partner billing, equity accounting, reconciliation |
+| Intelligent Close | AI-driven financial close with anomaly detection and auto-reconciliation |
+| Advanced Collections | Collection strategies, cash application, dispute management with ML matching |
 
 ---
 
@@ -153,6 +163,8 @@
 - [ ] Customer Data Platform (unified profiles, identity resolution, segmentation, journey orchestration)
 - [ ] B2B Commerce Portal (self-service ordering, reorder templates, customer approval workflows)
 - [ ] Connected Logistics & Track-and-Trace (real-time tracking, condition monitoring, predictive ETA)
+- [ ] Warranty Management (policy definition, registration, claims processing, analytics)
+- [ ] Intelligent Document Processing (document classification, data extraction, template learning)
 - [ ] IoT Integration (device registry, telemetry ingestion, alert rules)
 - [ ] Digital Twin (asset digital twins, real-time monitoring, predictive maintenance)
 - [ ] Robotic Process Automation (bot designer, task automation, event-triggered bots)
@@ -197,6 +209,8 @@
 | Collaboration | Team messaging, document co-editing, task management |
 | Process Mining | Process discovery, conformance checking, bottleneck analysis |
 | Corporate Performance | Executive dashboards, strategy maps, OKRs, balanced scorecard |
+| Warranty Management | Warranty policy definition, registration, claims processing, analytics |
+| Intelligent Document Processing | AI-powered document classification and data extraction |
 
 ---
 
@@ -229,6 +243,9 @@
 - [ ] Digital Thread (end-to-end traceability, product genealogy, change impact analysis)
 - [ ] Manufacturing Intelligence (OEE tracking, downtime analysis, production analytics)
 - [ ] GraphQL API support (optional GraphQL endpoint for complex data queries)
+- [ ] Lease Accounting advanced features (lease modifications, remeasurement, portfolio view)
+- [ ] Grant Management advanced reporting (funder-facing reports, audit trail)
+- [ ] Joint Venture advanced analytics (partner dashboards, venture performance)
 
 ### Phase 4 Deliverables
 
@@ -285,6 +302,11 @@
 - [ ] Trade compliance screening accuracy validation
 - [ ] Subscription billing accuracy testing
 - [ ] Revenue recognition audit readiness (ASC 606/IFRS 15)
+- [ ] Lease accounting audit readiness (ASC 842/IFRS 16)
+- [ ] Grant compliance validation
+- [ ] Joint venture reconciliation accuracy testing
+- [ ] Intelligent Close accuracy and anomaly detection validation
+- [ ] IDP extraction accuracy testing (> 95% for standard document types)
 - [ ] Privacy compliance validation (GDPR Article 30 register, consent audit, DSAR fulfillment testing)
 - [ ] DLP policy effectiveness validation
 - [ ] Content management compliance (retention policies, records disposition)
@@ -314,6 +336,11 @@
 | Trade Compliance | Screening accuracy validated against known denied parties |
 | Subscription Billing | Billing accuracy validated across all billing models |
 | Revenue Recognition | ASC 606/IFRS 15 audit readiness validated |
+| Lease Accounting | ASC 842/IFRS 16 audit readiness validated |
+| Grant Compliance | Grant compliance and reporting accuracy validated |
+| Joint Venture | Partner reconciliation accuracy validated |
+| Intelligent Close | Close automation accuracy and anomaly detection validated |
+| IDP Accuracy | Document extraction accuracy > 95% validated |
 | Privacy Compliance | GDPR register validated, consent audit passed, DSAR fulfillment within SLA |
 | DLP Validation | Policy effectiveness tested, incident response validated |
 | Content Compliance | Retention policies verified, records disposition tested |
@@ -342,7 +369,7 @@ Phase 1 ──────────▶ Phase 2 ──────────
 | Contract tests | All consumer contracts verified | Phase 2 |
 | Saga tests | All saga flows tested with failure scenarios | Phase 3 |
 | Load test baseline | 5,000 req/s with < 500ms p99 | Phase 4 |
-| Production readiness | 10,000 req/s, security audit passed, runbooks validated, ESG compliance, trade compliance validated | Phase 5 |
+| Production readiness | 10,000 req/s, security audit passed, runbooks validated, ESG compliance, trade compliance validated, lease/grant/JV audit readiness, IDP accuracy validated | Phase 5 |
 
 ---
 

@@ -56,8 +56,8 @@
 | Identity | 100m | 500m | 128Mi | 512Mi | 3 |
 | Tenant | 50m | 200m | 64Mi | 256Mi | 2 |
 | Config | 50m | 200m | 64Mi | 256Mi | 2 |
-| Commerce (Sales + Inventory + PIM + Transportation + Subscriptions + Credit) | 250m | 1000m | 256Mi | 1Gi | 5 |
-| Finance (Finance + Procurement + Treasury + Expenses + CLM + EPM + Revenue Recognition) | 250m | 1000m | 256Mi | 1Gi | 5 |
+| Commerce (Sales + Inventory + PIM + Transportation + Subscriptions + Credit + ATP/CTP + Configurator + Drop Ship + Logistics + Warranty + B2B) | 250m | 1000m | 256Mi | 1Gi | 5 |
+| Finance (Finance + Procurement + Treasury + Expenses + CLM + EPM + Revenue Recognition + Sourcing + Supplier Risk + Reconciliation + Profitability + Lease + Grants + JV + Intelligent Close + Collections) | 250m | 1000m | 256Mi | 1Gi | 5 |
 | HR | 100m | 500m | 128Mi | 512Mi | 3 |
 | Manufacturing | 100m | 500m | 128Mi | 512Mi | 3 |
 | Report | 500m | 2000m | 512Mi | 4Gi | 3 |

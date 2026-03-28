@@ -134,6 +134,15 @@
 | OEE | Overall Equipment Effectiveness — manufacturing metric combining availability, performance, and quality |
 | MTBF | Mean Time Between Failures — average time between equipment breakdowns |
 | MTTR | Mean Time To Repair — average time to restore equipment to operational status |
+| ASC 842 | Accounting Standards Codification Topic 842 — US GAAP standard for lease accounting requiring lessees to recognize right-of-use assets and lease liabilities |
+| IFRS 16 | International Financial Reporting Standard 16 — global standard for lease accounting requiring lessees to recognize most leases on the balance sheet |
+| ROU Asset | Right-of-Use Asset — an asset that represents a lessee's right to use an underlying asset for the lease term |
+| Grant Management | Process of administering financial grants including registration, budgeting, compliance tracking, and reporting |
+| Joint Venture | Business arrangement where two or more parties agree to pool resources for a specific task or project with shared costs, risks, and rewards |
+| Intelligent Close | AI-driven approach to financial period-end close that automates tasks, detects anomalies, and enables continuous accounting |
+| Cash Application | Process of matching incoming payments (cash, checks, wire transfers) to the corresponding open invoices |
+| IDP | Intelligent Document Processing — AI-powered technology that automatically extracts, classifies, and validates data from documents |
+| Warranty Management | End-to-end management of product warranties including policy definition, registration, claims processing, and analytics |
 
 ## References
 

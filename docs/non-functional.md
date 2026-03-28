@@ -35,6 +35,13 @@
 | B2B Portal Page Load | < 3 seconds (product catalog) | Commerce Service metrics |
 | Reconciliation Auto-Match | < 30 seconds (per account) | Finance Service metrics |
 | Profitability Calculation | < 15 seconds (full dimension scan) | Finance Service metrics |
+| Lease Calculation | < 5 seconds per contract | Finance Service metrics |
+| Grant Revenue Recognition | < 10 seconds per grant | Finance Service metrics |
+| Joint Venture Allocation | < 10 seconds per venture | Finance Service metrics |
+| Intelligent Close Anomaly Detection | < 30 seconds per period scan | Finance Service metrics |
+| Cash Application Matching | < 2 seconds per receipt | Finance Service metrics |
+| IDP Document Extraction | < 10 seconds per page | Platform Service metrics |
+| Warranty Claim Validation | < 500ms | Commerce Service metrics |
 
 ## 2. Availability
 
@@ -299,6 +306,15 @@ All services MUST expose these Prometheus metrics:
 | `collaboration_message_total` | Counter | channel_id | Collaboration messages posted |
 | `logistics_tracking_update_total` | Counter | carrier, status | Logistics tracking updates received |
 | `rate_limit_exceeded_total` | Counter | tenant_id, endpoint | Rate limit violations |
+| `lease_calculation_duration_seconds` | Histogram | classification | Lease accounting calculation latency |
+| `grant_recognition_total` | Counter | grant_id, status | Grant revenue recognition outcomes |
+| `jv_allocation_duration_seconds` | Histogram | venture_id | Joint venture cost allocation latency |
+| `intelligent_close_anomaly_total` | Counter | anomaly_type | Financial close anomaly detections |
+| `cash_application_match_total` | Counter | result | Cash application matching outcomes |
+| `idp_extraction_duration_seconds` | Histogram | document_type | IDP document extraction latency |
+| `idp_extraction_confidence` | Histogram | document_type, field | IDP extraction confidence scores |
+| `warranty_claim_total` | Counter | result | Warranty claim processing outcomes |
+| `collection_strategy_triggered_total` | Counter | strategy_type | Collection strategy activations |
 
 ### 10.3 Dashboards (Grafana)
 
@@ -333,6 +349,13 @@ All services MUST expose these Prometheus metrics:
 | Content Management | Content managers | Document lifecycle, records retention, compliance archive status |
 | API Marketplace | API product managers | API adoption, consumer usage, rate limit utilization, monetization revenue |
 | Digital Thread | Engineering, Quality | Traceability coverage, change impact analysis, genealogy completeness |
+| Lease Accounting | Finance, Treasury | Lease portfolio, ROU asset values, liability maturity, payment schedules |
+| Grant Management | Finance, Program Managers | Grant utilization, budget vs. actual, compliance deadlines, revenue recognized |
+| Joint Venture | Finance, Operations | Partner cost shares, billing status, allocation accuracy, venture performance |
+| Intelligent Close | Finance, Controllers | Close progress, anomaly count, auto-reconciliation rates, close cycle duration |
+| Collections | Finance, AR | Aging analysis, collection effectiveness, cash application accuracy, dispute resolution |
+| Warranty Analytics | Commerce, Manufacturing | Claim rates, cost analysis, product quality correlation, resolution times |
+| IDP Operations | Operations, IT | Document volume, extraction accuracy, processing time, model performance |
 
 ### 10.4 Structured Logging
 
@@ -425,6 +448,13 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | DLP Policy Violation | Critical | < 5 minutes | Investigate data exfiltration attempt, block if confirmed |
 | Privacy Breach Detected | Critical | < 15 minutes | Activate breach notification workflow, assess scope |
 | Content Repository Storage > 80% | Warning | < 1 hour | Review retention policies, archive old content |
+| Lease Calculation Failure | Critical | < 15 minutes | Investigate lease service, check calculation engine |
+| Grant Compliance Deadline Approaching | Warning | < 24 hours | Notify grant manager, prepare compliance report |
+| JV Allocation Imbalance | Warning | < 4 hours | Review joint venture allocation rules, check cost pool |
+| Intelligent Close Stalled | Warning | < 30 minutes | Check close automation service, review task queue |
+| Cash Application Match Rate < 90% | Warning | < 1 hour | Review matching rules, check ML model accuracy |
+| IDP Extraction Accuracy < 95% | Warning | < 4 hours | Review extraction models, check document quality |
+| Warranty Claim Spike | Warning | < 1 hour | Investigate product quality, review claim patterns |
 
 ### 10.7 Alert Routing
 

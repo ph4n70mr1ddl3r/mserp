@@ -251,6 +251,11 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | IoT Manager | IoT device and digital twin operations | `manufacturing.iot.*`, `manufacturing.digital-twin.*` |
 | Collaboration Admin | Team collaboration administration | `platform.collaboration.*` |
 | Logistics Manager | Connected logistics operations | `commerce.logistics.*`, `commerce.shipment.*` |
+| Lease Accountant | Lease accounting operations | `finance.lease.*`, `finance.asset.read` |
+| Grant Manager | Grant lifecycle management | `finance.grant.*`, `report.grant.*` |
+| Joint Venture Accountant | Joint venture accounting | `finance.joint-venture.*`, `finance.gl.read` |
+| Collections Specialist | Accounts receivable collections | `finance.collections.*`, `finance.invoice.read`, `commerce.customer.read` |
+| Warranty Manager | Warranty policy and claims management | `commerce.warranty.*`, `manufacturing.quality.read` |
 
 ## 8. Data Protection
 
@@ -319,6 +324,7 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | HIPAA | PHI encryption, access logging, BAAs, minimum necessary access |
 | PCI DSS | Tokenization, network segmentation, vulnerability scanning |
 | SOX | Financial audit trail, change management, access controls, SoD |
+| ASC 842 / IFRS 16 | Lease accounting audit trail, ROU asset verification, lease liability accuracy, disclosure completeness |
 | ISO 27001 | Information security management system, risk assessment, controls |
 | ESG Regulations | Emissions reporting accuracy, audit trail for sustainability data |
 
@@ -374,6 +380,11 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Privacy violation | Consent enforcement, purpose limitation, data minimization, automated DPIA, processing register audit |
 | Content tampering | Document version control, immutable audit trail, digital signatures, integrity checksums |
 | IoT firmware tampering | Firmware integrity verification, secure boot, certificate-based device authentication |
+| Lease data tampering | Immutable lease audit trail, digital signatures on lease contracts, role-based access to lease modification |
+| Grant fraud | Segregation of duties for grant approval, audit trail for all grant disbursements, compliance monitoring alerts |
+| JV partner data manipulation | Partner access restricted to own venture data, allocation audit trail, approval workflow for JV modifications |
+| IDP data poisoning | Input document validation, extraction confidence thresholds, human review for low-confidence extractions |
+| Collection bypass | Collection strategy enforcement rules, approval workflow for write-offs, audit trail for all collection actions |
 
 ## 12. Security Incident Response
 
