@@ -141,6 +141,101 @@
 | Automation ROI | ROI dashboards tracking time saved, error reduction, cost savings, and throughput improvement |
 | Attended Automation | Desktop assistant bots that work alongside users, triggered by context and user actions |
 
+## Database Tables
+
+All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+
+### platform_db
+
+| Table | Additional Columns |
+|-------|-------------------|
+| `notifications` | `user_id UUID`, `type VARCHAR(20)`, `channel VARCHAR(20)`, `subject VARCHAR(255)`, `body TEXT`, `status VARCHAR(20)`, `sent_at TIMESTAMPTZ`, `read_at TIMESTAMPTZ`, `reference_type VARCHAR(50)`, `reference_id UUID`, `metadata JSONB` |
+| `files` | `filename VARCHAR(255)`, `content_type VARCHAR(100)`, `size_bytes BIGINT`, `storage_key VARCHAR(500)`, `checksum VARCHAR(64)`, `folder_id UUID`, `tags TEXT[]`, `access_control JSONB`, `is_public BOOLEAN` |
+| `grc_sod_rules` | `name VARCHAR(255)`, `description TEXT`, `permission_a VARCHAR(100)`, `permission_b VARCHAR(100)`, `severity VARCHAR(10)`, `is_active BOOLEAN` |
+| `grc_risk_register` | `title VARCHAR(255)`, `category VARCHAR(50)`, `likelihood VARCHAR(10)`, `impact VARCHAR(10)`, `risk_score INT`, `mitigation_plan TEXT`, `owner_id UUID`, `status VARCHAR(20)`, `review_date DATE` |
+| `scheduler_jobs` | `name VARCHAR(255)`, `cron_expression VARCHAR(100)`, `service VARCHAR(50)`, `endpoint VARCHAR(255)`, `payload JSONB`, `status VARCHAR(20)`, `last_run_at TIMESTAMPTZ`, `next_run_at TIMESTAMPTZ`, `max_retries INT`, `timeout_ms INT` |
+| `knowledge_articles` | `title VARCHAR(255)`, `content TEXT`, `category_id UUID`, `status VARCHAR(20)`, `tags TEXT[]`, `views INT`, `rating DECIMAL`, `published_at TIMESTAMPTZ` |
+| `rpa_bots` | `name VARCHAR(255)`, `description TEXT`, `definition JSONB`, `trigger_type VARCHAR(20)`, `schedule VARCHAR(100)`, `status VARCHAR(20)`, `last_execution_id UUID`, `owner_id UUID` |
+| `collaboration_channels` | `name VARCHAR(255)`, `type VARCHAR(20)`, `description TEXT`, `context_type VARCHAR(50)`, `context_id UUID`, `members JSONB`, `is_private BOOLEAN` |
+| `idp_document_types` | `name VARCHAR(100)`, `description TEXT`, `extraction_schema JSONB`, `confidence_threshold DECIMAL`, `model_id UUID`, `is_active BOOLEAN` |
+| `itsm_incidents` | `incident_number VARCHAR(50)`, `priority VARCHAR(10)`, `category VARCHAR(30)`, `status VARCHAR(20)`, `requester_id UUID`, `assignee_id UUID`, `sla_due_at TIMESTAMPTZ`, `resolution TEXT`, `resolved_at TIMESTAMPTZ` |
+| `content_repositories` | `name VARCHAR(255)`, `description TEXT`, `schema_definition JSONB`, `retention_policy JSONB`, `storage_quota_bytes BIGINT`, `is_compliance_archive BOOLEAN`, `status VARCHAR(20)` |
+
+### audit_db
+
+| Table | Additional Columns |
+|-------|-------------------|
+| `audit_events` | `actor_id UUID`, `action VARCHAR(50)`, `entity_type VARCHAR(50)`, `entity_id UUID`, `changes JSONB`, `ip_address INET`, `user_agent TEXT`, `severity VARCHAR(10)` |
+
+## Events Published
+
+| Event | Description |
+|-------|-------------|
+| `platform.notification.sent` | Notification dispatched |
+| `platform.notification.failed` | Notification delivery failed |
+| `platform.file.uploaded` | File uploaded and stored |
+| `platform.file.deleted` | File soft-deleted |
+| `platform.audit.logged` | Audit log entry created |
+| `platform.digital-assistant.intent.resolved` | Digital assistant resolved user intent |
+| `platform.digital-assistant.action.executed` | Digital assistant executed an action |
+| `platform.digital-assistant.feedback.recorded` | User feedback on assistant response recorded |
+| `platform.app-builder.app.published` | Low-code application published |
+| `platform.app-builder.app.updated` | Low-code application updated |
+| `platform.grc.compliance.violation.detected` | Compliance violation detected |
+| `platform.grc.risk.assessment.completed` | Risk assessment completed |
+| `platform.grc.sod.conflict.detected` | Segregation of Duties conflict detected |
+| `platform.grc.incident.created` | GRC incident created |
+| `platform.data-mask.applied` | Data masking rule applied to non-production environment |
+| `platform.scheduler.job.started` | Scheduled job started execution |
+| `platform.scheduler.job.completed` | Scheduled job completed |
+| `platform.scheduler.job.failed` | Scheduled job failed |
+| `platform.knowledge.article.created` | Knowledge base article created |
+| `platform.knowledge.article.published` | Knowledge base article published |
+| `platform.knowledge.article.updated` | Knowledge base article updated |
+| `platform.signature.requested` | Digital signature requested |
+| `platform.signature.completed` | Digital signature completed |
+| `platform.rpa.bot.created` | RPA bot created |
+| `platform.rpa.bot.executed` | RPA bot execution completed |
+| `platform.rpa.bot.failed` | RPA bot execution failed |
+| `platform.collaboration.message.posted` | Collaboration message posted |
+| `platform.collaboration.task.created` | Collaboration task created |
+| `platform.collaboration.task.completed` | Collaboration task completed |
+| `platform.iot.device.registered` | IoT device registered in device registry |
+| `platform.iot.device.certificate.issued` | IoT device certificate issued |
+| `platform.iot.device.decommissioned` | IoT device decommissioned |
+| `platform.idp.document.classified` | Document classified by intelligent document processing |
+| `platform.idp.extraction.completed` | Data extraction from document completed |
+| `platform.idp.extraction.failed` | Data extraction from document failed |
+| `platform.idp.model.trained` | IDP extraction model training completed |
+| `platform.itsm.incident.created` | IT service incident created |
+| `platform.itsm.change.approved` | IT change request approved |
+| `platform.compliance.alert.triggered` | Compliance hub alert triggered |
+| `platform.ipa.cognitive-bot.executed` | Intelligent process automation bot completed cognitive task |
+| `platform.ipa.process.discovered` | New automation opportunity discovered from usage analytics |
+| `platform.ipa.bot.self-learned` | Bot updated its model from feedback |
+
+## Events Consumed
+
+Inbox binding: `platform.inbox` binds to the following routing keys:
+
+| Binding Pattern | Events Consumed |
+|----------------|-----------------|
+| `auth.login.#` | `auth.login.succeeded`, `auth.login.failed` |
+| `hr.#` | `hr.employee.created`, `hr.employee.hired`, `hr.employee.updated`, `hr.employee.separated`, `hr.talent-review.initiated` |
+| `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled` |
+| `commerce.credit.#` | `commerce.credit.hold.applied`, `commerce.credit.hold.released` |
+| `commerce.shipment.#` | `commerce.shipment.dispatched`, `commerce.shipment.in-transit`, `commerce.shipment.delivered` |
+| `commerce.logistics.#` | `commerce.logistics.tracking.updated`, `commerce.logistics.condition.alert`, `commerce.logistics.exception.detected` |
+| `finance.lease.#` | `finance.lease.created`, `finance.lease.modified` |
+| `finance.supplier-risk.#` | `finance.supplier-risk.score.updated`, `finance.supplier-risk.alert.triggered`, `finance.supplier-risk.mitigation.created` |
+| `finance.intelligent-close.#` | `finance.intelligent-close.task.auto-assigned`, `finance.intelligent-close.anomaly.detected`, `finance.intelligent-close.auto-reconciled` |
+| `integration.trade-compliance.#` | `integration.trade-compliance.screening.completed`, `integration.trade-compliance.screening.flagged`, `integration.trade-compliance.license.expiring` |
+| `crm.cdp.#` | `crm.cdp.profile.created`, `crm.cdp.profile.updated`, `crm.cdp.profile.merged`, `crm.cdp.segment.updated` |
+| `report.process.#` | `report.process.discovered`, `report.process.conformance.checked`, `report.process.bottleneck.detected`, `report.process.simulation.completed` |
+| `manufacturing.intelligence.#` | `manufacturing.intelligence.oee.threshold-breached`, `manufacturing.intelligence.downtime.categorized`, `manufacturing.intelligence.energy.anomaly`, `manufacturing.intelligence.predictive-maintenance.alert` |
+| `tenant.feature.#` | `tenant.feature.changed` |
+| `config.changed` | `config.changed` |
+
 ## See Also
 
 - [Integration Service](integration.md)

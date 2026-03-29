@@ -274,7 +274,9 @@ Every feature, entity, API endpoint, database table, and event belongs to EXACTL
 | Product Compliance & Regulatory | Regulatory database, certifications, material compliance (RoHS/REACH), testing management |
 | Sustainability | Waste tracking, energy consumption, emissions at manufacturing level |
 
-**Owns:** The analytics and reporting platform. All services embed analytics via Report Service widgets.
+### 4.6 Report Service (Port 8014)
+
+**Owns:** The analytics and reporting platform. All services embed analytics via Report Service widgets. Report Service is the sole exception to the database-per-service rule: it reads from a DuckDB data warehouse populated by ETL pipelines from event streams, not from operational databases.
 
 | Domain | Modules |
 |--------|---------|
@@ -488,11 +490,11 @@ Every feature maps to exactly one service. Feature specs are in `docs/07-feature
 
 ---
 
-## 9. Deployment Topology
+## 8. Deployment Topology
 
 See [docs/08-infrastructure/deployment.md](docs/08-infrastructure/deployment.md) for the full deployment specification including multi-region architecture diagrams and Kubernetes topology.
 
-### 9.1 Active-Passive Failover
+### 8.1 Active-Passive Failover
 
 | Aspect | Specification |
 |--------|---------------|
@@ -507,11 +509,11 @@ See [docs/08-infrastructure/deployment.md](docs/08-infrastructure/deployment.md)
 
 ---
 
-## 10. Integration Ecosystem
+## 9. Integration Ecosystem
 
 The Integration Service provides 50+ pre-built connectors. See [docs/06-services/integration.md](docs/06-services/integration.md) for the complete list and Connector SDK specification.
 
-### 10.1 Connector Categories
+### 9.1 Connector Categories
 
 - **Financial**: SAP S/4HANA, NetSuite, Dynamics 365, QuickBooks, Xero, Sage, Stripe, PayPal, Adyen, Square, Plaid, SWIFT, Vertex, Avalara
 - **CRM & CX**: Salesforce, HubSpot, Dynamics 365 Sales, Zendesk, Freshdesk, Intercom, Twilio, SendGrid
@@ -522,11 +524,11 @@ The Integration Service provides 50+ pre-built connectors. See [docs/06-services
 
 ---
 
-## 11. AI/ML Strategy
+## 10. AI/ML Strategy
 
 MSERP embeds AI/ML capabilities across all business modules via a unified ML platform managed by the Report Service (inference) and Platform Service (model lifecycle).
 
-### 11.1 AI Architecture
+### 10.1 AI Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -553,7 +555,7 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 11.2 AI Capabilities by Module
+### 10.2 AI Capabilities by Module
 
 | Module | Capability | Model Type |
 |--------|-----------|------------|
@@ -566,7 +568,7 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 | Platform | Document classification (IDP), data extraction (IDP), NLP assistant, process mining | NLP, CV, Classification |
 | Report | NL-to-SQL, auto-insight generation, augmented analytics | NLP, Transformer |
 
-### 11.3 AI Governance
+### 10.3 AI Governance
 
 | Principle | Implementation |
 |-----------|---------------|
@@ -578,9 +580,9 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 
 ---
 
-## 12. Specification Document Index
+## 11. Specification Document Index
 
-### 12.1 Architecture & Design
+### 11.1 Architecture & Design
 
 | # | Document | Path |
 |---|----------|------|
@@ -588,14 +590,14 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 | 2 | Security Architecture | [docs/02-security/overview.md](docs/02-security/overview.md) |
 | 3 | Event-Driven Architecture | [docs/04-events/overview.md](docs/04-events/overview.md) |
 
-### 12.2 Services
+### 11.2 Services
 
 | # | Document | Path |
 |---|----------|------|
 | 4 | Services Overview | [docs/06-services/overview.md](docs/06-services/overview.md) |
 | 5 | Individual service specs | [docs/06-services/](docs/06-services/) |
 
-### 12.3 API & Data
+### 11.3 API & Data
 
 | # | Document | Path |
 |---|----------|------|
@@ -605,7 +607,7 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 | 9 | Data Architecture | [docs/03-data/overview.md](docs/03-data/overview.md) |
 | 10 | Event Catalog | [docs/04-events/catalog.md](docs/04-events/catalog.md) |
 
-### 12.4 Infrastructure & Development
+### 11.4 Infrastructure & Development
 
 | # | Document | Path |
 |---|----------|------|
@@ -616,7 +618,7 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 | 15 | Code Conventions | [docs/09-development/conventions.md](docs/09-development/conventions.md) |
 | 16 | Local Setup | [docs/09-development/local-setup.md](docs/09-development/local-setup.md) |
 
-### 12.5 Planning & Reference
+### 11.5 Planning & Reference
 
 | # | Document | Path |
 |---|----------|------|
@@ -624,7 +626,7 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 | 18 | Non-Functional Requirements | [docs/10-planning/nfr.md](docs/10-planning/nfr.md) |
 | 19 | Glossary | [docs/glossary.md](docs/glossary.md) |
 
-### 12.6 Feature Specifications
+### 11.6 Feature Specifications
 
 All feature specifications are in [docs/07-features/](docs/07-features/). See §7 for the feature-to-service registry. The 22 feature specs are:
 
@@ -644,7 +646,7 @@ All feature specifications are in [docs/07-features/](docs/07-features/). See §
 | 12 | Email Service | Platform Service | [email.md](docs/07-features/email.md) |
 | 13 | Enterprise Data Quality | Integration Service | [enterprise-data-quality.md](docs/07-features/enterprise-data-quality.md) |
 | 14 | Event Mesh | Platform Service | [event-mesh.md](docs/07-features/event-mesh.md) |
-| 15 | Financial Reporting Studio | Finance Service | [financial-reporting-studio.md](docs/07-features/financial-reporting-studio.md) |
+| 15 | Financial Reporting Studio | Finance Service (templates), Report Service (rendering) | [financial-reporting-studio.md](docs/07-features/financial-reporting-studio.md) |
 | 16 | Full-Text Search | Platform Service | [search.md](docs/07-features/search.md) |
 | 17 | IDP (Intelligent Document Processing) | Platform Service | [idp.md](docs/07-features/idp.md) |
 | 18 | Intelligent Close | Finance Service | [intelligent-close.md](docs/07-features/intelligent-close.md) |
@@ -653,7 +655,7 @@ All feature specifications are in [docs/07-features/](docs/07-features/). See §
 | 21 | Privacy Management | Platform Service | [privacy.md](docs/07-features/privacy.md) |
 | 22 | Supply Chain Collaboration | Commerce Service | [supply-chain-collaboration.md](docs/07-features/supply-chain-collaboration.md) |
 
-### 12.7 Security
+### 11.7 Security
 
 | # | Document | Path |
 |---|----------|------|
@@ -665,5 +667,5 @@ All feature specifications are in [docs/07-features/](docs/07-features/). See §
 
 ---
 
-*Document Version: 13.0*
+*Document Version: 14.0*
 *Last Updated: 2026-03-29*

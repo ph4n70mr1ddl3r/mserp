@@ -39,14 +39,14 @@
 │                                                                              │
 │  ── Business Services (ports 8010-8019) ──────────────────────────────────   │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
-│  │  Commerce   │ │  Finance    │ │     HR      │ │Manufacturing│            │
+│  │  Commerce   │ │  Finance    │ │     HCM     │ │Manufacturing│            │
 │  │ (Sales +    │ │ (Finance +  │ │  Service    │ │  Service    │            │
 │  │  Inventory) │ │ Procurement)│ │  (:8012)    │ │  (:8013)    │            │
 │  │  (:8010)    │ │  (:8011)    │  │             │ │             │            │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘            │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
-│  │   Report    │ │  Workflow   │ │   CRM /     │ │  Project    │            │
-│  │  Service    │ │  Service    │ │  Marketing  │ │  Mgmt Svc   │            │
+│  │   Report    │ │  Workflow   │ │    CRM      │ │  Project    │            │
+│  │  Service    │ │  Service    │ │  Service    │ │  Mgmt Svc   │            │
 │  │  (:8014)    │ │  (:8015)    │ │  (:8016)    │ │  (:8017)    │            │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘            │
 │                                                                              │
@@ -117,12 +117,12 @@ Port ranges are reserved by category: **8001-8009** (core), **8010-8019** (busin
 |---------|------|---------|
 | Commerce (Sales + Inventory) | 8010 | Sales operations, customer management, stock, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, loyalty management, omnichannel management, price optimization, supply chain collaboration |
 | Finance (Finance + Procurement) | 8011 | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition (ASC 606/IFRS 15), strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting (ASC 842/IFRS 16), grant management, joint venture accounting, intelligent close, advanced collections, advanced tax management, commodity management, spend analysis, supplier diversity management, dynamic discounting, financial reporting studio |
-| HR | 8012 | Human resources, payroll, workforce management, recruitment, performance, talent review, succession, multi-country payroll |
+| HCM | 8012 | Human resources, payroll, workforce management, recruitment, performance, talent review, succession, multi-country payroll |
 | Manufacturing | 8013 | Production, manufacturing operations, cost accounting, quality management, PLM, EAM, Digital Twin, IoT, Manufacturing Intelligence, Digital Thread, enterprise health & safety (EHS), MRO, product compliance & regulatory management |
 | Report | 8014 | Analytics, reporting, dashboards, BI, AI-driven insights, ESG, carbon accounting, embedded ML, narrative reporting, process mining, corporate performance management, augmented analytics |
 | Workflow | 8015 | Business process automation, approvals, BPMN engine, SLA management |
-| CRM / Marketing | 8016 | Customer relationship management, leads, campaigns, marketing automation, field service management, surveys & feedback, sales territory & quota planning, customer data platform (CDP), enterprise contact center, social selling, CX digital & A/B testing |
-| Project Management | 8017 | Project planning, resource allocation, time & expense, project billing, EVM |
+| CRM | 8016 | Customer relationship management, leads, campaigns, marketing automation, field service management, surveys & feedback, sales territory & quota planning, customer data platform (CDP), enterprise contact center, social selling, CX digital & A/B testing |
+| Project | 8017 | Project planning, resource allocation, time & expense, project billing, EVM |
 
 ### 3.3 Supporting Services
 

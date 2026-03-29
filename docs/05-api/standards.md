@@ -205,7 +205,7 @@ Returns `200 OK` only when all critical dependencies are reachable. Returns `503
 | Auth, Tenant | + RabbitMQ (connection — publish only, no inbox queue) |
 | Config | + RabbitMQ (connection — publish only) |
 | Identity | Database, Redis only (does not use RabbitMQ) |
-| Commerce, Finance, HR, Manufacturing, Workflow, CRM/Marketing, Project, Integration | + RabbitMQ (connection + queue reachable) |
+| Commerce, Finance, HCM, Manufacturing, Workflow, CRM, Project, Integration | + RabbitMQ (connection + queue reachable) |
 | Platform | + RabbitMQ (connection + queue reachable), Database x2 (`platform_db` + `audit_db`), ONNX Runtime, IDP Service |
 | Report | + RabbitMQ (connection + queue reachable), Elasticsearch, DuckDB |
 

@@ -6,12 +6,22 @@ The Report Service maintains a DuckDB-based embedded data warehouse for analytic
 
 ### 1.1 ETL Pipeline
 
+The Report Service **never reads from operational PostgreSQL databases directly**. All analytical data flows through the Data Lake (see [Data Lake](data-lake.md)). The ETL batch process extracts from the Data Lake Gold zone — pre-aggregated Parquet files stored in MinIO — and loads them into DuckDB.
+
 ```
-Operational DBs (PostgreSQL) ──▶ ETL Jobs (scheduled) ──▶ DuckDB (Star Schema)
-                                        │
-                                        ├── Extract: Read-only queries on operational data
-                                        ├── Transform: Denormalize, aggregate, compute measures
-                                        └── Load: Upsert into fact/dimension tables
+Data Lake Gold Zone (MinIO Parquet) ──▶ ETL Jobs (scheduled) ──▶ DuckDB (Star Schema)
+                                                  │
+                                                  ├── Extract: Read Parquet files from Gold zone
+                                                  ├── Transform: Denormalize, aggregate, compute measures
+                                                  └── Load: Upsert into fact/dimension tables
+```
+
+**Important:** At runtime, the Report Service queries **only DuckDB**. It does not access operational databases or MinIO to serve user requests. The full end-to-end pipeline is:
+
+```
+Service Events → Outbox → RabbitMQ → Event Archive Worker → MinIO Raw (Bronze)
+  → ETL → MinIO Curated (Silver) → Aggregation → MinIO Gold (Analytics)
+  → ETL Load → DuckDB Warehouse (Star Schema)
 ```
 
 ### 1.2 Schema Design

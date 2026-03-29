@@ -136,7 +136,7 @@
   - [ ] Digital Assistant: NLP intent recognition, action dispatch, conversation management
   - [ ] GRC: SoD rules, risk register, compliance assessments, incident management
   - [ ] Data Masking: Static/dynamic masking, subsetting for non-production
-- [ ] CRM / Marketing service (Contacts, Leads, Opportunities, Campaigns, Customer Service)
+- [ ] CRM service (Contacts, Leads, Opportunities, Campaigns, Customer Service)
 - [ ] Project Management service (Projects, Tasks, Timeline, Resources, EVM, Program Management)
 - [ ] Employee Onboarding saga
 - [ ] Leave Approval saga
@@ -176,11 +176,11 @@
 
 | Deliverable | Description |
 |-------------|-------------|
-| HR Service | Employee lifecycle, attendance, leave, payroll, recruitment, talent review, succession, multi-country payroll, workforce modeling |
+| HCM Service | Employee lifecycle, attendance, leave, payroll, recruitment, talent review, succession, multi-country payroll, workforce modeling |
 | Manufacturing Service | BOM, work orders, routing, work centers, PLM (ECO, revisions), EAM, ASCP, AQM, sustainability tracking |
 | Workflow Service | BPMN engine, approval chains, process templates, SLAs, business rules, SoD checks |
 | Platform Service | Email, SMS, push, file storage, audit logs, document preview, OCR, digital assistant, app builder, GRC, data masking |
-| CRM / Marketing Service | Contact management, lead tracking, deal pipeline, campaigns, customer service, social listening |
+| CRM Service | Contact management, lead tracking, deal pipeline, campaigns, customer service, social listening |
 | Project Management Service | Projects, tasks, Gantt timeline, resource allocation, time & expense, EVM, program management |
 | Integration Service | Connectors, EDI, import/export, MDM (golden records, dedup, quality), data governance (catalog, lineage) |
 | Saga: Employee Onboarding | Identity → Roles → Access |

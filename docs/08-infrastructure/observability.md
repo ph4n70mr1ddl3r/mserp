@@ -14,7 +14,7 @@ All services MUST expose a `/metrics` endpoint (Prometheus format) with the foll
 | Infrastructure | CPU, memory, disk, network (via node exporter) |
 | ML/AI | Inference latency, prediction confidence, model drift, feature store freshness |
 
-## 1.1 Standard Service Metrics
+### 1.1 Standard Service Metrics
 
 All services MUST expose applicable metrics from this list based on their domain:
 
@@ -64,7 +64,7 @@ All services MUST expose applicable metrics from this list based on their domain
 | `warranty_claim_total` | Counter | result | Warranty claim processing outcomes |
 | `collection_strategy_triggered_total` | Counter | strategy_type | Collection strategy activations |
 
-## 1.2 Dashboards (Grafana)
+### 1.2 Dashboards (Grafana)
 
 | Dashboard | Audience | Key Panels |
 |-----------|----------|-----------|
@@ -105,7 +105,7 @@ All services MUST expose applicable metrics from this list based on their domain
 | Warranty Analytics | Commerce, Manufacturing | Claim rates, cost analysis, product quality correlation, resolution times |
 | IDP Operations | Operations, IT | Document volume, extraction accuracy, processing time, model performance |
 
-## 1.3 Structured Logging
+### 1.3 Structured Logging
 
 All services MUST emit structured JSON logs with these fields:
 
@@ -144,7 +144,7 @@ All services MUST emit structured JSON logs with these fields:
 - `WARN`: Recoverable issues (cache miss fallback, retry triggered)
 - `ERROR`: Failures requiring attention (database error, external service failure)
 
-## 1.4 Distributed Tracing
+### 1.4 Distributed Tracing
 
 All services participate in distributed tracing via OpenTelemetry + Jaeger:
 
@@ -161,7 +161,7 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 - Staging: 100% sampling.
 - Trace retention: 7 days (hot), 30 days (cold storage).
 
-## 1.5 Alerts
+### 1.5 Alerts
 
 | Alert | Severity | Response Time | Response |
 |-------|----------|---------------|----------|
@@ -184,7 +184,7 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | Subscription Billing Failure | Critical | < 15 minutes | Investigate, manual billing fallback |
 | Revenue Recognition Discrepancy | Warning | < 1 hour | Finance team review, check recognition rules |
 | Scheduler Job Overdue | Warning | < 30 minutes | Investigate scheduler service, check job queue |
-| Error Budget Exhausted | Warning | < 4 hours | Freeze feature work, prioritize reliability |
+| Error Budget Exhausted | Critical | < 30 minutes | Freeze feature work, prioritize reliability |
 | Backup Verification Failed | Critical | < 1 hour | Investigate backup infrastructure, re-run verification |
 | IoT Device Offline (>10 devices) | Warning | < 30 minutes | Investigate device connectivity, check gateway |
 | RPA Bot Failure Rate > 10% | Warning | < 30 minutes | Investigate failing bots, check target systems |
@@ -204,7 +204,7 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 | IDP Extraction Accuracy < 95% | Warning | < 4 hours | Review extraction models, check document quality |
 | Warranty Claim Spike | Warning | < 1 hour | Investigate product quality, review claim patterns |
 
-## 1.6 Alert Routing
+### 1.6 Alert Routing
 
 | Severity | Channel | Escalation |
 |----------|---------|-----------|

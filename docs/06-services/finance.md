@@ -304,9 +304,137 @@
 | Export Formats | Export to PDF, Excel, HTML, XBRL instance documents, and PowerPoint |
 | Report Bursting | Automated report distribution to specific recipients based on entity, department, or role |
 
+## Database Tables
+
+All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+
+| Table | Additional Columns |
+|-------|-------------------|
+| `accounts` | `code VARCHAR(30)`, `name VARCHAR(255)`, `type VARCHAR(30)`, `parent_id UUID`, `level INT`, `is_active BOOLEAN`, `normal_balance VARCHAR(10)`, `currency VARCHAR(3)` |
+| `journal_entries` | `entry_number VARCHAR(50)`, `status VARCHAR(20)`, `entry_date DATE`, `posting_date DATE`, `description TEXT`, `period_id UUID`, `reversal_of_id UUID`, `source VARCHAR(30)` |
+| `journal_entry_lines` | `journal_entry_id UUID`, `account_id UUID`, `debit DECIMAL`, `credit DECIMAL`, `description TEXT`, `cost_center_id UUID`, `dimension1_id UUID`, `dimension2_id UUID` |
+| `invoices` | `invoice_number VARCHAR(50)`, `type VARCHAR(20)`, `status VARCHAR(20)`, `party_id UUID`, `party_type VARCHAR(20)`, `invoice_date DATE`, `due_date DATE`, `subtotal DECIMAL`, `tax_amount DECIMAL`, `total_amount DECIMAL`, `currency VARCHAR(3)`, `paid_amount DECIMAL` |
+| `payments` | `payment_number VARCHAR(50)`, `type VARCHAR(20)`, `direction VARCHAR(10)`, `amount DECIMAL`, `currency VARCHAR(3)`, `payment_date DATE`, `method VARCHAR(30)`, `reference VARCHAR(100)`, `party_id UUID`, `party_type VARCHAR(20)` |
+| `suppliers` | `code VARCHAR(50)`, `name VARCHAR(255)`, `email VARCHAR(255)`, `phone VARCHAR(50)`, `tax_id VARCHAR(50)`, `bank_details JSONB`, `status VARCHAR(20)`, `diversity_classification VARCHAR(50)` |
+| `purchase_orders` | `po_number VARCHAR(50)`, `supplier_id UUID`, `status VARCHAR(20)`, `order_date DATE`, `expected_date DATE`, `total_amount DECIMAL`, `currency VARCHAR(3)` |
+| `purchase_order_lines` | `purchase_order_id UUID`, `product_id UUID`, `description TEXT`, `quantity DECIMAL`, `unit_price DECIMAL`, `line_total DECIMAL`, `received_quantity DECIMAL` |
+| `budgets` | `name VARCHAR(255)`, `fiscal_year INT`, `period VARCHAR(20)`, `account_id UUID`, `department_id UUID`, `amount DECIMAL`, `currency VARCHAR(3)`, `status VARCHAR(20)` |
+| `tax_rates` | `code VARCHAR(30)`, `name VARCHAR(255)`, `rate DECIMAL`, `jurisdiction VARCHAR(100)`, `tax_type VARCHAR(20)`, `effective_from DATE`, `effective_to DATE`, `is_active BOOLEAN` |
+| `exchange_rates` | `from_currency VARCHAR(3)`, `to_currency VARCHAR(3)`, `rate DECIMAL`, `rate_date DATE`, `source VARCHAR(30)` |
+| `fixed_assets` | `asset_number VARCHAR(50)`, `name VARCHAR(255)`, `category VARCHAR(30)`, `acquisition_date DATE`, `acquisition_cost DECIMAL`, `currency VARCHAR(3)`, `depreciation_method VARCHAR(30)`, `useful_life_months INT`, `book_value DECIMAL`, `status VARCHAR(20)` |
+| `expense_reports` | `report_number VARCHAR(50)`, `employee_id UUID`, `status VARCHAR(20)`, `submit_date DATE`, `total_amount DECIMAL`, `currency VARCHAR(3)`, `approved_by UUID` |
+| `treasury_accounts` | `account_number VARCHAR(50)`, `bank_name VARCHAR(255)`, `currency VARCHAR(3)`, `balance DECIMAL`, `last_reconciled_at TIMESTAMPTZ`, `status VARCHAR(20)` |
+| `contracts` | `contract_number VARCHAR(50)`, `title VARCHAR(255)`, `type VARCHAR(30)`, `party_id UUID`, `status VARCHAR(20)`, `start_date DATE`, `end_date DATE`, `value DECIMAL`, `currency VARCHAR(3)` |
+| `revenue_contracts` | `contract_id UUID`, `customer_id UUID`, `total_transaction_price DECIMAL`, `currency VARCHAR(3)`, `status VARCHAR(20)`, `start_date DATE`, `end_date DATE` |
+| `performance_obligations` | `revenue_contract_id UUID`, `description TEXT`, `standalone_selling_price DECIMAL`, `allocated_price DECIMAL`, `recognition_type VARCHAR(20)`, `status VARCHAR(20)` |
+| `revenue_schedules` | `performance_obligation_id UUID`, `period DATE`, `amount DECIMAL`, `status VARCHAR(20)` |
+| `lease_contracts` | `lease_number VARCHAR(50)`, `classification VARCHAR(20)`, `start_date DATE`, `end_date DATE`, `payment_amount DECIMAL`, `currency VARCHAR(3)`, `discount_rate DECIMAL`, `right_of_use_value DECIMAL`, `liability_value DECIMAL`, `status VARCHAR(20)` |
+| `grants` | `grant_number VARCHAR(50)`, `funding_source VARCHAR(255)`, `start_date DATE`, `end_date DATE`, `total_budget DECIMAL`, `currency VARCHAR(3)`, `status VARCHAR(20)`, `compliance_requirements JSONB` |
+
+## Events Published
+
+| Event | Description |
+|-------|-------------|
+| `finance.journal.created` | Journal entry created |
+| `finance.journal.posted` | Journal entry posted |
+| `finance.journal.reversed` | Journal entry reversed |
+| `finance.invoice.created` | Invoice created |
+| `finance.invoice.creation.failed` | Invoice creation failed (saga compensation trigger) |
+| `finance.invoice.paid` | Invoice paid |
+| `finance.invoice.credit-memo` | Credit memo issued |
+| `finance.payment.received` | Payment received |
+| `finance.payment.made` | Payment made to supplier |
+| `finance.supplier.created` | Supplier created |
+| `finance.supplier.updated` | Supplier updated |
+| `finance.purchase-order.created` | Purchase order created |
+| `finance.purchase-order.approved` | Purchase order approved |
+| `finance.purchase-order.received` | Goods received |
+| `finance.account.created` | Account created in chart of accounts |
+| `finance.account.updated` | Account modified in chart of accounts |
+| `finance.period.closed` | Accounting period closed |
+| `finance.budget.created` | Budget created |
+| `finance.budget.exceeded` | Budget threshold exceeded (warning) |
+| `finance.exchange-rate.updated` | Exchange rate updated |
+| `finance.expense.submitted` | Expense report submitted |
+| `finance.expense.approved` | Expense report approved |
+| `finance.expense.rejected` | Expense report rejected |
+| `finance.expense.paid` | Expense reimbursement paid |
+| `finance.treasury.cash-position.updated` | Cash position updated across bank accounts |
+| `finance.treasury.payment-batch.approved` | Payment batch approved for execution |
+| `finance.treasury.payment-batch.executed` | Payment batch executed |
+| `finance.contract.created` | Contract created |
+| `finance.contract.approved` | Contract approved |
+| `finance.contract.renewed` | Contract renewed |
+| `finance.contract.expired` | Contract expired |
+| `finance.plan.created` | Financial plan created (EPM) |
+| `finance.plan.forecast.updated` | Forecast updated in financial plan |
+| `finance.revenue.recognized` | Revenue recognized for a performance obligation |
+| `finance.revenue.adjusted` | Revenue recognition schedule adjusted (contract modification) |
+| `finance.revenue.deferred` | Revenue deferred to future period |
+| `finance.credit-score.updated` | Customer credit score updated |
+| `finance.credit-limit.changed` | Customer credit limit changed |
+| `finance.sourcing.event.created` | Sourcing event (RFI/RFP/RFQ) created |
+| `finance.sourcing.bid.submitted` | Supplier bid submitted for sourcing event |
+| `finance.sourcing.event.awarded` | Sourcing event awarded to supplier(s) |
+| `finance.supplier-risk.score.updated` | Supplier risk score updated |
+| `finance.supplier-risk.alert.triggered` | Supplier risk alert triggered |
+| `finance.supplier-risk.mitigation.created` | Supplier risk mitigation plan created |
+| `finance.reconciliation.matched` | Reconciliation auto-match completed |
+| `finance.reconciliation.exception.created` | Unmatched reconciliation exception created |
+| `finance.reconciliation.completed` | Account reconciliation completed |
+| `finance.close-task.completed` | Financial close task completed |
+| `finance.profitability.analysis.completed` | Profitability analysis run completed |
+| `finance.lease.created` | Lease contract created |
+| `finance.lease.modified` | Lease contract modified |
+| `finance.lease.payment.due` | Lease payment due |
+| `finance.lease.right-of-use.adjusted` | Right-of-use asset value adjusted |
+| `finance.grant.created` | Grant registered |
+| `finance.grant.milestone.reached` | Grant milestone reached |
+| `finance.grant.revenue.recognized` | Grant revenue recognized |
+| `finance.grant.compliance.check-due` | Grant compliance check due |
+| `finance.joint-venture.created` | Joint venture created |
+| `finance.joint-venture.cost.allocated` | Joint venture cost allocated to partners |
+| `finance.joint-venture.billing.generated` | Joint venture partner billing generated |
+| `finance.intelligent-close.task.auto-assigned` | Close task automatically assigned by AI |
+| `finance.intelligent-close.anomaly.detected` | Financial close anomaly detected |
+| `finance.intelligent-close.auto-reconciled` | Account auto-reconciled during intelligent close |
+| `finance.collection.strategy.triggered` | Collection strategy automatically triggered |
+| `finance.collection.activity.created` | Collection activity created |
+| `finance.cash-application.matched` | Cash receipt auto-matched to invoice |
+| `finance.cash-application.unmatched` | Cash receipt could not be auto-matched |
+| `finance.tax.assessment.created` | Tax assessment created for transaction |
+| `finance.commodity.price.updated` | Commodity market price updated |
+| `finance.spend.classified` | Spend transaction classified by ML |
+| `finance.diversity.spend.recorded` | Diverse supplier spend recorded |
+| `finance.dynamic-discount.offer-created` | Early payment discount offer generated |
+| `finance.dynamic-discount.offer-accepted` | Supplier accepted early payment discount offer |
+| `finance.dynamic-discount.payment-executed` | Early payment executed with discount applied |
+| `finance.report.template-created` | Financial report template created |
+| `finance.report.generated` | Financial report generated from template |
+| `finance.report.published` | Financial report published for distribution |
+| `finance.xbrl.filing-completed` | XBRL filing completed and validated |
+
+## Events Consumed
+
+Inbox binding: `finance.inbox` binds to the following routing keys:
+
+| Binding Pattern | Events Consumed |
+|----------------|-----------------|
+| `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled`, `commerce.order.returned` |
+| `commerce.stock.#` | `commerce.stock.updated`, `commerce.stock.reserved`, `commerce.stock.reservation.failed`, `commerce.stock.reservation.released` |
+| `commerce.subscription.#` | `commerce.subscription.created`, `commerce.subscription.amended`, `commerce.subscription.renewed`, `commerce.subscription.cancelled`, `commerce.subscription.billing.completed` |
+| `commerce.b2b.#` | `commerce.b2b.order.placed`, `commerce.b2b.order.approved` |
+| `commerce.warranty.#` | `commerce.warranty.claim.submitted`, `commerce.warranty.claim.approved` |
+| `hr.payroll.#` | `hr.payroll.processed` |
+| `manufacturing.work-order.#` | `manufacturing.work-order.created`, `manufacturing.work-order.started`, `manufacturing.work-order.completed` |
+| `project.invoice.#` | `project.invoice.generated` |
+| `project.milestone.#` | `project.milestone.reached` |
+| `platform.idp.#` | `platform.idp.document.classified`, `platform.idp.extraction.completed`, `platform.idp.extraction.failed` |
+| `config.changed` | `config.changed` |
+
 ## See Also
 
 - [Commerce Service](commerce.md)
-- [HR Service](hr.md)
+- [HCM Service](hr.md)
 - [Report Service](report.md)
 - [Architecture Overview](../01-architecture/overview.md)

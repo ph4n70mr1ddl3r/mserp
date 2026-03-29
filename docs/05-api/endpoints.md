@@ -299,7 +299,7 @@
 | POST | `/api/v1/finance/discounting/programs/{id}/simulate` | Simulate discounting program scenario |
 | GET | `/api/v1/finance/discounting/working-capital` | Get working capital position |
 
-### HR Service
+### HCM Service
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/v1/hr/employees` | List employees |
@@ -401,7 +401,7 @@
 | GET | `/api/v1/manufacturing/compliance/material-declarations` | List material declarations |
 | POST | `/api/v1/manufacturing/compliance/tests` | Create compliance test plan |
 
-### CRM / Marketing Service
+### CRM Service
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/v1/crm/contacts` | List contacts |
@@ -549,11 +549,11 @@
 | POST | `/api/v1/platform/iot/devices` | Register IoT device |
 | GET | `/api/v1/platform/iot/devices/{id}` | Get device details |
 | POST | `/api/v1/platform/iot/devices/{id}/certificates` | Issue device certificate |
-| GET | `/api/v1/platform/self-service/portal` | Get employee self-service portal data |
-| GET | `/api/v1/platform/self-service/payslips` | List payslips (self-service) |
-| POST | `/api/v1/platform/self-service/time-off` | Submit time-off request |
-| GET | `/api/v1/platform/self-service/benefits` | List available benefits |
-| POST | `/api/v1/platform/self-service/expenses` | Submit expense (self-service) |
+| GET | `/api/v1/hr/self-service/portal` | Get employee self-service portal data |
+| GET | `/api/v1/hr/self-service/payslips` | List payslips (self-service) |
+| POST | `/api/v1/hr/self-service/time-off` | Submit time-off request |
+| GET | `/api/v1/hr/self-service/benefits` | List available benefits |
+| POST | `/api/v1/hr/self-service/expenses` | Submit expense (self-service) |
 | GET | `/api/v1/platform/content/repositories` | List content repositories |
 | POST | `/api/v1/platform/content/repositories` | Create content repository |
 | GET | `/api/v1/platform/content/documents` | List documents |

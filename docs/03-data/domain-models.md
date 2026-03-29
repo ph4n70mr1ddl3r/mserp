@@ -2,6 +2,8 @@
 
 ## 1. Revenue Recognition Data Model
 
+*Database: `finance_db`*
+
 | Table / Field | Description |
 |--------------|-------------|
 | `revenue_contracts` | Customer contracts identified for revenue recognition, sourced from sales orders, subscriptions, and project billing |
@@ -30,6 +32,8 @@
 
 ## 2. Lease Accounting Data Model
 
+*Database: `finance_db`*
+
 | Table / Field | Description |
 |--------------|-------------|
 | `lease_contracts` | Lease agreements with classification (operating/finance), terms, payment schedules, and linked assets |
@@ -39,6 +43,8 @@
 | `lease_modifications` | Lease modification history with remeasurement details and reclassification entries |
 
 ## 3. Grant Management Data Model
+
+*Database: `finance_db`*
 
 | Table / Field | Description |
 |--------------|-------------|
@@ -50,6 +56,8 @@
 
 ## 4. Joint Venture Data Model
 
+*Database: `finance_db`*
+
 | Table / Field | Description |
 |--------------|-------------|
 | `joint_ventures` | Joint venture definitions with partner ownership percentages and venturer codes |
@@ -60,6 +68,8 @@
 
 ## 5. Warranty Management Data Model
 
+*Database: `commerce_db`*
+
 | Table / Field | Description |
 |--------------|-------------|
 | `warranty_policies` | Warranty policy definitions with coverage terms, duration, and conditions |
@@ -68,6 +78,8 @@
 | `warranty_claim_items` | Claim line items with defect codes, repair/replacement actions, and costs |
 
 ## 6. Advanced Collections Data Model
+
+*Database: `finance_db`*
 
 | Table / Field | Description |
 |--------------|-------------|
@@ -78,6 +90,8 @@
 | `collection_scores` | Predictive collection scoring per customer with historical trending |
 
 ## 7. Data Masking Strategy
+
+*Database: cross-cutting (applies to all databases)*
 
 ### 7.1 Masking for Non-Production Environments
 
@@ -98,6 +112,8 @@
 
 ## 8. Advanced Tax Management Data Model
 
+*Database: `finance_db`*
+
 | Table / Field | Description |
 |---|---|
 | `tax_jurisdictions` | Tax jurisdictions with nexus tracking, filing obligations, and rates schedules |
@@ -107,6 +123,8 @@
 | `tax_reconciliation_records` | Tax liability reconciliation entries with GL account mapping and adjustment tracking |
 
 ## 9. Commodity Management Data Model
+
+*Database: `finance_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -118,6 +136,8 @@
 
 ## 10. Advanced Spend Analysis Data Model
 
+*Database: `finance_db`*
+
 | Table / Field | Description |
 |---|---|
 | `spend_transactions` | Classified spend transactions with ML confidence scores and category assignments |
@@ -127,6 +147,8 @@
 
 ## 11. Supplier Diversity Data Model
 
+*Database: `finance_db`*
+
 | Table / Field | Description |
 |---|---|
 | `diversity_classifications` | Supplier diversity classification records with certification tracking and expiry dates |
@@ -135,6 +157,8 @@
 | `diversity_goals` | Configurable diversity spend targets with progress tracking and period definitions |
 
 ## 12. Enterprise Health & Safety Data Model
+
+*Database: `manufacturing_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -147,6 +171,8 @@
 
 ## 13. MRO Data Model
 
+*Database: `manufacturing_db`*
+
 | Table / Field | Description |
 |---|---|
 | `mro_catalog_items` | MRO catalog entries with criticality classification, lead time, and reorder parameters |
@@ -156,6 +182,8 @@
 | `mro_rotable_components` | Rotable component tracking with repair cycle management, exchange pools, and condition assessment |
 
 ## 14. Product Compliance Data Model
+
+*Database: `manufacturing_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -167,6 +195,8 @@
 
 ## 15. Enterprise Contact Center Data Model
 
+*Database: `crm_db`*
+
 | Table / Field | Description |
 |---|---|
 | `cc_interactions` | Omnichannel interaction records with channel, direction, queue, agent assignment, and duration |
@@ -177,6 +207,8 @@
 
 ## 16. Social Selling Data Model
 
+*Database: `crm_db`*
+
 | Table / Field | Description |
 |---|---|
 | `social_profiles` | Enriched social profiles linked to CRM contacts with platform, follower counts, and engagement metrics |
@@ -184,6 +216,8 @@
 | `social_intelligence_scores` | Per-user social selling index with component scores and recommended actions |
 
 ## 17. A/B Testing Data Model
+
+*Database: `crm_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -194,6 +228,8 @@
 
 ## 18. Omnichannel Management Data Model
 
+*Database: `commerce_db`*
+
 | Table / Field | Description |
 |---|---|
 | `omnichannel_channels` | Sales channel configurations with type, status, inventory source, and fulfillment rules |
@@ -203,6 +239,8 @@
 
 ## 19. Price Optimization Data Model
 
+*Database: `commerce_db`*
+
 | Table / Field | Description |
 |---|---|
 | `price_demand_models` | Demand elasticity models by product/segment with model parameters and accuracy metrics |
@@ -211,6 +249,8 @@
 | `price_tests` | A/B price test configurations with control/test groups and statistical significance tracking |
 
 ## 20. Customer Loyalty Data Model
+
+*Database: `commerce_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -222,6 +262,8 @@
 
 ## 21. Compliance Hub Data Model
 
+*Database: `platform_db`*
+
 | Table / Field | Description |
 |---|---|
 | `compliance_dashboard_metrics` | Composite compliance health scores per domain with trend tracking |
@@ -230,6 +272,8 @@
 | `compliance_calendar_events` | Compliance calendar entries with filing deadlines, audit schedules, and certification renewals |
 
 ## 22. Dynamic Discounting Data Model
+
+*Database: `finance_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -240,6 +284,8 @@
 | `working_capital_metrics` | Working capital KPI snapshots (DSO, DPO, DIO, CCC) with trend tracking by entity and period |
 
 ## 23. Financial Reporting Studio Data Model
+
+*Database: `finance_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -252,6 +298,8 @@
 
 ## 24. Enterprise Data Quality Data Model
 
+*Database: `integration_db`*
+
 | Table / Field | Description |
 |---|---|
 | `dq_profiles` | Data profiling results by entity, source, and dimension with statistical summaries |
@@ -262,6 +310,8 @@
 | `dq_scorecards` | Data quality scorecards by entity, dimension (completeness, accuracy, consistency, timeliness, validity), and period |
 
 ## 25. Supply Chain Collaboration Data Model
+
+*Database: `commerce_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -274,6 +324,8 @@
 
 ## 26. Connected Planning Data Model
 
+*Database: `report_db`*
+
 | Table / Field | Description |
 |---|---|
 | `planning_assumptions` | Shared planning assumptions library with values, effective dates, and source domain |
@@ -283,6 +335,8 @@
 | `planning_model_versions` | Planning model version history with snapshots, baseline, and variance analysis |
 
 ## 27. Intelligent Process Automation Data Model
+
+*Database: `platform_db`*
 
 | Table / Field | Description |
 |---|---|
@@ -346,25 +400,7 @@
 | `collaboration_channels` | Team channels with `channel_type` (public, private, direct), `visibility`, `membership` (JSONB member list with roles), `linked_business_context_type` (order, invoice, project, case, etc.), `linked_business_context_id`, `description`, `created_by`, `archived_at`, `tenant_id` |
 | `collaboration_messages` | Channel messages with `channel_id`, `parent_message_id` (for thread structure), `author_id`, `content_type` (text, markdown, rich_text, file_reference), `content` (TEXT), `mentions` (JSONB), `reactions` (JSONB), `edited_at`, `deleted_at`, `created_at`, `tenant_id` |
 
-## 34. Loyalty Program Data Model
-
-See §20 above.
-
-## 35. Tax Assessment Data Model
-
-See §8 above.
-
-## 36. Compliance Control Mapping Data Model
-
-See §21 above.
-
-## 37. Contact Center Interaction Data Model
-
-See §15 above.
-
-## 38. EHS Incident Data Model
-
-See §12 above.
+> **Note:** The following domain models are defined in their respective sections above: Loyalty Program (§20), Tax Assessment (§8), Compliance Control Mapping (§21), Contact Center Interaction (§15), EHS Incident (§12).
 
 ---
 

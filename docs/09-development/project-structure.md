@@ -15,42 +15,42 @@ mserp/
 ├── docs/                         # Documentation
 │   ├── README.md
 │   ├── glossary.md
-│   ├── api/                       # API documentation
+│   ├── 05-api/                    # API documentation
 │   │   ├── endpoints.md
 │   │   ├── error-codes.md
 │   │   └── standards.md
-│   ├── architecture/              # Architecture documentation
+│   ├── 01-architecture/           # Architecture documentation
 │   │   └── overview.md
-│   ├── data/                      # Data documentation
+│   ├── 03-data/                   # Data documentation
 │   │   ├── caching.md
 │   │   ├── data-lake.md
 │   │   ├── domain-models.md
 │   │   ├── mdm.md
 │   │   ├── overview.md
 │   │   └── warehouse.md
-│   ├── development/               # Development guides
+│   ├── 09-development/            # Development guides
 │   │   ├── conventions.md
 │   │   ├── local-setup.md
 │   │   └── project-structure.md
-│   ├── events/                    # Event documentation
+│   ├── 04-events/                 # Event documentation
 │   │   ├── catalog.md
 │   │   ├── overview.md
 │   │   └── sagas.md
-│   ├── features/                  # Feature documentation
-│   ├── infrastructure/            # Infrastructure documentation
+│   ├── 07-features/               # Feature documentation
+│   ├── 08-infrastructure/         # Infrastructure documentation
 │   │   ├── deployment.md
 │   │   ├── observability.md
 │   │   └── technology.md
-│   ├── planning/                  # Planning documentation
+│   ├── 10-planning/               # Planning documentation
 │   │   ├── nfr.md
 │   │   └── phases.md
-│   ├── security/                  # Security documentation
+│   ├── 02-security/               # Security documentation
 │   │   ├── authorization.md
 │   │   ├── data-protection.md
 │   │   ├── grc.md
 │   │   ├── overview.md
 │   │   └── threat-model.md
-│   └── services/                  # Service documentation
+│   └── 06-services/               # Service documentation
 │       ├── auth.md
 │       ├── commerce.md
 │       ├── config.md

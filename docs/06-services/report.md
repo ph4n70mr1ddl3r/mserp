@@ -107,6 +107,57 @@
 | Explainable AI | Human-readable explanations for analytical findings and ML predictions |
 | Contextual Narratives | Auto-generated narrative summaries for dashboards and reports |
 
+## Database Tables
+
+All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+
+| Table | Additional Columns |
+|-------|-------------------|
+| `report_templates` | `name VARCHAR(255)`, `type VARCHAR(30)`, `definition JSONB`, `parameters JSONB`, `data_source VARCHAR(50)`, `refresh_interval INT`, `is_system BOOLEAN`, `status VARCHAR(20)` |
+| `dashboards` | `name VARCHAR(255)`, `description TEXT`, `owner_id UUID`, `is_shared BOOLEAN`, `layout JSONB`, `filters JSONB`, `auto_refresh_interval INT` |
+| `dashboard_widgets` | `dashboard_id UUID`, `title VARCHAR(255)`, `type VARCHAR(30)`, `data_source VARCHAR(50)`, `query JSONB`, `position JSONB`, `filters JSONB`, `refresh_interval INT` |
+| `kpi_definitions` | `name VARCHAR(255)`, `description TEXT`, `measure VARCHAR(100)`, `target DECIMAL`, `warning_threshold DECIMAL`, `critical_threshold DECIMAL`, `unit VARCHAR(20)`, `direction VARCHAR(10)`, `data_source VARCHAR(50)`, `calculation JSONB` |
+| `esg_emissions` | `scope INT`, `category VARCHAR(50)`, `source_entity_id UUID`, `source_entity_type VARCHAR(30)`, `co2_equivalent DECIMAL`, `unit VARCHAR(20)`, `measurement_date DATE`, `methodology VARCHAR(30)`, `verification_status VARCHAR(20)` |
+| `ml_models` | `name VARCHAR(255)`, `type VARCHAR(30)`, `version VARCHAR(20)`, `status VARCHAR(20)`, `features JSONB`, `hyperparameters JSONB`, `metrics JSONB`, `training_completed_at TIMESTAMPTZ`, `deployed_at TIMESTAMPTZ` |
+| `process_activity_log` | `process_id UUID`, `activity_name VARCHAR(100)`, `case_id VARCHAR(100)`, `timestamp TIMESTAMPTZ`, `resource_id UUID`, `duration_ms INT`, `attributes JSONB` |
+| `planning_scenarios` | `name VARCHAR(255)`, `description TEXT`, `status VARCHAR(20)`, `planning_domains TEXT[]`, `assumptions JSONB`, `drivers JSONB`, `results JSONB`, `baseline_scenario_id UUID` |
+
+## Events Published
+
+| Event | Description |
+|-------|-------------|
+| `report.process.discovered` | Business process discovered from event log analysis |
+| `report.process.conformance.checked` | Process conformance check completed |
+| `report.process.bottleneck.detected` | Process bottleneck identified |
+| `report.process.simulation.completed` | Process simulation completed |
+| `report.cpm.okr.updated` | OKR progress updated |
+| `report.cpm.initiative.status-changed` | Strategic initiative status changed |
+| `report.cpm.scorecard.updated` | Balanced scorecard recalculated |
+| `report.narrative.package.published` | Report package published for distribution |
+| `report.narrative.commentary.added` | Commentary added to report section |
+| `report.planning.scenario.created` | Connected planning scenario created |
+| `report.planning.scenario.compared` | Planning scenarios compared side-by-side |
+| `report.planning.driver.updated` | Planning driver value updated affecting connected models |
+
+## Events Consumed
+
+Inbox binding: `report.inbox` binds to the following routing keys:
+
+| Binding Pattern | Events Consumed |
+|----------------|-----------------|
+| `commerce.#` | All Commerce events (orders, stock, deliveries, subscriptions, loyalty, etc.) |
+| `finance.#` | All Finance events (invoices, payments, journals, budgets, revenue recognition, etc.) |
+| `hr.#` | All HR events (employee lifecycle, payroll, leave, reviews, etc.) |
+| `manufacturing.#` | All Manufacturing events (work orders, quality, BOMs, IoT, digital twin, etc.) |
+| `crm.#` | All CRM events (opportunities, campaigns, cases, CDP, surveys, etc.) |
+| `project.#` | All Project events (tasks, milestones, timesheets, invoices, etc.) |
+| `workflow.#` | All Workflow events (instance lifecycle, step actions, escalations, etc.) |
+| `platform.audit.#` | `platform.audit.logged` |
+| `platform.rpa.#` | `platform.rpa.bot.created`, `platform.rpa.bot.executed`, `platform.rpa.bot.failed` |
+| `tenant.feature.#` | `tenant.feature.changed` |
+| `integration.trade-compliance.#` | `integration.trade-compliance.screening.completed`, `integration.trade-compliance.screening.flagged`, `integration.trade-compliance.license.expiring` |
+| `config.changed` | `config.changed` |
+
 ## See Also
 
 - [Finance Service](finance.md)

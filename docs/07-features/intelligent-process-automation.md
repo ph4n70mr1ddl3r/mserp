@@ -84,7 +84,7 @@ Intelligent Process Automation (IPA) goes beyond traditional rule-based RPA by i
 | Workflow Engine | Platform Service | Event-driven | Human-in-the-loop task routing, approval workflows, escalation |
 | Finance Service | Finance Service | Internal API | Journal entry bots, reconciliation bots, invoice processing bots |
 | Commerce Service | Commerce Service | Internal API | Order entry bots, pricing update bots, vendor master bots |
-| HR Service | HR Service | Internal API | Employee onboarding bots, payroll data entry bots, timesheet bots |
+| HCM Service | HCM Service | Internal API | Employee onboarding bots, payroll data entry bots, timesheet bots |
 | Notification Service | Platform Service | Event-driven | Bot status alerts, exception notifications, completion summaries |
 | Audit Trail | Platform Service | Event-driven | Full bot action logging, before/after snapshots, compliance audit |
 
@@ -109,7 +109,7 @@ Intelligent Process Automation (IPA) goes beyond traditional rule-based RPA by i
 |-------|--------|--------|
 | `finance.invoice.received` | Finance Service | Trigger invoice processing bot |
 | `finance.reconciliation.required` | Finance Service | Trigger reconciliation bot |
-| `hcm.employee.onboarded` | HR Service | Trigger onboarding automation bot |
+| `hcm.employee.onboarded` | HCM Service | Trigger onboarding automation bot |
 | `commerce.order.created` | Commerce Service | Trigger order fulfillment bot |
 | `idp.document.classified` | Report Service | Trigger document processing bot with extraction results |
 | `platform.workflow.task-assigned` | Platform Service | Resume paused bot after human completes decision task |

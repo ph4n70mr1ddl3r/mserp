@@ -4,7 +4,7 @@
 
 MSERP uses **cache-aside** pattern with Redis as the caching layer.
 
-### 1.2 Cache Policies by Data Type
+### 1.1 Cache Policies by Data Type
 
 | Data Type | Cache Strategy | TTL | Invalidation |
 |-----------|---------------|-----|-------------|
@@ -35,7 +35,7 @@ MSERP uses **cache-aside** pattern with Redis as the caching layer.
 | Report templates | Cache-aside | 1 hour | On `finance.report.template-created` event |
 | Supplier collaboration connections | Cache-aside | 15 minutes | On `commerce.collaboration.*` events |
 
-### 1.3 Cache Key Format
+### 1.2 Cache Key Format
 
 ```
 mserp:{tenant_id}:{service}:{entity}:{id}
@@ -63,13 +63,13 @@ Examples:
 - `mserp:tenant-123:commerce:collaboration:scorecard:supplier-001`
 - `mserp:tenant-123:finance:report_template:tmpl-001`
 
-### 1.4 Cache Invalidation
+### 1.3 Cache Invalidation
 
 - **Event-driven**: Services subscribe to relevant domain events and invalidate affected cache entries.
 - **TTL-based**: All cached entries have a TTL as a safety net against stale data.
 - **Manual flush**: Tenant Admins can trigger cache flush for their tenant via `POST /api/v1/config/cache/flush`.
 
-### 1.5 Cold Start Behavior
+### 1.4 Cold Start Behavior
 
 - On service startup, caches are empty (cold).
 - First requests are served directly from the database.

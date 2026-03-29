@@ -65,15 +65,15 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 
 | Service Inbox | Binds To (Routing Keys) |
 |--------------|------------------------|
-| `commerce.inbox` | `commerce.#`, `finance.purchase-order.#`, `finance.invoice.#`, `finance.sourcing.#`, `finance.cash-application.#`, `manufacturing.work-order.#`, `manufacturing.digital-twin.#`, `crm.opportunity.won`, `config.changed` |
+| `commerce.inbox` | `commerce.#`, `finance.purchase-order.#`, `finance.invoice.#`, `finance.sourcing.#`, `finance.cash-application.#`, `manufacturing.work-order.#`, `manufacturing.digital-twin.#`, `crm.opportunity.won`, `crm.cdp.#`, `config.changed` |
 | `finance.inbox` | `finance.#`, `commerce.order.#`, `commerce.stock.#`, `commerce.subscription.#`, `commerce.b2b.#`, `commerce.warranty.#`, `hr.payroll.#`, `manufacturing.work-order.#`, `project.invoice.#`, `project.milestone.#`, `platform.idp.#`, `config.changed` |
 | `hr.inbox` | `hr.#`, `workflow.step.#`, `config.changed` |
-| `manufacturing.inbox` | `manufacturing.#`, `commerce.stock.#`, `commerce.order.#`, `config.changed` |
-| `report.inbox` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `tenant.feature.#`, `config.changed` |
-| `workflow.inbox` | `workflow.#`, `hr.leave.#`, `commerce.order.#`, `finance.purchase-order.#`, `finance.expense.#`, `manufacturing.eco.#`, `config.changed` |
-| `platform.inbox` | `platform.#`, `auth.login.#`, `commerce.credit.#`, `commerce.shipment.#`, `commerce.logistics.#`, `finance.lease.#`, `finance.supplier-risk.#`, `finance.intelligent-close.#`, `integration.trade-compliance.#`, `crm.cdp.#`, `report.process.#`, `manufacturing.intelligence.#`, `tenant.feature.#`, `config.changed` |
-| `integration.inbox` | `integration.#`, `config.changed` |
-| `crm.inbox` | `crm.#`, `commerce.customer.#`, `config.changed` |
+| `manufacturing.inbox` | `manufacturing.#`, `commerce.stock.#`, `commerce.order.#`, `commerce.warranty.#`, `config.changed` |
+| `report.inbox` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.rpa.#`, `tenant.feature.#`, `integration.trade-compliance.#`, `config.changed` |
+| `workflow.inbox` | `workflow.#`, `hr.leave.#`, `commerce.order.#`, `commerce.credit.#`, `finance.purchase-order.#`, `finance.expense.#`, `finance.intelligent-close.#`, `finance.supplier-risk.#`, `manufacturing.eco.#`, `report.process.#`, `platform.rpa.#`, `platform.grc.#`, `integration.trade-compliance.#`, `config.changed` |
+| `platform.inbox` | `platform.#`, `auth.login.#`, `hr.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.shipment.#`, `commerce.logistics.#`, `finance.lease.#`, `finance.supplier-risk.#`, `finance.intelligent-close.#`, `integration.trade-compliance.#`, `crm.cdp.#`, `report.process.#`, `manufacturing.intelligence.#`, `tenant.feature.#`, `config.changed` |
+| `integration.inbox` | `integration.#`, `commerce.product.#`, `config.changed` |
+| `crm.inbox` | `crm.#`, `commerce.customer.#`, `commerce.order.#`, `config.changed` |
 | `project.inbox` | `project.#`, `hr.employee.#`, `commerce.order.#`, `config.changed` |
 
 ## 2. Event Schema

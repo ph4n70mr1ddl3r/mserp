@@ -295,7 +295,7 @@
 | `workflow.step.delegated` | Workflow step delegated to another user |
 | `workflow.sod.conflict.flagged` | SoD conflict flagged during approval workflow |
 
-### CRM / Marketing Events
+### CRM Events
 | Event | Description |
 |-------|-------------|
 | `crm.contact.created` | Contact created |

@@ -1,6 +1,6 @@
 # Connected Planning
 
-Unified financial, workforce, and supply chain planning with connected models, shared assumptions, and integrated what-if simulation, managed by the Finance Service (financial planning) + HR Service (workforce planning) + Manufacturing Service (supply chain planning) + Report Service (planning analytics).
+Unified financial, workforce, and supply chain planning with connected models, shared assumptions, and integrated what-if simulation, managed by the Finance Service (financial planning) + HCM Service (workforce planning) + Manufacturing Service (supply chain planning) + Report Service (planning analytics).
 
 ## Overview
 
@@ -13,9 +13,9 @@ Connected Planning breaks down traditional planning silos by providing a unified
 | **Unified Planning Workspace** | Report Service (React) + Finance/HR/Manufacturing Services | Single UI for all planning domains with tabbed workspace; shared navigation, assumption library, and scenario selector; role-based views (finance planner, workforce planner, supply planner) |
 | **Shared Assumptions Library** | Finance Service (Rust) | Centralized assumption registry: exchange rates, inflation rates, growth rates, salary increase rates, commodity prices; versioned assumptions with effective dates; change impact analysis on linked plans |
 | **Financial Planning Models** | Finance Service (Rust) | Revenue planning (top-down, bottom-up, driver-based), expense planning (cost center, project, GL), cash flow planning, capital expenditure planning, balance sheet planning; multi-entity consolidation |
-| **Workforce Planning Models** | HR Service (Rust) | Headcount planning by department/role/grade, compensation planning, benefits modeling, hiring plan, attrition modeling, succession planning, contingent workforce planning |
+| **Workforce Planning Models** | HCM Service (Rust) | Headcount planning by department/role/grade, compensation planning, benefits modeling, hiring plan, attrition modeling, succession planning, contingent workforce planning |
 | **Supply Chain Planning Models** | Manufacturing Service (Rust) | Demand planning with statistical forecasting, supply planning, inventory planning, production scheduling, distribution planning, procurement planning |
-| **Cross-Domain Driver Linkage** | Finance Service + HR Service + Manufacturing Service | Configurable driver links connecting planning models across domains; headcount → compensation expense → cash flow; demand forecast → production plan → COGS; change propagation with dependency ordering |
+| **Cross-Domain Driver Linkage** | Finance Service + HCM Service + Manufacturing Service | Configurable driver links connecting planning models across domains; headcount → compensation expense → cash flow; demand forecast → production plan → COGS; change propagation with dependency ordering |
 | **Integrated What-If Simulation** | Report Service (ONNX) + Finance/HR/Manufacturing Services | Multi-scenario simulation engine; modify any assumption or driver and see cascading impact across all domains; side-by-side scenario comparison with variance waterfall charts |
 | **Planning Scenarios & Version Control** | Finance Service (Rust) | Scenario management: baseline, best case, worst case, custom; full version history with diff; scenario locking, approval, and promotion to official plan |
 | **Planning Workflow Approvals** | Finance Service + Platform Service | Multi-level approval workflows for plan submissions; reviewer assignment, commentary, rejection with rework; approval status dashboard |
@@ -74,7 +74,7 @@ Connected Planning breaks down traditional planning silos by providing a unified
 | Domain | Service | Sub-Models | Key Drivers | Cross-Domain Links |
 |--------|---------|-----------|-------------|-------------------|
 | **Financial** | Finance Service | Revenue, Expense, Cash Flow, CapEx, Balance Sheet | Growth rate, price, volume, cost inflation | Headcount → Comp Expense; COGS from Supply Chain |
-| **Workforce** | HR Service | Headcount, Compensation, Benefits, Hiring, Attrition | Salary increase %, hiring rate, attrition rate | Headcount → FTE cost; Available labor → Supply capacity |
+| **Workforce** | HCM Service | Headcount, Compensation, Benefits, Hiring, Attrition | Salary increase %, hiring rate, attrition rate | Headcount → FTE cost; Available labor → Supply capacity |
 | **Supply Chain** | Manufacturing Service | Demand, Supply, Inventory, Production, Procurement | Demand forecast, lead time, safety stock, yield | Demand → Revenue; Production cost → COGS |
 | **Capital** | Finance Service | Capital projects, asset acquisition, depreciation | Project timeline, cost estimate, useful life | CapEx → Cash Flow; Depreciation → Expense |
 | **Project** | Project Service | Resource allocation, project revenue, project cost | Utilization rate, billing rate, cost rate | Project revenue → Revenue; Resources → Workforce |
@@ -84,7 +84,7 @@ Connected Planning breaks down traditional planning silos by providing a unified
 | Integrates With | Service | Integration Type | Description |
 |----------------|---------|-----------------|-------------|
 | Finance Service (GL) | Finance Service | Internal API | Actual financial data for plan-vs-actual; GL account structure for planning lines |
-| HR Service | HR Service | Internal API | Employee master data, compensation bands, org structure for workforce planning |
+| HCM Service | HCM Service | Internal API | Employee master data, compensation bands, org structure for workforce planning |
 | Manufacturing Service | Manufacturing Service | Internal API | Production orders, BOMs, lead times, capacity data for supply chain planning |
 | Project Service | Project Service | Internal API | Project plans, resource allocations, budgets for project planning |
 | Report Service (ML) | Report Service | gRPC | Statistical forecasting models, demand prediction, what-if simulation engine |
@@ -114,7 +114,7 @@ Connected Planning breaks down traditional planning silos by providing a unified
 | Event | Source | Action |
 |-------|--------|--------|
 | `finance.gl.posted` | Finance Service | Update actuals for plan-vs-actual variance calculation |
-| `hcm.headcount.changed` | HR Service | Update workforce plan actuals and financial driver links |
+| `hcm.headcount.changed` | HCM Service | Update workforce plan actuals and financial driver links |
 | `manufacturing.production.completed` | Manufacturing Service | Update supply chain plan actuals and cost drivers |
 | `commerce.order.booked` | Commerce Service | Feed demand signals to demand planning model |
 | `platform.workflow.step-completed` | Platform Service | Update plan approval status |
@@ -165,5 +165,5 @@ Connected Planning breaks down traditional planning silos by providing a unified
 - [Augmented Analytics](augmented-analytics.md) — Natural language planning queries and auto-insights
 - [Adaptive Intelligence](adaptive-intelligence.md) — ML-powered demand forecasting and predictions
 - [Finance Service](../06-services/finance.md) — Financial planning and GL operations
-- [HR Service](../06-services/hr.md) — Workforce and compensation planning
+- [HCM Service](../06-services/hr.md) — Workforce and compensation planning
 - [Manufacturing Service](../06-services/manufacturing.md) — Supply chain and production planning

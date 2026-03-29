@@ -25,6 +25,23 @@ The data lake uses a schema-on-read approach for exploratory analytics:
 - Curated zone: Schema enforced by ETL; Apache Arrow schema definitions.
 - Query access via DuckDB's S3/Parquet integration or direct API.
 
+### 1.4 Relationship to DuckDB Data Warehouse
+
+The Data Lake and DuckDB Data Warehouse form a single analytical pipeline. The Data Lake is the **sole data source** for the warehouse — the Report Service never reads from operational PostgreSQL databases directly.
+
+**Full pipeline:**
+
+```
+Service Events → Outbox Tables → RabbitMQ → Event Archive Worker → MinIO Raw (Bronze)
+  → ETL (validate, deduplicate) → MinIO Curated (Silver)
+  → Aggregation Jobs → MinIO Gold (Analytics)
+  → ETL Load → DuckDB Warehouse (Star Schema)
+```
+
+- The Gold zone contains pre-aggregated Parquet files stored in MinIO.
+- The DuckDB warehouse loads from these Gold zone files during its ETL batch process.
+- At runtime, the Report Service queries only DuckDB — it never accesses operational databases or MinIO directly to serve user requests.
+
 ---
 
 *See [Data Architecture Overview](overview.md) for database patterns and schema elements.*

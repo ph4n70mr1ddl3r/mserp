@@ -1,4 +1,4 @@
-# CRM / Marketing Service
+# CRM Service
 
 | Aspect | Details |
 |--------|---------|
@@ -116,6 +116,67 @@
 | Personalization | AI-driven personalization rules based on customer profile, behavior, and context |
 | Content Variants | Visual content editor for creating test variants without developer involvement |
 | Reporting | Test performance dashboards with lift measurement, confidence levels, and revenue impact |
+
+## Database Tables
+
+All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+
+| Table | Additional Columns |
+|-------|-------------------|
+| `contacts` | `first_name VARCHAR(100)`, `last_name VARCHAR(100)`, `email VARCHAR(255)`, `phone VARCHAR(50)`, `company VARCHAR(255)`, `title VARCHAR(100)`, `source VARCHAR(30)`, `status VARCHAR(20)`, `tags TEXT[]` |
+| `accounts` | `name VARCHAR(255)`, `website VARCHAR(255)`, `industry VARCHAR(100)`, `size VARCHAR(30)`, `revenue DECIMAL`, `billing_address JSONB`, `shipping_address JSONB`, `owner_id UUID`, `status VARCHAR(20)` |
+| `leads` | `contact_id UUID`, `account_id UUID`, `source VARCHAR(30)`, `status VARCHAR(20)`, `score INT`, `assigned_to UUID`, `converted_opportunity_id UUID`, `converted_at TIMESTAMPTZ` |
+| `opportunities` | `account_id UUID`, `contact_id UUID`, `name VARCHAR(255)`, `stage VARCHAR(30)`, `amount DECIMAL`, `currency VARCHAR(3)`, `probability DECIMAL`, `expected_close_date DATE`, `assigned_to UUID`, `competitor_ids UUID[]` |
+| `campaigns` | `name VARCHAR(255)`, `type VARCHAR(30)`, `status VARCHAR(20)`, `start_date DATE`, `end_date DATE`, `budget DECIMAL`, `currency VARCHAR(3)`, `actual_cost DECIMAL`, `responses INT`, `converted_leads INT` |
+| `activities` | `subject VARCHAR(255)`, `type VARCHAR(20)`, `status VARCHAR(20)`, `due_at TIMESTAMPTZ`, `completed_at TIMESTAMPTZ`, `related_contact_id UUID`, `related_opportunity_id UUID`, `assigned_to UUID`, `notes TEXT` |
+| `service_cases` | `case_number VARCHAR(50)`, `contact_id UUID`, `account_id UUID`, `type VARCHAR(30)`, `priority VARCHAR(10)`, `status VARCHAR(20)`, `assigned_to UUID`, `sla_due_at TIMESTAMPTZ`, `resolved_at TIMESTAMPTZ`, `satisfaction_score INT` |
+| `surveys` | `title VARCHAR(255)`, `type VARCHAR(20)`, `status VARCHAR(20)`, `questions JSONB`, `trigger_event VARCHAR(50)`, `start_date DATE`, `end_date DATE`, `response_count INT` |
+| `territories` | `name VARCHAR(255)`, `type VARCHAR(20)`, `region VARCHAR(100)`, `owner_id UUID`, `parent_id UUID`, `rules JSONB`, `is_active BOOLEAN` |
+| `cdp_unified_profiles` | `primary_email VARCHAR(255)`, `primary_phone VARCHAR(50)`, `identity_ids JSONB`, `segments TEXT[]`, `engagement_score DECIMAL`, `lifetime_value DECIMAL`, `first_seen_at TIMESTAMPTZ`, `last_activity_at TIMESTAMPTZ`, `attributes JSONB` |
+
+## Events Published
+
+| Event | Description |
+|-------|-------------|
+| `crm.contact.created` | Contact created |
+| `crm.contact.updated` | Contact updated |
+| `crm.lead.created` | Lead created |
+| `crm.lead.converted` | Lead converted to opportunity |
+| `crm.opportunity.created` | Opportunity created |
+| `crm.opportunity.stage-changed` | Opportunity moved to new stage |
+| `crm.opportunity.won` | Deal won |
+| `crm.opportunity.lost` | Deal lost |
+| `crm.campaign.launched` | Campaign launched |
+| `crm.campaign.completed` | Campaign completed |
+| `crm.activity.logged` | Activity (call, email, meeting) logged |
+| `crm.case.created` | Service case created |
+| `crm.case.resolved` | Service case resolved |
+| `crm.service-order.created` | Field service order created |
+| `crm.service-order.completed` | Field service order completed |
+| `crm.service-order.dispatched` | Technician dispatched for service |
+| `crm.survey.created` | Survey created |
+| `crm.survey.response.received` | Survey response submitted |
+| `crm.territory.updated` | Sales territory assignment updated |
+| `crm.quota.allocated` | Sales quota allocated |
+| `crm.cdp.profile.created` | Unified customer profile created in CDP |
+| `crm.cdp.profile.updated` | Unified customer profile updated |
+| `crm.cdp.profile.merged` | Customer profiles merged (identity resolution) |
+| `crm.cdp.segment.updated` | Customer segment membership updated |
+| `crm.cdp.journey.step.completed` | Customer journey step completed |
+| `crm.cdp.engagement-score.updated` | Customer engagement score recalculated |
+| `crm.contact.center.interaction.created` | Contact center interaction received |
+| `crm.social.mention.detected` | Social media mention detected |
+| `crm.ab.test.completed` | A/B test completed with results |
+
+## Events Consumed
+
+Inbox binding: `crm.inbox` binds to the following routing keys:
+
+| Binding Pattern | Events Consumed |
+|----------------|-----------------|
+| `commerce.customer.#` | `commerce.customer.created`, `commerce.customer.updated`, `commerce.customer.deleted` |
+| `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled`, `commerce.order.returned` |
+| `config.changed` | `config.changed` |
 
 ## See Also
 

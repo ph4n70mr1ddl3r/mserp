@@ -127,6 +127,75 @@
 | Testing Management | Compliance test plan management with lab integration and result tracking |
 | Regulatory Change Management | Regulatory change monitoring with impact analysis on existing products |
 
+## Database Tables
+
+All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+
+| Table | Additional Columns |
+|-------|-------------------|
+| `boms` | `product_id UUID`, `name VARCHAR(255)`, `type VARCHAR(20)`, `quantity DECIMAL`, `uom VARCHAR(20)`, `status VARCHAR(20)`, `revision INT`, `eco_id UUID` |
+| `bom_items` | `bom_id UUID`, `component_product_id UUID`, `quantity DECIMAL`, `uom VARCHAR(20)`, `scrap_factor DECIMAL`, `is_phantom BOOLEAN`, `alternative_group VARCHAR(50)`, `sort_order INT` |
+| `work_orders` | `order_number VARCHAR(50)`, `bom_id UUID`, `product_id UUID`, `quantity DECIMAL`, `status VARCHAR(20)`, `priority VARCHAR(10)`, `scheduled_start DATE`, `scheduled_end DATE`, `actual_start TIMESTAMPTZ`, `actual_end TIMESTAMPTZ`, `routing_id UUID`, `work_center_id UUID` |
+| `work_order_operations` | `work_order_id UUID`, `operation_num INT`, `description TEXT`, `work_center_id UUID`, `setup_time_hrs DECIMAL`, `run_time_hrs DECIMAL`, `status VARCHAR(20)`, `actual_start TIMESTAMPTZ`, `actual_end TIMESTAMPTZ` |
+| `quality_inspections` | `inspection_number VARCHAR(50)`, `work_order_id UUID`, `product_id UUID`, `type VARCHAR(20)`, `status VARCHAR(20)`, `result VARCHAR(10)`, `inspector_id UUID`, `inspected_at TIMESTAMPTZ`, `findings JSONB` |
+| `maintenance_orders` | `order_number VARCHAR(50)`, `asset_id UUID`, `type VARCHAR(20)`, `status VARCHAR(20)`, `priority VARCHAR(10)`, `scheduled_date DATE`, `completed_date DATE`, `technician_id UUID`, `downtime_hours DECIMAL`, `cost DECIMAL` |
+| `assets` | `asset_number VARCHAR(50)`, `name VARCHAR(255)`, `type VARCHAR(30)`, `location VARCHAR(255)`, `status VARCHAR(20)`, `parent_asset_id UUID`, `acquisition_date DATE`, `specifications JSONB` |
+| `work_centers` | `code VARCHAR(50)`, `name VARCHAR(255)`, `type VARCHAR(20)`, `capacity DECIMAL`, `capacity_uom VARCHAR(20)`, `cost_rate DECIMAL`, `status VARCHAR(20)`, `location VARCHAR(255)` |
+| `routings` | `product_id UUID`, `name VARCHAR(255)`, `status VARCHAR(20)`, `is_default BOOLEAN`, `revision INT` |
+| `plm_products` | `product_id UUID`, `revision VARCHAR(20)`, `phase VARCHAR(20)`, `eco_id UUID`, `specifications JSONB`, `documents JSONB`, `status VARCHAR(20)` |
+| `iot_devices` | `device_id VARCHAR(100)`, `name VARCHAR(255)`, `type VARCHAR(30)`, `asset_id UUID`, `certificate_id UUID`, `firmware_version VARCHAR(50)`, `status VARCHAR(20)`, `last_telemetry_at TIMESTAMPTZ`, `configuration JSONB` |
+| `digital_twins` | `asset_id UUID`, `name VARCHAR(255)`, `model_version VARCHAR(20)`, `state JSONB`, `last_synced_at TIMESTAMPTZ`, `status VARCHAR(20)` |
+
+## Events Published
+
+| Event | Description |
+|-------|-------------|
+| `manufacturing.bom.created` | BOM created |
+| `manufacturing.bom.updated` | BOM updated |
+| `manufacturing.work-order.created` | Work order created |
+| `manufacturing.work-order.started` | Work order started (production began) |
+| `manufacturing.work-order.completed` | Work order completed |
+| `manufacturing.quality.checked` | Quality check result recorded |
+| `manufacturing.quality.failed` | Quality check failed (NCR created) |
+| `manufacturing.maintenance.due` | Scheduled maintenance due |
+| `manufacturing.eco.submitted` | Engineering Change Order submitted |
+| `manufacturing.eco.approved` | Engineering Change Order approved |
+| `manufacturing.eco.implemented` | Engineering Change Order implemented |
+| `manufacturing.product-lifecycle.revision.created` | Product revision created in PLM |
+| `manufacturing.product-lifecycle.phase-in` | Product phase-in initiated |
+| `manufacturing.product-lifecycle.phase-out` | Product phase-out initiated |
+| `manufacturing.asset.registered` | Enterprise asset registered |
+| `manufacturing.asset.maintenance-completed` | Asset maintenance completed |
+| `manufacturing.asset.decommissioned` | Asset decommissioned |
+| `manufacturing.plan.firmed` | Production plan firmed |
+| `manufacturing.plan.simulation.completed` | ASCP simulation completed |
+| `manufacturing.iot.device.registered` | IoT device registered |
+| `manufacturing.iot.telemetry.received` | Telemetry data received from IoT device |
+| `manufacturing.iot.alert.triggered` | IoT alert rule triggered |
+| `manufacturing.iot.device.offline` | IoT device went offline |
+| `manufacturing.digital-twin.state.updated` | Digital twin state synchronized with physical asset |
+| `manufacturing.digital-twin.simulation.completed` | Digital twin simulation completed |
+| `manufacturing.digital-twin.prediction.generated` | Predictive maintenance prediction generated |
+| `manufacturing.intelligence.oee.threshold-breached` | OEE dropped below configured threshold |
+| `manufacturing.intelligence.downtime.categorized` | Downtime event categorized by root cause |
+| `manufacturing.intelligence.energy.anomaly` | Energy consumption anomaly detected |
+| `manufacturing.intelligence.predictive-maintenance.alert` | Predictive maintenance alert triggered |
+| `manufacturing.safety.incident.created` | Safety incident reported |
+| `manufacturing.safety.inspection.completed` | Safety inspection completed |
+| `manufacturing.mro.repair.completed` | MRO repair order completed |
+| `manufacturing.compliance.certification.updated` | Product certification updated |
+
+## Events Consumed
+
+Inbox binding: `manufacturing.inbox` binds to the following routing keys:
+
+| Binding Pattern | Events Consumed |
+|----------------|-----------------|
+| `commerce.stock.#` | `commerce.stock.updated`, `commerce.stock.reserved`, `commerce.stock.reservation.failed`, `commerce.stock.reservation.released` |
+| `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled`, `commerce.order.returned` |
+| `commerce.warranty.#` | `commerce.warranty.claim.submitted`, `commerce.warranty.claim.approved` |
+| `config.changed` | `config.changed` |
+
 ## See Also
 
 - [Commerce Service](commerce.md)

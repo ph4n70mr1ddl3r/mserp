@@ -79,7 +79,7 @@ SPEC.md (authoritative)
 | [Finance Service](06-services/finance.md) | 8011 | `finance_db` | GL, AP/AR, treasury, revenue recognition, procurement, tax |
 | [HCM Service](06-services/hr.md) | 8012 | `hr_db` | Employee lifecycle, payroll, recruitment, talent, self-service |
 | [Manufacturing Service](06-services/manufacturing.md) | 8013 | `manufacturing_db` | BOM, work orders, PLM, EAM, quality, IoT, digital twin, EHS |
-| [Report Service](06-services/report.md) | 8014 | `report_db` | Analytics, dashboards, ESG, ML/AI, process mining |
+| [Report Service](06-services/report.md) | 8014 | `report_db` | Analytics, dashboards, BI, ESG, ML/AI, process mining |
 | [Workflow Service](06-services/workflow.md) | 8015 | `workflow_db` | BPMN engine, approvals, SLA, business rules |
 | [CRM Service](06-services/crm.md) | 8016 | `crm_db` | Pre-sale (leads, deals, campaigns), CDP, field service, contact center |
 | [Project Service](06-services/project.md) | 8017 | `project_db` | Projects, resources, billing, EVM, portfolio |

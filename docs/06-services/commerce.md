@@ -233,10 +233,114 @@
 | Performance Benchmarking | Supplier performance benchmarking with industry peer comparison and best practice identification |
 | ASN Management | Advanced Shipment Notice collaboration with automated receiving preparation |
 
+## Database Tables
+
+All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+
+| Table | Additional Columns |
+|-------|-------------------|
+| `customers` | `code VARCHAR(50)`, `name VARCHAR(255)`, `email VARCHAR(255)`, `phone VARCHAR(50)`, `customer_group_id UUID`, `pricing_tier_id UUID`, `credit_limit DECIMAL`, `status VARCHAR(20)`, `currency VARCHAR(3)` |
+| `quotations` | `quote_number VARCHAR(50)`, `customer_id UUID`, `status VARCHAR(20)`, `valid_until DATE`, `total_amount DECIMAL`, `currency VARCHAR(3)`, `parent_quote_id UUID`, `approved_by UUID` |
+| `orders` | `order_number VARCHAR(50)`, `customer_id UUID`, `quotation_id UUID`, `status VARCHAR(20)`, `total_amount DECIMAL`, `currency VARCHAR(3)`, `hold_reason VARCHAR(100)`, `channel VARCHAR(20)` |
+| `order_items` | `order_id UUID`, `product_id UUID`, `quantity DECIMAL`, `unit_price DECIMAL`, `discount_amount DECIMAL`, `line_total DECIMAL`, `fulfilled_quantity DECIMAL` |
+| `deliveries` | `order_id UUID`, `status VARCHAR(20)`, `scheduled_date DATE`, `delivered_date TIMESTAMPTZ`, `warehouse_id UUID`, `tracking_number VARCHAR(100)`, `pod_document_id UUID` |
+| `shipments` | `delivery_id UUID`, `carrier_id UUID`, `status VARCHAR(20)`, `dispatched_at TIMESTAMPTZ`, `delivered_at TIMESTAMPTZ`, `tracking_number VARCHAR(100)`, `weight DECIMAL`, `freight_cost DECIMAL` |
+| `products` | `sku VARCHAR(100)`, `name VARCHAR(255)`, `description TEXT`, `category_id UUID`, `base_price DECIMAL`, `uom VARCHAR(20)`, `status VARCHAR(20)`, `is_configurable BOOLEAN`, `pim_status VARCHAR(20)` |
+| `product_categories` | `name VARCHAR(255)`, `parent_id UUID`, `level INT`, `attribute_schema JSONB` |
+| `stock_levels` | `product_id UUID`, `warehouse_id UUID`, `quantity_on_hand DECIMAL`, `quantity_reserved DECIMAL`, `quantity_available DECIMAL`, `safety_stock DECIMAL`, `reorder_point DECIMAL`, `valuation_method VARCHAR(20)`, `unit_cost DECIMAL` |
+| `warehouses` | `code VARCHAR(50)`, `name VARCHAR(255)`, `address JSONB`, `type VARCHAR(20)`, `status VARCHAR(20)`, `capacity DECIMAL` |
+| `stock_transfers` | `transfer_number VARCHAR(50)`, `from_warehouse_id UUID`, `to_warehouse_id UUID`, `status VARCHAR(20)`, `shipped_date DATE`, `received_date DATE` |
+| `pricing_rules` | `name VARCHAR(255)`, `rule_type VARCHAR(30)`, `priority INT`, `conditions JSONB`, `action JSONB`, `start_date DATE`, `end_date DATE`, `is_active BOOLEAN` |
+| `credit_accounts` | `customer_id UUID`, `credit_limit DECIMAL`, `credit_used DECIMAL`, `credit_available DECIMAL`, `credit_score INT`, `status VARCHAR(20)`, `last_reviewed_at TIMESTAMPTZ` |
+| `subscriptions` | `customer_id UUID`, `plan_id VARCHAR(100)`, `status VARCHAR(20)`, `billing_cycle VARCHAR(20)`, `start_date DATE`, `end_date DATE`, `amount DECIMAL`, `currency VARCHAR(3)`, `auto_renew BOOLEAN` |
+| `loyalty_members` | `customer_id UUID`, `program_id UUID`, `tier VARCHAR(30)`, `points_balance INT`, `lifetime_points INT`, `joined_at TIMESTAMPTZ`, `last_activity_at TIMESTAMPTZ` |
+
+## Events Published
+
+| Event | Description |
+|-------|-------------|
+| `commerce.customer.created` | Customer created |
+| `commerce.customer.updated` | Customer updated |
+| `commerce.customer.deleted` | Customer soft-deleted |
+| `commerce.quotation.created` | Quotation created |
+| `commerce.quotation.accepted` | Quotation accepted |
+| `commerce.quotation.rejected` | Quotation rejected |
+| `commerce.order.created` | Sales order created |
+| `commerce.order.submitted` | Sales order submitted for fulfillment |
+| `commerce.order.fulfilled` | Order fulfilled |
+| `commerce.order.cancelled` | Order cancelled |
+| `commerce.order.returned` | Return/RMA created for order |
+| `commerce.product.created` | Product created |
+| `commerce.product.updated` | Product updated |
+| `commerce.product.approved` | Product approved and published (PIM workflow) |
+| `commerce.product.published` | Product published to channels |
+| `commerce.stock.updated` | Stock level changed |
+| `commerce.stock.reserved` | Stock reserved for an order (saga step) |
+| `commerce.stock.reservation.failed` | Stock reservation failed (saga compensation trigger) |
+| `commerce.stock.reservation.released` | Reserved stock released (saga compensation) |
+| `commerce.transfer.initiated` | Stock transfer started |
+| `commerce.transfer.completed` | Stock transfer completed |
+| `commerce.pricing.calculated` | Price calculated by pricing engine |
+| `commerce.delivery.created` | Delivery scheduled |
+| `commerce.delivery.completed` | Delivery confirmed |
+| `commerce.shipment.dispatched` | Shipment dispatched to carrier |
+| `commerce.shipment.in-transit` | Shipment in transit (carrier tracking update) |
+| `commerce.shipment.delivered` | Shipment delivered with POD |
+| `commerce.carrier.assigned` | Carrier assigned to shipment |
+| `commerce.credit.hold.applied` | Credit hold applied to order (credit limit exceeded) |
+| `commerce.credit.hold.released` | Credit hold released on order |
+| `commerce.atp.checked` | ATP/CTP availability check performed |
+| `commerce.configurator.completed` | Product configuration completed |
+| `commerce.subscription.created` | Subscription created |
+| `commerce.subscription.amended` | Subscription amended (upgrade/downgrade) |
+| `commerce.subscription.renewed` | Subscription renewed |
+| `commerce.subscription.cancelled` | Subscription cancelled |
+| `commerce.subscription.billing.completed` | Subscription billing cycle completed |
+| `commerce.dropship.order.created` | Drop ship order created and dispatched to supplier |
+| `commerce.dropship.order.delivered` | Drop ship order delivered to end customer |
+| `commerce.b2b.order.placed` | B2B portal order placed by customer |
+| `commerce.b2b.order.approved` | B2B portal order approved by customer approver |
+| `commerce.logistics.tracking.updated` | Real-time tracking update received (GPS/geofence) |
+| `commerce.logistics.condition.alert` | Shipment condition alert triggered (temperature, humidity, shock) |
+| `commerce.logistics.eta.updated` | Predictive ETA recalculated for shipment |
+| `commerce.logistics.geofence.entered` | Shipment entered geofence zone |
+| `commerce.logistics.geofence.exited` | Shipment exited geofence zone |
+| `commerce.logistics.exception.detected` | Logistics exception detected (delay, deviation, damage) |
+| `commerce.warranty.created` | Warranty policy created |
+| `commerce.warranty.claim.submitted` | Warranty claim submitted |
+| `commerce.warranty.claim.approved` | Warranty claim approved |
+| `commerce.warranty.claim.rejected` | Warranty claim rejected |
+| `commerce.warranty.claim.fulfilled` | Warranty claim fulfilled (repair/replacement) |
+| `commerce.loyalty.points.accrued` | Points accrued for customer |
+| `commerce.loyalty.points.redeemed` | Points redeemed by customer |
+| `commerce.loyalty.tier.changed` | Customer loyalty tier changed |
+| `commerce.omnichannel.order.routed` | Order routed to fulfillment location |
+| `commerce.price.optimized` | Price optimization suggestion generated |
+| `commerce.collaboration.demand-shared` | Demand signal shared with supplier |
+| `commerce.collaboration.capacity.committed` | Supplier capacity commitment received |
+| `commerce.collaboration.cpfr.updated` | CPFR forecast updated collaboratively |
+| `commerce.collaboration.asn.submitted` | Advanced Shipment Notice submitted by supplier |
+
+## Events Consumed
+
+Inbox binding: `commerce.inbox` binds to the following routing keys:
+
+| Binding Pattern | Events Consumed |
+|----------------|-----------------|
+| `finance.purchase-order.#` | `finance.purchase-order.created`, `finance.purchase-order.approved`, `finance.purchase-order.received` |
+| `finance.invoice.#` | `finance.invoice.created`, `finance.invoice.creation.failed`, `finance.invoice.paid`, `finance.invoice.credit-memo` |
+| `finance.sourcing.#` | `finance.sourcing.event.created`, `finance.sourcing.bid.submitted`, `finance.sourcing.event.awarded` |
+| `finance.cash-application.#` | `finance.cash-application.matched`, `finance.cash-application.unmatched` |
+| `manufacturing.work-order.#` | `manufacturing.work-order.created`, `manufacturing.work-order.started`, `manufacturing.work-order.completed` |
+| `manufacturing.digital-twin.#` | `manufacturing.digital-twin.state.updated`, `manufacturing.digital-twin.simulation.completed`, `manufacturing.digital-twin.prediction.generated` |
+| `crm.opportunity.won` | `crm.opportunity.won` |
+| `crm.cdp.#` | `crm.cdp.profile.created`, `crm.cdp.profile.updated`, `crm.cdp.profile.merged`, `crm.cdp.segment.updated`, `crm.cdp.journey.step.completed`, `crm.cdp.engagement-score.updated` |
+| `config.changed` | `config.changed` |
+
 ## See Also
 
 - [Finance Service](finance.md)
-- [CRM / Marketing Service](crm.md)
+- [CRM Service](crm.md)
 - [Manufacturing Service](manufacturing.md)
 - [Report Service](report.md)
 - [Architecture Overview](../01-architecture/overview.md)
