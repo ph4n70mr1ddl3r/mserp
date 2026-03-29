@@ -280,5 +280,5 @@ Content-Type: application/json
 
 ---
 
-*See [Error Codes](error-codes.md) for the full error code taxonomy.*
 *See [Endpoints](endpoints.md) for the API endpoints overview.*
+*See [Error Codes](error-codes.md) for the full error code taxonomy.*

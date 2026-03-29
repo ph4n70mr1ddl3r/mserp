@@ -862,5 +862,5 @@ Same signed image artifact promoted through environments. Production deployment 
 
 ---
 
-*Document Version: 17.0*
+*Document Version: 18.1*
 *Last Updated: 2026-03-29*
