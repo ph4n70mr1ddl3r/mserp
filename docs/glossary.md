@@ -141,65 +141,68 @@
 | Working Capital | Difference between current assets and current liabilities, representing short-term liquidity |
 | Write-Through | Caching pattern where the application writes data to both the cache and the database simultaneously |
 | XBRL | eXtensible Business Reporting Language — standard for electronic communication of business and financial data |
-| CDP | Customer Data Platform — system that creates a unified, persistent customer database accessible to other systems for segmentation, analytics, and campaign execution |
-| CPM | Corporate Performance Management — framework and tools for managing organizational strategy, objectives, KPIs, and initiatives across the enterprise |
-| Digital Twin | Virtual representation of a physical asset that mirrors its real-time state and enables simulation, predictive maintenance, and optimization |
-| IoT | Internet of Things — network of physical devices embedded with sensors, software, and connectivity to collect and exchange data |
-| OKR | Objectives and Key Results — goal-setting framework defining objectives (what to achieve) and key results (how to measure progress) |
-| Omnichannel | Retail strategy providing a seamless customer experience across all sales channels (web, mobile, store, marketplace) |
-| Process Mining | Analytical technique that discovers, monitors, and improves business processes by extracting knowledge from event logs |
-| RPA | Robotic Process Automation — technology for automating repetitive, rule-based tasks using software bots that mimic human interactions with applications |
-| Strategic Sourcing | Systematic approach to optimizing an organization's supply base and improving the overall value proposition through structured sourcing events and supplier evaluation |
-| Identity Resolution | Process of determining that different data points (cookies, device IDs, emails) belong to the same individual across channels and touchpoints |
-| DLP | Data Loss Prevention — strategies and tools for preventing unauthorized data exfiltration |
-| ECM | Enterprise Content Management — strategy and tools for managing an organization's content lifecycle |
-| GraphQL | Query language and runtime for APIs enabling clients to request exactly the data they need |
-| Digital Thread | End-to-end traceability framework connecting data across the product lifecycle from design through manufacturing to service |
-| Augmented Analytics | AI-powered analytics that automate data preparation, insight discovery, and narrative generation |
+| A/B Testing | Controlled experiment comparing two variants to determine which performs better against defined goals |
 | Adaptive Intelligence | ML-powered recommendations and predictions embedded directly into business workflows |
 | API Marketplace | Centralized portal for discovering, subscribing to, and managing API consumption |
-| Event Mesh | Event routing infrastructure enabling event-driven communication across distributed systems and services |
-| Privacy by Design | Framework requiring privacy considerations to be embedded into the design of systems from inception |
-| NLQ | Natural Language Query — ability to query data using natural language instead of SQL or code |
-| OEE | Overall Equipment Effectiveness — manufacturing metric combining availability, performance, and quality |
-| MTBF | Mean Time Between Failures — average time between equipment breakdowns |
-| MTTR | Mean Time To Repair — average time to restore equipment to operational status |
+| APR | Annual Percentage Rate — yearly interest rate used to compare early payment discount value to cost of capital |
+| ASN | Advanced Shipment Notice — electronic notification from supplier to buyer about pending delivery |
 | ASC 842 | Accounting Standards Codification Topic 842 — US GAAP standard for lease accounting requiring lessees to recognize right-of-use assets and lease liabilities |
-| IFRS 16 | International Financial Reporting Standard 16 — global standard for lease accounting requiring lessees to recognize most leases on the balance sheet |
-| ROU Asset | Right-of-Use Asset — an asset that represents a lessee's right to use an underlying asset for the lease term |
-| Grant Management | Process of administering financial grants including registration, budgeting, compliance tracking, and reporting |
-| Joint Venture | Business arrangement where two or more parties agree to pool resources for a specific task or project with shared costs, risks, and rewards |
-| Intelligent Close | AI-driven approach to financial period-end close that automates tasks, detects anomalies, and enables continuous accounting |
-| Cash Application | Process of matching incoming payments (cash, checks, wire transfers) to the corresponding open invoices |
-| IDP | Intelligent Document Processing — AI-powered technology that automatically extracts, classifies, and validates data from documents |
-| Warranty Management | End-to-end management of product warranties including policy definition, registration, claims processing, and analytics |
-| A/B Testing | Controlled experiment comparing two variants to determine which performs better against defined goals |
+| Augmented Analytics | AI-powered analytics that automate data preparation, insight discovery, and narrative generation |
 | BOPIS | Buy Online, Pick Up In Store — omnichannel fulfillment model where customers purchase online and collect from a physical store |
+| Cash Application | Process of matching incoming payments (cash, checks, wire transfers) to the corresponding open invoices |
+| CCC | Cash Conversion Cycle — time between paying for raw materials and collecting cash from sales (DIO + DSO - DPO) |
+| CDP | Customer Data Platform — system that creates a unified, persistent customer database accessible to other systems for segmentation, analytics, and campaign execution |
 | CMDB | Configuration Management Database — IT asset registry with relationship mapping |
 | Commodity | Raw material or primary agricultural product that can be bought and sold, typically through exchanges with standardized contracts |
+| Connected Planning | Unified planning approach that links financial, workforce, and supply chain planning models through shared assumptions and drivers |
+| Cosign | Container signing tool by Sigstore — enables keyless, transparent-log-backed container image signing and verification for supply chain security |
+| CPFR | Collaborative Planning, Forecasting & Replenishment — supply chain collaboration framework for joint demand planning between trading partners |
+| CPM | Corporate Performance Management — framework and tools for managing organizational strategy, objectives, KPIs, and initiatives across the enterprise |
+| CRDT | Conflict-Free Replicated Data Type — data structure that allows concurrent updates across distributed nodes without coordination, guaranteeing eventual consistency |
+| Data Profiling | Statistical analysis of data to assess quality, structure, and content including completeness, uniqueness, and distribution |
+| Data Quality Dimension | Measurable aspect of data quality: completeness, accuracy, consistency, timeliness, validity, uniqueness |
+| Digital Thread | End-to-end traceability framework connecting data across the product lifecycle from design through manufacturing to service |
+| Digital Twin | Virtual representation of a physical asset that mirrors its real-time state and enables simulation, predictive maintenance, and optimization |
+| DIO | Days Inventory Outstanding — average number of days inventory is held before sale |
+| DLP | Data Loss Prevention — strategies and tools for preventing unauthorized data exfiltration |
+| DPO | Days Payable Outstanding — average number of days to pay suppliers after invoice receipt |
 | DPIA | Data Protection Impact Assessment — privacy risk assessment required by GDPR |
+| DSO | Days Sales Outstanding — average number of days to collect payment after a sale |
+| Dynamic Discounting | Early payment discount strategy where buyers offer suppliers sliding-scale discounts based on payment timing to optimize working capital |
 | EHS | Enterprise Health & Safety — workplace safety management and regulatory compliance |
+| ECM | Enterprise Content Management — strategy and tools for managing an organization's content lifecycle |
+| Event Mesh | Event routing infrastructure enabling event-driven communication across distributed systems and services |
+| Fellegi-Sunter | Probabilistic record linkage algorithm used in MDM for matching and deduplicating records across data sources based on statistical comparison of field values |
+| Grant Management | Process of administering financial grants including registration, budgeting, compliance tracking, and reporting |
+| GraphQL | Query language and runtime for APIs enabling clients to request exactly the data they need |
+| IDP | Intelligent Document Processing — AI-powered technology that automatically extracts, classifies, and validates data from documents |
+| Identity Resolution | Process of determining that different data points (cookies, device IDs, emails) belong to the same individual across channels and touchpoints |
+| IFRS 16 | International Financial Reporting Standard 16 — global standard for lease accounting requiring lessees to recognize most leases on the balance sheet |
+| Intelligent Close | AI-driven approach to financial period-end close that automates tasks, detects anomalies, and enables continuous accounting |
+| IoT | Internet of Things — network of physical devices embedded with sensors, software, and connectivity to collect and exchange data |
+| IPA | Intelligent Process Automation — combination of RPA with AI/ML for cognitive automation, self-learning bots, and process discovery |
 | ISCC | International Sustainability & Carbon Certification |
 | ITSM | IT Service Management — IT service delivery and support framework |
 | JHA | Job Hazard Analysis — systematic method for identifying workplace hazards |
+| Joint Venture | Business arrangement where two or more parties agree to pool resources for a specific task or project with shared costs, risks, and rewards |
+| KEDA | Kubernetes Event-Driven Autoscaler — autoscaling component for Kubernetes workloads based on event sources such as RabbitMQ queue depth, Kafka lag, or Prometheus metrics |
+| MTBF | Mean Time Between Failures — average time between equipment breakdowns |
 | MRO | Maintenance, Repair & Operations — supplies and activities for keeping assets operational |
+| MTTR | Mean Time To Repair — average time to restore equipment to operational status |
+| NLQ | Natural Language Query — ability to query data using natural language instead of SQL or code |
+| OEE | Overall Equipment Effectiveness — manufacturing metric combining availability, performance, and quality |
+| OKR | Objectives and Key Results — goal-setting framework defining objectives (what to achieve) and key results (how to measure progress) |
+| Omnichannel | Retail strategy providing a seamless customer experience across all sales channels (web, mobile, store, marketplace) |
+| Privacy by Design | Framework requiring privacy considerations to be embedded into the design of systems from inception |
+| Process Mining | Analytical technique that discovers, monitors, and improves business processes by extracting knowledge from event logs |
+| ROU Asset | Right-of-Use Asset — an asset that represents a lessee's right to use an underlying asset for the lease term |
+| RPA | Robotic Process Automation — technology for automating repetitive, rule-based tasks using software bots that mimic human interactions with applications |
 | SDS | Safety Data Sheet — standardized chemical hazard information document |
+| Strategic Sourcing | Systematic approach to optimizing an organization's supply base and improving the overall value proposition through structured sourcing events and supplier evaluation |
 | UNSPSC | United Nations Standard Products and Services Code — spend classification taxonomy |
-| IPA | Intelligent Process Automation — combination of RPA with AI/ML for cognitive automation, self-learning bots, and process discovery |
-| Dynamic Discounting | Early payment discount strategy where buyers offer suppliers sliding-scale discounts based on payment timing to optimize working capital |
-| XBRL | eXtensible Business Reporting Language — XML-based standard for electronic transmission of business and financial data |
-| CPFR | Collaborative Planning, Forecasting & Replenishment — supply chain collaboration framework for joint demand planning between trading partners |
-| Connected Planning | Unified planning approach that links financial, workforce, and supply chain planning models through shared assumptions and drivers |
-| APR | Annual Percentage Rate — yearly interest rate used to compare early payment discount value to cost of capital |
-| DSO | Days Sales Outstanding — average number of days to collect payment after a sale |
-| DPO | Days Payable Outstanding — average number of days to pay suppliers after invoice receipt |
-| DIO | Days Inventory Outstanding — average number of days inventory is held before sale |
-| CCC | Cash Conversion Cycle — time between paying for raw materials and collecting cash from sales (DIO + DSO - DPO) |
-| Data Profiling | Statistical analysis of data to assess quality, structure, and content including completeness, uniqueness, and distribution |
 | VMI | Vendor Managed Inventory — supplier manages buyer's inventory levels based on agreed parameters |
-| ASN | Advanced Shipment Notice — electronic notification from supplier to buyer about pending delivery |
+| Warranty Management | End-to-end management of product warranties including policy definition, registration, claims processing, and analytics |
 | WORM | Write Once Read Many — storage model where data, once written, cannot be modified, used for compliance archiving |
-| Data Quality Dimension | Measurable aspect of data quality: completeness, accuracy, consistency, timeliness, validity, uniqueness |
 
 ## References
 
