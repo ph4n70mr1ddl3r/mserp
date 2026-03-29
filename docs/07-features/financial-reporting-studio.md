@@ -16,7 +16,7 @@ Advanced Financial Reporting Studio provides a drag-and-drop report designer pur
 | **Management Report Builder** | Report Service (React) | Free-form management report builder with commentary sections, embedded charts, KPI scorecards, and variance tables; narrative sections with rich text editing; auto-populated data sections linked to financial models |
 | **Multi-Entity Consolidated Reporting** | Finance Service + Report Service | Consolidated report generation across entities: automatic elimination entries, minority interest calculation, currency translation (temporal/current rate method), segment reporting |
 | **Currency Translation in Reports** | Finance Service (Rust) | Automatic currency translation using configurable methods (current rate, temporal, weighted average); translation adjustment reporting; dual-currency display support |
-| **Report Versioning & Approvals** | Report Service + Platform Service | Full report version history with diff; multi-level approval workflow: author → reviewer → approver → locked; comment and markup annotations per version; electronic sign-off |
+| **Report Versioning & Approvals** | Report Service + Workflow Service | Full report version history with diff; multi-level approval workflow: author → reviewer → approver → locked; comment and markup annotations per version; electronic sign-off |
 | **Scheduled Report Distribution** | Report Service (Rust) | Configurable report schedules (daily, weekly, monthly, quarterly, annual); distribution lists by entity, department, or role; format selection per recipient (PDF, Excel, HTML, XBRL); report bursting |
 | **Interactive Drill-Down Reports** | Report Service (React) | Click-through drill from summary to detail: report total → entity → department → account → subledger → transaction; breadcrumb navigation; persistent drill state for audit |
 | **Embedded Charts & Visualizations** | Report Service (D3/Chart.js) | Financial chart library: waterfall charts, bridge charts, trend lines, variance bars, KPI gauges; charts auto-update with data changes; export charts embedded in PDF/HTML |
@@ -103,7 +103,7 @@ Advanced Financial Reporting Studio provides a drag-and-drop report designer pur
 | Revenue Recognition | Finance Service | Internal API | Recognized revenue data for revenue reports and disclosures |
 | Budget / Planning | Finance Service | Internal API | Budget and plan data for variance reporting |
 | Report Service (Analytics) | Report Service | Internal API | Embedded analytics, charts, and data visualization |
-| Platform Workflow | Platform Service | Event-driven | Report approval workflows, review routing, electronic sign-off |
+| Platform Workflow | Workflow Service | Event-driven | Report approval workflows, review routing, electronic sign-off |
 | Notification Service | Platform Service | Event-driven | Report assignment, review requests, approval confirmations |
 | Content Management | Platform Service | Internal API | Report template storage, archive, and retrieval |
 | Audit Trail | Platform Service | Event-driven | Full audit of report access, modifications, and approvals |

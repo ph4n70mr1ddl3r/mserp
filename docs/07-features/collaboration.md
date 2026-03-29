@@ -86,7 +86,7 @@ Enterprise Collaboration provides a unified workspace for teams to communicate, 
 | CRM Service | CRM Service | Internal API | Case, opportunity, contact context linking |
 | Finance Service | Finance Service | Internal API | Invoice, expense, payment context linking |
 | Notification Service | Platform Service | Event-driven | Message notifications, task assignments, mentions |
-| Workflow Engine | Platform Service | Event-driven | Workflow task creation from messages, approvals |
+| Workflow Engine | Workflow Service | Event-driven | Workflow task creation from messages, approvals |
 | Search (Elasticsearch) | Platform Service | Internal API | Unified search indexing and querying |
 | Digital Assistant | Platform Service | Internal API | Bot responses in channels, AI-assisted summaries |
 

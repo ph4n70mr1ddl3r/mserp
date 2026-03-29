@@ -81,7 +81,7 @@ Enterprise Content Management provides a comprehensive system for creating, orga
 
 | Integrates With | Service | Integration Type | Description |
 |----------------|---------|-----------------|-------------|
-| Workflow Engine | Platform Service | Event-driven | Review and approval workflows for lifecycle transitions |
+| Workflow Engine | Workflow Service | Event-driven | Review and approval workflows for lifecycle transitions |
 | Digital Signatures | Platform Service | Internal API | Document signing at lifecycle transitions |
 | Collaboration | Platform Service | Internal API | Document sharing and co-editing in channels |
 | IDP | Platform Service | Internal API | Documents ingested via IDP stored in content repository |

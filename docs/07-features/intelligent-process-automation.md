@@ -81,7 +81,7 @@ Intelligent Process Automation (IPA) goes beyond traditional rule-based RPA by i
 | IDP Service | Platform Service / Report Service | Internal API | Document ingestion, classification, extraction pipeline |
 | ML Inference | Report Service | gRPC | Real-time ML inference for cognitive bot capabilities |
 | Integration Connectors | Integration Service | Internal API | Pre-built connectors for ERP screens, web apps, email, file systems |
-| Workflow Engine | Platform Service | Event-driven | Human-in-the-loop task routing, approval workflows, escalation |
+| Workflow Engine | Workflow Service | Event-driven | Human-in-the-loop task routing, approval workflows, escalation |
 | Finance Service | Finance Service | Internal API | Journal entry bots, reconciliation bots, invoice processing bots |
 | Commerce Service | Commerce Service | Internal API | Order entry bots, pricing update bots, vendor master bots |
 | HCM Service | HCM Service | Internal API | Employee onboarding bots, payroll data entry bots, timesheet bots |

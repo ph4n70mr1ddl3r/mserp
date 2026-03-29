@@ -255,7 +255,7 @@ active ──► rotated ──► expired
 | `identity.api-key.rotated` | `{ key_id, tenant_id, old_key_prefix, new_key_prefix }` | API key rotated |
 | `identity.api-key.revoked` | `{ key_id, tenant_id, revoked_by }` | API key revoked |
 
-> **Note:** Auth Service consumes `identity.user.created` and `identity.user.deactivated` to provision/deprovision authentication credentials. Tenant Service consumes user events for tenant user counts. Platform Service consumes all events for audit logging.
+> **Note:** Auth Service queries Identity Service via synchronous HTTP for user/role data during login. It does NOT consume Identity events. Identity events are consumed by: Platform Service (security audit), Integration Service (MDM), and HR Service (provisioning check via HTTP). Tenant Service consumes user events for tenant user counts.
 
 ## See Also
 

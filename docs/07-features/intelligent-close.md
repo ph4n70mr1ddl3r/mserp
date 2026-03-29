@@ -17,7 +17,7 @@ Intelligent Close transforms the traditional batch-oriented financial close into
 | **Close Dashboard Components** | Report Service + Platform Service | Real-time dashboard with close progress, task status, bottleneck identification, and predictive ETA |
 | **Predictive Close Analytics** | Report Service (ONNX) | ML models predict close completion time, identify at-risk tasks, and suggest task reassignment |
 | **Close Task Prioritization** | Finance Service | AI-driven task prioritization based on criticality path, dependencies, and historical duration |
-| **Period-End Checklist Automation** | Finance Service + Workflow Engine | Automated checklist generation from templates with task assignment, dependencies, and deadline tracking |
+| **Period-End Checklist Automation** | Finance Service + Workflow Service | Automated checklist generation from templates with task assignment, dependencies, and deadline tracking |
 
 ## Close Process Flow
 
@@ -86,7 +86,7 @@ Intelligent Close transforms the traditional batch-oriented financial close into
 | Account Reconciliation | Finance Service | Internal API | Reconciliation status feeds into close progress |
 | Subledgers (AP/AR/FA) | Finance Service | Internal API | Subledger balance verification |
 | Intercompany | Finance Service | Internal API | IC elimination verification |
-| Workflow Engine | Platform Service | Event-driven | Close task routing, approval workflows, escalations |
+| Workflow Engine | Workflow Service | Event-driven | Close task routing, approval workflows, escalations |
 | Notification Service | Platform Service | Event-driven | Close task assignments, anomaly alerts, deadline reminders |
 | Report Service | Report Service | gRPC | ML inference (anomaly detection, ETA prediction, risk scoring) |
 | Dashboard | Report Service | WebSocket | Real-time close progress updates to UI |

@@ -88,7 +88,7 @@ The Digital Assistant provides an intelligent conversational interface that enab
 | Project Service | Project Service | Internal API | Query project status, log time, manage tasks |
 | Report Service | Report Service | Internal API | Generate on-demand reports, query dashboards |
 | Knowledge Management | Platform Service | Internal API | FAQ lookup, article search and retrieval |
-| Workflow Engine | Platform Service | Event-driven | Initiate and progress workflow instances |
+| Workflow Engine | Workflow Service | Event-driven | Initiate and progress workflow instances |
 | Notification Service | Platform Service | Event-driven | Proactive notifications to users via assistant |
 | Search | Platform Service | Internal API | Cross-domain unified search queries |
 | Auth Service | Auth Service | Internal API | Token validation and user context resolution |

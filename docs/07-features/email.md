@@ -82,7 +82,7 @@ The Email feature provides a comprehensive email infrastructure for MSERP, cover
 | Notification Service | Platform Service | Internal API | Email as a notification delivery channel |
 | File Service | Platform Service | Internal API | Attachment storage and retrieval |
 | Auth Service | Auth Service | Events | Password reset, email verification emails |
-| Workflow Engine | Platform Service | Event-driven | Email sending steps in workflows |
+| Workflow Engine | Workflow Service | Event-driven | Email sending steps in workflows |
 | Search | Platform Service | Internal API | Email content indexing for search |
 
 ## Event Flow

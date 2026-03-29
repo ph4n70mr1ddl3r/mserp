@@ -1,6 +1,8 @@
 # Supply Chain Collaboration Network
 
-Multi-tier supplier collaboration network for demand visibility, capacity sharing, and joint planning, managed by the Commerce Service (demand sharing) + Manufacturing Service (capacity) + Integration Service (supplier network integration).
+Multi-tier supplier collaboration network for demand visibility, capacity sharing, and joint planning, managed by the Commerce Service. Manufacturing Service provides capacity and production data via events; Integration Service provides supplier network connectivity.
+
+> **Ownership Note**: Supply Chain Collaboration is owned by Commerce Service. Manufacturing Service provides capacity and production data via events (`manufacturing.work-order.*`, `manufacturing.plan.*`). Integration Service provides supplier network connectivity. Commerce owns the collaboration portal, demand signals, CPFR engine, and all collaboration events.
 
 ## Overview
 
@@ -13,8 +15,8 @@ Supply Chain Collaboration Network creates a secure, multi-tier digital thread c
 | **Supplier Collaboration Portal** | Commerce Service (React) + Integration Service | Supplier-facing web portal with role-based access; dashboard with POs, ASNs, invoices, forecasts, and scorecards; responsive design for mobile and desktop; branded per buyer organization |
 | **Multi-Tier Supply Visibility** | Integration Service (Rust) | Extends visibility beyond Tier-1 suppliers to Tier-2 and Tier-3; configurable visibility depth per commodity; aggregation and anonymization of sub-tier data; supply chain mapping and risk visualization |
 | **Demand Signal Sharing** | Commerce Service (Rust) | Publish demand forecasts to suppliers with configurable granularity (product family, SKU); forecast commitment levels (firm, planned, forecast); forecast consumption tracking against actuals |
-| **Capacity Commitment Exchange** | Manufacturing Service (Rust) | Suppliers publish available capacity by period and product category; buyers commit capacity with quantity and date; capacity utilization tracking and alerting on over/under-commitment |
-| **Joint Inventory Planning** | Manufacturing Service + Commerce Service | Shared inventory visibility: buyer inventory, supplier inventory, in-transit, and on-order; VMI (Vendor Managed Inventory) workflows; min/max replenishment triggers; safety stock collaboration |
+| **Capacity Commitment Exchange** | Commerce Service (Rust) | Suppliers publish available capacity by period and product category; buyers commit capacity with quantity and date; capacity utilization tracking and alerting on over/under-commitment |
+| **Joint Inventory Planning** | Commerce Service (Rust) | Shared inventory visibility: buyer inventory, supplier inventory, in-transit, and on-order; VMI (Vendor Managed Inventory) workflows; min/max replenishment triggers; safety stock collaboration |
 | **Collaborative Forecasting (CPFR)** | Commerce Service + Integration Service | Structured CPFR workflow: data exchange → exception identification → joint resolution → execution; forecast comparison (buyer vs. supplier); variance alerts and collaborative adjustment workflow |
 | **Supply Risk Alerting Network** | Integration Service + Report Service | Network-wide risk monitoring: geopolitical alerts, weather events, supplier financial health, capacity constraints; configurable risk scoring; automated impact analysis on affected POs and plans |
 | **Supplier Scorecard Sharing** | Commerce Service + Report Service | Shared scorecard metrics: on-time delivery, quality, responsiveness, cost; trend charts and peer benchmarking; improvement action tracking with joint commitments |
@@ -49,7 +51,7 @@ Supply Chain Collaboration Network creates a secure, multi-tier digital thread c
 | Supplier Master | Commerce Service | Internal API | Supplier profiles, contact data, qualification status |
 | Integration Hub | Integration Service | API + Event | Supplier network connectors (EDI, cXML, API, portal) |
 | Report Service (ML) | Report Service | gRPC | Risk scoring models, demand forecast refinement, benchmarking analytics |
-| Platform Workflow | Platform Service | Event-driven | CPFR exception workflows, PO approval, dispute resolution |
+| Platform Workflow | Workflow Service | Event-driven | CPFR exception workflows, PO approval, dispute resolution |
 | Notification Service | Platform Service | Event-driven | PO alerts, ASN notifications, risk alerts, scorecard updates |
 | Blockchain (optional) | Integration Service | API | Immutable audit trail for supply chain transactions and certifications |
 

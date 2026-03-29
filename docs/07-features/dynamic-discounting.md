@@ -12,7 +12,7 @@ Dynamic Discounting transforms the traditional static discount model ("2/10 Net 
 |--------|---------------|--------|
 | **Dynamic Discount Calculation** | Finance Service (Rust) | Sliding-scale discount engine: APR-equivalent calculation for any early payment date; configurable discount curves (linear, tiered, custom); real-time discount amount computation at payment selection time |
 | **Supplier Discount Program Management** | Finance Service (Rust) | Supplier enrollment in discount programs; configurable discount terms per supplier, supplier group, or commodity category; program lifecycle management (enrollment, activation, suspension, renewal) |
-| **Early Payment Offer Workflows** | Finance Service + Platform Service | Buyer-initiated or supplier-initiated early payment offers; offer creation, negotiation, acceptance/rejection workflow; batch offer processing for high-volume suppliers |
+| **Early Payment Offer Workflows** | Finance Service + Workflow Service | Buyer-initiated or supplier-initiated early payment offers; offer creation, negotiation, acceptance/rejection workflow; batch offer processing for high-volume suppliers |
 | **Working Capital Optimization** | Finance Service (Rust) | Cash position-aware discount optimization: ranks available discount opportunities by effective APR; recommends payment timing based on cost of capital vs. discount return; DSO/DPO/DIO analytics |
 | **Discount Capture Rate Tracking** | Report Service + Finance Service | Tracks discount capture rate: discounts captured vs. discounts available; missed discount analysis with root cause; supplier-level and category-level capture rate reporting |
 | **APR Calculation** | Finance Service (Rust) | Annualized Percentage Rate calculation for early payment discounts: `APR = (discount_pct / (1 - discount_pct)) × (365 / (term_days - discount_days))`; comparison against cost of capital for decision support |
@@ -74,7 +74,7 @@ Dynamic Discounting transforms the traditional static discount model ("2/10 Net 
 | Supplier Portal | Commerce Service | Internal API | Supplier-facing discount enrollment, offer management, acceptance |
 | Purchase Orders | Commerce Service | Internal API | PO terms for discount validation and matching |
 | Report Service (ML) | Report Service | gRPC | Discount optimization ML model, cash flow simulation engine |
-| Platform Workflow | Platform Service | Event-driven | Early payment approval workflows, discount exception routing |
+| Platform Workflow | Workflow Service | Event-driven | Early payment approval workflows, discount exception routing |
 | Notification Service | Platform Service | Event-driven | Discount offer notifications, acceptance confirmations, payment reminders |
 | General Ledger | Finance Service | Internal API | Discount expense/income GL posting, realized discount accounting |
 | Payment Gateway | Finance Service | Internal API | Payment execution with discount-adjusted amounts |

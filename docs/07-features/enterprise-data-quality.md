@@ -16,7 +16,7 @@ Enterprise Data Quality Management provides a unified framework for ensuring dat
 | **Enrichment Pipelines** | Integration Service | Declarative enrichment pipelines: address standardization (postal API), company verification (D&B/external), geocoding, industry classification; extensible enrichment provider framework |
 | **Quality Scorecards** | Report Service + Integration Service | Per-entity quality scores across six dimensions (completeness, accuracy, consistency, timeliness, uniqueness, validity); aggregated domain-level and enterprise-level scorecards with trend charts |
 | **Anomaly-Based Quality Alerts** | Integration Service + Report Service | Statistical monitoring of quality metrics; alerts when score degrades beyond configurable thresholds; root-cause analysis linking alerts to specific records and rules |
-| **Stewardship Workflows** | Integration Service + Platform Service | Exception queue for manual review of matching conflicts, cleansing failures, and enrichment errors; task assignment, escalation, and resolution tracking with full audit trail |
+| **Stewardship Workflows** | Integration Service + Workflow Service | Exception queue for manual review of matching conflicts, cleansing failures, and enrichment errors; task assignment, escalation, and resolution tracking with full audit trail |
 | **Data Quality SLAs** | Integration Service | Configurable SLA targets per entity and dimension; SLA breach detection with automated notifications; SLA compliance reporting for data governance |
 | **MDM Golden Record Integration** | Integration Service | Bidirectional sync with MDM: quality scores feed golden record confidence; cleansing and matching results update golden records; golden record changes trigger re-profiling |
 
@@ -107,7 +107,7 @@ Enterprise Data Quality Management provides a unified framework for ensuring dat
 | Customer Data Platform | Commerce Service | Internal API | Customer deduplication, enrichment, and quality scoring |
 | Integration Service | Integration Service | Internal API | ETL pipeline hooks for inline quality checks and transformations |
 | Report Service | Report Service | gRPC | Quality dashboard data, ML-enhanced matching inference, anomaly detection |
-| Platform Workflow | Platform Service | Event-driven | Stewardship task routing, SLA breach escalation, approval workflows |
+| Platform Workflow | Workflow Service | Event-driven | Stewardship task routing, SLA breach escalation, approval workflows |
 | Notification Service | Platform Service | Event-driven | Quality alert delivery, SLA breach notifications, stewardship assignments |
 | Audit Trail | Platform Service | Event-driven | Full audit log of all quality operations, cleansing actions, and overrides |
 

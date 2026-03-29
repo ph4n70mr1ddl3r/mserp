@@ -103,7 +103,7 @@ EDI enables automated business document exchange with trading partners using ind
 | Notification Service | Platform Service | Event-driven | EDI processing errors, SLA breaches |
 | Audit Trail | Platform Service | Event-driven | Full EDI document audit log |
 | Master Data Management | Integration Service | Internal API | Partner master data synchronisation |
-| Workflow Engine | Platform Service | Event-driven | Exception handling workflows |
+| Workflow Engine | Workflow Service | Event-driven | Exception handling workflows |
 
 ## Event Flow
 

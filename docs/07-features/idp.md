@@ -60,7 +60,7 @@ Intelligent Document Processing automates the ingestion, classification, extract
 | **Validation Engine** | Platform Service (Rust) | Cross-field validation (date formats, amounts match line items, tax calculations), business rule validation, and duplicate detection |
 | **Business Document Integration** | Platform Service → Finance/Commerce/HCM | Auto-create invoices, expense reports, purchase orders, receipts, and vendor records from extracted data with mapping rules |
 | **Confidence Scoring** | Report Service (ONNX) | Per-field confidence score (0-100); fields below threshold flagged for human review; overall document confidence aggregated |
-| **Human Review Queue** | Platform Service + Workflow Engine | Prioritized review queue with assignment rules, SLA tracking, and feedback capture for model improvement |
+| **Human Review Queue** | Platform Service + Workflow Service | Prioritized review queue with assignment rules, SLA tracking, and feedback capture for model improvement |
 | **OCR Integration** | Platform Service (Tesseract/ONNX) | Multi-language OCR with layout preservation for scanned documents and image-based PDFs |
 
 ## Modules & Components
@@ -125,7 +125,7 @@ Intelligent Document Processing automates the ingestion, classification, extract
 | Purchase Orders | Commerce/Manufacturing Service | Internal API | Match extracted invoices against POs |
 | Vendor Management | Commerce/Manufacturing Service | Internal API | Auto-create/update vendor records |
 | Document Management | Platform Service | Internal API | Store original and processed documents |
-| Workflow Engine | Platform Service | Event-driven | Human review routing, approval workflows |
+| Workflow Engine | Workflow Service | Event-driven | Human review routing, approval workflows |
 | Notification Service | Platform Service | Event-driven | Review assignments, processing completion alerts |
 | ML Inference | Report Service | gRPC | Classification and extraction model inference |
 | Audit Trail | Platform Service | Event-driven | Full processing audit log |

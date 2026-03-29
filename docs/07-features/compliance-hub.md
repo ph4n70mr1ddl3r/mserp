@@ -96,7 +96,7 @@ Compliance Hub consolidates compliance monitoring, reporting, and management acr
 | Security Operations | Auth Service | Internal API | Vulnerability scan results, security incident status |
 | Report Service | Report Service | Internal API | Compliance reports, dashboards, trend analytics |
 | Notification Service | Platform Service | Event-driven | Deadline reminders, compliance alerts, escalation notifications |
-| Workflow Engine | Platform Service | Event-driven | Compliance task routing, evidence collection workflows |
+| Workflow Engine | Workflow Service | Event-driven | Compliance task routing, evidence collection workflows |
 | External Regulatory Feeds | Integration Service | Connector | Regulatory change ingestion from external sources |
 
 ## Event Flow

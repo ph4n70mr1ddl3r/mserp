@@ -296,6 +296,5 @@ make seed-test
 ---
 
 *See [Caching Strategy](caching.md) for cache architecture and policies.*
-*See [Data Warehouse](warehouse.md) for analytical schema design.*
-*See [Data Lake](data-lake.md) for raw and curated data zones.*
+*See [Data Pipeline](data-pipeline.md) for the analytical pipeline (data lake + warehouse).*
 *See [Domain Data Models](domain-models.md) for domain-specific data models.*

@@ -23,7 +23,7 @@
 | API Gateway | Traefik (primary) / Kong (alternative) | 3.x | Routing, rate limiting, auth, feature flags |
 | Container Orchestration | Kubernetes | 1.28+ | Container orchestration and scheduling |
 | Log Aggregation | Loki | Latest | Log aggregation and querying |
-| Analytics Engine | DuckDB | 0.10+ | Embedded analytical database for Report Service |
+| Analytics Engine | DuckDB | 1.0 | Embedded analytical database for Report Service |
 | Vector Engine | qdrant (optional) | 1.8+ | Vector search for AI/ML similarity queries |
 | ML/AI Runtime | ONNX Runtime | 1.17+ | Embedded ML model inference |
 | Secrets Management | HashiCorp Vault | 1.15+ | Key management, secret storage, dynamic credentials |

@@ -12,7 +12,7 @@ Privacy Management embeds privacy protection into every layer of the MSERP platf
 |--------|---------------|--------|
 | **Consent Management Lifecycle** | Platform Service (Rust) | End-to-end consent lifecycle: capture → store → enforce → expire → renew; supports granular per-purpose consent with versioning and audit trail |
 | **Data Subject Rights Automation** | Platform Service + All Services | Automated fulfillment of access (SAR), rectification, erasure (right to be forgotten), portability (machine-readable export), and objection requests with cross-service orchestration |
-| **DPIA Workflows** | Platform Service + Workflow Engine | Data Protection Impact Assessment workflows with risk scoring, mitigation tracking, DPO review, and regulatory filing integration |
+| **DPIA Workflows** | Platform Service + Workflow Service | Data Protection Impact Assessment workflows with risk scoring, mitigation tracking, DPO review, and regulatory filing integration |
 | **Processing Register (GDPR Art. 30)** | Platform Service | Automated register of processing activities with data categories, purposes, legal bases, retention periods, recipients, and cross-border transfers |
 | **Data Flow Mapping** | Platform Service | Visual mapping of personal data flows across MSERP services and third-party integrations with automated discovery from event catalog |
 | **Cookie Consent** | Platform Service (Frontend SDK) | Configurable cookie consent banner with per-category consent, consent persistence, and integration with consent enforcement layer |
@@ -120,7 +120,7 @@ Privacy Management embeds privacy protection into every layer of the MSERP platf
 | Auth Service | Auth Service | Internal API | User identity, consent enforcement at access layer |
 | Audit Trail | Platform Service | Event-driven | Privacy actions logged (consent changes, SARs, erasures) |
 | Notification Service | Platform Service | Event-driven | Breach notifications, consent expiry reminders, SAR updates |
-| Workflow Engine | Platform Service | Event-driven | DPIA workflow, SAR fulfillment orchestration |
+| Workflow Engine | Workflow Service | Event-driven | DPIA workflow, SAR fulfillment orchestration |
 | All Business Services | All Services | Internal API | Data subject rights execution (erasure, rectification, export) |
 | Compliance Hub | Platform Service | Internal API | Privacy compliance metrics in unified dashboard |
 | Report Service | Report Service | Internal API | Privacy compliance reports, processing register reports |

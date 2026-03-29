@@ -210,6 +210,7 @@ Inbox binding: `manufacturing.inbox` binds to the following routing keys:
 
 | Binding Pattern | Events Consumed |
 |----------------|-----------------|
+| `platform.iot.device.#` | `platform.iot.device.registered`, `platform.iot.device.updated`, `platform.iot.device.decommissioned` — syncs local `iot_devices` cache |
 | `commerce.stock.#` | `commerce.stock.updated`, `commerce.stock.reserved`, `commerce.stock.reservation.failed`, `commerce.stock.reservation.released` |
 | `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled`, `commerce.order.returned` |
 | `commerce.warranty.#` | `commerce.warranty.claim.submitted`, `commerce.warranty.claim.approved` |

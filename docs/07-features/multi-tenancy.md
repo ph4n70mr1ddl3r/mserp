@@ -118,13 +118,7 @@ Multi-Tenancy is the foundational capability that enables MSERP to serve multipl
 | `tenant.feature.changed` | `{tenant_id, feature_key, old_value, new_value, changed_by}` | Feature toggle updated | All Services (feature check cache invalidation) |
 | `tenant.quota.warning` | `{tenant_id, quota_type, current_usage, limit, threshold_pct}` | Usage exceeds threshold (80%, 90%) | Notification Service, Billing |
 
-### Domain Events Consumed
-
-| Event | Source | Action |
-|-------|--------|--------|
-| `identity.user.created` | Identity Service | Associate user with tenant |
-| `integration.subscription.created` | Integration Service | Trigger tenant provisioning |
-| `integration.subscription.cancelled` | Integration Service | Initiate tenant suspension/decommission |
+> **Note**: Tenant Service is a core service with no inbox queue. It publishes events but does not consume from the event bus. Services that need tenant data (e.g., default configuration setup on tenant creation) subscribe to Tenant events via their own inbox queues (e.g., `platform.inbox` subscribes to `tenant.created`).
 
 ## Data Model Reference
 

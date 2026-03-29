@@ -1,6 +1,8 @@
 # Connected Planning
 
-Unified financial, workforce, and supply chain planning with connected models, shared assumptions, and integrated what-if simulation, managed by the Finance Service (financial planning) + HCM Service (workforce planning) + Manufacturing Service (supply chain planning) + Report Service (planning analytics).
+Unified financial, workforce, and supply chain planning with connected models, shared assumptions, and integrated what-if simulation, managed by the Report Service (planning engine, scenarios, assumptions, drivers). Finance, HCM, and Manufacturing services provide domain data via events.
+
+> **Ownership Note**: Connected Planning is owned by Report Service. Financial, workforce, and supply chain planning models receive domain data from Finance, HCM, and Manufacturing services via events. Report Service owns the planning engine, scenarios, assumptions library, and driver-based models.
 
 ## Overview
 
@@ -11,17 +13,17 @@ Connected Planning breaks down traditional planning silos by providing a unified
 | Aspect | Implementation | Detail |
 |--------|---------------|--------|
 | **Unified Planning Workspace** | Report Service (React) + Finance/HR/Manufacturing Services | Single UI for all planning domains with tabbed workspace; shared navigation, assumption library, and scenario selector; role-based views (finance planner, workforce planner, supply planner) |
-| **Shared Assumptions Library** | Finance Service (Rust) | Centralized assumption registry: exchange rates, inflation rates, growth rates, salary increase rates, commodity prices; versioned assumptions with effective dates; change impact analysis on linked plans |
-| **Financial Planning Models** | Finance Service (Rust) | Revenue planning (top-down, bottom-up, driver-based), expense planning (cost center, project, GL), cash flow planning, capital expenditure planning, balance sheet planning; multi-entity consolidation |
+| **Shared Assumptions Library** | Report Service (Rust) | Centralized assumption registry: exchange rates, inflation rates, growth rates, salary increase rates, commodity prices; versioned assumptions with effective dates; change impact analysis on linked plans |
+| **Financial Planning Models** | Report Service (Rust) | Revenue planning (top-down, bottom-up, driver-based), expense planning (cost center, project, GL), cash flow planning, capital expenditure planning, balance sheet planning; multi-entity consolidation |
 | **Workforce Planning Models** | HCM Service (Rust) | Headcount planning by department/role/grade, compensation planning, benefits modeling, hiring plan, attrition modeling, succession planning, contingent workforce planning |
 | **Supply Chain Planning Models** | Manufacturing Service (Rust) | Demand planning with statistical forecasting, supply planning, inventory planning, production scheduling, distribution planning, procurement planning |
-| **Cross-Domain Driver Linkage** | Finance Service + HCM Service + Manufacturing Service | Configurable driver links connecting planning models across domains; headcount → compensation expense → cash flow; demand forecast → production plan → COGS; change propagation with dependency ordering |
+| **Cross-Domain Driver Linkage** | Report Service (Rust) | Configurable driver links connecting planning models across domains; headcount → compensation expense → cash flow; demand forecast → production plan → COGS; change propagation with dependency ordering |
 | **Integrated What-If Simulation** | Report Service (ONNX) + Finance/HR/Manufacturing Services | Multi-scenario simulation engine; modify any assumption or driver and see cascading impact across all domains; side-by-side scenario comparison with variance waterfall charts |
-| **Planning Scenarios & Version Control** | Finance Service (Rust) | Scenario management: baseline, best case, worst case, custom; full version history with diff; scenario locking, approval, and promotion to official plan |
-| **Planning Workflow Approvals** | Finance Service + Platform Service | Multi-level approval workflows for plan submissions; reviewer assignment, commentary, rejection with rework; approval status dashboard |
-| **Plan-vs-Actual Variance** | Finance Service + Report Service | Automated variance calculation at any granularity; favorable/unfavorable classification; root-cause drill-down to contributing drivers; variance trend over time |
-| **Rolling Forecasts** | Finance Service | Configurable rolling forecast windows (6/12/18 months); automated actual-to-forecast reconciliation; forecast accuracy tracking; bias detection |
-| **Driver-Based Planning** | Finance Service | Define planning drivers (price, volume, headcount, utilization rate, etc.) with formulas; driver values flow through calculation chains to line items; driver sensitivity analysis |
+| **Planning Scenarios & Version Control** | Report Service (Rust) | Scenario management: baseline, best case, worst case, custom; full version history with diff; scenario locking, approval, and promotion to official plan |
+| **Planning Workflow Approvals** | Report Service + Workflow Service | Multi-level approval workflows for plan submissions; reviewer assignment, commentary, rejection with rework; approval status dashboard |
+| **Plan-vs-Actual Variance** | Report Service | Automated variance calculation at any granularity; favorable/unfavorable classification; root-cause drill-down to contributing drivers; variance trend over time |
+| **Rolling Forecasts** | Report Service | Configurable rolling forecast windows (6/12/18 months); automated actual-to-forecast reconciliation; forecast accuracy tracking; bias detection |
+| **Driver-Based Planning** | Report Service | Define planning drivers (price, volume, headcount, utilization rate, etc.) with formulas; driver values flow through calculation chains to line items; driver sensitivity analysis |
 
 ## Connected Planning Architecture
 
@@ -88,7 +90,7 @@ Connected Planning breaks down traditional planning silos by providing a unified
 | Manufacturing Service | Manufacturing Service | Internal API | Production orders, BOMs, lead times, capacity data for supply chain planning |
 | Project Service | Project Service | Internal API | Project plans, resource allocations, budgets for project planning |
 | Report Service (ML) | Report Service | gRPC | Statistical forecasting models, demand prediction, what-if simulation engine |
-| Platform Workflow | Platform Service | Event-driven | Planning approval workflows, plan submission, review, and rejection routing |
+| Platform Workflow | Workflow Service | Event-driven | Planning approval workflows, plan submission, review, and rejection routing |
 | Notification Service | Platform Service | Event-driven | Plan assignment, approval requests, variance alerts, deadline reminders |
 | Consolidation | Finance Service | Internal API | Multi-entity consolidation rules, currency translation, elimination entries |
 | Budget Management | Finance Service | Internal API | Budget creation from plans, budget control and enforcement |
@@ -140,14 +142,14 @@ Connected Planning breaks down traditional planning silos by providing a unified
 
 | Dashboard Component | Data Source | Refresh Rate | Description |
 |---------------------|-----------|--------------|-------------|
-| Plan Summary Scorecard | Finance Service | On demand | High-level plan vs. actual across all domains with RAG status |
-| Scenario Comparison | Finance Service + Report Service | On simulation | Side-by-side scenario metrics with variance waterfall |
+| Plan Summary Scorecard | Report Service | On demand | High-level plan vs. actual across all domains with RAG status |
+| Scenario Comparison | Report Service | On simulation | Side-by-side scenario metrics with variance waterfall |
 | Driver Sensitivity | Report Service (ML) | On demand | Tornado chart showing which drivers have most impact on plan outcomes |
-| Variance Heat Map | Finance Service | Daily | Multi-dimensional variance heat map (entity × account × period) |
-| Rolling Forecast Accuracy | Finance Service | Weekly | Forecast vs. actual over rolling window with bias and MAPE tracking |
-| Approval Status Board | Platform Service | Real-time | Plan approval pipeline with pending, in-review, and approved status |
-| Assumption Change Log | Finance Service | Real-time | Audit trail of all assumption changes with impact assessment |
-| Cross-Domain Linkage Map | Finance Service | On demand | Visual graph of driver linkages across financial, workforce, and supply chain |
+| Variance Heat Map | Report Service | Daily | Multi-dimensional variance heat map (entity × account × period) |
+| Rolling Forecast Accuracy | Report Service | Weekly | Forecast vs. actual over rolling window with bias and MAPE tracking |
+| Approval Status Board | Workflow Service | Real-time | Plan approval pipeline with pending, in-review, and approved status |
+| Assumption Change Log | Report Service | Real-time | Audit trail of all assumption changes with impact assessment |
+| Cross-Domain Linkage Map | Report Service | On demand | Visual graph of driver linkages across financial, workforce, and supply chain |
 
 ## Assumption Change Impact Analysis
 

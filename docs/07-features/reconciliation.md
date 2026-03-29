@@ -46,9 +46,9 @@ Account Reconciliation provides end-to-end automation of the financial reconcili
 | Aspect | Implementation | Detail |
 |--------|---------------|--------|
 | **Auto-Matching Rules Engine** | Finance Service (Rust) | Configurable multi-criteria matching with support for exact, fuzzy, and ML-assisted matching algorithms |
-| **Reconciliation Templates** | Finance Service + Platform Service | Template definitions per account type with customizable matching rules, tolerance thresholds, and approval workflows |
-| **Exception Management** | Finance Service + Workflow Engine | Workflow-driven resolution with assignment rules, escalation timers, and SLA tracking |
-| **Close Task Management** | Finance Service + Platform Service | Hierarchical close checklist with task dependencies, deadline tracking, and certification workflows |
+| **Reconciliation Templates** | Finance Service + Workflow Service | Template definitions per account type with customizable matching rules, tolerance thresholds, and approval workflows |
+| **Exception Management** | Finance Service + Workflow Service | Workflow-driven resolution with assignment rules, escalation timers, and SLA tracking |
+| **Close Task Management** | Finance Service + Workflow Service | Hierarchical close checklist with task dependencies, deadline tracking, and certification workflows |
 | **Intercompany Reconciliation** | Finance Service | Automated matching of intercompany transactions across business units with elimination validation |
 | **Bank Reconciliation** | Finance Service + Integration Service | Bank statement import (OFX, CSV, ISO 20022, API), automatic matching, and reconciliation reporting |
 | **Confidence Scoring** | Report Service (ONNX) | ML model assigns confidence scores (0-100) to each match; low-confidence items routed to exception queue |
@@ -88,7 +88,7 @@ Account Reconciliation provides end-to-end automation of the financial reconcili
 | Cash Management | Finance Service | Internal API | Cash position and bank account data |
 | Intercompany | Finance Service | Internal API | Cross-entity transaction data |
 | Bank Feeds | Integration Service | Connector | Bank statement import via pre-built connectors |
-| Workflow Engine | Platform Service | Event-driven | Exception routing, approval workflows |
+| Workflow Engine | Workflow Service | Event-driven | Exception routing, approval workflows |
 | Notification Service | Platform Service | Event-driven | Task assignments, escalation alerts |
 | Intelligent Close | Finance Service | Internal API | Close automation and anomaly detection |
 | Report Service | Report Service | Internal API | Reconciliation reports, dashboards |

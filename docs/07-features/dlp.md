@@ -13,7 +13,7 @@ Data Loss Prevention provides comprehensive protection for sensitive data across
 | **Data Classification Taxonomy** | Platform Service (Rust) | Hierarchical classification of sensitive data types with configurable sensitivity levels: PII (names, SSN, email, phone, address), PHI (diagnosis, medications, insurance), Financial (credit cards, bank accounts, salary), IP (trade secrets, source code, formulas) |
 | **Policy Engine Architecture** | Platform Service (Rust) | Rule-based policy engine with support for conditions (data type, user role, access pattern, time, location), actions (allow, alert, block, encrypt, quarantine), and policy groups with priority |
 | **Access Monitoring Patterns** | Platform Service + Auth Service | Real-time monitoring of data access patterns including volume-based (bulk download), frequency-based (repeated access), time-based (off-hours access), and anomaly-based (deviation from baseline) detection |
-| **DLP Incident Workflows** | Platform Service + Workflow Engine | Automated incident creation, investigation workflow, evidence collection, remediation tracking, and resolution with escalation rules |
+| **DLP Incident Workflows** | Platform Service + Workflow Service | Automated incident creation, investigation workflow, evidence collection, remediation tracking, and resolution with escalation rules |
 | **Compliance Reporting Dashboards** | Report Service | Real-time DLP compliance dashboards with incident metrics, policy effectiveness, data exposure trends, and regulatory compliance status |
 | **Prevention Actions** | Platform Service | Configurable actions per policy: block (prevent access/transfer), alert (notify admin/user), encrypt (apply additional encryption), quarantine (isolate data), redact (mask in output) |
 
@@ -121,7 +121,7 @@ Data Loss Prevention provides comprehensive protection for sensitive data across
 | Auth Service | Auth Service | Internal API | User role/permissions for policy evaluation |
 | Audit Trail | Platform Service | Event-driven | DLP events logged to audit trail |
 | Notification Service | Platform Service | Event-driven | DLP alerts and incident notifications |
-| Workflow Engine | Platform Service | Event-driven | Incident investigation and remediation workflows |
+| Workflow Engine | Workflow Service | Event-driven | Incident investigation and remediation workflows |
 | Privacy Management | Platform Service | Internal API | Privacy impact assessment integration |
 | Compliance Hub | Platform Service | Internal API | DLP compliance metrics and dashboards |
 | Report Service | Report Service | Internal API | DLP compliance reports and dashboards |
