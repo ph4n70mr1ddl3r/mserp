@@ -169,6 +169,27 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 | `content_repositories` | `name VARCHAR(255)`, `description TEXT`, `schema_definition JSONB`, `retention_policy JSONB`, `storage_quota_bytes BIGINT`, `is_compliance_archive BOOLEAN`, `status VARCHAR(20)` |
 | `iot_devices` | `device_id VARCHAR(100) UNIQUE`, `name VARCHAR(255)`, `type VARCHAR(30)`, `certificate_id UUID`, `certificate_pem TEXT`, `firmware_version VARCHAR(50)`, `status VARCHAR(20)`, `metadata JSONB`, `last_heartbeat_at TIMESTAMPTZ`, `provisioned_at TIMESTAMPTZ` |
 
+| `privacy_consents` | Consent records per processing purpose with versioned consent |
+| `privacy_dsar_requests` | Data subject access request tracking with fulfillment workflow |
+| `privacy_dpia_records` | Data protection impact assessment records with risk scoring |
+| `privacy_breach_records` | Breach detection, assessment, and notification records |
+| `dlp_policies` | DLP policy definitions with conditions, actions, and scope |
+| `dlp_incidents` | DLP incident records with detection details and resolution |
+| `compliance_dashboard_metrics` | Composite compliance health scores per domain |
+| `compliance_regulatory_changes` | Regulatory change records with impact assessment |
+| `compliance_control_mappings` | Cross-framework control mapping entries |
+| `compliance_calendar_events` | Compliance calendar entries with deadlines |
+| `assistant_conversations` | Digital assistant conversation persistence with context |
+| `assistant_intents` | Intent classification definitions with training data |
+| `app_builder_apps` | Low-code application definitions with schema and UI config |
+| `app_builder_objects` | Custom business object definitions with field schema |
+| `collaboration_messages` | Channel messages with thread structure and reactions |
+| `collaboration_tasks` | Collaboration tasks with assignments and due dates |
+| `content_documents` | Document metadata with lifecycle state and retention linkage |
+| `content_retention_policies` | Retention policy definitions per document class |
+| `digital_signature_requests` | Digital signature request tracking with status |
+| `idp_extractions` | Document extraction results with per-field confidence scores |
+
 > **Note:** The `iot_devices` table in `platform_db` is the **authoritative** IoT device registry. Platform publishes `platform.iot.device.registered`, `platform.iot.device.certificate.issued`, and `platform.iot.device.decommissioned` events. Manufacturing Service consumes these events to sync its local `iot_devices` cache table.
 
 ### audit_db

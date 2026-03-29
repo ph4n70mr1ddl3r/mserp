@@ -132,21 +132,21 @@ Adaptive Intelligence brings ML-powered decision support directly into business 
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `intelligence.recommendation.generated` | `{rec_id, category, context, score, confidence, model_version}` | Recommendation generated | Feature Store, A/B Testing |
-| `intelligence.recommendation.accepted` | `{rec_id, user_id, action_taken, outcome_metric}` | User accepts recommendation | Feedback Pipeline, Analytics |
-| `intelligence.recommendation.rejected` | `{rec_id, user_id, rejection_reason, alternative_action}` | User rejects recommendation | Feedback Pipeline, Analytics |
-| `intelligence.prediction.generated` | `{pred_id, category, entity_id, prediction, confidence, features}` | ML prediction generated | Feature Store, Audit Trail |
-| `intelligence.anomaly.detected` | `{anomaly_id, domain, entity_id, anomaly_score, details}` | Anomaly detected in data pattern | Notification Service, Dashboard |
-| `intelligence.model.deployed` | `{model_id, version, category, accuracy_metrics, deployed_by}` | New model version deployed | Audit Trail, Monitoring |
-| `intelligence.experiment.completed` | `{experiment_id, winner, lift, statistical_significance}` | A/B test reaches significance | Model Owners, Analytics |
+| `report.intelligence.recommendation.generated` | `{rec_id, category, context, score, confidence, model_version}` | Recommendation generated | Feature Store, A/B Testing |
+| `report.intelligence.recommendation.accepted` | `{rec_id, user_id, action_taken, outcome_metric}` | User accepts recommendation | Feedback Pipeline, Analytics |
+| `report.intelligence.recommendation.rejected` | `{rec_id, user_id, rejection_reason, alternative_action}` | User rejects recommendation | Feedback Pipeline, Analytics |
+| `report.intelligence.prediction.generated` | `{pred_id, category, entity_id, prediction, confidence, features}` | ML prediction generated | Feature Store, Audit Trail |
+| `report.intelligence.anomaly.detected` | `{anomaly_id, domain, entity_id, anomaly_score, details}` | Anomaly detected in data pattern | Notification Service, Dashboard |
+| `report.intelligence.model.deployed` | `{model_id, version, category, accuracy_metrics, deployed_by}` | New model version deployed | Audit Trail, Monitoring |
+| `report.intelligence.experiment.completed` | `{experiment_id, winner, lift, statistical_significance}` | A/B test reaches significance | Model Owners, Analytics |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
 | All business events | All Services | Extract features for recommendation context |
-| `intelligence.recommendation.accepted` | Report Service | Feed positive signal to retraining pipeline |
-| `intelligence.recommendation.rejected` | Report Service | Feed negative signal to retraining pipeline |
+| `report.intelligence.recommendation.accepted` | Report Service | Feed positive signal to retraining pipeline |
+| `report.intelligence.recommendation.rejected` | Report Service | Feed negative signal to retraining pipeline |
 | `finance.transaction.posted` | Finance Service | Update financial features for prediction models |
 | `commerce.order.fulfilled` | Commerce Service | Update purchase history for recommendation models |
 | `crm.lead.created` | CRM Service | Trigger lead scoring model |

@@ -68,23 +68,25 @@ SPEC.md (Authoritative single source of truth)
 
 ## 06 — Services
 
-| Document | Port | DB | Description |
-|----------|------|----|-------------|
-| [Services Overview](06-services/overview.md) | — | — | Service categories, consolidation rationale |
-| [Auth Service](06-services/auth.md) | 8001 | `auth_db` | OAuth2/OIDC, MFA, SSO, JWT, sessions |
-| [Identity Service](06-services/identity.md) | 8002 | `identity_db` | Users, roles, RBAC/ABAC, org hierarchy |
-| [Tenant Service](06-services/tenant.md) | 8003 | `tenant_db` | Multi-tenancy, feature flags, quotas |
-| [Config Service](06-services/config.md) | 8004 | `config_db` | Dynamic configuration, localization |
-| [Commerce Service](06-services/commerce.md) | 8010 | `commerce_db` | Orders, inventory, pricing, PIM, logistics, subscriptions, loyalty |
-| [Finance Service](06-services/finance.md) | 8011 | `finance_db` | GL, AP/AR, treasury, revenue recognition, procurement, tax |
-| [HCM Service](06-services/hr.md) | 8012 | `hr_db` | Employee lifecycle, payroll, recruitment, talent, self-service |
-| [Manufacturing Service](06-services/manufacturing.md) | 8013 | `manufacturing_db` | BOM, work orders, PLM, EAM, quality, IoT, digital twin, EHS |
-| [Report Service](06-services/report.md) | 8014 | `report_db` | Analytics, dashboards, BI, ESG, ML/AI, process mining |
-| [Workflow Service](06-services/workflow.md) | 8015 | `workflow_db` | BPMN engine, approvals, SLA, business rules |
-| [CRM Service](06-services/crm.md) | 8016 | `crm_db` | Pre-sale (leads, deals, campaigns), CDP, field service, contact center |
-| [Project Service](06-services/project.md) | 8017 | `project_db` | Projects, resources, billing, EVM, portfolio |
-| [Platform Service](06-services/platform.md) | 8020 | `platform_db` + `audit_db` | Notifications, files, GRC, assistant, IDP, RPA/IPA, ITSM |
-| [Integration Service](06-services/integration.md) | 8021 | `integration_db` | Connectors, EDI, MDM, data quality, trade compliance |
+> For the full service catalog including port assignments and database names, see [SPEC.md §3](../SPEC.md).
+
+| Document | Description |
+|----------|-------------|
+| [Services Overview](06-services/overview.md) | Service categories, consolidation rationale |
+| [Auth Service](06-services/auth.md) | OAuth2/OIDC, MFA, SSO, JWT, sessions |
+| [Identity Service](06-services/identity.md) | Users, roles, RBAC/ABAC, org hierarchy |
+| [Tenant Service](06-services/tenant.md) | Multi-tenancy, feature flags, quotas |
+| [Config Service](06-services/config.md) | Dynamic configuration, localization |
+| [Commerce Service](06-services/commerce.md) | Orders, inventory, pricing, PIM, logistics, subscriptions, loyalty |
+| [Finance Service](06-services/finance.md) | GL, AP/AR, treasury, revenue recognition, procurement, tax |
+| [HCM Service](06-services/hr.md) | Employee lifecycle, payroll, recruitment, talent, self-service |
+| [Manufacturing Service](06-services/manufacturing.md) | BOM, work orders, PLM, EAM, quality, IoT, digital twin, EHS |
+| [Report Service](06-services/report.md) | Analytics, dashboards, BI, ESG, ML/AI, process mining |
+| [Workflow Service](06-services/workflow.md) | BPMN engine, approvals, SLA, business rules |
+| [CRM Service](06-services/crm.md) | Pre-sale (leads, deals, campaigns), CDP, field service, contact center |
+| [Project Service](06-services/project.md) | Projects, resources, billing, EVM, portfolio |
+| [Platform Service](06-services/platform.md) | Notifications, files, GRC, assistant, IDP, RPA/IPA, ITSM |
+| [Integration Service](06-services/integration.md) | Connectors, EDI, MDM, data quality, trade compliance |
 
 ## 07 — Feature Specifications
 

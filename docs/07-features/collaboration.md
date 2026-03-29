@@ -96,14 +96,14 @@ Enterprise Collaboration provides a unified workspace for teams to communicate, 
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `collab.channel.created` | `{channel_id, name, type, creator, business_context}` | New channel created | Notification Service, Search Indexer |
-| `collab.message.posted` | `{message_id, channel_id, author, mentions[], attachments[]}` | New message posted | Notification Service, Search Indexer |
-| `collab.message.reaction` | `{message_id, user_id, reaction_type}` | Reaction added to message | Notification Service |
-| `collab.document.shared` | `{document_id, channel_id, shared_by, version}` | Document shared in channel | Search Indexer, Content Management |
-| `collab.task.created` | `{task_id, channel_id, assignee, due_date, business_ref}` | Task created from collaboration | Notification Service, Project Service |
-| `collab.task.completed` | `{task_id, completed_by, completed_at}` | Task marked complete | Notification Service, Project Service |
-| `collab.presence.updated` | `{user_id, status, updated_at}` | User presence changes | All connected clients (WebSocket) |
-| `collab.document.edited` | `{document_id, editor, edit_summary, version}` | Co-edit save point | Content Management, Search Indexer |
+| `platform.collaboration.channel.created` | `{channel_id, name, type, creator, business_context}` | New channel created | Notification Service, Search Indexer |
+| `platform.collaboration.message.posted` | `{message_id, channel_id, author, mentions[], attachments[]}` | New message posted | Notification Service, Search Indexer |
+| `platform.collaboration.message.reaction` | `{message_id, user_id, reaction_type}` | Reaction added to message | Notification Service |
+| `platform.collaboration.document.shared` | `{document_id, channel_id, shared_by, version}` | Document shared in channel | Search Indexer, Content Management |
+| `platform.collaboration.task.created` | `{task_id, channel_id, assignee, due_date, business_ref}` | Task created from collaboration | Notification Service, Project Service |
+| `platform.collaboration.task.completed` | `{task_id, completed_by, completed_at}` | Task marked complete | Notification Service, Project Service |
+| `platform.collaboration.presence.updated` | `{user_id, status, updated_at}` | User presence changes | All connected clients (WebSocket) |
+| `platform.collaboration.document.edited` | `{document_id, editor, edit_summary, version}` | Co-edit save point | Content Management, Search Indexer |
 
 ### Domain Events Consumed
 
@@ -113,8 +113,8 @@ Enterprise Collaboration provides a unified workspace for teams to communicate, 
 | `project.project.created` | Project Service | Auto-create project context channel |
 | `crm.case.created` | CRM Service | Auto-create case context channel |
 | `finance.invoice.created` | Finance Service | Post notification to relevant channel |
-| `platform.workflow.task-assigned` | Platform Service | Create collaboration task |
-| `platform.notification.dispatched` | Platform Service | Deliver notification to collaboration feed |
+| `workflow.step.approved` | Workflow Service | Create collaboration task |
+| `platform.notification.sent` | Platform Service | Deliver notification to collaboration feed |
 
 ## Data Model Reference
 

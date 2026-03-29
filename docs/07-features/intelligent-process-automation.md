@@ -94,25 +94,25 @@ Intelligent Process Automation (IPA) goes beyond traditional rule-based RPA by i
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `ipa.bot.started` | `{bot_id, execution_id, bot_type, triggered_by, process_name}` | Bot execution begins | Dashboard, Audit Trail |
-| `ipa.bot.completed` | `{bot_id, execution_id, status, duration_ms, records_processed, errors[]}` | Bot execution finishes | ROI Dashboard, Audit Trail |
-| `ipa.bot.exception` | `{bot_id, execution_id, exception_type, context{}, ml_classification}` | Bot encounters exception | Exception Classifier, Notification |
-| `ipa.bot.human-handoff` | `{bot_id, execution_id, handoff_reason, assigned_to, context{}}` | Bot requires human decision | Workflow Engine, Notification |
-| `ipa.bot.learning-feedback` | `{bot_id, execution_id, correction_type, before, after, field}` | Operator corrects bot action | ML Retraining Pipeline |
-| `ipa.process-discovery.candidate` | `{candidate_id, process_name, frequency, avg_duration, roi_score}` | Process discovery identifies candidate | Dashboard, Automation Manager |
-| `ipa.exception.classified` | `{exception_id, classification, confidence, resolution_path}` | ML classifies an exception | Orchestration Engine, Dashboard |
-| `ipa.roi.snapshot` | `{snapshot_id, period, total_time_saved_hours, error_reduction_pct, cost_avoidance}` | ROI calculation runs | ROI Dashboard, Management Reports |
+| `platform.ipa.bot.started` | `{bot_id, execution_id, bot_type, triggered_by, process_name}` | Bot execution begins | Dashboard, Audit Trail |
+| `platform.ipa.bot.completed` | `{bot_id, execution_id, status, duration_ms, records_processed, errors[]}` | Bot execution finishes | ROI Dashboard, Audit Trail |
+| `platform.ipa.bot.exception` | `{bot_id, execution_id, exception_type, context{}, ml_classification}` | Bot encounters exception | Exception Classifier, Notification |
+| `platform.ipa.bot.human-handoff` | `{bot_id, execution_id, handoff_reason, assigned_to, context{}}` | Bot requires human decision | Workflow Engine, Notification |
+| `platform.ipa.bot.learning-feedback` | `{bot_id, execution_id, correction_type, before, after, field}` | Operator corrects bot action | ML Retraining Pipeline |
+| `platform.ipa.process-discovery.candidate` | `{candidate_id, process_name, frequency, avg_duration, roi_score}` | Process discovery identifies candidate | Dashboard, Automation Manager |
+| `platform.ipa.exception.classified` | `{exception_id, classification, confidence, resolution_path}` | ML classifies an exception | Orchestration Engine, Dashboard |
+| `platform.ipa.roi.snapshot` | `{snapshot_id, period, total_time_saved_hours, error_reduction_pct, cost_avoidance}` | ROI calculation runs | ROI Dashboard, Management Reports |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `finance.invoice.received` | Finance Service | Trigger invoice processing bot |
-| `finance.reconciliation.required` | Finance Service | Trigger reconciliation bot |
-| `hcm.employee.onboarded` | HCM Service | Trigger onboarding automation bot |
+| `finance.invoice.created` | Finance Service | Trigger invoice processing bot |
+| `finance.reconciliation.exception.created` | Finance Service | Trigger reconciliation bot |
+| `hr.employee.hired` | HCM Service | Trigger onboarding automation bot |
 | `commerce.order.created` | Commerce Service | Trigger order fulfillment bot |
-| `idp.document.classified` | Report Service | Trigger document processing bot with extraction results |
-| `platform.workflow.task-assigned` | Platform Service | Resume paused bot after human completes decision task |
+| `platform.idp.document.classified` | Platform Service | Trigger document processing bot with extraction results |
+| `workflow.step.approved` | Workflow Service | Resume paused bot after human completes decision task |
 | `integration.connector.available` | Integration Service | Enable bot connector for target system |
 | `report.ml.inference.complete` | Report Service | Apply ML classification to bot decision nodes |
 

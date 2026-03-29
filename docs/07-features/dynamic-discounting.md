@@ -86,13 +86,13 @@ Dynamic Discounting transforms the traditional static discount model ("2/10 Net 
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `discount.offer.created` | `{offer_id, supplier_id, invoice_ids[], discount_rate, early_pay_date, apr}` | Early payment offer generated | Notification Service, Supplier Portal |
-| `discount.offer.accepted` | `{offer_id, supplier_id, accepted_rate, accepted_date, accepted_by}` | Supplier accepts early payment offer | Payment Engine, GL, Dashboard |
-| `discount.offer.rejected` | `{offer_id, supplier_id, rejection_reason}` | Supplier rejects early payment offer | Dashboard, AP Team |
-| `discount.payment.executed` | `{payment_id, invoice_id, original_amount, discount_amount, payment_amount, apr_captured}` | Early payment with discount executed | GL, Treasury, Dashboard |
-| `discount.capture.updated` | `{period, total_available, total_captured, capture_rate, missed_value}` | Discount capture rate recalculated | Dashboard, AP Manager |
-| `discount.optimization.recommendation` | `{recommendation_id, invoices[], projected_savings, cash_impact, recommended_strategy}` | ML optimization model generates payment recommendations | AP Team, Treasury |
-| `discount.cashflow.simulated` | `{simulation_id, strategy, horizon_days, cash_impact, discount_savings, net_benefit}` | Cash flow simulation completes | Dashboard, Treasury |
+| `finance.discount.offer.created` | `{offer_id, supplier_id, invoice_ids[], discount_rate, early_pay_date, apr}` | Early payment offer generated | Notification Service, Supplier Portal |
+| `finance.discount.offer.accepted` | `{offer_id, supplier_id, accepted_rate, accepted_date, accepted_by}` | Supplier accepts early payment offer | Payment Engine, GL, Dashboard |
+| `finance.discount.offer.rejected` | `{offer_id, supplier_id, rejection_reason}` | Supplier rejects early payment offer | Dashboard, AP Team |
+| `finance.discount.payment.executed` | `{payment_id, invoice_id, original_amount, discount_amount, payment_amount, apr_captured}` | Early payment with discount executed | GL, Treasury, Dashboard |
+| `finance.discount.capture.updated` | `{period, total_available, total_captured, capture_rate, missed_value}` | Discount capture rate recalculated | Dashboard, AP Manager |
+| `finance.discount.optimization.recommendation` | `{recommendation_id, invoices[], projected_savings, cash_impact, recommended_strategy}` | ML optimization model generates payment recommendations | AP Team, Treasury |
+| `finance.discount.cashflow.simulated` | `{simulation_id, strategy, horizon_days, cash_impact, discount_savings, net_benefit}` | Cash flow simulation completes | Dashboard, Treasury |
 
 ### Domain Events Consumed
 
@@ -101,9 +101,9 @@ Dynamic Discounting transforms the traditional static discount model ("2/10 Net 
 | `finance.invoice.approved` | Finance Service | Evaluate invoice for early payment discount eligibility |
 | `finance.payment.due-approaching` | Finance Service | Trigger discount opportunity analysis for approaching invoices |
 | `finance.cash-position.updated` | Finance Service | Recalculate optimal payment timing based on current cash |
-| `commerce.po.created` | Commerce Service | Check PO terms against supplier discount program |
+| `finance.purchase-order.created` | Commerce Service | Check PO terms against supplier discount program |
 | `report.ml.inference.complete` | Report Service | Apply discount optimization model predictions |
-| `platform.workflow.step-completed` | Platform Service | Process early payment approval decision |
+| `workflow.step.approved` | Platform Service | Process early payment approval decision |
 
 ## Data Model Reference
 

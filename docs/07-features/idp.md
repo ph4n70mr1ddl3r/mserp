@@ -137,23 +137,23 @@ Intelligent Document Processing automates the ingestion, classification, extract
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `idp.document.classified` | `{document_id, doc_type, confidence, classified_at}` | Classification completes | Extraction Engine, Dashboard |
-| `idp.document.extracted` | `{document_id, doc_type, fields, field_count, avg_confidence}` | Extraction completes | Validation Engine, Dashboard |
-| `idp.document.validated` | `{document_id, validation_result, issues[]}` | Validation completes | Review Queue, Business Doc Creator |
-| `idp.document.review-required` | `{document_id, reason, priority, assigned_to}` | Low confidence or validation failure | Notification Service, Review Queue |
-| `idp.document.review-completed` | `{document_id, reviewer, corrections[], feedback}` | Human review completes | Template Learning, Audit Trail |
-| `idp.business-doc.created` | `{source_doc_id, business_doc_type, business_doc_id}` | Business document auto-created | Finance/Commerce/HCM Service |
-| `idp.batch.completed` | `{batch_id, total, succeeded, failed, review_required}` | Batch processing completes | Dashboard, Notification Service |
+| `platform.idp.document.classified` | `{document_id, doc_type, confidence, classified_at}` | Classification completes | Extraction Engine, Dashboard |
+| `platform.idp.extraction.completed` | `{document_id, doc_type, fields, field_count, avg_confidence}` | Extraction completes | Validation Engine, Dashboard |
+| `platform.idp.document.validated` | `{document_id, validation_result, issues[]}` | Validation completes | Review Queue, Business Doc Creator |
+| `platform.idp.document.review-required` | `{document_id, reason, priority, assigned_to}` | Low confidence or validation failure | Notification Service, Review Queue |
+| `platform.idp.document.review-completed` | `{document_id, reviewer, corrections[], feedback}` | Human review completes | Template Learning, Audit Trail |
+| `platform.idp.business-doc.created` | `{source_doc_id, business_doc_type, business_doc_id}` | Business document auto-created | Finance/Commerce/HCM Service |
+| `platform.idp.batch.completed` | `{batch_id, total, succeeded, failed, review_required}` | Batch processing completes | Dashboard, Notification Service |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `platform.document.uploaded` | Platform Service | Trigger classification pipeline |
-| `platform.document.email-received` | Platform Service | Trigger classification pipeline |
+| `platform.file.uploaded` | Platform Service | Trigger classification pipeline |
+| `platform.email.received` | Platform Service | Trigger classification pipeline |
 | `report.ml.inference.complete` | Report Service | Apply classification/extraction results |
-| `platform.workflow.step-completed` | Platform Service | Update review status |
-| `finance.vendor.created` | Finance Service | Update vendor extraction reference data |
+| `workflow.step.approved` | Workflow Service | Update review status |
+| `finance.supplier.created` | Finance Service | Update vendor extraction reference data |
 
 ## Data Model Reference
 

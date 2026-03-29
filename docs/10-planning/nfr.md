@@ -27,7 +27,7 @@
 | Subscription Billing Cycle | < 5 seconds per subscription | Commerce Service metrics |
 | Revenue Recognition Calculation | < 10 seconds per contract | Finance Service metrics |
 | Survey Response Processing | < 500ms | CRM Service metrics |
-| IoT Telemetry Ingestion | < 100ms (event to storage) | Platform Service metrics |
+| IoT Telemetry Ingestion | < 100ms (event to storage) | Manufacturing Service metrics |
 | Digital Twin State Sync | < 500ms (telemetry to twin update) | Manufacturing Service metrics |
 | RPA Bot Execution Startup | < 3 seconds | Platform Service metrics |
 | Process Mining Analysis | < 60 seconds (standard process) | Report Service metrics |

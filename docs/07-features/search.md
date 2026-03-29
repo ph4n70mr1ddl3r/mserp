@@ -123,9 +123,9 @@ The Search feature provides a unified search infrastructure across all MSERP ser
 | `crm.customer.*` | CRM Service | Update customer index |
 | `crm.lead.*` / `crm.opportunity.*` | CRM Service | Update lead/opportunity index |
 | `project.project.*` | Project Service | Update project index |
-| `hcm.employee.*` | HCM Service | Update employee index |
+| `hr.employee.*` | HCM Service | Update employee index |
 | `platform.document.*` | Platform Service | Update document index |
-| `platform.knowledge.article.*` | Platform Service | Update knowledge article index |
+| `platform.article.*` | Platform Service | Update knowledge article index |
 | `tenant.created` | Tenant Service | Provision new tenant indices |
 | `tenant.decommissioned` | Tenant Service | Delete tenant indices |
 

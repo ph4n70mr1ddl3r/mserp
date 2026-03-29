@@ -133,22 +133,22 @@ Data Loss Prevention provides comprehensive protection for sensitive data across
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `dlp.policy.triggered` | `{policy_id, action, user_id, data_type, severity}` | DLP policy condition matches | Notification Service, Audit Trail |
-| `dlp.incident.created` | `{incident_id, severity, policy_id, detected_at}` | Incident auto-created from trigger | Workflow Engine, Notification Service |
-| `dlp.incident.resolved` | `{incident_id, resolution, resolved_by, actions_taken}` | Incident resolved | Audit Trail, Compliance Hub |
-| `dlp.data.classified` | `{data_id, classification, sensitivity_level, classifier}` | Data classified by scanning engine | Policy Engine, Audit Trail |
-| `dlp.access.blocked` | `{user_id, resource, data_type, policy_id, timestamp}` | Access blocked by policy | Notification Service, Audit Trail, Dashboard |
-| `dlp.scan.completed` | `{scan_id, records_scanned, violations_found, duration}` | Scheduled scan completes | Dashboard, Compliance Hub |
+| `platform.dlp.policy.triggered` | `{policy_id, action, user_id, data_type, severity}` | DLP policy condition matches | Notification Service, Audit Trail |
+| `platform.dlp.incident.created` | `{incident_id, severity, policy_id, detected_at}` | Incident auto-created from trigger | Workflow Engine, Notification Service |
+| `platform.dlp.incident.resolved` | `{incident_id, resolution, resolved_by, actions_taken}` | Incident resolved | Audit Trail, Compliance Hub |
+| `platform.dlp.data.classified` | `{data_id, classification, sensitivity_level, classifier}` | Data classified by scanning engine | Policy Engine, Audit Trail |
+| `platform.dlp.access.blocked` | `{user_id, resource, data_type, policy_id, timestamp}` | Access blocked by policy | Notification Service, Audit Trail, Dashboard |
+| `platform.dlp.scan.completed` | `{scan_id, records_scanned, violations_found, duration}` | Scheduled scan completes | Dashboard, Compliance Hub |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `auth.user.login` | Auth Service | Update user baseline for anomaly detection |
-| `auth.role.assigned` | Auth Service | Update policy scope for user |
-| `platform.audit.data-access` | Platform Service | Evaluate DLP policies on access event |
-| `platform.document.uploaded` | Platform Service | Scan uploaded document for sensitive data |
-| `integration.data.exported` | Integration Service | Evaluate DLP policies on data export |
+| `auth.login.succeeded` | Auth Service | Update user baseline for anomaly detection |
+| `identity.role.updated` | Auth Service | Update policy scope for user |
+| `platform.audit.logged` | Platform Service | Evaluate DLP policies on access event |
+| `platform.file.uploaded` | Platform Service | Scan uploaded document for sensitive data |
+| `integration.sync.completed` | Integration Service | Evaluate DLP policies on data export |
 
 ## Data Model Reference
 

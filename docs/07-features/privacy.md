@@ -131,27 +131,27 @@ Privacy Management embeds privacy protection into every layer of the MSERP platf
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `privacy.consent.captured` | `{subject_id, purposes[], consent_version, captured_at}` | New consent captured | All Services, Audit Trail |
-| `privacy.consent.withdrawn` | `{subject_id, purposes[], withdrawn_at}` | Consent withdrawal | All Services, DLP, Notification |
-| `privacy.consent.expired` | `{subject_id, purpose, expired_at}` | Consent period expires | Notification Service, All Services |
-| `privacy.sar.created` | `{request_id, subject_id, right_type, received_at, due_date}` | Data subject request received | Workflow Engine, Notification |
-| `privacy.sar.completed` | `{request_id, subject_id, right_type, completed_at, delivery_method}` | SAR fulfilled | Audit Trail, Notification |
-| `privacy.erasure.completed` | `{subject_id, services_affected, records_erased, verified_at}` | Erasure verified complete | Audit Trail, All Services |
-| `privacy.dpia.created` | `{dpia_id, processing_activity, risk_level, status}` | DPIA initiated | Workflow Engine, GRC |
-| `privacy.dpia.approved` | `{dpia_id, approved_by, conditions[]}` | DPIA approved by DPO | GRC, Audit Trail |
-| `privacy.breach.detected` | `{breach_id, severity, affected_records, detected_at}` | Breach detected | Notification Service, DLP, Workflow |
-| `privacy.breach.notified` | `{breach_id, authority, notified_at, notification_ref}` | Authority notified | Audit Trail, Compliance Hub |
+| `platform.privacy.consent.captured` | `{subject_id, purposes[], consent_version, captured_at}` | New consent captured | All Services, Audit Trail |
+| `platform.privacy.consent.withdrawn` | `{subject_id, purposes[], withdrawn_at}` | Consent withdrawal | All Services, DLP, Notification |
+| `platform.privacy.consent.expired` | `{subject_id, purpose, expired_at}` | Consent period expires | Notification Service, All Services |
+| `platform.privacy.sar.created` | `{request_id, subject_id, right_type, received_at, due_date}` | Data subject request received | Workflow Engine, Notification |
+| `platform.privacy.sar.completed` | `{request_id, subject_id, right_type, completed_at, delivery_method}` | SAR fulfilled | Audit Trail, Notification |
+| `platform.privacy.erasure.completed` | `{subject_id, services_affected, records_erased, verified_at}` | Erasure verified complete | Audit Trail, All Services |
+| `platform.privacy.dpia.created` | `{dpia_id, processing_activity, risk_level, status}` | DPIA initiated | Workflow Engine, GRC |
+| `platform.privacy.dpia.approved` | `{dpia_id, approved_by, conditions[]}` | DPIA approved by DPO | GRC, Audit Trail |
+| `platform.privacy.breach.detected` | `{breach_id, severity, affected_records, detected_at}` | Breach detected | Notification Service, DLP, Workflow |
+| `platform.privacy.breach.notified` | `{breach_id, authority, notified_at, notification_ref}` | Authority notified | Audit Trail, Compliance Hub |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `dlp.policy.triggered` | Platform Service (DLP) | Assess privacy impact, potential breach |
-| `dlp.incident.created` | Platform Service (DLP) | Evaluate breach notification requirement |
-| `auth.user.registered` | Auth Service | Capture initial consent |
-| `auth.user.deleted` | Auth Service | Trigger erasure workflow |
-| `platform.audit.data-access` | Platform Service | Enforce consent-based access control |
-| `integration.data.exported` | Integration Service | Check consent for cross-border transfer |
+| `platform.dlp.policy.triggered` | Platform Service (DLP) | Assess privacy impact, potential breach |
+| `platform.dlp.incident.created` | Platform Service (DLP) | Evaluate breach notification requirement |
+| `identity.user.created` | Identity Service | Capture initial consent |
+| `identity.user.deactivated` | Identity Service | Trigger erasure workflow |
+| `platform.audit.logged` | Platform Service | Enforce consent-based access control |
+| `integration.sync.completed` | Integration Service | Check consent for cross-border transfer |
 
 ## Data Model Reference
 

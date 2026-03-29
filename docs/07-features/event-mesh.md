@@ -99,23 +99,23 @@ Event Mesh provides the central nervous system for event-driven communication ac
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `mesh.subscription.created` | `{subscription_id, consumer, topic_pattern, filter}` | New subscription registered | Schema Registry, Monitoring |
-| `mesh.subscription.deleted` | `{subscription_id, consumer, topic_pattern}` | Subscription removed | Monitoring |
-| `mesh.event.published` | `{topic, event_id, source, size, published_at}` | Event published to mesh | Monitoring, Audit Trail |
-| `mesh.event.delivered` | `{topic, event_id, consumer, delivered_at, latency_ms}` | Event delivered to consumer | Monitoring |
-| `mesh.event.dead-lettered` | `{topic, event_id, consumer, reason, error}` | Event moved to DLQ | Notification Service, Monitoring |
-| `mesh.event.replayed` | `{topic, event_id, replayed_by, original_error}` | DLQ event replayed | Monitoring, Audit Trail |
-| `mesh.schema.registered` | `{topic, schema_version, compatibility}` | New schema version registered | Schema Registry, Audit Trail |
-| `mesh.consumer.lag-high` | `{consumer, topic, lag_count, threshold}` | Consumer lag exceeds threshold | Notification Service, Monitoring |
+| `integration.mesh.subscription.created` | `{subscription_id, consumer, topic_pattern, filter}` | New subscription registered | Schema Registry, Monitoring |
+| `integration.mesh.subscription.deleted` | `{subscription_id, consumer, topic_pattern}` | Subscription removed | Monitoring |
+| `integration.mesh.event.published` | `{topic, event_id, source, size, published_at}` | Event published to mesh | Monitoring, Audit Trail |
+| `integration.mesh.event.delivered` | `{topic, event_id, consumer, delivered_at, latency_ms}` | Event delivered to consumer | Monitoring |
+| `integration.mesh.event.dead-lettered` | `{topic, event_id, consumer, reason, error}` | Event moved to DLQ | Notification Service, Monitoring |
+| `integration.mesh.event.replayed` | `{topic, event_id, replayed_by, original_error}` | DLQ event replayed | Monitoring, Audit Trail |
+| `integration.mesh.schema.registered` | `{topic, schema_version, compatibility}` | New schema version registered | Schema Registry, Audit Trail |
+| `integration.mesh.consumer.lag-high` | `{consumer, topic, lag_count, threshold}` | Consumer lag exceeds threshold | Notification Service, Monitoring |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
 | All domain events | All Services | Route to subscribers based on topic and filter |
-| `mesh.event.dead-lettered` | Integration Service | Alert generation, DLQ management |
-| `mesh.subscription.created` | Integration Service | Set up queue binding and filtering |
-| `mesh.subscription.deleted` | Integration Service | Remove queue binding |
+| `integration.mesh.event.dead-lettered` | Integration Service | Alert generation, DLQ management |
+| `integration.mesh.subscription.created` | Integration Service | Set up queue binding and filtering |
+| `integration.mesh.subscription.deleted` | Integration Service | Remove queue binding |
 
 ## Subscription Management
 

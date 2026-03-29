@@ -101,13 +101,13 @@ The Email feature provides a comprehensive email infrastructure for MSERP, cover
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `commerce.order.confirmed` | Commerce Service | Send order confirmation email |
+| `commerce.order.created` | Commerce Service | Send order confirmation email |
 | `commerce.shipment.dispatched` | Commerce Service | Send shipment notification email |
 | `finance.invoice.created` | Finance Service | Send invoice email to customer |
 | `finance.payment.received` | Finance Service | Send payment receipt email |
 | `crm.case.created` | CRM Service | Send case acknowledgement email |
-| `auth.user.registered` | Auth Service | Send welcome / verification email |
-| `auth.user.password-reset` | Auth Service | Send password reset email |
+| `identity.user.created` | Auth Service | Send welcome / verification email |
+| `auth.password.changed` | Auth Service | Send password reset email |
 | `platform.notification.dispatched` | Platform Service | Send email for notification channel |
 
 ## Data Model Reference

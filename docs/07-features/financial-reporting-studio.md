@@ -115,16 +115,16 @@ Advanced Financial Reporting Studio provides a drag-and-drop report designer pur
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `report.created` | `{report_id, template_id, entity_ids[], period, created_by}` | New report instance created | Dashboard, Audit Trail |
-| `report.data-refreshed` | `{report_id, data_source, records_updated, refreshed_at}` | Report data source refreshed | Dashboard, Report Author |
-| `report.xbrl-tagged` | `{report_id, taxonomy, elements_tagged, validation_errors}` | XBRL tagging completed | Validation Engine, Author |
-| `report.xbrl-validated` | `{report_id, taxonomy, errors[], warnings[], filing_ready}` | XBRL validation completes | Author, Filing Team |
-| `report.submitted-for-review` | `{report_id, submitted_by, reviewer_ids[], due_date}` | Report submitted to approval workflow | Notification, Reviewers |
-| `report.approved` | `{report_id, approved_by, approved_at, version}` | Report approved and locked | Audit Trail, Distribution |
-| `report.distributed` | `{report_id, distribution_id, recipients[], format, sent_at}` | Report distributed to recipients | Notification, Audit Trail |
-| `report.xbrl-filed` | `{report_id, filing_id, regulator, filing_status, confirmation}` | XBRL filing submitted to regulator | Audit Trail, Compliance |
-| `report.annotation.added` | `{annotation_id, report_id, section, author, text, thread_id}` | Collaborative annotation added | Reviewers, Author |
-| `report.burst.completed` | `{burst_id, report_id, burst_count, entity_count, distribution_count}` | Report bursting finishes | Distribution, Dashboard |
+| `finance.report.generated` | `{report_id, template_id, entity_ids[], period, created_by}` | New report instance created | Dashboard, Audit Trail |
+| `finance.report.data-refreshed` | `{report_id, data_source, records_updated, refreshed_at}` | Report data source refreshed | Dashboard, Report Author |
+| `finance.report.xbrl-tagged` | `{report_id, taxonomy, elements_tagged, validation_errors}` | XBRL tagging completed | Validation Engine, Author |
+| `finance.report.xbrl-validated` | `{report_id, taxonomy, errors[], warnings[], filing_ready}` | XBRL validation completes | Author, Filing Team |
+| `finance.report.submitted-for-review` | `{report_id, submitted_by, reviewer_ids[], due_date}` | Report submitted to approval workflow | Notification, Reviewers |
+| `finance.report.published` | `{report_id, approved_by, approved_at, version}` | Report approved and locked | Audit Trail, Distribution |
+| `finance.report.distributed` | `{report_id, distribution_id, recipients[], format, sent_at}` | Report distributed to recipients | Notification, Audit Trail |
+| `finance.report.xbrl-filed` | `{report_id, filing_id, regulator, filing_status, confirmation}` | XBRL filing submitted to regulator | Audit Trail, Compliance |
+| `finance.report.annotation.added` | `{annotation_id, report_id, section, author, text, thread_id}` | Collaborative annotation added | Reviewers, Author |
+| `finance.report.burst.completed` | `{burst_id, report_id, burst_count, entity_count, distribution_count}` | Report bursting finishes | Distribution, Dashboard |
 
 ### Domain Events Consumed
 
@@ -133,8 +133,8 @@ Advanced Financial Reporting Studio provides a drag-and-drop report designer pur
 | `finance.period.closed` | Finance Service | Trigger period-end report generation |
 | `finance.consolidation.completed` | Finance Service | Refresh consolidated report data |
 | `finance.revenue.recognized` | Finance Service | Update revenue data in reports |
-| `platform.workflow.step-completed` | Platform Service | Update report approval status |
-| `platform.scheduled-job.triggered` | Platform Service | Execute scheduled report generation and distribution |
+| `workflow.step.approved` | Platform Service | Update report approval status |
+| `platform.scheduler.job.started` | Platform Service | Execute scheduled report generation and distribution |
 | `report.ml.inference.complete` | Report Service | Apply anomaly insights to report commentary suggestions |
 
 ## Data Model Reference

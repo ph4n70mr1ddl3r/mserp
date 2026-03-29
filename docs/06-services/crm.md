@@ -133,6 +133,14 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 | `surveys` | `title VARCHAR(255)`, `type VARCHAR(20)`, `status VARCHAR(20)`, `questions JSONB`, `trigger_event VARCHAR(50)`, `start_date DATE`, `end_date DATE`, `response_count INT` |
 | `territories` | `name VARCHAR(255)`, `type VARCHAR(20)`, `region VARCHAR(100)`, `owner_id UUID`, `parent_id UUID`, `rules JSONB`, `is_active BOOLEAN` |
 | `cdp_unified_profiles` | `primary_email VARCHAR(255)`, `primary_phone VARCHAR(50)`, `identity_ids JSONB`, `segments TEXT[]`, `engagement_score DECIMAL`, `lifetime_value DECIMAL`, `first_seen_at TIMESTAMPTZ`, `last_activity_at TIMESTAMPTZ`, `attributes JSONB` |
+| `field_service_orders` | Field service work orders with technician assignment and scheduling |
+| `survey_responses` | Individual survey response records with answers and metadata |
+| `ab_tests` | A/B test configurations with variants and statistical parameters |
+| `social_mentions` | Social media mentions linked to CRM contacts with sentiment |
+| `cdp_segments` | Customer segment definitions with membership criteria |
+| `cdp_journeys` | Customer journey definitions with trigger and step configuration |
+| `contact_center_interactions` | Omnichannel interaction records with channel and agent assignment |
+| `contact_center_queues` | Queue configurations with routing rules and overflow strategies |
 
 ## Events Published
 

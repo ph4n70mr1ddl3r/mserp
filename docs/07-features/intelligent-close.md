@@ -99,25 +99,25 @@ Intelligent Close transforms the traditional batch-oriented financial close into
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `close.period.initiated` | `{period_id, close_type, initiated_by}` | Period close initiated | All close participants, Dashboard |
-| `close.task.created` | `{task_id, period_id, task_type, assignee, due_date}` | Close task auto-generated | Notification Service, Dashboard |
-| `close.anomaly.detected` | `{anomaly_id, period_id, account_id, rule_type, severity, details}` | Anomaly detection rule fires | Notification Service, Dashboard, Workflow |
-| `close.task.completed` | `{task_id, completed_by, completed_at, notes}` | User completes close task | Close Engine, Dashboard |
-| `close.bottleneck.identified` | `{period_id, task_ids, predicted_delay_hours}` | ML model predicts delay | Dashboard, Notification Service |
-| `close.period.certified` | `{period_id, certified_by, certified_at, close_duration}` | All close tasks complete and certified | Audit Trail, Report Service, Dashboard |
-| `close.reconciliation.status` | `{period_id, auto_match_rate, exceptions_open, exceptions_resolved}` | Reconciliation status update | Dashboard, Close Engine |
+| `finance.close.period.initiated` | `{period_id, close_type, initiated_by}` | Period close initiated | All close participants, Dashboard |
+| `finance.close.task.created` | `{task_id, period_id, task_type, assignee, due_date}` | Close task auto-generated | Notification Service, Dashboard |
+| `finance.close.anomaly.detected` | `{anomaly_id, period_id, account_id, rule_type, severity, details}` | Anomaly detection rule fires | Notification Service, Dashboard, Workflow |
+| `finance.close.task.completed` | `{task_id, completed_by, completed_at, notes}` | User completes close task | Close Engine, Dashboard |
+| `finance.close.bottleneck.identified` | `{period_id, task_ids, predicted_delay_hours}` | ML model predicts delay | Dashboard, Notification Service |
+| `finance.close.period.certified` | `{period_id, certified_by, certified_at, close_duration}` | All close tasks complete and certified | Audit Trail, Report Service, Dashboard |
+| `finance.close.reconciliation.status` | `{period_id, auto_match_rate, exceptions_open, exceptions_resolved}` | Reconciliation status update | Dashboard, Close Engine |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `finance.transaction.posted` | Finance Service | Trigger real-time anomaly check |
-| `reconciliation.match.completed` | Finance Service | Update close reconciliation progress |
-| `reconciliation.exception.created` | Finance Service | Create close follow-up task |
-| `reconciliation.close.certified` | Finance Service | Mark reconciliation task complete |
-| `platform.workflow.step-completed` | Platform Service | Update close task status |
+| `finance.journal.posted` | Finance Service | Trigger real-time anomaly check |
+| `finance.reconciliation.matched` | Finance Service | Update close reconciliation progress |
+| `finance.reconciliation.exception.created` | Finance Service | Create close follow-up task |
+| `finance.reconciliation.completed` | Finance Service | Mark reconciliation task complete |
+| `workflow.step.approved` | Workflow Service | Update close task status |
 | `report.ml.inference.complete` | Report Service | Apply anomaly scores, update ETA predictions |
-| `finance.period.closing` | Finance Service | Initiate close process |
+| `finance.period.closed` | Finance Service | Initiate close process |
 
 ## Data Model Reference
 

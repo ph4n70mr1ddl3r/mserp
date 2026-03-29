@@ -99,20 +99,20 @@ The Digital Assistant provides an intelligent conversational interface that enab
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `platform.assistant.conversation.started` | `{conversation_id, user_id, channel, started_at}` | New conversation initiated | Analytics, Audit Trail |
-| `platform.assistant.conversation.ended` | `{conversation_id, user_id, message_count, ended_at}` | Conversation closed or timed out | Analytics, Audit Trail |
-| `platform.assistant.intent.recognized` | `{conversation_id, message_id, intent, entities[], confidence}` | Intent classification completes | Analytics, Action Router |
-| `platform.assistant.action.executed` | `{conversation_id, message_id, intent, action, target_service, success, duration_ms}` | Action API call completes | Analytics, Audit Trail |
+| `platform.digital-assistant.conversation-started` | `{conversation_id, user_id, channel, started_at}` | New conversation initiated | Analytics, Audit Trail |
+| `platform.digital-assistant.conversation-ended` | `{conversation_id, user_id, message_count, ended_at}` | Conversation closed or timed out | Analytics, Audit Trail |
+| `platform.digital-assistant.intent.resolved` | `{conversation_id, message_id, intent, entities[], confidence}` | Intent classification completes | Analytics, Action Router |
+| `platform.digital-assistant.action.executed` | `{conversation_id, message_id, intent, action, target_service, success, duration_ms}` | Action API call completes | Analytics, Audit Trail |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
 | `platform.notification.created` | Platform Service | Push proactive notification to user via active channel |
-| `platform.workflow.step-completed` | Platform Service | Notify user of workflow progress |
+| `workflow.step.approved` | Workflow Service | Notify user of workflow progress |
 | `commerce.order.created` | Commerce Service | Proactive order confirmation to user |
 | `finance.invoice.approved` | Finance Service | Proactive approval notification |
-| `knowledge.article.published` | Platform Service | Update FAQ index |
+| `platform.article.published` | Platform Service | Update FAQ index |
 
 ## Data Model Reference
 

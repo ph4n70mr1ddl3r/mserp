@@ -145,7 +145,7 @@ All 10 services with inbox queues self-bind to `{domain}.#` for saga compensatio
 | **IoT Device Registry** | Platform Service owns the authoritative device registry and publishes `platform.iot.device.*` events. Manufacturing's `iot_devices` table is a **local cache** synced by consuming `platform.iot.device.*` events. Manufacturing publishes `manufacturing.iot.telemetry.*` events (telemetry only), NOT device registration events. |
 | **SoD Rules** | Platform Service owns GRC-level SoD rule definitions (`grc_sod_rules` table). Workflow Service consumes `platform.grc.sod.conflict.detected` events for approval-level enforcement. Workflow queries Platform API for SoD rules — it does NOT have its own `sod_rules` table. |
 | **MDM Golden Records** | Integration Service consumes master data events from all services (`commerce.customer.#`, `commerce.product.#`, `finance.supplier.#`, `hr.employee.#`, `identity.user.#`) for MDM golden record management. |
-| **Event Mesh** | Owned by Integration Service (infrastructure). Provides RabbitMQ topology management, event gateway, cross-region replication. See [docs/07-features/event-mesh.md](docs/07-features/event-mesh.md). |
+| **Event Mesh** | Owned by Integration Service. Provides RabbitMQ topology management, event gateway, cross-region replication. See [docs/07-features/event-mesh.md](docs/07-features/event-mesh.md). |
 
 ---
 
@@ -282,7 +282,7 @@ Every feature maps to exactly one service. The 22 features with dedicated specs 
 | Feature | Owning Service | Spec File |
 |---------|---------------|-----------|
 | Account Reconciliation | Finance Service | [reconciliation.md](docs/07-features/reconciliation.md) |
-| Adaptive Intelligence | Platform Service | [adaptive-intelligence.md](docs/07-features/adaptive-intelligence.md) |
+| Adaptive Intelligence | Platform Service (lifecycle) / Report Service (inference) | [adaptive-intelligence.md](docs/07-features/adaptive-intelligence.md) |
 | API Marketplace | Integration Service | [api-marketplace.md](docs/07-features/api-marketplace.md) |
 | Collaboration | Platform Service | [collaboration.md](docs/07-features/collaboration.md) |
 | Compliance Hub | Platform Service | [compliance-hub.md](docs/07-features/compliance-hub.md) |

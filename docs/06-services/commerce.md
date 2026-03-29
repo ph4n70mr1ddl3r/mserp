@@ -254,6 +254,16 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 | `credit_accounts` | `customer_id UUID`, `credit_limit DECIMAL`, `credit_used DECIMAL`, `credit_available DECIMAL`, `credit_score INT`, `status VARCHAR(20)`, `last_reviewed_at TIMESTAMPTZ` |
 | `subscriptions` | `customer_id UUID`, `plan_id VARCHAR(100)`, `status VARCHAR(20)`, `billing_cycle VARCHAR(20)`, `start_date DATE`, `end_date DATE`, `amount DECIMAL`, `currency VARCHAR(3)`, `auto_renew BOOLEAN` |
 | `loyalty_members` | `customer_id UUID`, `program_id UUID`, `tier VARCHAR(30)`, `points_balance INT`, `lifetime_points INT`, `joined_at TIMESTAMPTZ`, `last_activity_at TIMESTAMPTZ` |
+| `loyalty_programs` | Loyalty program definitions with tier structures, earning rules, and benefit catalogs |
+| `loyalty_reward_catalog` | Available rewards for loyalty program members |
+| `carriers` | Carrier registrations with service types, coverage, and API credentials |
+| `price_lists` | Price list definitions with currency, validity, and customer-group scope |
+| `b2b_portal_users` | B2B customer portal user accounts with role-based access |
+| `product_configurator_models` | Product configuration model definitions with constraints and rules |
+| `omnichannel_channels` | Sales channel configurations with type, status, and fulfillment rules |
+| `collaboration_partners` | Supply chain collaboration partner connections and data sharing preferences |
+| `demand_signals` | Shared demand signals with supplier linkage |
+| `capacity_commitments` | Supplier capacity commitments by product and period |
 
 ## Events Published
 

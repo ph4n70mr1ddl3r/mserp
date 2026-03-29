@@ -100,27 +100,27 @@ Enterprise Content Management provides a comprehensive system for creating, orga
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `content.document.created` | `{document_id, title, classification, author, folder_id}` | New document created | Search Indexer, Audit Trail |
-| `content.document.state-changed` | `{document_id, old_state, new_state, changed_by, reason}` | Lifecycle state transition | Workflow Engine, Notification, Audit Trail |
-| `content.document.version-added` | `{document_id, version, author, change_summary}` | New version created | Search Indexer, Collaboration |
-| `content.document.published` | `{document_id, version, published_by, classification}` | Document published | Search Indexer, Notification |
-| `content.document.archived` | `{document_id, archived_by, archive_location, retention_until}` | Document archived | Compliance Hub, Audit Trail |
-| `content.document.hold-applied` | `{document_id, hold_reason, case_ref, applied_by}` | Legal hold applied | Audit Trail, Compliance Hub |
-| `content.document.hold-released` | `{document_id, released_by, release_reason}` | Legal hold released | Audit Trail, Disposition Scheduler |
-| `content.document.disposition-complete` | `{document_id, disposition_type, certificate_ref}` | Disposition completed | Audit Trail, Compliance Hub |
-| `content.folder.created` | `{folder_id, name, parent_id, classification}` | New folder created | Search Indexer |
-| `content.search.executed` | `{query, facets[], result_count, user_id}` | Search executed | Analytics, Search Optimization |
+| `platform.content.document.created` | `{document_id, title, classification, author, folder_id}` | New document created | Search Indexer, Audit Trail |
+| `platform.content.document.state-changed` | `{document_id, old_state, new_state, changed_by, reason}` | Lifecycle state transition | Workflow Engine, Notification, Audit Trail |
+| `platform.content.document.version-added` | `{document_id, version, author, change_summary}` | New version created | Search Indexer, Collaboration |
+| `platform.content.document.published` | `{document_id, version, published_by, classification}` | Document published | Search Indexer, Notification |
+| `platform.content.document.archived` | `{document_id, archived_by, archive_location, retention_until}` | Document archived | Compliance Hub, Audit Trail |
+| `platform.content.document.hold-applied` | `{document_id, hold_reason, case_ref, applied_by}` | Legal hold applied | Audit Trail, Compliance Hub |
+| `platform.content.document.hold-released` | `{document_id, released_by, release_reason}` | Legal hold released | Audit Trail, Disposition Scheduler |
+| `platform.content.document.disposition-complete` | `{document_id, disposition_type, certificate_ref}` | Disposition completed | Audit Trail, Compliance Hub |
+| `platform.content.folder.created` | `{folder_id, name, parent_id, classification}` | New folder created | Search Indexer |
+| `platform.content.search.executed` | `{query, facets[], result_count, user_id}` | Search executed | Analytics, Search Optimization |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `platform.workflow.step-completed` | Platform Service | Update document lifecycle state |
-| `collab.document.shared` | Platform Service | Index shared document |
-| `idp.document.classified` | Platform Service | Store classified document |
-| `privacy.erasure.completed` | Platform Service | Erase/anonymize content documents |
-| `digital-signatures.signature-completed` | Platform Service | Advance document lifecycle state |
-| `compliance.hold-applied` | Platform Service | Apply legal hold to documents |
+| `workflow.step.approved` | Workflow Service | Update document lifecycle state |
+| `platform.collaboration.document.shared` | Platform Service | Index shared document |
+| `platform.idp.document.classified` | Platform Service | Store classified document |
+| `platform.privacy.erasure.completed` | Platform Service | Erase/anonymize content documents |
+| `platform.signature.completed` | Platform Service | Advance document lifecycle state |
+| `platform.compliance.hold-applied` | Platform Service | Apply legal hold to documents |
 
 ## Data Model Reference
 

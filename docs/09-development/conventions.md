@@ -8,6 +8,7 @@
 | `mserp-auth` | JWT validation, auth middleware, permission checks, step-up auth | All services |
 | `mserp-infrastructure` | Database setup (RLS), Redis client, RabbitMQ client, outbox, saga, tracing, metrics | All services |
 | `mserp-proto` | Event type definitions, shared DTOs, contract schemas | All services |
+| `mserp-migrations` | Centralized migration runner for development; per-service migration in production | All services |
 
 ## 2. Code Conventions
 

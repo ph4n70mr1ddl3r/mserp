@@ -105,27 +105,26 @@ Compliance Hub consolidates compliance monitoring, reporting, and management acr
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `compliance.score.updated` | `{domain, old_score, new_score, trend}` | Compliance score recalculated | Dashboard, Notification Service |
-| `compliance.deadline.approaching` | `{deadline_id, framework, due_date, assignee}` | Deadline within reminder window | Notification Service, Workflow |
-| `compliance.deadline.missed` | `{deadline_id, framework, due_date, assignee}` | Deadline passed without completion | Notification Service, Escalation |
-| `compliance.control.failed` | `{control_id, framework, evidence_type, reason}` | Control evidence check fails | Dashboard, Notification, Audit Trail |
-| `compliance.control.remediated` | `{control_id, framework, remediated_by, evidence_ref}` | Failed control remediated | Dashboard, Score Calculator |
-| `compliance.regulatory-change.detected` | `{change_id, jurisdiction, framework, relevance_score, summary}` | New regulatory change ingested | AI Scorer, Notification Service |
-| `compliance.audit.scheduled` | `{audit_id, framework, auditor, start_date, scope}` | Audit scheduled in calendar | Notification Service, All Services |
-| `compliance.evidence.requested` | `{request_id, control_id, framework, due_date, requestor}` | Evidence collection initiated | Workflow Engine, Notification |
+| `platform.compliance.score.updated` | `{domain, old_score, new_score, trend}` | Compliance score recalculated | Dashboard, Notification Service |
+| `platform.compliance.deadline.approaching` | `{deadline_id, framework, due_date, assignee}` | Deadline within reminder window | Notification Service, Workflow |
+| `platform.compliance.deadline.missed` | `{deadline_id, framework, due_date, assignee}` | Deadline passed without completion | Notification Service, Escalation |
+| `platform.compliance.control.failed` | `{control_id, framework, evidence_type, reason}` | Control evidence check fails | Dashboard, Notification, Audit Trail |
+| `platform.compliance.control.remediated` | `{control_id, framework, remediated_by, evidence_ref}` | Failed control remediated | Dashboard, Score Calculator |
+| `platform.compliance.regulatory-change.detected` | `{change_id, jurisdiction, framework, relevance_score, summary}` | New regulatory change ingested | AI Scorer, Notification Service |
+| `platform.compliance.audit.scheduled` | `{audit_id, framework, auditor, start_date, scope}` | Audit scheduled in calendar | Notification Service, All Services |
+| `platform.compliance.evidence.requested` | `{request_id, control_id, framework, due_date, requestor}` | Evidence collection initiated | Workflow Engine, Notification |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `dlp.policy.triggered` | Platform Service | Update DLP compliance score |
-| `dlp.incident.created` | Platform Service | Create compliance incident |
-| `privacy.breach.detected` | Platform Service | Escalate to compliance incident |
-| `privacy.consent.withdrawn` | Platform Service | Reassess privacy compliance score |
-| `auth.vulnerability.detected` | Auth Service | Update security compliance score |
-| `finance.period.certified` | Finance Service | Update SOX compliance score |
-| `manufacturing.certification.expiring` | Manufacturing Service | Create compliance calendar entry |
-| `integration.trade-screening.completed` | Integration Service | Update trade compliance score |
+| `platform.dlp.policy.triggered` | Platform Service | Update DLP compliance score |
+| `platform.dlp.incident.created` | Platform Service | Create compliance incident |
+| `platform.privacy.breach.detected` | Platform Service | Escalate to compliance incident |
+| `platform.privacy.consent.withdrawn` | Platform Service | Reassess privacy compliance score |
+| `finance.period.closed` | Finance Service | Update SOX compliance score |
+| `manufacturing.compliance.certification.updated` | Manufacturing Service | Create compliance calendar entry |
+| `integration.trade-compliance.screening.completed` | Integration Service | Update trade compliance score |
 
 ## Data Model Reference
 

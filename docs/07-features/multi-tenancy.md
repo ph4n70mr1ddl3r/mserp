@@ -122,9 +122,9 @@ Multi-Tenancy is the foundational capability that enables MSERP to serve multipl
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `auth.user.registered` | Auth Service | Associate user with tenant |
-| `billing.subscription.created` | Integration Service | Trigger tenant provisioning |
-| `billing.subscription.cancelled` | Integration Service | Initiate tenant suspension/decommission |
+| `identity.user.created` | Identity Service | Associate user with tenant |
+| `integration.subscription.created` | Integration Service | Trigger tenant provisioning |
+| `integration.subscription.cancelled` | Integration Service | Initiate tenant suspension/decommission |
 
 ## Data Model Reference
 

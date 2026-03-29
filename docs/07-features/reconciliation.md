@@ -112,11 +112,11 @@ Account Reconciliation provides end-to-end automation of the financial reconcili
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `finance.transaction.posted` | Finance Service | New transaction available for matching |
+| `finance.journal.posted` | Finance Service | New transaction available for matching |
 | `finance.bank-statement.imported` | Finance Service | Trigger matching run for account |
-| `finance.period.closing` | Finance Service | Initiate reconciliation checklist |
+| `finance.period.closed` | Finance Service | Initiate reconciliation checklist |
 | `finance.intercompany.created` | Finance Service | Queue for intercompany matching |
-| `platform.workflow.step-completed` | Platform Service | Update exception resolution status |
+| `workflow.step.approved` | Workflow Service | Update exception resolution status |
 | `report.ml.inference.complete` | Report Service | Apply confidence scores to matches |
 
 ## Data Model Reference

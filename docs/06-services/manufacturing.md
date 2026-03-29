@@ -149,6 +149,22 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 
 > **Note:** The `iot_devices` table is a **local cache** synced by consuming `platform.iot.device.*` events. Manufacturing does NOT publish device registration events — that is Platform Service's domain. Manufacturing only publishes `manufacturing.iot.telemetry.*` events.
 | `digital_twins` | `asset_id UUID`, `name VARCHAR(255)`, `model_version VARCHAR(20)`, `state JSONB`, `last_synced_at TIMESTAMPTZ`, `status VARCHAR(20)` |
+| `ehs_incidents` | Safety incident records with severity, type, and CAPA linkage |
+| `ehs_risk_assessments` | Risk assessment records with risk matrix scoring and controls |
+| `ehs_permits` | Digital work permits with approval workflows and validity periods |
+| `ehs_inspections` | Safety inspection records with checklists and findings |
+| `ehs_chemicals` | Chemical inventory with SDS linkage and hazard classification |
+| `mro_catalog_items` | MRO catalog entries with criticality classification and reorder parameters |
+| `mro_spare_parts` | Spare parts inventory with criticality and obsolescence tracking |
+| `mro_repair_orders` | Repair work orders with failure codes and turnaround time |
+| `mro_rotable_components` | Rotable component tracking with repair cycle management |
+| `product_regulations` | Regulatory requirements by product category and jurisdiction |
+| `product_certifications` | Product certification lifecycle with status and renewal tracking |
+| `material_declarations` | Material composition declarations with restricted substance tracking |
+| `compliance_test_plans` | Test plan management with lab assignments and result tracking |
+| `iot_telemetry_events` | Time-series telemetry events partitioned by month |
+| `iot_device_state` | Latest device state snapshots with health scores |
+| `digital_thread_events` | Traceability events linking serial/lot numbers to production operations |
 
 ## Events Published
 

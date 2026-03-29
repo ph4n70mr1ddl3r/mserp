@@ -79,22 +79,22 @@ API Marketplace provides a centralized hub for discovering, consuming, and manag
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `marketplace.api.registered` | `{api_id, service, version, lifecycle_state}` | New API version registered | Catalog, Developer Portal |
-| `marketplace.api.deprecated` | `{api_id, version, replacement_version, sunset_date}` | API version marked deprecated | Notification Service, Consumers |
-| `marketplace.api.sunset` | `{api_id, version, sunset_at}` | API version reaches sunset | Audit Trail, Consumers |
-| `marketplace.key.created` | `{key_id, consumer_id, scopes[], plan}` | New API key provisioned | Audit Trail, Auth Service |
-| `marketplace.key.rotated` | `{key_id, rotated_by, rotated_at}` | API key secret rotated | Audit Trail, Consumer |
-| `marketplace.key.revoked` | `{key_id, reason, revoked_at}` | API key revoked | Audit Trail, Auth Service, Consumer |
-| `marketplace.usage.threshold` | `{consumer_id, api_id, usage_percent, threshold}` | Usage quota threshold reached | Notification Service, Consumer |
-| `marketplace.subscription.created` | `{subscription_id, consumer_id, plan, start_date}` | New subscription created | Finance Service, Notification |
-| `marketplace.subscription.cancelled` | `{subscription_id, consumer_id, end_date}` | Subscription cancelled | Finance Service, Notification |
+| `integration.marketplace.api.registered` | `{api_id, service, version, lifecycle_state}` | New API version registered | Catalog, Developer Portal |
+| `integration.marketplace.api.deprecated` | `{api_id, version, replacement_version, sunset_date}` | API version marked deprecated | Notification Service, Consumers |
+| `integration.marketplace.api.sunset` | `{api_id, version, sunset_at}` | API version reaches sunset | Audit Trail, Consumers |
+| `integration.marketplace.key.created` | `{key_id, consumer_id, scopes[], plan}` | New API key provisioned | Audit Trail, Auth Service |
+| `integration.marketplace.key.rotated` | `{key_id, rotated_by, rotated_at}` | API key secret rotated | Audit Trail, Consumer |
+| `integration.marketplace.key.revoked` | `{key_id, reason, revoked_at}` | API key revoked | Audit Trail, Auth Service, Consumer |
+| `integration.marketplace.usage.threshold` | `{consumer_id, api_id, usage_percent, threshold}` | Usage quota threshold reached | Notification Service, Consumer |
+| `integration.marketplace.subscription.created` | `{subscription_id, consumer_id, plan, start_date}` | New subscription created | Finance Service, Notification |
+| `integration.marketplace.subscription.cancelled` | `{subscription_id, consumer_id, end_date}` | Subscription cancelled | Finance Service, Notification |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `auth.user.registered` | Auth Service | Create developer portal account |
-| `finance.invoice.generated` | Finance Service | Link usage to invoice |
+| `identity.user.created` | Identity Service | Create developer portal account |
+| `finance.invoice.created` | Finance Service | Link usage to invoice |
 | `integration.connector.registered` | Integration Service | Publish connector API to catalog |
 
 ## Data Model Reference

@@ -117,23 +117,23 @@ Enterprise Data Quality Management provides a unified framework for ensuring dat
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `dq.profiling.completed` | `{profile_id, entity_type, records_profiled, scores{}}` | Profiling run finishes | Report Service, Dashboard |
-| `dq.anomaly.detected` | `{anomaly_id, entity_type, dimension, score, threshold, affected_records}` | Quality score degrades below threshold | Notification Service, Stewardship Queue |
-| `dq.match.completed` | `{match_job_id, entity_type, total_records, match_pairs, auto_merged, exceptions}` | Matching job finishes | MDM Engine, Dashboard |
-| `dq.cleansing.applied` | `{cleansing_id, entity_type, rule_id, records_cleansed, fields_corrected}` | Cleansing rules applied | Audit Trail, Dashboard |
-| `dq.enrichment.completed` | `{enrichment_id, entity_type, provider, records_enriched, fields_added}` | Enrichment pipeline finishes | Dashboard, Entity Owners |
-| `dq.sla.breached` | `{sla_id, entity_type, dimension, target, actual, breached_at}` | Quality SLA target missed | Notification Service, Escalation Workflow |
-| `dq.stewardship.created` | `{task_id, entity_type, record_ids, exception_type, priority}` | Manual review required for match/cleansing exception | Notification Service, Stewardship Queue |
-| `dq.stewardship.resolved` | `{task_id, resolved_by, resolution, records_affected}` | Steward resolves exception | Audit Trail, MDM Engine |
+| `integration.data-quality.profiling.completed` | `{profile_id, entity_type, records_profiled, scores{}}` | Profiling run finishes | Report Service, Dashboard |
+| `integration.data-quality.anomaly.detected` | `{anomaly_id, entity_type, dimension, score, threshold, affected_records}` | Quality score degrades below threshold | Notification Service, Stewardship Queue |
+| `integration.data-quality.match.completed` | `{match_job_id, entity_type, total_records, match_pairs, auto_merged, exceptions}` | Matching job finishes | MDM Engine, Dashboard |
+| `integration.data-quality.cleansing.applied` | `{cleansing_id, entity_type, rule_id, records_cleansed, fields_corrected}` | Cleansing rules applied | Audit Trail, Dashboard |
+| `integration.data-quality.enrichment.completed` | `{enrichment_id, entity_type, provider, records_enriched, fields_added}` | Enrichment pipeline finishes | Dashboard, Entity Owners |
+| `integration.data-quality.sla.breached` | `{sla_id, entity_type, dimension, target, actual, breached_at}` | Quality SLA target missed | Notification Service, Escalation Workflow |
+| `integration.data-quality.stewardship.created` | `{task_id, entity_type, record_ids, exception_type, priority}` | Manual review required for match/cleansing exception | Notification Service, Stewardship Queue |
+| `integration.data-quality.stewardship.resolved` | `{task_id, resolved_by, resolution, records_affected}` | Steward resolves exception | Audit Trail, MDM Engine |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `integration.import.started` | Integration Service | Trigger inline profiling and cleansing on incoming data |
-| `mdm.golden-record.updated` | Integration Service | Re-profile affected entity, update quality scores |
-| `cdp.unified-profile.created` | Commerce Service | Trigger deduplication and matching |
-| `platform.workflow.task-completed` | Platform Service | Close stewardship task on workflow completion |
+| `integration.sync.started` | Integration Service | Trigger inline profiling and cleansing on incoming data |
+| `integration.master-data.merged` | Integration Service | Re-profile affected entity, update quality scores |
+| `crm.cdp.profile.created` | Commerce Service | Trigger deduplication and matching |
+| `workflow.step.approved` | Platform Service | Close stewardship task on workflow completion |
 | `report.ml.inference.complete` | Report Service | Apply ML matching scores and anomaly classifications |
 
 ## Data Model Reference

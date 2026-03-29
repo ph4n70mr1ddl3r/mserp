@@ -100,25 +100,26 @@ Connected Planning breaks down traditional planning silos by providing a unified
 
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
-| `planning.scenario.created` | `{scenario_id, name, domain, baseline_scenario_id, created_by}` | New planning scenario created | Dashboard, Stakeholders |
-| `planning.assumption.updated` | `{assumption_id, name, old_value, new_value, effective_date, impacted_plans[]}` | Shared assumption changed | All linked planning models |
-| `planning.driver.link.triggered` | `{link_id, source_domain, target_domain, driver_name, value, propagation_chain[]}` | Cross-domain driver change propagated | Target planning models |
-| `planning.simulation.completed` | `{simulation_id, scenario_id, domains[], duration_ms, result_summary{}}` | What-if simulation finishes | Dashboard, Stakeholders |
-| `planning.plan.submitted` | `{plan_id, scenario_id, domain, submitted_by, period_range}` | Plan submitted for approval | Approval Workflow, Notification |
-| `planning.plan.approved` | `{plan_id, approved_by, approved_at, promotion_target}` | Plan approved and promoted | Budget Management, Notification |
-| `planning.variance.detected` | `{variance_id, plan_id, period, dimension, plan_value, actual_value, variance_pct}` | Plan-vs-actual variance exceeds threshold | Notification Service, Dashboard |
-| `planning.forecast.updated` | `{forecast_id, domain, period_range, method, accuracy_score}` | Rolling forecast refreshed | Dashboard, Finance Service |
+| `report.planning.scenario.created` | `{scenario_id, name, domain, baseline_scenario_id, created_by}` | New planning scenario created | Dashboard, Stakeholders |
+| `report.planning.assumption.updated` | `{assumption_id, name, old_value, new_value, effective_date, impacted_plans[]}` | Shared assumption changed | All linked planning models |
+| `report.planning.driver.link.triggered` | `{link_id, source_domain, target_domain, driver_name, value, propagation_chain[]}` | Cross-domain driver change propagated | Target planning models |
+| `report.planning.simulation.completed` | `{simulation_id, scenario_id, domains[], duration_ms, result_summary{}}` | What-if simulation finishes | Dashboard, Stakeholders |
+| `report.planning.plan.submitted` | `{plan_id, scenario_id, domain, submitted_by, period_range}` | Plan submitted for approval | Approval Workflow, Notification |
+| `report.planning.plan.approved` | `{plan_id, approved_by, approved_at, promotion_target}` | Plan approved and promoted | Budget Management, Notification |
+| `report.planning.variance.detected` | `{variance_id, plan_id, period, dimension, plan_value, actual_value, variance_pct}` | Plan-vs-actual variance exceeds threshold | Notification Service, Dashboard |
+| `report.planning.forecast.updated` | `{forecast_id, domain, period_range, method, accuracy_score}` | Rolling forecast refreshed | Dashboard, Finance Service |
 
 ### Domain Events Consumed
 
 | Event | Source | Action |
 |-------|--------|--------|
-| `finance.gl.posted` | Finance Service | Update actuals for plan-vs-actual variance calculation |
-| `hcm.headcount.changed` | HCM Service | Update workforce plan actuals and financial driver links |
-| `manufacturing.production.completed` | Manufacturing Service | Update supply chain plan actuals and cost drivers |
-| `commerce.order.booked` | Commerce Service | Feed demand signals to demand planning model |
-| `platform.workflow.step-completed` | Platform Service | Update plan approval status |
-| `report.ml.inference.complete` | Report Service | Apply forecast model predictions to planning scenarios |
+| `finance.journal.posted` | Finance Service | Update actuals for plan-vs-actual variance calculation |
+| `hr.employee.hired` | HR Service | Update workforce plan actuals and financial driver links |
+| `hr.employee.separated` | HR Service | Update workforce plan actuals and financial driver links |
+| `manufacturing.work-order.completed` | Manufacturing Service | Update supply chain plan actuals and cost drivers |
+| `commerce.order.created` | Commerce Service | Feed demand signals to demand planning model |
+| `workflow.step.approved` | Workflow Service | Update plan approval status |
+| `report.ml.predict` | Report Service | Apply forecast model predictions to planning scenarios |
 | `finance.period.closed` | Finance Service | Trigger rolling forecast refresh for closed period |
 
 ## Data Model Reference
