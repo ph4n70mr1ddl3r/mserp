@@ -15,18 +15,22 @@
 | Component | Technology | Version | Purpose |
 |-----------|------------|---------|---------|
 | Database | PostgreSQL | 16 | Primary data store (all services) |
+| Connection Pooler | PgBouncer | 1.22+ | Connection pooling for PostgreSQL |
 | Cache | Redis | 7.x | Caching, sessions, rate limiting, pub/sub |
 | Message Broker | RabbitMQ | 3.12 | Event bus, async messaging, DLQ |
 | Search | Elasticsearch | 8.x | Full-text search, log analytics, product search |
 | Object Storage | MinIO | RELEASE.2024-01+ | File/document storage (S3-compatible) |
 | API Gateway | Traefik (primary) / Kong (alternative) | 3.x | Routing, rate limiting, auth, feature flags |
+| Container Orchestration | Kubernetes | 1.28+ | Container orchestration and scheduling |
 | Log Aggregation | Loki | Latest | Log aggregation and querying |
-| Analytics Engine | DuckDB | Latest | Embedded analytical database for Report Service |
-| Vector Engine | qdrant (optional) | Latest | Vector search for AI/ML similarity queries |
-| ML/AI Runtime | ONNX Runtime | Latest | Embedded ML model inference |
-| Secrets Management | HashiCorp Vault | Latest | Key management, secret storage, dynamic credentials |
+| Analytics Engine | DuckDB | 0.10+ | Embedded analytical database for Report Service |
+| Vector Engine | qdrant (optional) | 1.8+ | Vector search for AI/ML similarity queries |
+| ML/AI Runtime | ONNX Runtime | 1.17+ | Embedded ML model inference |
+| Secrets Management | HashiCorp Vault | 1.15+ | Key management, secret storage, dynamic credentials |
 | Data Lake Storage | MinIO (S3-compatible) | RELEASE.2024-01+ | Raw and curated data lake zones |
-| Mobile Framework | React Native | Latest | iOS and Android mobile application |
+| IaC | Terraform | 1.7+ | Cloud infrastructure provisioning |
+| GitOps | ArgoCD | 2.10+ | GitOps continuous delivery |
+| Mobile Framework | React Native | 0.73+ | iOS and Android mobile application |
 | Web Frontend | React + TypeScript | 18.x / 5.x | Admin dashboard and web application |
 
 ## 3. Observability

@@ -332,6 +332,11 @@
 | POST | `/api/v1/hr/workforce/simulate` | Run workforce modeling simulation |
 | GET | `/api/v1/hr/benefits/plans` | List benefit plans |
 | POST | `/api/v1/hr/benefits/enroll` | Enroll employee in benefits |
+| GET | `/api/v1/hr/self-service/portal` | Get employee self-service portal data |
+| GET | `/api/v1/hr/self-service/payslips` | List payslips (self-service) |
+| POST | `/api/v1/hr/self-service/time-off` | Submit time-off request |
+| GET | `/api/v1/hr/self-service/benefits` | List available benefits |
+| POST | `/api/v1/hr/self-service/expenses` | Submit expense (self-service) |
 
 ### Manufacturing Service
 | Method | Endpoint | Description |
@@ -549,11 +554,9 @@
 | POST | `/api/v1/platform/iot/devices` | Register IoT device |
 | GET | `/api/v1/platform/iot/devices/{id}` | Get device details |
 | POST | `/api/v1/platform/iot/devices/{id}/certificates` | Issue device certificate |
-| GET | `/api/v1/hr/self-service/portal` | Get employee self-service portal data |
-| GET | `/api/v1/hr/self-service/payslips` | List payslips (self-service) |
-| POST | `/api/v1/hr/self-service/time-off` | Submit time-off request |
-| GET | `/api/v1/hr/self-service/benefits` | List available benefits |
-| POST | `/api/v1/hr/self-service/expenses` | Submit expense (self-service) |
+
+> **Note:** Employee Self-Service Portal endpoints are documented under HCM Service. Platform Service provides the notification and file storage infrastructure that the portal uses.
+
 | GET | `/api/v1/platform/content/repositories` | List content repositories |
 | POST | `/api/v1/platform/content/repositories` | Create content repository |
 | GET | `/api/v1/platform/content/documents` | List documents |

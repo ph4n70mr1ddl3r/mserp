@@ -153,8 +153,8 @@ Advanced Financial Reporting Studio provides a drag-and-drop report designer pur
 
 ## Cross-References
 
-- [Corporate Performance Management](cpm.md) — Performance reporting and KPI management
-- [Augmented Analytics](augmented-analytics.md) — Natural language queries and auto-insights for financial data
-- [Revenue Recognition](revenue-recognition.md) — Revenue data feeding financial reports
+- [Corporate Performance Management](../06-services/report.md) — Performance reporting and KPI management (CPM module)
+- [Augmented Analytics](../06-services/report.md) — Natural language queries and auto-insights for financial data (Augmented Analytics module)
+- [Revenue Recognition](../06-services/finance.md) — Revenue data feeding financial reports (Revenue Recognition module)
 - [Report Service](../06-services/report.md) — Report builder, analytics, and distribution engine
 - [Finance Service](../06-services/finance.md) — Financial data, consolidation, and period management

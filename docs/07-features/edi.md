@@ -139,9 +139,9 @@ EDI enables automated business document exchange with trading partners using ind
 
 ## Cross-References
 
-- [Master Data Management](mdm.md) — Partner master data synchronisation
-- [Trade Compliance](trade-compliance.md) — Export control screening for partner transactions
-- [Data Import/Export Framework](data-import-export.md) — Bulk data operations
+- [Master Data Management](../06-services/integration.md) — Partner master data synchronisation (MDM module)
+- [Trade Compliance](../06-services/integration.md) — Export control screening for partner transactions (Trade Compliance module)
+- [Data Import/Export Framework](../06-services/integration.md) — Bulk data operations (Data Import/Export module)
 - [Notification Service](../06-services/platform.md) — Error and SLA alerting
 - [Architecture Overview](../01-architecture/overview.md) — System context
 - [Integration Service](../06-services/integration.md) — Integration service specification

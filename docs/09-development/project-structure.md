@@ -116,6 +116,11 @@ mserp/
 │           ├── lib.rs
 │           └── events/           # Event type definitions for all services
 │
+│   └── mserp-migrations/        # Database migration runner
+│       ├── Cargo.toml
+│       └── src/
+│           └── main.rs           # Migration CLI binary
+│
 ├── services/
 │   ├── auth-service/
 │   │   ├── Cargo.toml
@@ -548,6 +553,26 @@ mserp/
 │           ├── development/
 │           ├── staging/
 │           └── production/
+│
+├── web/                      # React + TypeScript web application
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── vite.config.ts
+│   ├── src/
+│   │   ├── components/       # Shared UI components
+│   │   ├── pages/            # Route pages
+│   │   ├── hooks/            # Custom React hooks
+│   │   ├── services/         # API client services
+│   │   ├── stores/           # Client-side state
+│   │   └── utils/            # Utilities
+│   └── tests/
+├── mobile/                   # React Native mobile application
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── app/                  # Expo Router screens
+│   ├── components/           # Shared mobile components
+│   ├── services/             # API client services
+│   └── tests/
 │
 ├── contracts/                    # Pact contract definitions
 │   ├── consumers/

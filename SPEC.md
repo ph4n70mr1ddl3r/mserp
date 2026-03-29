@@ -659,13 +659,13 @@ All feature specifications are in [docs/07-features/](docs/07-features/). See §
 
 | # | Document | Path |
 |---|----------|------|
-| 20 | Security Overview | [docs/02-security/overview.md](docs/02-security/overview.md) |
-| 21 | Authorization | [docs/02-security/authorization.md](docs/02-security/authorization.md) |
-| 22 | Data Protection | [docs/02-security/data-protection.md](docs/02-security/data-protection.md) |
-| 23 | GRC | [docs/02-security/grc.md](docs/02-security/grc.md) |
-| 24 | Threat Model | [docs/02-security/threat-model.md](docs/02-security/threat-model.md) |
+| 25 | Security Overview | [docs/02-security/overview.md](docs/02-security/overview.md) |
+| 26 | Authorization | [docs/02-security/authorization.md](docs/02-security/authorization.md) |
+| 27 | Data Protection | [docs/02-security/data-protection.md](docs/02-security/data-protection.md) |
+| 28 | GRC | [docs/02-security/grc.md](docs/02-security/grc.md) |
+| 29 | Threat Model | [docs/02-security/threat-model.md](docs/02-security/threat-model.md) |
 
 ---
 
-*Document Version: 14.0*
+*Document Version: 15.0*
 *Last Updated: 2026-03-29*

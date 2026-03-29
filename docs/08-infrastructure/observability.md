@@ -167,7 +167,8 @@ All services participate in distributed tracing via OpenTelemetry + Jaeger:
 |-------|----------|---------------|----------|
 | Service Down (all replicas) | Critical | < 5 minutes | Investigate, restart, escalate |
 | High Error Rate (>1% of requests) | Critical | < 5 minutes | Investigate, rollback if recent deploy |
-| High Latency (p99 > 2s) | Warning | < 15 minutes | Investigate, check DB/cache |
+| Critical Latency (p99 > 2s) | Critical | < 5 minutes | Immediate investigation, rollback if recent deploy |
+| API Latency Degraded (p99 > 500ms) | Warning | 5 minute evaluation | Check service metrics, review slow queries, check cache hit rates |
 | Disk Usage > 80% | Warning | < 1 hour | Investigate, clean up, expand |
 | Disk Usage > 90% | Critical | < 15 minutes | Immediate action to free space |
 | Certificate Expiry < 14 days | Warning | < 24 hours | Trigger cert rotation |

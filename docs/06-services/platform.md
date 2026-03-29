@@ -31,7 +31,7 @@
 | Knowledge Management | Article authoring with rich text and version control, hierarchical categories, tagging, full-text search, role-based access, context-sensitive knowledge suggestions, article analytics (views, ratings) |
 | Digital Signatures | Native digital signature workflows, signature request and tracking, multi-party signing sequences, signature audit trail, integration with e-signature providers (DocuSign, Adobe Sign) for external documents |
 
-> Platform provides notification and file storage infrastructure used by HCM's Employee Self-Service Portal.
+> Owned and operated by HCM Service. Platform Service provides the notification and file storage infrastructure that the portal uses. The self-service API endpoints are defined in the HCM Service spec and listed under HCM in `docs/05-api/endpoints.md`.
 
 ## Subdomains
 
@@ -140,6 +140,13 @@
 | Exception Classification | ML-based classification of bot exceptions with auto-resolution for known patterns |
 | Automation ROI | ROI dashboards tracking time saved, error reduction, cost savings, and throughput improvement |
 | Attended Automation | Desktop assistant bots that work alongside users, triggered by context and user actions |
+
+## IoT Device Registry
+
+Platform Service owns the **global IoT device registry** (device identity, certificates, lifecycle). Manufacturing Service owns **industrial IoT telemetry** (MQTT/OPC-UA ingestion, alert rules, edge processing). The boundary is:
+- Device registration and certificate issuance: Platform Service (`platform.iot.device.*` events)
+- Telemetry ingestion and processing: Manufacturing Service (`manufacturing.iot.*` events)
+- Manufacturing's `iot_devices` table is a local cache of device metadata for industrial devices, not the authoritative registry.
 
 ## Database Tables
 

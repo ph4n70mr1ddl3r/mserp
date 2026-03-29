@@ -152,8 +152,8 @@ Enterprise Data Quality Management provides a unified framework for ensuring dat
 
 ## Cross-References
 
-- [Master Data Management](mdm.md) — Golden record management and survivorship
-- [Data Import/Export](data-import-export.md) — Inline quality checks during data loading
-- [Customer Data Platform](cdp.md) — Customer unification and deduplication
+- [Master Data Management](../06-services/integration.md) — Golden record management and survivorship (MDM module)
+- [Data Import/Export](../06-services/integration.md) — Inline quality checks during data loading (Data Import/Export module)
+- [Customer Data Platform](../06-services/crm.md) — Customer unification and deduplication (CDP module)
 - [Integration Service](../06-services/integration.md) — ETL pipeline and data integration
 - [Architecture Overview](../01-architecture/overview.md) — System context

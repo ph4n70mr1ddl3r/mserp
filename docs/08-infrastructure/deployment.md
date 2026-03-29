@@ -357,6 +357,8 @@ spec:
             command: ["/bin/sh", "-c", "sleep 5"]  # Wait for pod removal from endpoints
 ```
 
+> **Note:** If using distroless container images (no shell), replace the `exec` preStop with a custom waiting binary or use the `Sleep` action with a minimal wait image like `registry.k8s.io/pause:3.9`.
+
 ### 9.4 Implementation Requirements
 
 - Use `tokio::signal::unix::signal(SIGTERM)` for signal handling.
@@ -404,7 +406,7 @@ initContainers:
 | Strategy | Active-passive failover with warm standby |
 | DNS | Primary region receives 100% of traffic; secondary receives no traffic during normal operation |
 | Failover DNS | On primary failure, DNS updated to secondary (automated via health checks); RTO < 1 hour |
-| Data Replication | PostgreSQL logical replication with synchronous standby |
+| Data Replication | PostgreSQL uses streaming replication with synchronous standby for the primary region failover (zero data loss), and logical replication for cross-region data synchronization (async, < 5 min lag) |
 | RabbitMQ | Federation plugin for cross-region queue mirroring |
 | Redis | Redis Enterprise with active-passive replication |
 | File Storage | MinIO site replication |

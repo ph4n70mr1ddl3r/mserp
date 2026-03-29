@@ -263,7 +263,10 @@
 | `tenant.created` | New tenant provisioned |
 | `tenant.updated` | Tenant settings updated |
 | `tenant.suspended` | Tenant suspended (billing or admin action) |
+| `tenant.reactivated` | Tenant reactivated from suspended state |
+| `tenant.decommissioned` | Tenant decommissioned and data purge initiated |
 | `tenant.feature.changed` | Feature flag value changed for a tenant |
+| `tenant.quota.warning` | Tenant approaching quota limit (80% threshold) |
 
 ### Auth Events
 | Event | Description |
@@ -277,6 +280,23 @@
 | `auth.step-up.requested` | Step-up authentication requested (elevated privilege) |
 
 > **Note:** Auth events are consumed by the Platform Service for security audit logging and alerting (e.g., brute-force detection on repeated `auth.login.failed`). Auth Service does not consume events from other services.
+
+### Identity Events
+| Event | Description |
+|-------|-------------|
+| `identity.user.created` | User account created |
+| `identity.user.updated` | User profile updated |
+| `identity.user.deactivated` | User account deactivated |
+| `identity.user.reactivated` | User account reactivated |
+| `identity.role.created` | Role created |
+| `identity.role.updated` | Role permissions updated |
+| `identity.role.deleted` | Role soft-deleted |
+| `identity.group.created` | User group created |
+| `identity.group.updated` | User group membership updated |
+| `identity.group.deleted` | User group soft-deleted |
+| `identity.api-key.created` | API key provisioned |
+
+> **Note:** Identity Service events are consumed via direct HTTP calls by services that need user data (e.g., HR onboarding triggers Identity user creation via HTTP). Identity Service does not have an inbox queue and does not consume events from other services.
 
 ### Config Events
 | Event | Description |
@@ -450,6 +470,8 @@
 | `commerce.warranty.claim.submitted` | Commerce | Finance, Report |
 | `commerce.warranty.claim.fulfilled` | Commerce | Manufacturing, Finance, Report |
 | `platform.idp.extraction.completed` | Platform | Finance (auto-invoice), Report |
+| `identity.user.created` | Identity | Platform (security audit), HR (provisioning check) |
+| `tenant.created` | Tenant | Platform (default configuration), Report (tenant analytics setup) |
 | `manufacturing.intelligence.oee.threshold-breached` | Manufacturing | Report, Platform |
 
 > **Note:** Report Service subscribes to key business events for analytics aggregation. Workflow Service subscribes to events that trigger approval workflows. Core services (Auth, Identity, Tenant, Config) do not have inbox queues. Identity receives updates via direct service-to-service HTTP calls.

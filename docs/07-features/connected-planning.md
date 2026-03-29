@@ -160,9 +160,9 @@ Connected Planning breaks down traditional planning silos by providing a unified
 
 ## Cross-References
 
-- [Corporate Performance Management](cpm.md) — Budget management and performance tracking
-- [Profitability Analysis](profitability.md) — Profitability modeling and margin analysis
-- [Augmented Analytics](augmented-analytics.md) — Natural language planning queries and auto-insights
+- [Corporate Performance Management](../06-services/report.md) — Budget management and performance tracking (CPM module)
+- [Profitability Analysis](../06-services/finance.md) — Profitability modeling and margin analysis (Profitability Analysis module)
+- [Augmented Analytics](../06-services/report.md) — Natural language planning queries and auto-insights (Augmented Analytics module)
 - [Adaptive Intelligence](adaptive-intelligence.md) — ML-powered demand forecasting and predictions
 - [Finance Service](../06-services/finance.md) — Financial planning and GL operations
 - [HCM Service](../06-services/hr.md) — Workforce and compensation planning

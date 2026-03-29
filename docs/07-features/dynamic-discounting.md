@@ -173,7 +173,7 @@ Dynamic Discounting transforms the traditional static discount model ("2/10 Net 
 
 ## Cross-References
 
-- [Strategic Sourcing](sourcing.md) — Supplier management and procurement optimization
-- [Commodity Management](commodity-management.md) — Commodity pricing and market data
+- [Strategic Sourcing](../06-services/finance.md) — Supplier management and procurement optimization (Strategic Sourcing module)
+- [Commodity Management](../06-services/finance.md) — Commodity pricing and market data (Commodity Management module)
 - [Finance Service](../06-services/finance.md) — Treasury, AP, and cash management operations
 - [Architecture Overview](../01-architecture/overview.md) — System context

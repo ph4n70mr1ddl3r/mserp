@@ -89,9 +89,9 @@
 |----------|-------------|----------------|-----------------|
 | Purchase Requisition Approval | `finance.purchase-order.created` (from Commerce/Finance) | Sequential by amount: < $5K → manager; < $25K → manager + finance; >= $25K → manager + finance + CFO | Amount-based via business rule |
 | Expense Approval | `finance.expense.submitted` | Sequential: employee → manager; amounts > $10K add finance review | Amount and category routing |
-| Leave Approval | `hr.leave.submitted` | Sequential: employee → manager; > 5 consecutive days adds HR review | Duration-based routing |
+| Leave Approval | `hr.leave.requested` | Sequential: employee → manager; > 5 consecutive days adds HR review | Duration-based routing |
 | Contract Approval | `commerce.order.created` (contract type) | Sequential: requester → legal → finance → executive (amount threshold) | Amount, contract type, and department routing |
-| Credit Limit Approval | `commerce.credit-limit.requested` | Sequential: sales rep → finance manager → CFO (> $100K) | Amount-based with finance escalation |
+| Credit Limit Approval | `commerce.credit.hold.applied` | Sequential: sales rep → finance manager → CFO (> $100K) | Amount-based with finance escalation |
 | Change Order Approval | `manufacturing.eco.submitted` | Sequential: engineer → engineering manager → quality → production | Department and change-impact routing |
 
 Templates are versioned BPMN definitions in `process_definitions` with configurable parameters (thresholds, approver roles) exposed as process variables. Tenants can clone and customize; originals are read-only. Listed via `GET /api/v1/workflow/templates`.
@@ -247,13 +247,21 @@ All tables include standard columns: `id` (UUID PK), `tenant_id` (UUID), `create
 
 ## Events Consumed
 
-| Event | Source Service | Action |
-|-------|---------------|--------|
+| Pattern | Source Service | Action |
+|---------|---------------|--------|
+| `workflow.#` | Self (saga compensation) | Saga compensation and instance recovery |
 | `hr.leave.#` | HCM Service | Trigger leave approval template |
 | `commerce.order.#` | Commerce Service | Trigger contract approval or order approval template |
+| `commerce.credit.#` | Commerce Service | Trigger credit limit approval template |
 | `finance.purchase-order.#` | Finance Service | Trigger purchase requisition approval template |
 | `finance.expense.#` | Finance Service | Trigger expense approval template |
+| `finance.intelligent-close.#` | Finance Service | Trigger intelligent close approval template |
+| `finance.supplier-risk.#` | Finance Service | Trigger supplier risk escalation template |
 | `manufacturing.eco.#` | Manufacturing Service | Trigger change order approval template |
+| `report.process.#` | Report Service | Trigger process improvement approval template |
+| `platform.rpa.#` | Platform Service | Trigger RPA exception approval template |
+| `platform.grc.#` | Platform Service | Trigger GRC remediation approval template |
+| `integration.trade-compliance.#` | Integration Service | Trigger trade compliance approval template |
 | `config.changed` | Config Service | Reload workflow configuration (SLA thresholds, escalation policies) |
 
 ## See Also

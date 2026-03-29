@@ -148,10 +148,10 @@ Adaptive Intelligence brings ML-powered decision support directly into business 
 | `intelligence.recommendation.accepted` | Report Service | Feed positive signal to retraining pipeline |
 | `intelligence.recommendation.rejected` | Report Service | Feed negative signal to retraining pipeline |
 | `finance.transaction.posted` | Finance Service | Update financial features for prediction models |
-| `commerce.order.completed` | Commerce Service | Update purchase history for recommendation models |
+| `commerce.order.fulfilled` | Commerce Service | Update purchase history for recommendation models |
 | `crm.lead.created` | CRM Service | Trigger lead scoring model |
 | `crm.deal.stage-changed` | CRM Service | Update deal risk model features |
-| `hcm.employee.terminate` | HCM Service | Update attrition model training data |
+| `hr.employee.separated` | HCM Service | Update attrition model training data |
 
 ## Data Model Reference
 
@@ -170,8 +170,8 @@ Adaptive Intelligence brings ML-powered decision support directly into business 
 
 - [Intelligent Close](intelligent-close.md) — AI-driven financial close automation
 - [Intelligent Document Processing](idp.md) — AI-powered document classification and extraction
-- [Augmented Analytics](augmented-analytics.md) — Natural language query and auto-insights
-- [Process Mining](process-mining.md) — Process discovery and optimization
+- [Augmented Analytics](../06-services/report.md) — Natural language query and auto-insights (Augmented Analytics module)
+- [Process Mining](../06-services/report.md) — Process discovery and optimization (Process Mining module)
 - [Architecture Overview](../01-architecture/overview.md) — System context
 - [Report Service](../06-services/report.md) — ML model serving and analytics
 - [NFR: Performance](../10-planning/nfr.md) — ML inference latency < 500ms

@@ -82,6 +82,8 @@
 | Data Routing | Configurable telemetry routing to manufacturing, logistics, or maintenance modules |
 | Device Health Monitoring | Device connectivity status, battery levels, and firmware update management |
 
+**Note:** Platform Service owns the authoritative IoT device registry and certificate management. Manufacturing Service's `iot_devices` table is a local cache of industrial device metadata. Device registration events originate from Platform (`platform.iot.device.registered`) and Manufacturing subscribes to populate its local cache. Manufacturing publishes telemetry, alert, and operational events under the `manufacturing.iot.*` namespace.
+
 ## Digital Twin
 
 | Module | Description |

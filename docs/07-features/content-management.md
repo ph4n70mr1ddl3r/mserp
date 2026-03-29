@@ -137,7 +137,7 @@ Enterprise Content Management provides a comprehensive system for creating, orga
 
 ## Cross-References
 
-- [Knowledge Management](knowledge-management.md) — Knowledge base features
+- [Knowledge Management](../06-services/platform.md) — Knowledge base features (Knowledge Management module)
 - [Privacy Management](privacy.md) — Data retention and erasure policies
 - [Digital Signatures](../06-services/platform.md) — Document signing workflows
 - [Collaboration](collaboration.md) — Document sharing and co-editing

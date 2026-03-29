@@ -125,7 +125,7 @@ The Email feature provides a comprehensive email infrastructure for MSERP, cover
 
 - [Digital Assistant](digital-assistant.md) — Email channel for assistant notifications
 - [Enterprise Collaboration](collaboration.md) — Email-to-channel forwarding
-- [Knowledge Management](knowledge-management.md) — Email-triggered knowledge article suggestions
+- [Knowledge Management](../06-services/platform.md) — Email-triggered knowledge article suggestions (Knowledge Management module)
 - [Multi-Tenancy](multi-tenancy.md) — Per-tenant email configuration and isolation
 - [Architecture Overview](../01-architecture/overview.md) — System context
 - [Platform Service](../06-services/platform.md) — Platform service specification

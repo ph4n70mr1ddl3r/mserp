@@ -130,7 +130,7 @@ Enterprise Collaboration provides a unified workspace for teams to communicate, 
 
 ## Cross-References
 
-- [Knowledge Management](knowledge-management.md) — Knowledge base features
+- [Knowledge Management](../06-services/platform.md) — Knowledge base features (Knowledge Management module)
 - [Content Management](content-management.md) — Document management and lifecycle
 - [Digital Assistant](digital-assistant.md) — AI-powered bot in channels
 - [Architecture Overview](../01-architecture/overview.md) — System context

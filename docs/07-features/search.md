@@ -144,7 +144,7 @@ The Search feature provides a unified search infrastructure across all MSERP ser
 - [Multi-Tenancy](multi-tenancy.md) — Per-tenant index isolation
 - [Digital Assistant](digital-assistant.md) — Search queries from assistant
 - [Enterprise Collaboration](collaboration.md) — Unified search in collaboration
-- [Knowledge Management](knowledge-management.md) — Knowledge article indexing
+- [Knowledge Management](../06-services/platform.md) — Knowledge article indexing (Knowledge Management module)
 - [Content Management](content-management.md) — Document content indexing
 - [Architecture Overview](../01-architecture/overview.md) — System context
 - [Platform Service](../06-services/platform.md) — Platform service specification

@@ -7,18 +7,42 @@ This document instructs AI agents on how to use this specification to build MSER
 Agents MUST follow documents in this order of authority:
 
 1. **SPEC.md** — Authoritative master specification. If any other document conflicts with SPEC.md, SPEC.md wins.
-2. **Service specs** (`docs/06-services/*.md`) — Define what each service owns and implements.
-3. **Feature specs** (`docs/07-features/*.md`) — Detailed business rules for features whose implementation detail exceeds what service specs contain. Only 22 feature specs remain (see below). For all other features, the service spec is the authoritative source.
-4. **Cross-cutting specs** — Architecture, security, data, events, API standards. These define shared patterns all services must follow.
-5. **Infrastructure/dev/planning** — Operational concerns, deployment, development workflow.
+2. **AGENTS.md** — This file. Development workflow, ownership rules, event conventions.
+3. **Service specs** (`docs/06-services/*.md`) — Define what each service owns and implements. Each service spec includes: modules, database tables, published/consumed events, and integration points.
+4. **Feature specs** (`docs/07-features/*.md`) — Detailed business rules for 22 features whose implementation detail exceeds what service specs contain. For all other features, the service spec is the authoritative source.
+5. **Cross-cutting specs** — Architecture, security, data, events, API standards. These define shared patterns all services must follow.
+6. **Infrastructure/dev/planning** — Operational concerns, deployment, development workflow.
 
-### Remaining Feature Specs
+## Feature Spec Registry (22 specs)
 
-The following 22 feature specs contain substantial implementation detail not found in service specs: adaptive-intelligence, api-marketplace, collaboration, compliance-hub, connected-planning, content-management, digital-assistant, dlp, dynamic-discounting, edi, email, enterprise-data-quality, event-mesh, financial-reporting-studio, idp, intelligent-close, intelligent-process-automation, multi-tenancy, privacy, reconciliation, search, supply-chain-collaboration.
+| Feature | Owning Service | Spec File |
+|---------|---------------|-----------|
+| Account Reconciliation | Finance Service | `docs/07-features/reconciliation.md` |
+| Adaptive Intelligence | Platform Service (lifecycle) / Report Service (inference) | `docs/07-features/adaptive-intelligence.md` |
+| API Marketplace | Integration Service | `docs/07-features/api-marketplace.md` |
+| Collaboration | Platform Service | `docs/07-features/collaboration.md` |
+| Compliance Hub | Platform Service | `docs/07-features/compliance-hub.md` |
+| Connected Planning | Report Service (analytics) / Finance+HCM+Manufacturing (domain models) | `docs/07-features/connected-planning.md` |
+| Content Management | Platform Service | `docs/07-features/content-management.md` |
+| Digital Assistant | Platform Service | `docs/07-features/digital-assistant.md` |
+| DLP | Platform Service | `docs/07-features/dlp.md` |
+| Dynamic Discounting | Finance Service | `docs/07-features/dynamic-discounting.md` |
+| EDI | Integration Service | `docs/07-features/edi.md` |
+| Email Service | Platform Service | `docs/07-features/email.md` |
+| Enterprise Data Quality | Integration Service | `docs/07-features/enterprise-data-quality.md` |
+| Event Mesh | Integration Service (infrastructure) | `docs/07-features/event-mesh.md` |
+| Financial Reporting Studio | Finance Service (templates) / Report Service (rendering) | `docs/07-features/financial-reporting-studio.md` |
+| Full-Text Search | Platform Service | `docs/07-features/search.md` |
+| IDP | Platform Service (orchestration) / Report Service (ML) | `docs/07-features/idp.md` |
+| Intelligent Close | Finance Service | `docs/07-features/intelligent-close.md` |
+| IPA (RPA + AI) | Platform Service (runtime) / Report Service (ML) / Integration (connectors) | `docs/07-features/intelligent-process-automation.md` |
+| Multi-Tenancy | Tenant Service | `docs/07-features/multi-tenancy.md` |
+| Privacy Management | Platform Service | `docs/07-features/privacy.md` |
+| Supply Chain Collaboration | Commerce Service (demand) / Manufacturing (capacity) / Integration (network) | `docs/07-features/supply-chain-collaboration.md` |
 
 ## Service Ownership Model
 
-Every feature, API endpoint, database table, and event belongs to EXACTLY ONE service. The ownership table is in SPEC.md §Service Domain Ownership.
+Every feature, API endpoint, database table, and event belongs to EXACTLY ONE service. The ownership table is in SPEC.md §4 (Service Domain Ownership).
 
 ### Service Boundary Rules
 
@@ -34,6 +58,7 @@ Every feature, API endpoint, database table, and event belongs to EXACTLY ONE se
 | Inventory & warehousing | Commerce Service | Manufacturing sends production completions |
 | Manufacturing (BOM, work orders, quality, PLM) | Manufacturing Service | Commerce reads ATP data |
 | Employee lifecycle & payroll | HCM Service | — |
+| Employee self-service portal | HCM Service | Platform provides notification/file services |
 | Projects & resources | Project Service | — |
 | Reporting platform & dashboards | Report Service | Finance provides report templates |
 | Financial report templates (XBRL, regulatory) | Finance Service | Rendered by Report Service |
@@ -43,7 +68,7 @@ Every feature, API endpoint, database table, and event belongs to EXACTLY ONE se
 | RPA & IPA | Platform Service | — |
 | Integration & connectors | Integration Service | All services register connectors |
 | MDM golden records | Integration Service | All services publish master data events |
-| Enterprise data quality | Integration Service (owns all data profiling, cleansing, matching, enrichment) | — |
+| Enterprise data quality | Integration Service | — |
 | Authentication & tokens | Auth Service | All services validate tokens |
 | Identity & RBAC/ABAC | Identity Service | All services check permissions |
 | Tenant management | Tenant Service | All services enforce tenant isolation |
@@ -63,40 +88,66 @@ Every feature, API endpoint, database table, and event belongs to EXACTLY ONE se
 | Credit management | Commerce Service | — |
 | ESG & sustainability | Report Service | All services emit emissions data |
 | Trade compliance | Integration Service | — |
-| IoT device registry | Platform Service (owns device registry and certificates); Manufacturing Service (owns industrial IoT telemetry, alerts, edge processing) | Commerce reads condition data |
-| Digital twin simulation | Manufacturing Service (owns asset twins and simulations); Platform Service (provides telemetry ingestion infrastructure) | — |
+| IoT device registry & certificates | Platform Service | Manufacturing caches device metadata locally |
+| IoT telemetry, alerts, edge processing | Manufacturing Service | Commerce reads condition data |
+| Digital twin simulation | Manufacturing Service | Platform provides telemetry ingestion infrastructure |
 | EHS | Manufacturing Service | — |
 | Field service | CRM Service | — |
 | Contact center | CRM Service | — |
 | Social selling | CRM Service | — |
 | Surveys & feedback | CRM Service | — |
 | Territory & quota planning | CRM Service | — |
-| A/B testing | CRM Service | — |
+| A/B testing (marketing) | CRM Service | — |
 | Blockchain | Integration Service | — |
-| Employee self-service portal | HCM Service | Platform provides notification/file services |
+
+### Event Namespace Rules
+
+All events MUST follow the `{service-domain}.{entity}.{action}` naming convention:
+
+- Service domains: `auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `crm`, `project`, `platform`, `integration`
+- Entities: domain-specific (e.g., `order`, `invoice`, `employee`, `work-order`)
+- Actions: `created`, `updated`, `deleted`, `approved`, `completed`, `failed`, etc.
+
+**Common violations to avoid:**
+- Do NOT use bare domain prefixes (e.g., `reconciliation.*` → use `finance.reconciliation.*`)
+- Do NOT use abbreviations as domains (e.g., `scc.*` → use `commerce.collaboration.*`)
+- Do NOT nest service domains (e.g., `hr.employee.leave.approved` → use `hr.leave.approved`)
+
+### IoT Boundary Rule
+
+Platform Service owns the **global device registry** (registration, certificates, lifecycle). Manufacturing Service owns **industrial telemetry** (ingestion, alerts, edge processing). The split:
+- `platform.iot.device.*` events = registry operations (Platform publishes)
+- `manufacturing.iot.*` events = telemetry operations (Manufacturing publishes)
+- Manufacturing's `iot_devices` table is a **local cache**, not the authoritative registry
+
+### ML/AI Ownership Split
+
+Report Service owns the **ML/AI platform** (training, serving, feature store, model registry). Platform Service owns **model lifecycle management** (feedback loops, A/B testing, monitoring). Business services own their **domain-specific ML use cases** (define features, consume predictions).
 
 ## How to Build a Service
 
-1. Read `docs/06-services/{service}.md` for the service's modules and responsibilities.
+1. Read `docs/06-services/{service}.md` for the service's modules, database tables, events, and integration points.
 2. Read `docs/06-services/overview.md` for the service catalog and port assignments.
 3. Check `docs/07-features/` for relevant feature specs. If a feature spec exists, read it for detailed business rules. Otherwise, the service spec contains the complete feature definition.
 4. Read `docs/05-api/standards.md` for API design rules (pagination, idempotency, errors).
 5. Read `docs/05-api/endpoints.md` for the service's endpoint listing.
 6. Read `docs/03-data/overview.md` for database patterns and standard columns.
-7. Read `docs/04-events/overview.md` for event patterns.
+7. Read `docs/04-events/overview.md` for event patterns and inbox bindings.
 8. Read `docs/04-events/catalog.md` for the service's published and consumed events.
 9. Read `docs/02-security/overview.md` and `docs/02-security/authorization.md` for auth requirements.
 10. Read `docs/09-development/project-structure.md` for directory layout.
 11. Read `docs/09-development/conventions.md` for code style.
+12. Read `docs/08-infrastructure/technology.md` for crate versions and dependencies.
 
 ## How to Add a Feature
 
-1. Confirm which service owns the feature (see SPEC.md §Service Domain Ownership).
+1. Confirm which service owns the feature (see SPEC.md §4 Service Domain Ownership).
 2. Check `docs/07-features/` for an existing feature spec. If one exists, read it first. If not, the service spec (`docs/06-services/{service}.md`) contains the complete feature definition.
-3. If the feature requires new events, add them to `docs/04-events/catalog.md`.
+3. If the feature requires new events, add them to `docs/04-events/catalog.md` using the `{service-domain}.{entity}.{action}` naming convention.
 4. If the feature requires new endpoints, add them to `docs/05-api/endpoints.md`.
 5. If the feature requires new error codes, add them to `docs/05-api/error-codes.md`.
-6. If the feature requires new data models, add them to the service's database in `docs/03-data/`.
+6. If the feature requires new data models, add them to `docs/03-data/domain-models.md`.
+7. If the feature crosses service boundaries, define the integration in both the publisher's and consumer's service specs, and add cross-domain events to `docs/04-events/catalog.md`.
 
 ## Event-Driven Integration Pattern
 
@@ -110,6 +161,10 @@ Services communicate asynchronously via RabbitMQ events. The canonical event flo
 Event bindings are defined in `docs/04-events/overview.md`. Cross-domain event flows are defined in `docs/04-events/catalog.md`.
 
 **IMPORTANT:** The inbox binding table in `docs/04-events/overview.md` is the authoritative source for which events a service can receive. If a cross-domain event in `docs/04-events/catalog.md` references a subscriber, that subscriber MUST have a matching inbox binding.
+
+### Self-Binding for Saga Compensation
+
+All services with inbox queues bind to their own event namespace (`{domain}.#`) for saga compensation patterns. This self-binding is documented in `docs/04-events/overview.md` but may not be repeated in individual service specs. When implementing a saga, always include the self-binding.
 
 ## Database Per Service
 
@@ -129,8 +184,8 @@ All APIs use RFC 7807 problem details. Error codes follow the pattern `{DOMAIN}_
 
 ## Testing Requirements
 
-- Unit tests for all business logic.
-- Integration tests for all API endpoints.
+- Unit tests for all business logic (`#[cfg(test)]` in same file).
+- Integration tests for all API endpoints (`tests/` directory with testcontainers).
 - Contract tests (Pact) for all inter-service boundaries.
 - Saga compensation tests for all distributed transactions.
 - See `docs/10-planning/nfr.md` for the complete testing strategy.
@@ -143,3 +198,5 @@ All APIs use RFC 7807 problem details. Error codes follow the pattern `{DOMAIN}_
 4. **Backward compatibility always.** APIs and events are versioned. Breaking changes require a migration plan.
 5. **Security by default.** Every endpoint checks auth, every query is tenant-scoped, every sensitive field is encrypted.
 6. **Observe everything.** All services emit Prometheus metrics, structured logs, and OpenTelemetry traces.
+7. **Event namespace discipline.** Always use `{service-domain}.{entity}.{action}`. Never use bare or abbreviated prefixes.
+8. **Service specs are the primary reference.** Feature specs supplement service specs for complex features. If a feature has no dedicated spec, the service spec is complete and authoritative.

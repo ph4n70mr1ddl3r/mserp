@@ -69,6 +69,8 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | `GET` | `/config/locales/{locale}/translations` | Get all translation strings for a locale (query param: `tenant_id` for overrides) |
 | `PUT` | `/config/locales/{locale}/translations/{key}` | Create or update a translation string (body: `{ value, tenant_id? }`) |
 
+> **Note:** The endpoint paths in this spec omit the `/api/v1/` prefix for brevity. The full paths are documented in `docs/05-api/endpoints.md` (e.g., `/api/v1/config/{key}`).
+
 ## Validation Rules
 
 | Rule | Description |

@@ -39,6 +39,8 @@
 | `/auth/.well-known/jwks.json` | GET | JSON Web Key Set for JWT verification |
 | `/auth/userinfo` | GET | OIDC UserInfo endpoint — returns authenticated user claims |
 
+> **Note:** Auth Service exposes two categories of endpoints: (1) OAuth2/OIDC protocol endpoints (e.g., `/auth/authorize`, `/auth/token`) for standards-based authentication flows, and (2) Application API endpoints (e.g., `/api/v1/auth/login`, `/api/v1/auth/mfa/enable`) for direct client interactions. The OAuth2 endpoints are listed in this spec; the application API endpoints are documented in `docs/05-api/endpoints.md`.
+
 ### Refresh Token Rotation
 
 - A new refresh token is issued on every `grant_type=refresh_token` exchange; the previous refresh token is immediately invalidated.

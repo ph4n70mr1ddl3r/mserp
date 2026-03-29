@@ -60,15 +60,15 @@ Supply Chain Collaboration Network creates a secure, multi-tier digital thread c
 | Event | Payload | Trigger | Consumers |
 |-------|---------|---------|-----------|
 | `commerce.collaboration.demand-shared` | `{forecast_id, supplier_id, period_range, granularity, items[], commitment_level}` | Demand forecast shared with supplier | Supplier Portal, Notification |
-| `scc.capacity.published` | `{capacity_id, supplier_id, period, category, available_qty, committed_qty}` | Supplier publishes available capacity | Buyer Dashboard, Planning |
+| `commerce.collaboration.capacity.published` | `{capacity_id, supplier_id, period, category, available_qty, committed_qty}` | Supplier publishes available capacity | Buyer Dashboard, Planning |
 | `commerce.collaboration.capacity.committed` | `{commitment_id, supplier_id, buyer_id, category, qty, period, status}` | Buyer commits to supplier capacity | Supplier Portal, Planning |
-| `scc.po.acknowledged` | `{po_id, supplier_id, acknowledged_lines[], rejected_lines[], proposed_changes[]}` | Supplier acknowledges PO | AP, Inventory, Dashboard |
+| `commerce.collaboration.po.acknowledged` | `{po_id, supplier_id, acknowledged_lines[], rejected_lines[], proposed_changes[]}` | Supplier acknowledges PO | AP, Inventory, Dashboard |
 | `commerce.collaboration.asn.submitted` | `{asn_id, supplier_id, po_id, ship_date, carrier, lines[], tracking}` | Supplier submits ASN | Receiving Warehouse, AP |
-| `scc.invoice.submitted` | `{invoice_id, supplier_id, po_id, asn_id, lines[], total}` | Supplier submits invoice | AP, 3-Way Match Engine |
-| `scc.risk.alert` | `{alert_id, risk_type, severity, affected_suppliers[], affected_pos[], estimated_impact}` | Supply risk detected | Buyer Dashboard, Notification, Planning |
-| `scc.scorecard.updated` | `{scorecard_id, supplier_id, period, metrics{}, peer_rank, trend}` | Supplier scorecard recalculated | Supplier Portal, Buyer Dashboard |
-| `scc.cpfr.exception` | `{exception_id, supplier_id, item, buyer_forecast, supplier_forecast, variance_pct}` | CPFR forecast variance exceeds threshold | CPFR Workflow, Notification |
-| `scc.inventory.threshold-breached` | `{alert_id, supplier_id, item, location, current_qty, threshold, action}` | VMI inventory crosses threshold | Supplier Portal, Replenishment Engine |
+| `commerce.collaboration.invoice.submitted` | `{invoice_id, supplier_id, po_id, asn_id, lines[], total}` | Supplier submits invoice | AP, 3-Way Match Engine |
+| `commerce.collaboration.risk.alert` | `{alert_id, risk_type, severity, affected_suppliers[], affected_pos[], estimated_impact}` | Supply risk detected | Buyer Dashboard, Notification, Planning |
+| `commerce.collaboration.scorecard.updated` | `{scorecard_id, supplier_id, period, metrics{}, peer_rank, trend}` | Supplier scorecard recalculated | Supplier Portal, Buyer Dashboard |
+| `commerce.collaboration.cpfr.exception` | `{exception_id, supplier_id, item, buyer_forecast, supplier_forecast, variance_pct}` | CPFR forecast variance exceeds threshold | CPFR Workflow, Notification |
+| `commerce.collaboration.inventory.threshold-breached` | `{alert_id, supplier_id, item, location, current_qty, threshold, action}` | VMI inventory crosses threshold | Supplier Portal, Replenishment Engine |
 
 ### Domain Events Consumed
 
@@ -171,8 +171,8 @@ Supply Chain Collaboration Network creates a secure, multi-tier digital thread c
 
 ## Cross-References
 
-- [Strategic Sourcing](sourcing.md) — Supplier management and procurement
-- [Blockchain Integration](blockchain.md) — Immutable supply chain transaction audit trail
-- [IoT Integration](iot.md) — Real-time shipment tracking and condition monitoring
+- [Strategic Sourcing](../06-services/finance.md) — Supplier management and procurement (Strategic Sourcing module)
+- [Blockchain Integration](../06-services/integration.md) — Immutable supply chain transaction audit trail (Blockchain module)
+- [IoT Integration](../06-services/manufacturing.md) — Real-time shipment tracking and condition monitoring (IoT Integration module)
 - [Commerce Service](../06-services/commerce.md) — Order management and supplier portal
 - [Integration Service](../06-services/integration.md) — Supplier network connectors and EDI

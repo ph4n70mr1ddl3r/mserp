@@ -237,7 +237,7 @@ All tables include standard columns: `id` UUID PK, `tenant_id` UUID, `created_at
 | Event | Payload | Description |
 |-------|---------|-------------|
 | `hr.employee.created` | `{ employee_id, tenant_id, employee_number, position_id, department_id }` | Employee record created |
-| `hr.employee.hired` | `{ employee_id, tenant_id, hire_date, position_id, manager_id }` | Employee onboarded |
+| `hr.employee.hired` | `{ employee_id, tenant_id, hire_date, position_id, manager_id }` | Employee hired and onboarding initiated |
 | `hr.employee.updated` | `{ employee_id, tenant_id, changed_fields, old_values, new_values }` | Employee profile updated |
 | `hr.employee.separated` | `{ employee_id, tenant_id, separation_date, reason, position_id, department_id }` | Employee offboarded |
 | `hr.attendance.recorded` | `{ employee_id, tenant_id, date, check_in, check_out, hours_worked, overtime_hours }` | Attendance check-in/out |
@@ -261,6 +261,8 @@ All tables include standard columns: `id` UUID PK, `tenant_id` UUID, `created_at
 |-------|--------|---------|
 | `workflow.step.#` | Workflow Service | Approval result processing for leave requests, recruitment requisitions, compensation changes, and performance calibration |
 | `config.changed` | Config Service | Reload HR configuration (leave policies, tax rules, payroll parameters, benefit plan settings) |
+
+> **Note:** Per the event-driven architecture, HR Service's inbox queue also binds to `hr.#` for saga compensation patterns.
 
 ## Error Codes
 

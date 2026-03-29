@@ -103,10 +103,10 @@ Account Reconciliation provides end-to-end automation of the financial reconcili
 |-------|---------|---------|-----------|
 | `finance.reconciliation.matched` | `{reconciliation_id, account_id, matched_count, unmatched_count}` | Auto-match run completes | Close Task Manager, Dashboard |
 | `finance.reconciliation.exception.created` | `{exception_id, reconciliation_id, transaction_ids, reason}` | Unmatched or low-confidence match detected | Workflow Engine, Notification Service |
-| `reconciliation.exception.resolved` | `{exception_id, resolution, resolved_by, resolved_at}` | User resolves exception | Audit Trail, Close Task Manager |
-| `reconciliation.template.applied` | `{template_id, account_id, rules_applied}` | Template applied to reconciliation | Audit Trail |
+| `finance.reconciliation.exception.resolved` | `{exception_id, resolution, resolved_by, resolved_at}` | User resolves exception | Audit Trail, Close Task Manager |
+| `finance.reconciliation.template.applied` | `{template_id, account_id, rules_applied}` | Template applied to reconciliation | Audit Trail |
 | `finance.reconciliation.completed` | `{period_id, account_id, certified_by, certified_at}` | User certifies reconciliation complete | Close Task Manager, Report Service |
-| `reconciliation.intercompany.matched` | `{source_entity, dest_entity, matched_pairs, elimination_entries}` | Intercompany matching completes | Finance Service (elimination) |
+| `finance.reconciliation.intercompany.matched` | `{source_entity, dest_entity, matched_pairs, elimination_entries}` | Intercompany matching completes | Finance Service (elimination) |
 
 ### Domain Events Consumed
 
@@ -134,19 +134,19 @@ Account Reconciliation provides end-to-end automation of the financial reconcili
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `reconciliation.match.tolerance_amount` | 0.01 | Amount tolerance for fuzzy matching |
-| `reconciliation.match.tolerance_percent` | 0.5% | Percentage tolerance for fuzzy matching |
-| `reconciliation.match.confidence_threshold` | 80 | Minimum confidence for auto-match (0-100) |
-| `reconciliation.match.max_rules_per_template` | 20 | Maximum matching rules per template |
-| `reconciliation.exception.escalation_hours` | 24 | Hours before exception escalation |
-| `reconciliation.close.auto_certify` | false | Auto-certify when all items matched |
+| `finance.reconciliation.match.tolerance_amount` | 0.01 | Amount tolerance for fuzzy matching |
+| `finance.reconciliation.match.tolerance_percent` | 0.5% | Percentage tolerance for fuzzy matching |
+| `finance.reconciliation.match.confidence_threshold` | 80 | Minimum confidence for auto-match (0-100) |
+| `finance.reconciliation.match.max_rules_per_template` | 20 | Maximum matching rules per template |
+| `finance.reconciliation.exception.escalation_hours` | 24 | Hours before exception escalation |
+| `finance.reconciliation.close.auto_certify` | false | Auto-certify when all items matched |
 
 ## Cross-References
 
 - [Intelligent Close](intelligent-close.md) — AI-driven close automation and anomaly detection
 - [Adaptive Intelligence](adaptive-intelligence.md) — ML model training and inference pipeline
 - [Workflow Engine](../06-services/workflow.md) — Exception management workflow definitions
-- [Data Import/Export](data-import-export.md) — Statement import framework
+- [Data Import/Export](../06-services/integration.md) — Statement import framework (Data Import/Export module)
 - [Architecture Overview](../01-architecture/overview.md) — System communication patterns
 - [Finance Service](../06-services/finance.md) — Finance service specification
 - [NFR: Performance](../10-planning/nfr.md) — Reconciliation auto-match < 30s per account

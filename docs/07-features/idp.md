@@ -168,8 +168,8 @@ Intelligent Document Processing automates the ingestion, classification, extract
 
 ## Cross-References
 
-- [Robotic Process Automation](rpa.md) — Bot-based document handling automation
-- [Data Import/Export Framework](data-import-export.md) — Bulk data operations
+- [Intelligent Process Automation](intelligent-process-automation.md) and [RPA](../06-services/platform.md) — Bot-based document handling automation (RPA module)
+- [Data Import/Export Framework](../06-services/integration.md) — Bulk data operations (Data Import/Export module)
 - [Adaptive Intelligence](adaptive-intelligence.md) — ML model lifecycle management
 - [Content Management](content-management.md) — Document storage and lifecycle
 - [Digital Signatures](../06-services/platform.md) — Signed document verification

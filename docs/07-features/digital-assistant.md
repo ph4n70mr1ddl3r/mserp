@@ -126,7 +126,7 @@ The Digital Assistant provides an intelligent conversational interface that enab
 
 ## Cross-References
 
-- [Knowledge Management](knowledge-management.md) — Knowledge base for FAQ answers
+- [Knowledge Management](../06-services/platform.md) — Knowledge base for FAQ answers (Knowledge Management module)
 - [Enterprise Collaboration](collaboration.md) — Bot presence in collaboration channels
 - [Intelligent Process Automation](intelligent-process-automation.md) — RPA bot integration
 - [Search](search.md) — Cross-domain search queries

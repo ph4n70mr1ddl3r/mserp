@@ -156,9 +156,9 @@ Intelligent Process Automation (IPA) goes beyond traditional rule-based RPA by i
 
 ## Cross-References
 
-- [Robotic Process Automation](rpa.md) — Core RPA engine and bot runtime
+- [RPA](../06-services/platform.md) — Core RPA engine and bot runtime (RPA module)
 - [Intelligent Document Processing](idp.md) — Document classification and data extraction
 - [Adaptive Intelligence](adaptive-intelligence.md) — ML model training and inference pipeline
-- [Process Mining](process-mining.md) — Process discovery and optimization analytics
+- [Process Mining](../06-services/report.md) — Process discovery and optimization analytics (Process Mining module)
 - [Platform Service](../06-services/platform.md) — Bot execution runtime and workflow engine
 - [Report Service](../06-services/report.md) — ML inference and ROI analytics
