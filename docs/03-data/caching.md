@@ -79,6 +79,5 @@ Examples:
 ---
 
 *See [Data Architecture Overview](overview.md) for database patterns and schema elements.*
-*See [Data Warehouse](warehouse.md) for analytical schema design.*
-*See [Data Lake](data-lake.md) for raw and curated data zones.*
-*See [Domain Data Models](domain-models.md) for domain-specific data models including MDM, CDP, IoT, and other schemas.*
+*See [Data Pipeline](data-pipeline.md) for the analytical pipeline (data lake + warehouse).*
+*See [Domain Data Models](domain-models.md) for domain-specific data models.**

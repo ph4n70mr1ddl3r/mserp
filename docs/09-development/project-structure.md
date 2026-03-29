@@ -23,11 +23,9 @@ mserp/
 │   │   └── overview.md
 │   ├── 03-data/                   # Data documentation
 │   │   ├── caching.md
-│   │   ├── data-lake.md
+│   │   ├── data-pipeline.md
 │   │   ├── domain-models.md
-│   │   ├── mdm.md
-│   │   ├── overview.md
-│   │   └── warehouse.md
+│   │   └── overview.md
 │   ├── 09-development/            # Development guides
 │   │   ├── conventions.md
 │   │   ├── local-setup.md

@@ -26,12 +26,12 @@ All architectural rules live in SPEC.md and domain-specific docs. AGENTS.md does
 | ML/AI ownership split | SPEC.md §10 |
 | Critical integration points (Auth↔Identity, MDM, SoD, IoT) | SPEC.md §3.4 |
 | Common violations to avoid | SPEC.md §3.3–§3.4 (6 corrected patterns) |
-| Database-per-service | SPEC.md §2.2, §3 |
-| Multi-tenancy & RLS | SPEC.md §2.3, `docs/03-data/overview.md` |
+| Database-per-service | SPEC.md §3.3, §3 |
+| Multi-tenancy & RLS | SPEC.md §8, `docs/03-data/overview.md` |
 | Error handling (RFC 7807) | `docs/05-api/error-codes.md` |
 | Testing requirements | `docs/10-planning/nfr.md` |
 | Event-driven integration pattern & saga self-binding | `docs/04-events/overview.md` |
-| Feature spec registry (22 specs) | SPEC.md §7 |
+| Feature spec registry (22 specs) | SPEC.md §12 |
 
 ## How to Build a Service
 

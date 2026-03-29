@@ -1,6 +1,6 @@
 # API Endpoints Overview
 
-## 9. API Endpoints Overview
+# API Endpoints
 
 ### Auth Service
 | Method | Endpoint | Description |

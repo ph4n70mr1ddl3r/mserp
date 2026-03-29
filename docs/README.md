@@ -46,9 +46,8 @@ SPEC.md (Authoritative single source of truth)
 |----------|-------------|
 | [Data Architecture](03-data/overview.md) | Database-per-service, standard columns, multi-tenancy (RLS), migrations, soft delete, audit trail |
 | [Caching Strategy](03-data/caching.md) | Redis cache-aside, 29 cache policies, invalidation strategies |
-| [Data Warehouse](03-data/warehouse.md) | DuckDB star schema, ETL pipeline |
-| [Data Lake](03-data/data-lake.md) | MinIO zones (raw/curated/analytics), schema-on-read |
-| [Domain Data Models](03-data/domain-models.md) | 27 domain data models (revenue recognition, lease, grants, JV, etc.), MDM golden records, CDP schema, IoT telemetry, data quality rules |
+| [Data Pipeline](03-data/data-pipeline.md) | Data lake (MinIO zones), ETL pipeline, DuckDB star schema warehouse |
+| [Domain Data Models](03-data/domain-models.md) | 33 domain data models (revenue recognition, lease, grants, JV, MDM golden records, CDP, IoT, etc.) |
 
 ## 04 — Events
 
