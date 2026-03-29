@@ -193,7 +193,6 @@
 | `manufacturing.asset.decommissioned` | Asset decommissioned |
 | `manufacturing.plan.firmed` | Production plan firmed |
 | `manufacturing.plan.simulation.completed` | ASCP simulation completed |
-| `manufacturing.iot.device.registered` | IoT device registered |
 | `manufacturing.iot.telemetry.received` | Telemetry data received from IoT device |
 | `manufacturing.iot.alert.triggered` | IoT alert rule triggered |
 | `manufacturing.iot.device.offline` | IoT device went offline |
@@ -208,6 +207,8 @@
 | `manufacturing.safety.inspection.completed` | Safety inspection completed. Payload: `{ inspection_id, findings, location, inspector_id }` |
 | `manufacturing.mro.repair.completed` | MRO repair order completed. Payload: `{ repair_id, asset_id, cost, downtime_hours }` |
 | `manufacturing.compliance.certification.updated` | Product certification updated. Payload: `{ product_id, cert_type, status, expiry_date }` |
+
+> **Note:** `platform.iot.device.registered` is the authoritative device registration event (Platform Service owns the global device registry). Manufacturing Service consumes this event to sync its local `iot_devices` cache table. The removed `manufacturing.iot.device.registered` event was a duplicate; all device lifecycle events (`registered`, `certificate.issued`, `decommissioned`) belong to Platform.
 
 ### Platform Events (Notification + File + Audit + Digital Assistant + GRC)
 | Event | Description |
@@ -388,6 +389,8 @@
 | `integration.data-quality.match.completed` | Data matching and deduplication completed. Payload: `{ match_id, entity_type, records_matched, records_merged, survivors }` |
 
 > **Note:** Integration Service primarily produces outbound events (sync/import status). External system notifications are handled via direct outbound HTTP calls or webhooks. MDM events are consumed by Report Service for data quality dashboards.
+>
+> **MDM Consumed Events:** Integration Service consumes master data events from other domains for golden record management: `commerce.customer.#`, `commerce.product.#`, `finance.supplier.#`, `hr.employee.#`, `identity.user.#`. These are processed by the MDM matching and merge engine to produce `integration.master-data.matched` and `integration.master-data.merged` events.
 
 ### Report Events (Analytics + Process Mining + CPM)
 | Event | Description |
@@ -433,8 +436,8 @@
 | `manufacturing.work-order.completed` | Manufacturing | Commerce, Finance, Report |
 | `manufacturing.eco.approved` | Manufacturing | Commerce, Report |
 | `manufacturing.product-lifecycle.phase-out` | Manufacturing | Commerce, Report |
-| `hr.employee.hired` | HR | Platform, Report, Identity (HTTP) |
-| `hr.employee.separated` | HR | Platform, Report, Identity (HTTP) |
+| `hr.employee.hired` | HR | Integration (MDM), Platform, Report, Identity (HTTP) |
+| `hr.employee.separated` | HR | Integration (MDM), Platform, Report, Identity (HTTP) |
 | `hr.leave.requested` | HR | Workflow, Report |
 | `hr.payroll.processed` | HR | Finance, Report |
 | `hr.review.completed` | HR | Report |
@@ -470,7 +473,12 @@
 | `commerce.warranty.claim.submitted` | Commerce | Finance, Report |
 | `commerce.warranty.claim.fulfilled` | Commerce | Manufacturing, Finance, Report |
 | `platform.idp.extraction.completed` | Platform | Finance (auto-invoice), Report |
-| `identity.user.created` | Identity | Platform (security audit), HR (provisioning check) |
+| `identity.user.created` | Identity | Integration (MDM), Platform (security audit), HR (provisioning check) |
+| `identity.user.updated` | Identity | Integration (MDM), Platform (security audit), Report |
+| `finance.supplier.created` | Finance | Integration (MDM), Report |
+| `finance.supplier.updated` | Finance | Integration (MDM), Report |
+| `hr.employee.created` | HR | Integration (MDM), Report, Platform (audit) |
+| `hr.employee.updated` | HR | Integration (MDM), Report |
 | `tenant.created` | Tenant | Platform (default configuration), Report (tenant analytics setup) |
 | `manufacturing.intelligence.oee.threshold-breached` | Manufacturing | Report, Platform |
 

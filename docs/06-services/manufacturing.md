@@ -75,7 +75,7 @@
 
 | Module | Description |
 |--------|-------------|
-| Device Registry | IoT device registration with certificate-based authentication and device metadata |
+| Device Cache | Local cache of IoT device metadata synced from Platform Service's authoritative device registry |
 | Telemetry Ingestion | High-throughput telemetry data ingestion from sensors and industrial equipment |
 | Alert Rules | Configurable threshold and anomaly-based alerting on real-time telemetry data |
 | Edge Processing | Optional edge computing for latency-sensitive processing before cloud ingestion |
@@ -146,6 +146,8 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 | `routings` | `product_id UUID`, `name VARCHAR(255)`, `status VARCHAR(20)`, `is_default BOOLEAN`, `revision INT` |
 | `plm_products` | `product_id UUID`, `revision VARCHAR(20)`, `phase VARCHAR(20)`, `eco_id UUID`, `specifications JSONB`, `documents JSONB`, `status VARCHAR(20)` |
 | `iot_devices` | `device_id VARCHAR(100)`, `name VARCHAR(255)`, `type VARCHAR(30)`, `asset_id UUID`, `certificate_id UUID`, `firmware_version VARCHAR(50)`, `status VARCHAR(20)`, `last_telemetry_at TIMESTAMPTZ`, `configuration JSONB` |
+
+> **Note:** The `iot_devices` table is a **local cache** synced by consuming `platform.iot.device.*` events. Manufacturing does NOT publish device registration events — that is Platform Service's domain. Manufacturing only publishes `manufacturing.iot.telemetry.*` events.
 | `digital_twins` | `asset_id UUID`, `name VARCHAR(255)`, `model_version VARCHAR(20)`, `state JSONB`, `last_synced_at TIMESTAMPTZ`, `status VARCHAR(20)` |
 
 ## Events Published
@@ -171,7 +173,6 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 | `manufacturing.asset.decommissioned` | Asset decommissioned |
 | `manufacturing.plan.firmed` | Production plan firmed |
 | `manufacturing.plan.simulation.completed` | ASCP simulation completed |
-| `manufacturing.iot.device.registered` | IoT device registered |
 | `manufacturing.iot.telemetry.received` | Telemetry data received from IoT device |
 | `manufacturing.iot.alert.triggered` | IoT alert rule triggered |
 | `manufacturing.iot.device.offline` | IoT device went offline |

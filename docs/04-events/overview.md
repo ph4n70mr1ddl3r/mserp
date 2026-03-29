@@ -69,10 +69,10 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 | `finance.inbox` | `finance.#`, `commerce.order.#`, `commerce.stock.#`, `commerce.subscription.#`, `commerce.b2b.#`, `commerce.warranty.#`, `hr.payroll.#`, `manufacturing.work-order.#`, `project.invoice.#`, `project.milestone.#`, `platform.idp.#`, `config.changed` |
 | `hr.inbox` | `hr.#`, `workflow.step.#`, `config.changed` |
 | `manufacturing.inbox` | `manufacturing.#`, `commerce.stock.#`, `commerce.order.#`, `commerce.warranty.#`, `config.changed` |
-| `report.inbox` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.rpa.#`, `tenant.feature.#`, `integration.trade-compliance.#`, `config.changed` |
+| `report.inbox` | `report.#`, `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.rpa.#`, `tenant.feature.#`, `integration.trade-compliance.#`, `config.changed` |
 | `workflow.inbox` | `workflow.#`, `hr.leave.#`, `commerce.order.#`, `commerce.credit.#`, `finance.purchase-order.#`, `finance.expense.#`, `finance.intelligent-close.#`, `finance.supplier-risk.#`, `manufacturing.eco.#`, `report.process.#`, `platform.rpa.#`, `platform.grc.#`, `integration.trade-compliance.#`, `config.changed` |
 | `platform.inbox` | `platform.#`, `auth.login.#`, `hr.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.shipment.#`, `commerce.logistics.#`, `finance.lease.#`, `finance.supplier-risk.#`, `finance.intelligent-close.#`, `integration.trade-compliance.#`, `crm.cdp.#`, `report.process.#`, `manufacturing.intelligence.#`, `tenant.feature.#`, `config.changed` |
-| `integration.inbox` | `integration.#`, `commerce.product.#`, `config.changed` |
+| `integration.inbox` | `integration.#`, `commerce.customer.#`, `commerce.product.#`, `finance.supplier.#`, `hr.employee.#`, `identity.user.#`, `config.changed` |
 | `crm.inbox` | `crm.#`, `commerce.customer.#`, `commerce.order.#`, `config.changed` |
 | `project.inbox` | `project.#`, `hr.employee.#`, `commerce.order.#`, `config.changed` |
 

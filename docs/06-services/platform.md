@@ -167,6 +167,9 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 | `idp_document_types` | `name VARCHAR(100)`, `description TEXT`, `extraction_schema JSONB`, `confidence_threshold DECIMAL`, `model_id UUID`, `is_active BOOLEAN` |
 | `itsm_incidents` | `incident_number VARCHAR(50)`, `priority VARCHAR(10)`, `category VARCHAR(30)`, `status VARCHAR(20)`, `requester_id UUID`, `assignee_id UUID`, `sla_due_at TIMESTAMPTZ`, `resolution TEXT`, `resolved_at TIMESTAMPTZ` |
 | `content_repositories` | `name VARCHAR(255)`, `description TEXT`, `schema_definition JSONB`, `retention_policy JSONB`, `storage_quota_bytes BIGINT`, `is_compliance_archive BOOLEAN`, `status VARCHAR(20)` |
+| `iot_devices` | `device_id VARCHAR(100) UNIQUE`, `name VARCHAR(255)`, `type VARCHAR(30)`, `certificate_id UUID`, `certificate_pem TEXT`, `firmware_version VARCHAR(50)`, `status VARCHAR(20)`, `metadata JSONB`, `last_heartbeat_at TIMESTAMPTZ`, `provisioned_at TIMESTAMPTZ` |
+
+> **Note:** The `iot_devices` table in `platform_db` is the **authoritative** IoT device registry. Platform publishes `platform.iot.device.registered`, `platform.iot.device.certificate.issued`, and `platform.iot.device.decommissioned` events. Manufacturing Service consumes these events to sync its local `iot_devices` cache table.
 
 ### audit_db
 

@@ -226,9 +226,10 @@ All tables include standard columns: `id` (UUID PK), `tenant_id` (UUID), `create
 | `rule_versions` | Immutable rule version history | `rule_id` (FK), `version`, `condition`, `action`, `status` |
 | `escalation_rules` | Escalation policies for steps | `workflow_type`, `step_key`, `trigger_type`, `duration_minutes`, `action`, `reassign_to`, `notification_template_id`, `max_retries` |
 | `email_approvals` | Email approval tokens and state | `instance_id` (FK), `step_id` (FK), `token_hash`, `assignee_email`, `expires_at`, `used_at`, `action` |
-| `sod_rules` | Segregation of Duties rules | `name`, `conflicting_permissions` (JSONB), `scope`, `severity` (warning/block) |
 | `business_calendars` | Business hours and holiday calendars | `name`, `timezone`, `working_days` (int[]), `working_hours_start`, `working_hours_end`, `holidays` (JSONB) |
 | `delegation_schedules` | Scheduled proxy/delegation assignments | `delegator_id`, `delegate_id`, `starts_at`, `ends_at`, `chain_id` (nullable — null means all chains) |
+
+> **SoD Rules Note:** Workflow Service does **NOT** store SoD rules locally. SoD rules are owned by Platform Service (`grc_sod_rules` table in `platform_db`). Workflow queries Platform's SoD API for approval-level SoD checks before routing approvals. Workflow subscribes to `platform.grc.sod.conflict.detected` events for real-time SoD conflict notifications. The local SoD enforcement logic evaluates conflicts by calling Platform's API — rule definitions are not duplicated in `workflow_db`.
 
 ## Events Published
 

@@ -30,7 +30,7 @@ Agents MUST follow documents in this order of authority:
 | EDI | Integration Service | `docs/07-features/edi.md` |
 | Email Service | Platform Service | `docs/07-features/email.md` |
 | Enterprise Data Quality | Integration Service | `docs/07-features/enterprise-data-quality.md` |
-| Event Mesh | Integration Service (infrastructure) | `docs/07-features/event-mesh.md` |
+| Event Mesh | Integration Service | `docs/07-features/event-mesh.md` |
 | Financial Reporting Studio | Finance Service (templates) / Report Service (rendering) | `docs/07-features/financial-reporting-studio.md` |
 | Full-Text Search | Platform Service | `docs/07-features/search.md` |
 | IDP | Platform Service (orchestration) / Report Service (ML) | `docs/07-features/idp.md` |
@@ -108,21 +108,41 @@ All events MUST follow the `{service-domain}.{entity}.{action}` naming conventio
 - Entities: domain-specific (e.g., `order`, `invoice`, `employee`, `work-order`)
 - Actions: `created`, `updated`, `deleted`, `approved`, `completed`, `failed`, etc.
 
-**Common violations to avoid:**
-- Do NOT use bare domain prefixes (e.g., `reconciliation.*` → use `finance.reconciliation.*`)
-- Do NOT use abbreviations as domains (e.g., `scc.*` → use `commerce.collaboration.*`)
-- Do NOT nest service domains (e.g., `hr.employee.leave.approved` → use `hr.leave.approved`)
-
 ### IoT Boundary Rule
 
 Platform Service owns the **global device registry** (registration, certificates, lifecycle). Manufacturing Service owns **industrial telemetry** (ingestion, alerts, edge processing). The split:
-- `platform.iot.device.*` events = registry operations (Platform publishes)
-- `manufacturing.iot.*` events = telemetry operations (Manufacturing publishes)
-- Manufacturing's `iot_devices` table is a **local cache**, not the authoritative registry
+
+- **Platform publishes** `platform.iot.device.*` events — device registration, certificate provisioning, decommission.
+- **Manufacturing consumes** `platform.iot.device.*` events to sync its local `iot_devices` cache table.
+- **Manufacturing publishes** `manufacturing.iot.telemetry.*` events — telemetry ingestion, alerts, edge processing results only.
+- Manufacturing does **NOT** publish `manufacturing.iot.device.registered` or any device-registry events. Device lifecycle is Platform's responsibility.
+- Manufacturing's `iot_devices` table is a **local cache**, not the authoritative registry. Platform's database is the source of truth.
 
 ### ML/AI Ownership Split
 
 Report Service owns the **ML/AI platform** (training, serving, feature store, model registry). Platform Service owns **model lifecycle management** (feedback loops, A/B testing, monitoring). Business services own their **domain-specific ML use cases** (define features, consume predictions).
+
+### Critical Integration Points
+
+These are the cross-service integrations that agents must get right. Violating any of these causes architectural inconsistency.
+
+| Integration Point | Description |
+|---|---|
+| **Auth ↔ Identity (login flow)** | Auth Service uses **HTTP calls** (not events) to query Identity Service for user data during login. Events are too slow for synchronous authentication. Do not refactor this to event-driven. |
+| **MDM (master data)** | Integration Service consumes master data events from all services (`{domain}.{entity}.*`) to build golden records. Services MUST publish master data events; they MUST NOT write to Integration's database directly. |
+| **SoD (Segregation of Duties)** | Platform Service owns GRC-level SoD rules and risk definitions. Workflow Service queries Platform's API for approval-level SoD checks before routing approvals. Do not duplicate SoD rules in Workflow. |
+| **IoT (device registry vs. telemetry)** | Platform owns the device registry (authoritative). Manufacturing caches device data locally by consuming `platform.iot.device.*` events. Manufacturing publishes telemetry only. See "IoT Boundary Rule" above. |
+
+### Common Violations to Avoid
+
+These six inconsistencies have been corrected in the spec. Do not reintroduce them:
+
+1. **Bare domain prefixes in events.** Do NOT use `reconciliation.*` — use `finance.reconciliation.*`. Every event must start with its owning service domain.
+2. **Abbreviated domains.** Do NOT use `scc.*` — use `commerce.collaboration.*`. Service domains are never abbreviated.
+3. **Nested service domains.** Do NOT use `hr.employee.leave.approved` — use `hr.leave.approved`. The domain is one level; entity nesting follows.
+4. **Manufacturing publishing device-registry events.** Manufacturing does NOT publish `manufacturing.iot.device.registered`. Device lifecycle is Platform's domain. Manufacturing publishes `manufacturing.iot.telemetry.*` only.
+5. **Event Mesh attributed to "Integration Service (infrastructure)".** Event Mesh is owned by Integration Service — no parenthetical qualifier needed. Do not treat it as a separate infrastructure concern.
+6. **Auth querying Identity via events for login.** The login flow requires synchronous HTTP calls from Auth to Identity. Events are async and cannot serve real-time authentication decisions.
 
 ## How to Build a Service
 

@@ -289,9 +289,18 @@ All tables use standard columns: `id` (UUID PK), `tenant_id` (UUID), `created_at
 
 ## Events Consumed
 
-| Event | Source | Action |
-|-------|--------|--------|
-| `config.changed` | Config Service | Reload connector configurations and rate limit thresholds |
+Inbox binding: `integration.inbox` binds to the following routing keys:
+
+| Binding Pattern | Events Consumed | Action |
+|----------------|-----------------|--------|
+| `config.changed` | `config.changed` | Reload connector configurations and rate limit thresholds |
+| `commerce.customer.#` | `commerce.customer.created`, `commerce.customer.updated` | MDM: ingest customer master data for golden record matching/deduplication |
+| `commerce.product.#` | `commerce.product.created`, `commerce.product.updated` | MDM: ingest product master data for golden record matching/deduplication |
+| `finance.supplier.#` | `finance.supplier.created`, `finance.supplier.updated` | MDM: ingest supplier/vendor master data for golden record matching/deduplication |
+| `hr.employee.#` | `hr.employee.created`, `hr.employee.hired`, `hr.employee.updated` | MDM: ingest employee master data for golden record matching/deduplication |
+| `identity.user.#` | `identity.user.created`, `identity.user.updated` | MDM: ingest user/identity master data for golden record matching/deduplication |
+
+> **MDM Note:** Integration Service consumes master data events from all services to build and maintain MDM golden records. Events are processed through the matching/deduplication pipeline (deterministic, probabilistic Fellegi-Sunter, and fuzzy matching) to produce unified golden records. Services MUST publish master data events; they MUST NOT write to Integration's database directly.
 
 > **Note:** Integration Service is primarily an event producer. Report Service consumes data quality events for dashboards. Commerce and Finance consume sync events for cross-system status. Platform Service compliance hub consumes trade compliance screening events.
 

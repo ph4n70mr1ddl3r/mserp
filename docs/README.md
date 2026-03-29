@@ -5,8 +5,8 @@
 ## Document Hierarchy
 
 ```
-SPEC.md (authoritative)
-├── AGENTS.md (AI agent guide)
+SPEC.md (Authoritative single source of truth)
+├── AGENTS.md (AI agent development guide and workflow)
 └── docs/
     ├── 01-architecture/     (system design)
     ├── 02-security/         (auth, authz, data protection)
@@ -124,7 +124,6 @@ SPEC.md (authoritative)
 | Compliance Hub | [compliance-hub.md](07-features/compliance-hub.md) |
 | DLP | [dlp.md](07-features/dlp.md) |
 | Privacy Management | [privacy.md](07-features/privacy.md) |
-| Event Mesh | [event-mesh.md](07-features/event-mesh.md) |
 | Email Service | [email.md](07-features/email.md) |
 | Full-Text Search | [search.md](07-features/search.md) |
 
@@ -135,6 +134,7 @@ SPEC.md (authoritative)
 | API Marketplace | [api-marketplace.md](07-features/api-marketplace.md) |
 | Enterprise Data Quality | [enterprise-data-quality.md](07-features/enterprise-data-quality.md) |
 | EDI | [edi.md](07-features/edi.md) |
+| Event Mesh | [event-mesh.md](07-features/event-mesh.md) |
 
 ### Cross-Cutting
 

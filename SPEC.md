@@ -44,7 +44,7 @@ MSERP is an enterprise-grade, microservices-based ERP system built in Rust, desi
 
 ## 2. Architecture Overview
 
-See [docs/01-architecture/overview.md](docs/01-architecture/overview.md) for the full architecture specification.
+> **Full specification:** [docs/01-architecture/overview.md](docs/01-architecture/overview.md)
 
 ### 2.1 Topology
 
@@ -70,15 +70,11 @@ Client Layer → Gateway Layer (Traefik) → Microservices Layer (14 services) �
 
 All services enforce tenant isolation via PostgreSQL Row-Level Security (RLS). Every request includes `X-Tenant-Id` header propagated from the JWT. Cache keys are prefixed with `{tenant_id}:`. Elasticsearch uses per-tenant indices. MinIO paths are prefixed with `{tenant_id}/`.
 
-### 2.4 Deployment
-
-Multi-region active-passive deployment with automated DNS failover. See [docs/08-infrastructure/deployment.md](docs/08-infrastructure/deployment.md) and [SPEC.md §9](#9-deployment-topology).
-
 ---
 
 ## 3. Service Catalog
 
-MSERP consists of 14 microservices organized into 3 tiers. Each service owns its database exclusively.
+MSERP consists of 14 microservices organized into 3 tiers. Each service owns its database exclusively. **This section is the PRIMARY reference for service registry.**
 
 ### 3.1 Service Registry
 
@@ -88,16 +84,16 @@ MSERP consists of 14 microservices organized into 3 tiers. Each service owns its
 | 2 | Identity Service | 8002 | `identity_db` | Core | Users, roles, permissions, RBAC/ABAC, organizations |
 | 3 | Tenant Service | 8003 | `tenant_db` | Core | Multi-tenancy, feature flags, subscriptions, quotas |
 | 4 | Config Service | 8004 | `config_db` | Core | Dynamic configuration, localization, ESG settings |
-| 5 | Commerce Service | 8010 | `commerce_db` | Business | Order lifecycle, inventory, pricing, PIM, logistics, subscriptions, loyalty |
-| 6 | Finance Service | 8011 | `finance_db` | Business | GL, AP/AR, treasury, revenue recognition, budgeting, procurement, tax |
-| 7 | HCM Service | 8012 | `hr_db` | Business | Employee lifecycle, payroll, recruitment, talent, benefits, self-service |
-| 8 | Manufacturing Service | 8013 | `manufacturing_db` | Business | BOM, work orders, PLM, EAM, quality, IoT, digital twin, EHS |
-| 9 | Report Service | 8014 | `report_db` | Business | Analytics, dashboards, BI, ESG reporting, data warehouse, ML platform |
-| 10 | Workflow Service | 8015 | `workflow_db` | Business | BPMN engine, approvals, SLA management, business rules |
-| 11 | CRM Service | 8016 | `crm_db` | Business | Pre-sale (leads, deals, campaigns), field service, CDP, contact center, surveys |
+| 5 | Commerce Service | 8010 | `commerce_db` | Business | Order lifecycle, inventory, pricing, PIM, logistics, subscriptions, loyalty, order orchestration, backorder management |
+| 6 | Finance Service | 8011 | `finance_db` | Business | GL, AP/AR, treasury, revenue recognition, budgeting, procurement, tax, multi-book accounting, intercompany matching |
+| 7 | HCM Service | 8012 | `hr_db` | Business | Employee lifecycle, payroll, recruitment, talent, benefits, self-service, HR help desk, LXP, position control |
+| 8 | Manufacturing Service | 8013 | `manufacturing_db` | Business | BOM, work orders, PLM, EAM, quality, digital twin, EHS, process manufacturing, mixed-mode manufacturing |
+| 9 | Report Service | 8014 | `report_db` | Business | Analytics, dashboards, BI, ESG reporting, data warehouse, ML platform, semantic layer, report bursting |
+| 10 | Workflow Service | 8015 | `workflow_db` | Business | BPMN engine, approvals, SLA management, business rules, SoD enforcement |
+| 11 | CRM Service | 8016 | `crm_db` | Business | Pre-sale (leads, deals, campaigns), field service, CDP, contact center, surveys, sales forecasting, partner management |
 | 12 | Project Service | 8017 | `project_db` | Business | Projects, resources, billing, EVM, portfolio analysis |
-| 13 | Platform Service | 8020 | `platform_db` + `audit_db` | Supporting | Notifications, files, GRC, digital assistant, IDP, RPA/IPA, ITSM, job scheduler |
-| 14 | Integration Service | 8021 | `integration_db` | Supporting | Connectors, EDI, MDM, data quality, trade compliance, blockchain, API marketplace |
+| 13 | Platform Service | 8020 | `platform_db` + `audit_db` | Supporting | Notifications, files, GRC, digital assistant, IDP, RPA/IPA, ITSM, job scheduler, multi-channel assistant, regulatory content |
+| 14 | Integration Service | 8021 | `integration_db` | Supporting | Connectors, EDI, MDM, data quality, trade compliance, blockchain, API marketplace, event mesh, flow designer, MFT |
 
 **Total databases: 15** (4 core + 8 business + 3 supporting including `audit_db`).
 
@@ -120,274 +116,94 @@ Each service has a detailed specification in `docs/06-services/`:
 - [Platform Service](docs/06-services/platform.md)
 - [Integration Service](docs/06-services/integration.md)
 
+### 3.3 Event Bindings
+
+Core services (Auth, Identity, Tenant, Config) do **not** have inbox queues. Auth Service consumes NO events — it uses HTTP to query Identity Service for user/role data during login. Identity Service does not have an inbox queue and communicates with other services via HTTP only.
+
+All 10 services with inbox queues self-bind to `{domain}.#` for saga compensation:
+
+| Service Inbox | Self-Binding | Cross-Domain Bindings |
+|--------------|-------------|----------------------|
+| `commerce.inbox` | `commerce.#` | `finance.purchase-order.#`, `finance.invoice.#`, `finance.sourcing.#`, `finance.cash-application.#`, `manufacturing.work-order.#`, `manufacturing.digital-twin.#`, `crm.opportunity.won`, `crm.cdp.#` |
+| `finance.inbox` | `finance.#` | `commerce.order.#`, `commerce.stock.#`, `commerce.subscription.#`, `commerce.b2b.#`, `commerce.warranty.#`, `hr.payroll.#`, `manufacturing.work-order.#`, `project.invoice.#`, `project.milestone.#`, `platform.idp.#` |
+| `hr.inbox` | `hr.#` | `workflow.step.#` |
+| `manufacturing.inbox` | `manufacturing.#` | `commerce.stock.#`, `commerce.order.#`, `commerce.warranty.#`, `platform.iot.device.#` |
+| `report.inbox` | `report.#` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.rpa.#`, `tenant.feature.#`, `integration.trade-compliance.#` |
+| `workflow.inbox` | `workflow.#` | `hr.leave.#`, `commerce.order.#`, `commerce.credit.#`, `finance.purchase-order.#`, `finance.expense.#`, `finance.intelligent-close.#`, `finance.supplier-risk.#`, `manufacturing.eco.#`, `report.process.#`, `platform.rpa.#`, `platform.grc.#`, `integration.trade-compliance.#` |
+| `platform.inbox` | `platform.#` | `auth.login.#`, `hr.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.shipment.#`, `commerce.logistics.#`, `finance.lease.#`, `finance.supplier-risk.#`, `finance.intelligent-close.#`, `integration.trade-compliance.#`, `crm.cdp.#`, `report.process.#`, `manufacturing.intelligence.#`, `tenant.feature.#` |
+| `integration.inbox` | `integration.#` | `commerce.customer.#`, `commerce.product.#`, `finance.supplier.#`, `hr.employee.#`, `identity.user.#` |
+| `crm.inbox` | `crm.#` | `commerce.customer.#`, `commerce.order.#` |
+| `project.inbox` | `project.#` | `hr.employee.#`, `commerce.order.#` |
+
+> All services also bind to `config.changed`. Full event catalog: [docs/04-events/catalog.md](docs/04-events/catalog.md)
+
+### 3.4 Key Boundary Rules
+
+| Rule | Detail |
+|------|--------|
+| **Auth Service** | Consumes NO events. Uses HTTP to query Identity Service for user/role data during login. Identity publishes events consumed by Platform (security audit) and HR (provisioning check). |
+| **IoT Device Registry** | Platform Service owns the authoritative device registry and publishes `platform.iot.device.*` events. Manufacturing's `iot_devices` table is a **local cache** synced by consuming `platform.iot.device.*` events. Manufacturing publishes `manufacturing.iot.telemetry.*` events (telemetry only), NOT device registration events. |
+| **SoD Rules** | Platform Service owns GRC-level SoD rule definitions (`grc_sod_rules` table). Workflow Service consumes `platform.grc.sod.conflict.detected` events for approval-level enforcement. Workflow queries Platform API for SoD rules — it does NOT have its own `sod_rules` table. |
+| **MDM Golden Records** | Integration Service consumes master data events from all services (`commerce.customer.#`, `commerce.product.#`, `finance.supplier.#`, `hr.employee.#`, `identity.user.#`) for MDM golden record management. |
+| **Event Mesh** | Owned by Integration Service (infrastructure). Provides RabbitMQ topology management, event gateway, cross-region replication. See [docs/07-features/event-mesh.md](docs/07-features/event-mesh.md). |
+
 ---
 
 ## 4. Service Domain Ownership
 
-Every feature, entity, API endpoint, database table, and event belongs to EXACTLY ONE service. This table is the authoritative ownership registry.
+Every feature, entity, API endpoint, database table, and event belongs to EXACTLY ONE service.
 
-### 4.1 CRM Service (Port 8016)
+### 4.1 Ownership Summary
 
-**Owns:** Pre-sale customer relationships, marketing, and post-sale service.
+| Domain | Owning Service | Other Services May |
+|--------|---------------|-------------------|
+| Pre-sale (leads, opportunities, deals, campaigns) | CRM Service | — |
+| Order lifecycle (quotes, orders, deliveries, returns) | Commerce Service | Read order data via events |
+| Pricing rules & execution | Commerce Service | — |
+| Financial accounting (GL, AP, AR, tax, treasury) | Finance Service | — |
+| Budgeting, forecasting, multi-book accounting | Finance Service | — |
+| Revenue recognition (ASC 606 / IFRS 15) | Finance Service | Commerce sends contract events |
+| Customer profiles & CDP | CRM Service | Commerce provides transactional data |
+| Inventory & warehousing | Commerce Service | Manufacturing sends production completions |
+| Manufacturing (BOM, work orders, quality, PLM) | Manufacturing Service | Commerce reads ATP data |
+| IoT device registry & certificates | Platform Service | Manufacturing caches device metadata locally |
+| IoT telemetry, alerts, edge processing | Manufacturing Service | Commerce reads condition data |
+| Employee lifecycle, payroll, HR help desk, LXP | HCM Service | — |
+| Projects & resources | Project Service | — |
+| Reporting platform, semantic layer, dashboards | Report Service | Finance provides report templates |
+| Financial report templates (XBRL, regulatory) | Finance Service | Rendered by Report Service |
+| Workflow/BPM engine | Workflow Service | All services use workflow |
+| SoD rule definitions (GRC-level) | Platform Service | Workflow queries Platform for rules |
+| Notifications & alerts | Platform Service | All services publish notification requests |
+| File storage & ECM | Platform Service | All services use file APIs |
+| RPA & IPA | Platform Service | — |
+| Integration, connectors, event mesh, MFT | Integration Service | All services register connectors |
+| MDM golden records | Integration Service | All services publish master data events |
+| Enterprise data quality | Integration Service | — |
+| Authentication & tokens | Auth Service | All services validate tokens |
+| Identity & RBAC/ABAC | Identity Service | All services check permissions |
+| Tenant management | Tenant Service | All services enforce tenant isolation |
+| Configuration | Config Service | All services consume config |
+| Digital assistant (NLP/chat, multi-channel) | Platform Service | — |
+| IDP (document processing) | Platform Service | — |
+| ITSM | Platform Service | — |
+| GRC & compliance hub | Platform Service | Integration owns trade compliance screening data |
+| Privacy & DLP | Platform Service | — |
+| Knowledge management | Platform Service | — |
+| Job scheduler | Platform Service | All services register jobs |
+| Collaboration | Platform Service | — |
+| Email service | Platform Service | — |
+| Loyalty programs | Commerce Service | CRM provides customer segments |
+| Omnichannel | Commerce Service | — |
+| Subscriptions | Commerce Service | Finance handles revenue recognition |
+| Credit management | Commerce Service | — |
+| ESG & sustainability | Report Service | All services emit emissions data |
+| Trade compliance | Integration Service | — |
+| Process manufacturing | Manufacturing Service | — |
+| Sales forecasting (pipeline-based) | CRM Service | — |
+| Partner relationship management | CRM Service | — |
 
-| Domain | Modules |
-|--------|---------|
-| Lead Management | Lead capture, scoring, qualification, nurture campaigns |
-| Deal Pipeline | Opportunities with stages, probability tracking, deal desk |
-| Account Management | Customer accounts, hierarchy, relationship mapping |
-| Contact Management | Contacts, activity tracking, communication history |
-| Campaign Management | Campaign planning, execution, ROI tracking |
-| Marketing Automation | Email sequences, drip campaigns, lead nurturing, A/B testing (marketing) |
-| Customer Service | Case management, escalation, SLA tracking |
-| Social Listening | Brand monitoring, sentiment analysis, competitive intelligence |
-| Customer Analytics | Customer lifetime value, acquisition cost, retention rate, churn prediction |
-| Field Service | Service orders, technician scheduling, parts logistics, SLA tracking |
-| Survey & Feedback | Survey creation, NPS/CSAT collection, response analytics |
-| CDP | Unified customer profiles, identity resolution, segmentation, journey orchestration |
-| Sales Territory & Quota | Territory management, quota allocation, what-if modeling |
-| Contact Center | Omnichannel routing, IVR/voice bot, workforce management, quality management |
-| Social Selling | Social enrichment, engagement tracking, relationship mapping, social intelligence |
-| Adaptive Intelligence (CRM) | Lead scoring, next-best-action, deal risk prediction, sentiment analysis |
-
-### 4.2 Commerce Service (Port 8010)
-
-**Owns:** The complete order lifecycle from quotation through delivery and returns, including inventory, pricing, and logistics.
-
-| Domain | Modules |
-|--------|---------|
-| Quotation Management | Quote creation, versioning, approval, conversion to order |
-| Order Management | Sales orders, state machine (draft→confirmed→fulfilled→closed), backorders |
-| Delivery & Fulfillment | Delivery scheduling, shipment tracking, proof of delivery |
-| Returns & Credit Memos | RMA processing, refund/credit workflows |
-| Commissions | Sales commission calculation, split commissions, reporting |
-| Product Information (PIM) | Product catalog, attributes, categories, cross-references |
-| Inventory Management | Stock levels, warehouses, locations, serial/batch tracking |
-| Inventory Optimization | Safety stock, demand-driven replenishment, ABC analysis |
-| Warehouse Management | Put-away, picking, packing, cycle counting |
-| Transfers | Inter-warehouse transfers, in-transit tracking |
-| Advanced Pricing Engine | Price lists, discount rules, promotions, price formulas, customer-specific pricing |
-| ATP/CTP | Available-to-Promise, Capable-to-Promise, allocation rules |
-| Product Configurator | Constraint-based configuration, pricing integration, BOM generation |
-| Credit Management | Credit scoring, limits, holds, exposure calculation, bureau integration |
-| Subscription Management | Subscription lifecycle, recurring billing, amendments, proration |
-| Customer Loyalty | Tiered programs, points engine, reward catalogs, coalition programs |
-| B2B Commerce Portal | Self-service ordering, reorder templates, approval workflows |
-| Omnichannel | Cross-channel cart, order routing, click-and-collect, ship-from-store |
-| AI Price Optimization | Demand elasticity, competitive pricing, dynamic pricing, markdown optimization |
-| Intercompany Drop Ship | Cross-entity fulfillment with automated intercompany settlement |
-| Connected Logistics | Real-time shipment tracking, condition monitoring, predictive ETA, geofencing |
-| Warranty Management | Warranty policies, claims processing, entitlement validation, supplier recovery |
-| Demand Planning Integration | Forecast ingestion from Report Service, demand signal processing |
-| Supply Allocation | Allocation rules, prioritization, shortage management |
-
-### 4.3 Finance Service (Port 8011)
-
-**Owns:** All financial accounting, treasury, procurement, and financial compliance.
-
-| Domain | Modules |
-|--------|---------|
-| General Ledger | Chart of accounts, journal entries, posting, period management |
-| Accounts Payable | Vendor invoices, three-way match, payment scheduling, vendor management |
-| Accounts Receivable | Customer invoices, payment application, dunning, collections |
-| Fixed Assets | Asset registration, depreciation, disposal, revaluation |
-| Budgeting | Budget creation, approval, variance analysis, budget controls |
-| Tax Management | Multi-jurisdiction tax (VAT/GST/sales/use/withholding), exemption management, external engine integration (Vertex/Avalara), nexus tracking |
-| Multi-Currency | Exchange rates, triangulation, realized/unrealized gains/losses |
-| Cash Management | Cash position, forecasting, bank connectivity, cash pooling |
-| Intercompany | Intercompany transactions, elimination, netting |
-| Financial Reporting | Standard financial statements, regulatory reports, XBRL tagging |
-| Cost Centers & Profit Centers | Organizational accounting, allocation rules |
-| Period Management | Open/close periods, soft/hard close, period controls |
-| Corporate Treasury | Bank account management, cash positioning, in-house banking, payment netting |
-| Account Reconciliation | Auto-matching, reconciliation templates, exception management, close tasks |
-| Profitability Analysis | Cost-to-serve, product/customer profitability, margin analysis by dimension |
-| Lease Accounting (ASC 842/IFRS 16) | Lease classification, ROU assets, lease liabilities, modifications, disclosures |
-| Grant Management | Award tracking, compliance reporting, fund accounting, milestone billing |
-| Joint Venture Accounting | JV agreements, ownership splits, automated distribution, partner reporting |
-| Intelligent Close | AI-assisted close, anomaly detection, predictive close analytics |
-| Advanced Collections | Collection strategies, automated dunning, dispute management, promise-to-pay |
-| Dynamic Discounting | Sliding-scale early payment discounts, working capital optimization, discount analytics |
-| Enterprise Expense Management | Expense reports, policies, approval workflows, corporate card integration |
-| Enterprise Performance Management | Planning, budgeting, forecasting, consolidation, what-if modeling |
-| Financial Consolidation | Multi-entity consolidation, currency translation, minority interest |
-| Revenue Recognition (ASC 606/IFRS 15) | Performance obligations, revenue scheduling, contract modifications, variable consideration |
-| Strategic Sourcing | RFI/RFP/RFQ, bid analysis, award optimization, negotiation tracking |
-| Supplier Risk Management | Supplier risk scoring, financial health monitoring, geographic risk |
-| Contract Lifecycle Management | Contract authoring, clause library, e-signature integration, renewal tracking |
-| Procurement | Purchase requisitions, purchase orders, goods receipt, invoice matching |
-| Commodity Management | Market price feeds, hedging, futures tracking, price simulation |
-| Advanced Spend Analysis | ML-powered classification, maverick detection, savings identification |
-| Supplier Diversity | Diversity classification, spend tracking, tier reporting, compliance reporting |
-| Financial Reporting Studio | XBRL report builder, regulatory templates, collaborative annotations (templates owned by Finance, rendered by Report Service) |
-
-### 4.4 HCM Service (Port 8012)
-
-**Owns:** The complete employee lifecycle from recruitment through separation.
-
-| Domain | Modules |
-|--------|---------|
-| Core HR | Employee records, org chart, position management, global HR |
-| Time & Attendance | Timesheets, time-off management, absence tracking |
-| Leave Management | Leave policies, accruals, requests, approvals |
-| Payroll | Payroll processing, tax calculations, payslips, multi-country localizations |
-| Recruitment | Job postings, applicant tracking, interview scheduling, offer management |
-| Onboarding | New hire workflows, document collection, equipment provisioning |
-| Performance Management | Goals, reviews, 360 feedback, calibration |
-| Talent Review & Succession | Talent pools, succession planning, readiness assessment |
-| Workforce Modeling | Workforce planning, demand forecasting, scenario modeling |
-| Learning & Development | Training catalog, enrollments, certifications, compliance training |
-| Compensation | Salary structures, merit planning, variable pay, benchmarking |
-| Benefits Administration | Benefit plans, enrollment, eligibility, carrier integration |
-| Employee Self-Service Portal | Personal info, payslips, benefits enrollment, time-off requests, expense submission |
-| HR Analytics | Turnover, headcount, diversity, compensation analysis |
-| Global HR Localization | Country-specific localizations, regulatory compliance, localized reporting |
-| Document Management | Employee document storage, e-signatures |
-
-### 4.5 Manufacturing Service (Port 8013)
-
-**Owns:** All manufacturing operations from planning through production, quality, and asset management.
-
-| Domain | Modules |
-|--------|---------|
-| BOM Management | Bill of materials, versioning, phantom assemblies, engineering BOM vs manufacturing BOM |
-| Work Orders | Work order creation, scheduling, execution, completion |
-| Production Planning | MPS, MRP, production scheduling, capacity planning |
-| ASCP | Advanced supply chain planning, demand-driven MRP |
-| Quality Control | Inspection plans, results recording, quality certificates |
-| Advanced Quality Management | SPC, quality analytics, CAPA, supplier quality |
-| Maintenance | Preventive/predictive maintenance, work orders |
-| Enterprise Asset Management (EAM) | Asset registry, lifecycle management, maintenance strategies |
-| Work Centers | Work center definition, capacity, cost rates |
-| Routing | Operation sequences, time standards, alternative routings |
-| Cost Accounting | Standard costing, actual costing, variance analysis |
-| Shop Floor Control | RFID/barcode, real-time tracking, operator terminals |
-| Product Lifecycle Management (PLM) | Product concepts, revisions, ECO workflow, collaboration |
-| Manufacturing Intelligence | Production analytics, OEE tracking, downtime analysis, predictive maintenance analytics |
-| Advanced Planning & Scheduling (APS) | Finite scheduling, constraint-based planning, what-if simulation |
-| Lean Manufacturing | Kanban, value stream mapping, continuous improvement |
-| Connected Worker | Mobile worker, digital work instructions, AR assistance |
-| Digital Thread | End-to-end traceability (design→manufacturing→service→disposal) |
-| IoT Integration | Device registry, telemetry ingestion (MQTT/OPC-UA), alert rules, edge processing |
-| Digital Twin | Asset twins, simulation, predictive maintenance, what-if analysis |
-| EHS (Enterprise Health & Safety) | Incident management, risk assessment, chemical management, occupational health, OSHA/ISO 45001 |
-| MRO (Maintenance, Repair & Operations) | MRO catalog, spare parts, repair orders, rotable management |
-| Product Compliance & Regulatory | Regulatory database, certifications, material compliance (RoHS/REACH), testing management |
-| Sustainability | Waste tracking, energy consumption, emissions at manufacturing level |
-
-### 4.6 Report Service (Port 8014)
-
-**Owns:** The analytics and reporting platform. All services embed analytics via Report Service widgets. Report Service is the sole exception to the database-per-service rule: it reads from a DuckDB data warehouse populated by ETL pipelines from event streams, not from operational databases.
-
-| Domain | Modules |
-|--------|---------|
-| Report Builder | Drag-and-drop report designer, scheduled reports, export (PDF/Excel/HTML) |
-| Dashboards | Real-time dashboards, KPI widgets, drill-down analysis |
-| Data Warehouse | DuckDB star schema, ETL from event streams (not operational DBs), hourly/daily refresh |
-| Data Lake | MinIO zones (raw/curated/analytics), schema-on-read, Parquet storage |
-| ESG & Sustainability | Carbon accounting, emissions tracking, ESG scorecards, regulatory frameworks |
-| ML/AI Platform | Model training, serving (ONNX), feature store, model registry |
-| Predictive Planning | Demand forecasting, what-if simulation, predictive analytics |
-| Narrative Reporting | Management commentary, collaborative annotations |
-| Process Mining | Process discovery, conformance checking, bottleneck analysis, simulation |
-| CPM (Corporate Performance Management) | Executive dashboards, strategy maps, OKRs, balanced scorecard |
-| Embedded Analytics | Widget framework for embedding analytics in other services' UIs |
-| Augmented Analytics | NL-to-SQL, auto-generated insights, smart data discovery |
-| Connected Planning | Unified financial/workforce/supply chain planning with shared assumptions |
-| Self-Service BI | Ad-hoc queries, data exploration, visualization builder |
-
-### 4.7 Workflow Service (Port 8015)
-
-**Owns:** The BPM/workflow engine used by all services.
-
-| Domain | Modules |
-|--------|---------|
-| BPMN 2.0 Engine | Process execution, BPMN conformance (processes, gateways, events, tasks) |
-| Approval Chains | Multi-level approvals, delegation, escalation |
-| Escalation Management | Time-based escalation, notification escalation, reassignment |
-| Process Templates | Pre-built workflow templates (6 standard) |
-| SLA Management | SLA definitions per workflow type, deadline tracking |
-| Business Rules Engine | Rule definition, evaluation, versioning |
-| Process Monitoring | Real-time process state, bottleneck detection, audit trail |
-| Email Approvals | Approve/reject via email response |
-| SoD Enforcement | SoD rule definitions in approval workflows, conflict detection |
-
-### 4.8 Project Service (Port 8017)
-
-**Owns:** Project and portfolio management.
-
-| Domain | Modules |
-|--------|---------|
-| Project Planning | WBS, Gantt chart, milestones, dependencies |
-| Resource Allocation | Resource requests, assignments, utilization tracking |
-| Time & Expense (Project) | Project timesheets, expense reports, approval workflows |
-| Project Billing | Time & material billing, fixed-price billing, milestone billing |
-| Budget & Costing | Project budgets, cost tracking, variance analysis |
-| Risk Management | Risk identification, assessment, mitigation tracking |
-| Project Templates | Standard project templates, copy-from-project |
-| Program Management | Program definition, project grouping, cross-project dependencies |
-| Project Analytics | Project health, budget vs actual, earned value |
-| Earned Value Management (EVM) | PV, EV, AC, CPI, SPI, EAC, ETC |
-| Project Portfolio Analysis | Portfolio balancing, investment analysis, benefit realization, interdependency mapping |
-
-### 4.9 Platform Service (Port 8020)
-
-**Owns:** Cross-cutting platform capabilities used by all services.
-
-| Domain | Modules |
-|--------|---------|
-| Notifications | Email, SMS, push, in-app notifications, webhook dispatch |
-| File Storage | Upload/download, preview, versioning, MinIO integration |
-| Document Metadata | Metadata extraction, tagging, search indexing |
-| OCR & Preview | Document OCR, thumbnail generation, format conversion |
-| Audit Trail | Event store (in `audit_db`), data lineage, compliance logging |
-| GRC | Segregation of Duties (SoD), compliance policy management, risk scoring |
-| Data Masking | Field-level masking rules, subsetting, anonymization |
-| Job Scheduler | Cron/one-time/recurring/event-triggered jobs, DAG dependencies, retry policies |
-| Knowledge Management | Knowledge base, article authoring, categorization, versioning |
-| Digital Signatures | Native signing, signature workflows, DocuSign/Adobe Sign integration |
-| Digital Assistant | NLP chat interface, intent recognition, action execution, context management |
-| Application Builder | Low-code page designer, custom business objects, form builder, workflow integration |
-| IDP (Intelligent Document Processing) | AI classification, data extraction, template learning, batch processing |
-| RPA & IPA | Bot designer, cognitive automation, self-learning bots, process discovery, attended/unattended |
-| Enterprise Collaboration | Channel messaging, document co-editing (CRDT), task management, presence |
-| ECM (Enterprise Content Management) | Document lifecycle, records management, retention policies, WORM archive |
-| Privacy Management | Consent management, DSAR automation, DPIA workflows, breach notification |
-| DLP (Data Loss Prevention) | Data classification, policy engine, access monitoring, incident response |
-| ITSM | Incident, problem, change management, CMDB, service catalog, SLA management |
-| Compliance Hub | Unified compliance dashboard, regulatory change tracker, cross-framework control mapping |
-| Adaptive Intelligence | ML-powered recommendations embedded in business workflows |
-
-### 4.10 Integration Service (Port 8021)
-
-**Owns:** External connectivity, master data management, and data quality.
-
-| Domain | Modules |
-|--------|---------|
-| Connectors | 50+ pre-built connectors (see §10) |
-| Connector SDK | Rust-based SDK for custom connectors |
-| Webhooks | Inbound webhook registration, payload mapping, verification |
-| EDI (Electronic Data Interchange) | ANSI X12 / EDIFACT processing, AS2/SFTP transport |
-| Data Import/Export | CSV/JSON/Excel/XML/PDF/Parquet, field mapping, validation |
-| Integration Monitoring | Connection health, throughput metrics, error tracking |
-| OAuth2 Client | External OAuth2 flows for connector auth |
-| MDM (Master Data Management) | Golden records, deduplication, data stewardship, domain management |
-| Data Governance | Data ownership, lineage tracking, policy enforcement |
-| Trade Compliance | Restricted party screening (OFAC/EU/UN), export controls, license management, customs documentation |
-| Compliance Screening | Denied party screening, sanctions list management |
-| API Marketplace (Infrastructure) | API gateway management, rate limiting infrastructure, developer portal backend |
-| Event Mesh (Infrastructure) | RabbitMQ topology management, event gateway, cross-region replication |
-| Developer Portal | Documentation, sandbox, API key management, usage analytics |
-| Blockchain Integration | Distributed ledger adapters (Hyperledger/Ethereum), smart contract management, supply chain provenance |
-| Enterprise Data Quality | Data profiling, cleansing, probabilistic matching (Fellegi-Sunter), enrichment, quality scorecards, stewardship workflows |
-
-### 4.11 Core Services
-
-| Service | Port | Key Domains |
-|---------|------|------------|
-| Auth Service | 8001 | OAuth2/OIDC, MFA (TOTP/SMS/biometric), SSO (SAML 2.0), JWT, session management, brute-force detection |
-| Identity Service | 8002 | User lifecycle, RBAC + ABAC, user groups, org hierarchy, API keys, delegated administration |
-| Tenant Service | 8003 | Tenant lifecycle, subscription tiers, feature toggles, quotas, data residency |
-| Config Service | 8004 | Hierarchical config, localization, ESG settings, config propagation via events |
+> **Full domain ownership table with modules:** See [AGENTS.md](AGENTS.md) §Service Boundary Rules and individual service specs in [docs/06-services/](docs/06-services/).
 
 ---
 
@@ -419,7 +235,7 @@ Commerce manages the order lifecycle. Finance manages financial recording. The b
 
 ### 5.3 Analytics Ownership
 
-Report Service owns the analytics platform (dashboard framework, data warehouse, BI tools). Other services do NOT build independent analytics infrastructure. Instead:
+Report Service owns the analytics platform (dashboard framework, data warehouse, BI tools, semantic layer). Other services do NOT build independent analytics infrastructure. Instead:
 
 - Each service defines **analytics widgets** that are rendered by the Report Service.
 - Each service publishes **domain events** that the Report Service consumes for its data warehouse.
@@ -445,54 +261,56 @@ Project Service owns project-related time and expense tracking (for project bill
 
 | Oracle Fusion Product Family | Oracle Modules | MSERP Service(s) |
 |-----------------------------|---------------|-------------------|
-| **Financials** | GL, AP, AR, Fixed Assets, Cash, Expenses, Collections, Revenue, Lease, Grant, JV, Tax | Finance Service |
-| **SCM** | Inventory, Procurement, Order Management, Logistics, Product Hub, Sourcing, Supplier Management | Commerce Service (orders, pricing, subscriptions, loyalty) + Manufacturing Service (inventory, procurement, logistics, ATP/CTP) |
-| **HCM** | Core HR, Payroll, Recruiting, Performance, Time & Labor, Learning, Benefits, Talent, Global HR | HCM Service |
-| **CX** | Sales, Service, Marketing, Commerce, CPQ, Field Service, Surveys, Contact Center, Social, Loyalty, CDP | CRM Service (pre-sale, service, CDP) + Commerce Service (loyalty, B2B portal, omnichannel, A/B testing) |
+| **Financials** | GL, AP, AR, Fixed Assets, Cash, Expenses, Collections, Revenue, Lease, Grant, JV, Tax, Multi-Book | Finance Service |
+| **SCM** | Inventory, Procurement, Order Management, Logistics, Product Hub, Sourcing, Supplier Management | Commerce Service + Manufacturing Service |
+| **HCM** | Core HR, Payroll, Recruiting, Performance, Time & Labor, Learning, Benefits, Talent, Global HR, Help Desk, LXP | HCM Service |
+| **CX** | Sales, Service, Marketing, Commerce, CPQ, Field Service, Surveys, Contact Center, Social, Loyalty, CDP, Forecasting, Partners | CRM Service + Commerce Service |
 | **ERP** | Projects, Costing, Billing, Manufacturing, Maintenance, Quality | Project Service + Manufacturing Service |
-| **SCM Planning** | Demand, Supply, Inventory Optimization, ATP/CTP | Manufacturing Service (ASCP) + Report Service (forecasting) |
-| **Manufacturing** | Execution, Quality, Costing, Planning, Digital Twin, IoT | Manufacturing Service |
-| **EPM** | Planning, Budgeting, Forecasting, Consolidation, Reporting, Profitability | Finance Service (budgeting, consolidation, profitability) + Report Service (reporting, CPM, connected planning) |
-| **GRC** | Access Controls, Audit, Risk, Compliance, Privacy, SoD | Platform Service (GRC, DLP, privacy, compliance hub) + Auth Service (RBAC, ABAC, SSO, MFA) |
-| **Integration** | Integration Cloud, B2B, EDI, Connectors | Integration Service |
-| **Platform** | App Builder, Digital Assistant, Mobile, Search, Workflow, Notifications, Scheduler, MDM, RPA, Content, Collaboration | Platform Service + Workflow Service + Integration Service (MDM, connectors) |
+| **SCM Planning** | Demand, Supply, Inventory Optimization, ATP/CTP | Manufacturing Service + Report Service |
+| **Manufacturing** | Execution, Quality, Costing, Planning, Digital Twin, IoT, Process Mfg, Mixed-Mode | Manufacturing Service |
+| **EPM** | Planning, Budgeting, Forecasting, Consolidation, Reporting, Profitability | Finance Service + Report Service |
+| **GRC** | Access Controls, Audit, Risk, Compliance, Privacy, SoD | Platform Service + Auth Service |
+| **Integration** | Integration Cloud, B2B, EDI, Connectors, Flow Designer, MFT | Integration Service |
+| **Platform** | App Builder, Digital Assistant, Mobile, Search, Workflow, Notifications, Scheduler, MDM, RPA, Content, Collaboration | Platform Service + Workflow Service + Integration Service |
 
 ---
 
 ## 7. Feature-to-Service Registry
 
-Every feature maps to exactly one service. Feature specs are in `docs/07-features/`. Remaining feature domains not listed below are covered by their owning service's spec in `docs/06-services/`.
+Every feature maps to exactly one service. The 22 features with dedicated specs are:
 
 | Feature | Owning Service | Spec File |
 |---------|---------------|-----------|
-| Account Reconciliation | Finance Service | `reconciliation.md` |
-| Adaptive Intelligence | Platform Service | `adaptive-intelligence.md` |
-| API Marketplace | Integration Service | `api-marketplace.md` |
-| Collaboration | Platform Service | `collaboration.md` |
-| Compliance Hub | Platform Service | `compliance-hub.md` |
-| Connected Planning | Report Service | `connected-planning.md` |
-| Content Management | Platform Service | `content-management.md` |
-| Digital Assistant | Platform Service | `digital-assistant.md` |
-| DLP (Data Loss Prevention) | Platform Service | `dlp.md` |
-| Dynamic Discounting | Finance Service | `dynamic-discounting.md` |
-| EDI (Electronic Data Interchange) | Integration Service | `edi.md` |
-| Email Service | Platform Service | `email.md` |
-| Enterprise Data Quality | Integration Service | `enterprise-data-quality.md` |
-| Event Mesh | Platform Service | `event-mesh.md` |
-| Financial Reporting Studio | Finance Service (templates), Report Service (rendering) | `financial-reporting-studio.md` |
-| Full-Text Search | Platform Service | `search.md` |
-| IDP (Intelligent Document Processing) | Platform Service | `idp.md` |
-| Intelligent Close | Finance Service | `intelligent-close.md` |
-| Intelligent Process Automation (IPA) | Platform Service | `intelligent-process-automation.md` |
-| Multi-Tenancy | Tenant Service | `multi-tenancy.md` |
-| Privacy Management | Platform Service | `privacy.md` |
-| Supply Chain Collaboration | Commerce Service | `supply-chain-collaboration.md` |
+| Account Reconciliation | Finance Service | [reconciliation.md](docs/07-features/reconciliation.md) |
+| Adaptive Intelligence | Platform Service | [adaptive-intelligence.md](docs/07-features/adaptive-intelligence.md) |
+| API Marketplace | Integration Service | [api-marketplace.md](docs/07-features/api-marketplace.md) |
+| Collaboration | Platform Service | [collaboration.md](docs/07-features/collaboration.md) |
+| Compliance Hub | Platform Service | [compliance-hub.md](docs/07-features/compliance-hub.md) |
+| Connected Planning | Report Service | [connected-planning.md](docs/07-features/connected-planning.md) |
+| Content Management | Platform Service | [content-management.md](docs/07-features/content-management.md) |
+| Digital Assistant | Platform Service | [digital-assistant.md](docs/07-features/digital-assistant.md) |
+| DLP | Platform Service | [dlp.md](docs/07-features/dlp.md) |
+| Dynamic Discounting | Finance Service | [dynamic-discounting.md](docs/07-features/dynamic-discounting.md) |
+| EDI | Integration Service | [edi.md](docs/07-features/edi.md) |
+| Email Service | Platform Service | [email.md](docs/07-features/email.md) |
+| Enterprise Data Quality | Integration Service | [enterprise-data-quality.md](docs/07-features/enterprise-data-quality.md) |
+| Event Mesh | Integration Service | [event-mesh.md](docs/07-features/event-mesh.md) |
+| Financial Reporting Studio | Finance Service (templates), Report Service (rendering) | [financial-reporting-studio.md](docs/07-features/financial-reporting-studio.md) |
+| Full-Text Search | Platform Service | [search.md](docs/07-features/search.md) |
+| IDP | Platform Service | [idp.md](docs/07-features/idp.md) |
+| Intelligent Close | Finance Service | [intelligent-close.md](docs/07-features/intelligent-close.md) |
+| IPA (RPA + AI) | Platform Service | [intelligent-process-automation.md](docs/07-features/intelligent-process-automation.md) |
+| Multi-Tenancy | Tenant Service | [multi-tenancy.md](docs/07-features/multi-tenancy.md) |
+| Privacy Management | Platform Service | [privacy.md](docs/07-features/privacy.md) |
+| Supply Chain Collaboration | Commerce Service | [supply-chain-collaboration.md](docs/07-features/supply-chain-collaboration.md) |
+
+> **Full feature registry with domain modules:** See [AGENTS.md](AGENTS.md) §Feature Spec Registry. All feature specs: [docs/07-features/](docs/07-features/)
 
 ---
 
 ## 8. Deployment Topology
 
-See [docs/08-infrastructure/deployment.md](docs/08-infrastructure/deployment.md) for the full deployment specification including multi-region architecture diagrams and Kubernetes topology.
+> **Full specification:** [docs/08-infrastructure/deployment.md](docs/08-infrastructure/deployment.md)
 
 ### 8.1 Active-Passive Failover
 
@@ -511,9 +329,9 @@ See [docs/08-infrastructure/deployment.md](docs/08-infrastructure/deployment.md)
 
 ## 9. Integration Ecosystem
 
-The Integration Service provides 50+ pre-built connectors. See [docs/06-services/integration.md](docs/06-services/integration.md) for the complete list and Connector SDK specification.
+> **Full connector list and Connector SDK:** [docs/06-services/integration.md](docs/06-services/integration.md)
 
-### 9.1 Connector Categories
+The Integration Service provides 50+ pre-built connectors:
 
 - **Financial**: SAP S/4HANA, NetSuite, Dynamics 365, QuickBooks, Xero, Sage, Stripe, PayPal, Adyen, Square, Plaid, SWIFT, Vertex, Avalara
 - **CRM & CX**: Salesforce, HubSpot, Dynamics 365 Sales, Zendesk, Freshdesk, Intercom, Twilio, SendGrid
@@ -559,11 +377,11 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 
 | Module | Capability | Model Type |
 |--------|-----------|------------|
-| Finance | Anomaly detection, cash flow forecasting, payment delay prediction, reconciliation matching | Time-series, Classification |
-| Commerce | Demand forecasting, price optimization, churn prediction, cross-sell/up-sell | Regression, Classification, RL |
-| HCM | Attrition prediction, resume screening, workforce demand forecasting | Classification, NLP, Time-series |
-| CRM | Lead scoring, next-best-action, deal risk prediction, sentiment analysis | Classification, Regression, NLP |
-| Manufacturing | Predictive maintenance, quality prediction, yield optimization, demand planning | Time-series, Classification |
+| Finance | Anomaly detection, cash flow forecasting, payment delay prediction, reconciliation matching, intercompany matching | Time-series, Classification |
+| Commerce | Demand forecasting, price optimization, churn prediction, cross-sell/up-sell, fulfillment rule optimization | Regression, Classification, RL |
+| HCM | Attrition prediction, resume screening, workforce demand forecasting, learning path recommendations | Classification, NLP, Time-series |
+| CRM | Lead scoring, next-best-action, deal risk prediction, sentiment analysis, pipeline forecasting | Classification, Regression, NLP |
+| Manufacturing | Predictive maintenance, quality prediction, yield optimization, demand planning, process parameter optimization | Time-series, Classification |
 | Project | Risk prediction, timeline estimation, resource optimization | Regression, Classification |
 | Platform | Document classification (IDP), data extraction (IDP), NLP assistant, process mining | NLP, CV, Classification |
 | Report | NL-to-SQL, auto-insight generation, augmented analytics | NLP, Transformer |
@@ -628,44 +446,19 @@ MSERP embeds AI/ML capabilities across all business modules via a unified ML pla
 
 ### 11.6 Feature Specifications
 
-All feature specifications are in [docs/07-features/](docs/07-features/). See §7 for the feature-to-service registry. The 22 feature specs are:
-
-| # | Feature | Owning Service | Spec File |
-|---|---------|---------------|-----------|
-| 1 | Account Reconciliation | Finance Service | [reconciliation.md](docs/07-features/reconciliation.md) |
-| 2 | Adaptive Intelligence | Platform Service | [adaptive-intelligence.md](docs/07-features/adaptive-intelligence.md) |
-| 3 | API Marketplace | Integration Service | [api-marketplace.md](docs/07-features/api-marketplace.md) |
-| 4 | Collaboration | Platform Service | [collaboration.md](docs/07-features/collaboration.md) |
-| 5 | Compliance Hub | Platform Service | [compliance-hub.md](docs/07-features/compliance-hub.md) |
-| 6 | Connected Planning | Report Service | [connected-planning.md](docs/07-features/connected-planning.md) |
-| 7 | Content Management | Platform Service | [content-management.md](docs/07-features/content-management.md) |
-| 8 | Digital Assistant | Platform Service | [digital-assistant.md](docs/07-features/digital-assistant.md) |
-| 9 | DLP (Data Loss Prevention) | Platform Service | [dlp.md](docs/07-features/dlp.md) |
-| 10 | Dynamic Discounting | Finance Service | [dynamic-discounting.md](docs/07-features/dynamic-discounting.md) |
-| 11 | EDI (Electronic Data Interchange) | Integration Service | [edi.md](docs/07-features/edi.md) |
-| 12 | Email Service | Platform Service | [email.md](docs/07-features/email.md) |
-| 13 | Enterprise Data Quality | Integration Service | [enterprise-data-quality.md](docs/07-features/enterprise-data-quality.md) |
-| 14 | Event Mesh | Platform Service | [event-mesh.md](docs/07-features/event-mesh.md) |
-| 15 | Financial Reporting Studio | Finance Service (templates), Report Service (rendering) | [financial-reporting-studio.md](docs/07-features/financial-reporting-studio.md) |
-| 16 | Full-Text Search | Platform Service | [search.md](docs/07-features/search.md) |
-| 17 | IDP (Intelligent Document Processing) | Platform Service | [idp.md](docs/07-features/idp.md) |
-| 18 | Intelligent Close | Finance Service | [intelligent-close.md](docs/07-features/intelligent-close.md) |
-| 19 | Intelligent Process Automation (IPA) | Platform Service | [intelligent-process-automation.md](docs/07-features/intelligent-process-automation.md) |
-| 20 | Multi-Tenancy | Tenant Service | [multi-tenancy.md](docs/07-features/multi-tenancy.md) |
-| 21 | Privacy Management | Platform Service | [privacy.md](docs/07-features/privacy.md) |
-| 22 | Supply Chain Collaboration | Commerce Service | [supply-chain-collaboration.md](docs/07-features/supply-chain-collaboration.md) |
+All 22 feature specifications are in [docs/07-features/](docs/07-features/). See §7 for the feature-to-service registry.
 
 ### 11.7 Security
 
 | # | Document | Path |
 |---|----------|------|
-| 25 | Security Overview | [docs/02-security/overview.md](docs/02-security/overview.md) |
-| 26 | Authorization | [docs/02-security/authorization.md](docs/02-security/authorization.md) |
-| 27 | Data Protection | [docs/02-security/data-protection.md](docs/02-security/data-protection.md) |
-| 28 | GRC | [docs/02-security/grc.md](docs/02-security/grc.md) |
-| 29 | Threat Model | [docs/02-security/threat-model.md](docs/02-security/threat-model.md) |
+| 20 | Security Overview | [docs/02-security/overview.md](docs/02-security/overview.md) |
+| 21 | Authorization | [docs/02-security/authorization.md](docs/02-security/authorization.md) |
+| 22 | Data Protection | [docs/02-security/data-protection.md](docs/02-security/data-protection.md) |
+| 23 | GRC | [docs/02-security/grc.md](docs/02-security/grc.md) |
+| 24 | Threat Model | [docs/02-security/threat-model.md](docs/02-security/threat-model.md) |
 
 ---
 
-*Document Version: 15.0*
+*Document Version: 16.0*
 *Last Updated: 2026-03-29*

@@ -223,7 +223,9 @@
 | `auth.session.revoked` | `{ user_id, tenant_id, session_id, reason }` | Session explicitly revoked |
 | `auth.step-up.requested` | `{ user_id, tenant_id, trigger_reason, ip }` | Step-up authentication triggered |
 
-> **Note:** Auth events are consumed by the Platform Service for security audit logging and alerting (e.g., brute-force detection on repeated `auth.login.failed`). Auth Service does not consume events from other services.
+> **Note:** Auth events are consumed by the Platform Service for security audit logging and alerting (e.g., brute-force detection on repeated `auth.login.failed`).
+
+> **Important:** Auth Service does **NOT** consume events from other services. Auth uses **synchronous HTTP calls** to query Identity Service for user data during login. This is by design — events are asynchronous and too slow for real-time authentication decisions. Do not refactor the Auth→Identity login flow to be event-driven.
 
 ## See Also
 
