@@ -173,6 +173,33 @@ Country-specific employment law compliance modules. Localized reporting for stat
 
 Employee document storage linked to personnel files. E-signature workflows for employment contracts and policy acknowledgments. Document templates for standard HR correspondence. Retention policies per document type and jurisdiction.
 
+### Goals & Objectives
+
+| Module | Description |
+|--------|-------------|
+| Cascading Goals | Hierarchical goal cascading from organizational objectives to department, team, and individual goals |
+| Alignment | Goal alignment visualization showing how individual goals contribute to strategic objectives |
+| Progress Tracking | Quantitative and qualitative progress tracking with check-ins, milestones, and status updates |
+| Goal Templates | Reusable goal templates with configurable metrics, weightings, and completion criteria |
+
+### Career Development
+
+| Module | Description |
+|--------|-------------|
+| Career Paths | Configurable career paths with role progressions, prerequisites, and competency requirements |
+| Competency Frameworks | Multi-level competency frameworks with proficiency scales, behavioral indicators, and assessment criteria |
+| Development Plans | Individual development plans linking competency gaps to training, mentoring, and stretch assignments |
+| Skill Gap Analysis | Automated skill gap analysis comparing current competencies against target role requirements |
+
+### Structured Onboarding
+
+| Module | Description |
+|--------|-------------|
+| Journey Builder | Visual onboarding journey builder with configurable phases, tasks, and milestones per role or department |
+| Task Management | Onboarding task assignment, tracking, and escalation with deadline management and completion verification |
+| Equipment Provisioning | Automated equipment and IT provisioning requests integrated with ITSM and asset management |
+| Buddy Assignment | New hire buddy or mentor assignment with structured check-in schedules and feedback collection |
+
 ## Employee Self-Service Portal
 
 The Employee Self-Service Portal is owned and operated by the HCM Service. It provides employees with direct access to HR functions without requiring HR staff intermediation.

@@ -129,6 +129,25 @@
 | Testing Management | Compliance test plan management with lab integration and result tracking |
 | Regulatory Change Management | Regulatory change monitoring with impact analysis on existing products |
 
+## Manufacturing Execution System (MES)
+
+| Module | Description |
+|--------|-------------|
+| Work Instructions | Digital work instructions with step-by-step procedures, multimedia attachments, and version control |
+| Station-Level Tracking | Real-time tracking of production status at each workstation with throughput and cycle time monitoring |
+| Labor Transactions | Labor time recording against operations, work orders, and cost centers with overtime and idle time tracking |
+| Shift Management | Shift scheduling, handover management, crew assignment, and shift-level production reporting |
+| Production Data Collection | Automated and manual production data capture including quantities, scrap, rework, and downtime reasons |
+
+## Advanced Production Scheduling
+
+| Module | Description |
+|--------|-------------|
+| Constraint-Based Scheduling | Multi-constraint scheduling considering machine capacity, tooling availability, material readiness, and labor skills |
+| Gantt Chart | Interactive Gantt chart with drag-and-drop rescheduling, dependency visualization, and critical path highlighting |
+| Simulation | What-if scheduling simulation comparing scenarios for throughput, delivery performance, and resource utilization |
+| Finite Capacity | Finite capacity planning with overload detection, alternative routing suggestions, and capacity leveling |
+
 ## Database Tables
 
 All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.

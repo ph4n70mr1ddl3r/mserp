@@ -14,13 +14,13 @@ SPEC.md (Authoritative single source of truth)
     ├── 04-events/           (event bus, catalog, sagas)
     ├── 05-api/              (standards, endpoints, errors)
     ├── 06-services/         (per-service specifications)
-    ├── 07-features/         (cross-cutting & complex feature specs — 22 remaining)
+    ├── 07-features/         (cross-cutting & complex feature specs — 31 feature specifications)
     ├── 08-infrastructure/   (deployment, technology, observability)
     ├── 09-development/      (project structure, conventions, setup)
     └── 10-planning/         (phases, NFRs)
 ```
 
-> **Note:** Most feature-level detail now lives in the service specs (`06-services/`). The 22 feature specs in `07-features/` cover only cross-cutting or complex capabilities that warrant dedicated treatment beyond their service spec.
+> **Note:** Most feature-level detail now lives in the service specs (`06-services/`). The 31 feature specs in `07-features/` cover only cross-cutting or complex capabilities that warrant dedicated treatment beyond their service spec.
 
 ---
 
@@ -105,12 +105,29 @@ SPEC.md (Authoritative single source of truth)
 | Feature | Spec |
 |---------|------|
 | Supply Chain Collaboration | [supply-chain-collaboration.md](07-features/supply-chain-collaboration.md) |
+| Order Orchestration | [order-orchestration.md](07-features/order-orchestration.md) |
+| B2C Commerce & Storefront | [b2c-commerce-storefront.md](07-features/b2c-commerce-storefront.md) |
+
+### HCM Service
+
+| Feature | Spec |
+|---------|------|
+| Goals & Career Development | [goals-career-development.md](07-features/goals-career-development.md) |
+| Structured Onboarding Journey | [structured-onboarding.md](07-features/structured-onboarding.md) |
+
+### Manufacturing Service
+
+| Feature | Spec |
+|---------|------|
+| MES | [mes.md](07-features/mes.md) |
+| Production Scheduling | [production-scheduling.md](07-features/production-scheduling.md) |
 
 ### Report Service
 
 | Feature | Spec |
 |---------|------|
 | Connected Planning | [connected-planning.md](07-features/connected-planning.md) |
+| Self-Service ML Studio | [self-service-ml-studio.md](07-features/self-service-ml-studio.md) |
 
 ### Platform Service
 
@@ -127,6 +144,8 @@ SPEC.md (Authoritative single source of truth)
 | Privacy Management | [privacy.md](07-features/privacy.md) |
 | Email Service | [email.md](07-features/email.md) |
 | Full-Text Search | [search.md](07-features/search.md) |
+| Application Composer | [application-composer.md](07-features/application-composer.md) |
+| Access Certification | [access-certification.md](07-features/access-certification.md) |
 
 ### Integration Service
 

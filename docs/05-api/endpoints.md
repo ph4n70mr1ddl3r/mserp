@@ -167,6 +167,24 @@
 | POST | `/api/v1/commerce/collaboration/demand-signals` | Submit demand signal |
 | GET | `/api/v1/commerce/collaboration/demand-signals` | List demand signals |
 | POST | `/api/v1/commerce/collaboration/capacity-commitments` | Create capacity commitment |
+| GET | `/api/v1/commerce/orchestration/rules` | List orchestration rules |
+| POST | `/api/v1/commerce/orchestration/rules` | Create orchestration rule |
+| GET | `/api/v1/commerce/orchestration/processes/{id}` | Get orchestration process status |
+| POST | `/api/v1/commerce/orchestration/processes/{id}/retry` | Retry failed orchestration step |
+| GET | `/api/v1/commerce/backorders` | List backordered items |
+| POST | `/api/v1/commerce/backorders/{id}/fulfill` | Fulfill backorder |
+| GET | `/api/v1/commerce/gop/promise` | Get global order promising result |
+| POST | `/api/v1/commerce/gop/sourcing-rules` | Create GOP sourcing rule |
+| GET | `/api/v1/commerce/storefront/pages` | List storefront pages |
+| POST | `/api/v1/commerce/storefront/pages` | Create storefront page |
+| PUT | `/api/v1/commerce/storefront/pages/{id}` | Update storefront page |
+| POST | `/api/v1/commerce/storefront/pages/{id}/publish` | Publish storefront page |
+| GET | `/api/v1/commerce/storefront/seo` | Get SEO metadata |
+| PUT | `/api/v1/commerce/storefront/seo/{pageId}` | Update SEO metadata |
+| GET | `/api/v1/commerce/promotions` | List promotions |
+| POST | `/api/v1/commerce/promotions` | Create promotion |
+| POST | `/api/v1/commerce/reviews` | Submit product review |
+| GET | `/api/v1/commerce/reviews` | List product reviews |
 
 ### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |
@@ -337,6 +355,20 @@
 | POST | `/api/v1/hr/self-service/time-off` | Submit time-off request |
 | GET | `/api/v1/hr/self-service/benefits` | List available benefits |
 | POST | `/api/v1/hr/self-service/expenses` | Submit expense (self-service) |
+| GET | `/api/v1/hr/goals` | List goals |
+| POST | `/api/v1/hr/goals` | Create goal |
+| GET | `/api/v1/hr/goals/{id}` | Get goal details |
+| PUT | `/api/v1/hr/goals/{id}/progress` | Update goal progress |
+| GET | `/api/v1/hr/goals/alignment` | Get goal cascade/alignment tree |
+| GET | `/api/v1/hr/career/paths` | List career paths |
+| POST | `/api/v1/hr/career/plans` | Create development plan |
+| GET | `/api/v1/hr/career/plans/{id}` | Get development plan |
+| GET | `/api/v1/hr/competencies` | List competency frameworks |
+| POST | `/api/v1/hr/competencies/assess` | Submit competency assessment |
+| GET | `/api/v1/hr/onboarding/journeys` | List onboarding journeys |
+| POST | `/api/v1/hr/onboarding/journeys` | Create onboarding journey from template |
+| GET | `/api/v1/hr/onboarding/journeys/{id}` | Get onboarding journey status |
+| POST | `/api/v1/hr/onboarding/journeys/{id}/tasks/{taskId}/complete` | Complete onboarding task |
 
 ### Manufacturing Service
 | Method | Endpoint | Description |
@@ -405,6 +437,19 @@
 | POST | `/api/v1/manufacturing/compliance/certifications` | Register certification |
 | GET | `/api/v1/manufacturing/compliance/material-declarations` | List material declarations |
 | POST | `/api/v1/manufacturing/compliance/tests` | Create compliance test plan |
+| GET | `/api/v1/manufacturing/mes/dispatch` | Get work center dispatch list |
+| POST | `/api/v1/manufacturing/mes/start` | Start production at station |
+| POST | `/api/v1/manufacturing/mes/complete` | Complete production at station |
+| POST | `/api/v1/manufacturing/mes/labor` | Log labor transaction |
+| GET | `/api/v1/manufacturing/mes/instructions/{workOrderId}` | Get work instructions |
+| GET | `/api/v1/manufacturing/mes/shifts` | Get shift schedules |
+| POST | `/api/v1/manufacturing/mes/data-collection` | Submit production data |
+| GET | `/api/v1/manufacturing/mes/oee/station` | Get station-level OEE |
+| GET | `/api/v1/manufacturing/schedules` | List production schedules |
+| POST | `/api/v1/manufacturing/schedules` | Create production schedule |
+| POST | `/api/v1/manufacturing/schedules/{id}/simulate` | Simulate schedule (what-if) |
+| POST | `/api/v1/manufacturing/schedules/{id}/firm` | Firm production schedule |
+| GET | `/api/v1/manufacturing/schedules/gantt` | Get scheduling Gantt data |
 
 ### CRM Service
 | Method | Endpoint | Description |
@@ -591,6 +636,22 @@
 | GET | `/api/v1/platform/compliance-hub/scores` | Get compliance health scores |
 | GET | `/api/v1/platform/compliance-hub/intelligence` | Get AI-powered regulatory intelligence |
 | POST | `/api/v1/platform/privacy/erasure-requests` | Submit GDPR erasure request |
+| GET | `/api/v1/platform/composer/custom-fields` | List custom field definitions |
+| POST | `/api/v1/platform/composer/custom-fields` | Create custom field on entity |
+| GET | `/api/v1/platform/composer/custom-objects` | List custom objects |
+| POST | `/api/v1/platform/composer/custom-objects` | Create custom object |
+| GET | `/api/v1/platform/composer/custom-objects/{id}/records` | List custom object records |
+| POST | `/api/v1/platform/composer/custom-objects/{id}/records` | Create custom object record |
+| POST | `/api/v1/platform/composer/scripts` | Create extension script |
+| POST | `/api/v1/platform/composer/scripts/{id}/execute` | Execute extension script |
+| GET | `/api/v1/platform/composer/pages` | List composed pages |
+| POST | `/api/v1/platform/composer/pages` | Create composed page |
+| GET | `/api/v1/platform/grc/certification/campaigns` | List certification campaigns |
+| POST | `/api/v1/platform/grc/certification/campaigns` | Create certification campaign |
+| GET | `/api/v1/platform/grc/certification/campaigns/{id}/reviews` | List reviews for campaign |
+| POST | `/api/v1/platform/grc/certification/reviews/{id}/decide` | Submit certification decision |
+| GET | `/api/v1/platform/grc/certification/analytics` | Get certification analytics |
+| GET | `/api/v1/platform/grc/role-mining` | Get role mining results |
 
 ### Workflow Service
 | Method | Endpoint | Description |
@@ -654,6 +715,14 @@
 | POST | `/api/v1/report/planning/assumptions` | Create planning assumption |
 | POST | `/api/v1/report/planning/scenarios` | Create connected planning scenario |
 | POST | `/api/v1/report/planning/scenarios/{id}/simulate` | Simulate connected planning scenario |
+| GET | `/api/v1/report/ml-studio/projects` | List ML studio projects |
+| POST | `/api/v1/report/ml-studio/projects` | Create ML studio project |
+| GET | `/api/v1/report/ml-studio/projects/{id}/experiments` | List experiments |
+| POST | `/api/v1/report/ml-studio/projects/{id}/experiments` | Create experiment |
+| POST | `/api/v1/report/ml-studio/experiments/{id}/train` | Start model training |
+| GET | `/api/v1/report/ml-studio/experiments/{id}/compare` | Compare experiment results |
+| POST | `/api/v1/report/ml-studio/models/{id}/deploy-studio` | Deploy model from studio |
+| GET | `/api/v1/report/ml-studio/explainability/{modelId}` | Get model explainability report |
 
 ### Integration Service
 | Method | Endpoint | Description |

@@ -97,6 +97,17 @@
 | Data Preparation | Self-service data preparation with join suggestions, cleansing, and transformation |
 | Scheduled Delivery | Self-service report scheduling with email, Slack, and portal delivery options |
 
+## Self-Service ML Studio
+
+| Module | Description |
+|--------|-------------|
+| Project Management | ML project organization with experiment grouping, collaboration, and version control |
+| AutoML | Automated machine learning pipeline with feature engineering, model selection, and hyperparameter tuning |
+| Experiment Tracking | Experiment logging with parameter capture, metric tracking, and run comparison |
+| Model Comparison | Side-by-side model comparison with statistical significance testing and performance visualization |
+| Explainability | Model explainability with feature importance, SHAP values, and prediction-level explanations |
+| Deployment | One-click model deployment with A/B testing, traffic splitting, and rollback capabilities |
+
 ## Augmented Analytics
 
 | Module | Description |

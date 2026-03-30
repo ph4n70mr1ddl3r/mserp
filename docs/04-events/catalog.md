@@ -62,10 +62,34 @@
 | `commerce.loyalty.tier.changed` | Customer loyalty tier changed. Payload: `{ customer_id, old_tier, new_tier }` |
 | `commerce.omnichannel.order.routed` | Order routed to fulfillment location. Payload: `{ order_id, channel, fulfillment_location, routing_reason }` |
 | `commerce.price.optimized` | Price optimization suggestion generated. Payload: `{ product_id, current_price, suggested_price, confidence }` |
-| `commerce.collaboration.demand-shared` | Demand signal shared with supplier. Payload: `{ share_id, supplier_id, product_ids, forecast_data, confidence }` |
-| `commerce.collaboration.capacity.committed` | Supplier capacity commitment received. Payload: `{ commitment_id, supplier_id, product_id, quantity, period }` |
+| `commerce.collaboration.asn.submitted` | Advanced Shipment Notice submitted by supplier. Payload: `{ asn_id, supplier_id, po_id, expected_delivery, items }` |
 | `commerce.collaboration.cpfr.updated` | CPFR forecast updated collaboratively. Payload: `{ cpfr_id, supplier_id, buyer_forecast, supplier_forecast, consensus_forecast }` |
 | `commerce.collaboration.asn.submitted` | Advanced Shipment Notice submitted by supplier. Payload: `{ asn_id, supplier_id, po_id, expected_delivery, items }` |
+| `commerce.orchestration.rule-evaluated` | Orchestration rule evaluated for order. Payload: `{ order_id, rule_id, result, fulfillment_plan }` |
+| `commerce.orchestration.split` | Order split into multiple fulfillments. Payload: `{ order_id, child_fulfillment_ids, split_reason }` |
+| `commerce.orchestration.merged` | Multiple fulfillments merged. Payload: `{ fulfillment_ids, merged_fulfillment_id }` |
+| `commerce.backorder.created` | Backorder created for unavailable item. Payload: `{ backorder_id, order_id, product_id, quantity, estimated_date }` |
+| `commerce.backorder.fulfilled` | Backorder fulfilled from new stock. Payload: `{ backorder_id, fulfillment_id }` |
+| `commerce.gop.promise.calculated` | Global order promising result calculated. Payload: `{ request_id, product_id, quantity, promising_date, sourcing_location }` |
+| `commerce.storefront.page.published` | Storefront page published. Payload: `{ page_id, page_type, seo_url }` |
+| `commerce.checkout.completed` | B2C checkout completed. Payload: `{ checkout_id, order_id, customer_id, payment_method }` |
+| `commerce.review.submitted` | Product review submitted. Payload: `{ review_id, product_id, customer_id, rating }` |
+| `commerce.promotion.activated` | Promotion activated. Payload: `{ promotion_id, rules, valid_from, valid_to }` |
+| `commerce.order-orchestration.executed` | Order orchestration plan executed for payload: `{ orchestration_id, order_id, plan_type, split, hold, reroute, original_plan }` |
+| `commerce.order-orchestration.split` | Order split into multiple fulfillments lines. Payload: `{ split_id, original_order_id, fulfillment_lines, hold_reason }` |
+| `commerce.order-orchestration.hold` | Order orchestration hold applied. Payload: `{ hold_id, order_id, hold_type, hold_reason, released_at }` |
+| `commerce.order-orchestration.released` | Order orchestration hold released. Payload: `{ hold_id, order_id, released_by }` |
+| `commerce.gop.promise.created` | Global order Promising availability check created. Payload: `{ promise_id, order_id, product_id, quantity, promised_date, source, confidence }` |
+| `commerce.gop.promise.updated` | Global Order Promising date updated. Payload: `{ promise_id, order_id, old_date, new_date, source }` |
+| `commerce.gop.promise.broken` | Global Order Promising commitment broken. Payload: `{ promise_id, order_id, original_date, new_date, reason }` |
+| `commerce.b2c.cart.created` | B2C shopping cart created. Payload: `{ cart_id, customer_id, channel }` |
+| `commerce.b2c.checkout.completed` | B2C checkout completed with payment. Payload: `{ checkout_id, cart_id, order_id, payment_method, total }` |
+| `commerce.b2c.storefront.config.updated` | B2C storefront configuration updated. Payload: `{ config_id, store_name, theme, updated_by }` | `commerce.gop.promise.created` | Global Order Promising availability check created. Payload: `{ promise_id, order_id, product_id, quantity, promised_date, source, confidence }` |
+| `commerce.gop.promise.updated` | Global Order Promising date updated. Payload: `{ promise_id, order_id, old_date, new_date, source }` |
+| `commerce.gop.promise.broken` | Global Order Promising commitment broken. Payload: `{ promise_id, order_id, original_date, new_date, reason }` |
+| `commerce.b2c.cart.created` | B2C shopping cart created. Payload: `{ cart_id, customer_id, channel }` |
+| `commerce.b2c.checkout.completed` | B2C checkout completed with payment. Payload: `{ checkout_id, cart_id, order_id, payment_method, total }` |
+| `commerce.b2c.storefront.config.updated` | B2C storefront configuration updated. Payload: `{ config_id, store_name, theme, updated_by }`
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
@@ -170,6 +194,14 @@
 | `hr.talent-review.initiated` | Talent review process initiated |
 | `hr.succession.plan-created` | Succession plan created for a key position |
 | `hr.workforce.simulation-completed` | Workforce modeling simulation completed |
+| `hr.goal.created` | Goal created for employee. Payload: `{ goal_id, employee_id, goal_type, target_date, alignment_parent_id }` |
+| `hr.goal.progress-updated` | Goal progress updated. Payload: `{ goal_id, progress_percent, updated_by }` |
+| `hr.goal.completed` | Goal completed. Payload: `{ goal_id, outcome, completed_at }` |
+| `hr.career.plan-created` | Career development plan created. Payload: `{ plan_id, employee_id, career_path_id, milestones }` |
+| `hr.competency.assessed` | Competency assessment completed. Payload: `{ assessment_id, employee_id, competency_id, level, assessor_id }` |
+| `hr.onboarding.journey-started` | Onboarding journey started for new hire. Payload: `{ journey_id, employee_id, template_id }` |
+| `hr.onboarding.task-completed` | Onboarding task completed. Payload: `{ journey_id, task_id, completed_by }` |
+| `hr.onboarding.journey-completed` | Onboarding journey completed. Payload: `{ journey_id, employee_id, completed_at }` |
 
 ### Manufacturing Events (Production + PLM + EAM)
 | Event | Description |
@@ -207,6 +239,14 @@
 | `manufacturing.safety.inspection.completed` | Safety inspection completed. Payload: `{ inspection_id, findings, location, inspector_id }` |
 | `manufacturing.mro.repair.completed` | MRO repair order completed. Payload: `{ repair_id, asset_id, cost, downtime_hours }` |
 | `manufacturing.compliance.certification.updated` | Product certification updated. Payload: `{ product_id, cert_type, status, expiry_date }` |
+| `manufacturing.mes.production-started` | MES production started at station. Payload: `{ station_id, work_order_id, operator_id, started_at }` |
+| `manufacturing.mes.production-completed` | MES production completed at station. Payload: `{ station_id, work_order_id, operator_id, quantity_produced, quantity_scrapped }` |
+| `manufacturing.mes.labor-logged` | MES labor transaction logged. Payload: `{ transaction_id, employee_id, station_id, work_order_id, hours }` |
+| `manufacturing.mes.shift-started` | MES shift started. Payload: `{ shift_id, work_center_id, operators }` |
+| `manufacturing.mes.data-collected` | MES production data collected. Payload: `{ data_id, station_id, metric_name, metric_value, quality }` |
+| `manufacturing.schedule.created` | Production schedule created. Payload: `{ schedule_id, work_orders, resources, horizon }` |
+| `manufacturing.schedule.simulation.completed` | Schedule simulation completed. Payload: `{ simulation_id, schedule_id, utilization, conflicts, recommendations }` |
+| `manufacturing.schedule.firmed` | Production schedule firmed for execution. Payload: `{ schedule_id, firmed_by, effective_from }` |
 
 > **Note:** `platform.iot.device.registered` is the authoritative device registration event (Platform Service owns the global device registry). Manufacturing Service consumes this event to sync its local `iot_devices` cache table. The removed `manufacturing.iot.device.registered` event was a duplicate; all device lifecycle events (`registered`, `certificate.issued`, `decommissioned`) belong to Platform.
 
@@ -255,6 +295,13 @@
 | `platform.ipa.cognitive-bot.executed` | Intelligent process automation bot completed cognitive task. Payload: `{ bot_id, execution_id, task_type, confidence, human_override }` |
 | `platform.ipa.process.discovered` | New automation opportunity discovered from usage analytics. Payload: `{ discovery_id, process_type, automation_potential, estimated_savings }` |
 | `platform.ipa.bot.self-learned` | Bot updated its model from feedback. Payload: `{ bot_id, model_version, improvement_metric }` |
+| `platform.composer.extension.created` | Application composer extension created. Payload: `{ extension_id, entity_type, field_name, field_type }` |
+| `platform.composer.script.executed` | Extension script executed. Payload: `{ script_id, trigger_event, execution_time_ms, success }` |
+| `platform.composer.page.published` | Composed page published. Payload: `{ page_id, page_type, target_service }` |
+| `platform.grc.certification.campaign-created` | Access certification campaign created. Payload: `{ campaign_id, scope, reviewers, deadline }` |
+| `platform.grc.certification.review-completed` | Access certification review completed. Payload: `{ review_id, reviewer_id, decision, actions }` |
+| `platform.grc.certification.revoked` | Access revoked via certification. Payload: `{ certification_id, user_id, role_id, revocation_reason }` |
+| `platform.grc.role-mining.completed` | Role mining analysis completed. Payload: `{ mining_id, suggested_roles, coverage_percent }` |
 
 > **Note:** `platform.audit.logged` is an internal event published for observability. Report Service subscribes for compliance dashboards. The authoritative audit log is stored directly in `audit_db` at write time (not event-sourced).
 
@@ -407,6 +454,10 @@
 | `report.planning.scenario.created` | Connected planning scenario created. Payload: `{ scenario_id, planning_domains, assumptions, created_by }` |
 | `report.planning.scenario.compared` | Planning scenarios compared side-by-side. Payload: `{ comparison_id, scenario_ids, metrics_compared }` |
 | `report.planning.driver.updated` | Planning driver value updated affecting connected models. Payload: `{ driver_id, old_value, new_value, affected_models }` |
+| `report.ml-studio.experiment.created` | ML studio experiment created. Payload: `{ experiment_id, project_id, model_type, features }` |
+| `report.ml-studio.model.trained` | ML studio model training completed. Payload: `{ model_id, experiment_id, accuracy, training_time_ms }` |
+| `report.ml-studio.model.deployed` | ML studio model deployed. Payload: `{ deployment_id, model_id, environment, traffic_percent }` |
+| `report.ml-studio.explainability.generated` | Model explainability report generated. Payload: `{ report_id, model_id, features_count, shap_values }` |
 
 ### Cross-Domain Events
 | Event | Publisher | Subscribers |
@@ -481,6 +532,31 @@
 | `hr.employee.updated` | HR | Integration (MDM), Report |
 | `tenant.created` | Tenant | Platform (default configuration), Report (tenant analytics setup) |
 | `manufacturing.intelligence.oee.threshold-breached` | Manufacturing | Report, Platform |
+| `commerce.orchestration.rule-evaluated` | Commerce | Finance, Report |
+| `commerce.orchestration.split` | Commerce | Finance, Report, Workflow |
+| `commerce.backorder.created` | Commerce | Finance, Report |
+| `commerce.backorder.fulfilled` | Commerce | Finance, Report |
+| `commerce.gop.promise.calculated` | Commerce | Finance, Report |
+| `commerce.storefront.page.published` | Commerce | Report |
+| `commerce.checkout.completed` | Commerce | Finance, Report, CRM |
+| `commerce.review.submitted` | Commerce | Report |
+| `commerce.promotion.activated` | Commerce | Report |
+| `hr.goal.created` | HR | Report, Platform |
+| `hr.goal.completed` | HR | Report, Platform |
+| `hr.competency.assessed` | HR | Report |
+| `hr.onboarding.journey-started` | HR | Platform, Report |
+| `hr.onboarding.journey-completed` | HR | Platform, Report |
+| `manufacturing.mes.production-completed` | Manufacturing | Commerce, Finance, Report |
+| `manufacturing.schedule.firmed` | Manufacturing | Commerce, Finance, Report |
+| `manufacturing.schedule.simulation.completed` | Manufacturing | Report |
+| `platform.composer.extension.created` | Platform | Report |
+| `platform.composer.script.executed` | Platform | Report |
+| `platform.grc.certification.campaign-created` | Platform | Report, Workflow |
+| `platform.grc.certification.review-completed` | Platform | Report, Workflow |
+| `platform.grc.certification.revoked` | Platform | Identity (HTTP), Report |
+| `platform.grc.role-mining.completed` | Platform | Report, Identity (HTTP) |
+| `report.ml-studio.model.trained` | Report | Platform |
+| `report.ml-studio.model.deployed` | Report | Platform |
 
 > **Note:** Report Service subscribes to key business events for analytics aggregation. Workflow Service subscribes to events that trigger approval workflows. Core services (Auth, Identity, Tenant, Config) do not have inbox queues. Identity receives updates via direct service-to-service HTTP calls.
 

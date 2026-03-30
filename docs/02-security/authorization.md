@@ -125,6 +125,13 @@ ABAC policies are evaluated by the service layer (not the gateway) since they re
 | Price Analyst | Price optimization and analysis | `commerce.pricing.*`, `report.pricing.*` |
 | Portfolio Manager | Project portfolio management | `project.portfolio.*`, `project.project.read`, `report.project.*` |
 | Compliance Hub Manager | Unified compliance oversight | `platform.compliance-hub.*`, `platform.grc.read`, `report.compliance.*` |
+| Career Development Manager | Career development operations | `hr.career.*`, `hr.competency.*`, `hr.goal.read` |
+| Production Scheduler | Production scheduling | `manufacturing.schedule.*`, `manufacturing.mes.read`, `manufacturing.work-order.read` |
+| Storefront Manager | B2C commerce storefront | `commerce.storefront.*`, `commerce.promotion.*`, `commerce.review.*` |
+| MES Operator | MES operations | `manufacturing.mes.*`, `manufacturing.work-order.read` |
+| Extension Developer | Application composer | `platform.composer.*` |
+| ML Studio User | Self-service ML | `report.ml-studio.*`, `report.data-lake.read` |
+| Access Certifier | Access certification reviews | `platform.grc.certification.*`, `identity.role.read` |
 
 > **Note:** Entity-level wildcards are supported (e.g., `report.*.read` grants read access to all entities within the report domain).
 

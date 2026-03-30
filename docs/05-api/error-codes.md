@@ -58,6 +58,13 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `COMMERCE_COLLABORATION_PARTNER_UNREACHABLE` | 502 | Supply chain collaboration partner endpoint unreachable |
 | `COMMERCE_COLLABORATION_DEMAND_SIGNAL_INVALID` | 400 | Demand signal data is invalid or incomplete |
 | `COMMERCE_COLLABORATION_CAPACITY_CONFLICT` | 409 | Capacity commitment conflicts with existing commitments |
+| `COMMERCE_ORCHESTRATION_RULE_INVALID` | 400 | Orchestration rule configuration invalid |
+| `COMMERCE_ORCHESTRATION_STEP_FAILED` | 500 | Orchestration step execution failed |
+| `COMMERCE_BACKORDER_ALREADY_FULFILLED` | 409 | Backorder already fulfilled |
+| `COMMERCE_GOP_NO_SOURCE_AVAILABLE` | 409 | No fulfillment source available for promised date |
+| `COMMERCE_STOREFRONT_PAGE_DUPLICATE` | 409 | Storefront page with this URL already exists |
+| `COMMERCE_PROMOTION_OVERLAP` | 409 | Promotion dates overlap with existing promotion |
+| `COMMERCE_REVIEW_ALREADY_SUBMITTED` | 409 | Customer already reviewed this product |
 
 ### 8.3 Finance Error Codes
 
@@ -109,6 +116,11 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `HR_PAYROLL_ALREADY_PROCESSED` | 409 | Payroll for this period already processed |
 | `HR_REQUISITION_CLOSED` | 409 | Job requisition is closed |
 | `HR_SUCCESSION_PLAN_EXISTS` | 409 | Succession plan already exists for this position |
+| `HR_GOAL_ALIGNMENT_CYCLE` | 400 | Goal alignment creates circular reference |
+| `HR_CAREER_PATH_NOT_FOUND` | 404 | Career path not found |
+| `HR_COMPETENCY_LEVEL_INVALID` | 400 | Competency assessment level out of range |
+| `HR_ONBOARDING_JOURNEY_ALREADY_ACTIVE` | 409 | Employee already has active onboarding journey |
+| `HR_ONBOARDING_TEMPLATE_NOT_FOUND` | 404 | Onboarding journey template not found |
 
 ### 8.5 Manufacturing Error Codes
 
@@ -130,6 +142,11 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `MFG_COMPLIANCE_CERTIFICATION_EXPIRED` | 409 | Product certification has expired |
 | `MFG_COMPLIANCE_MATERIAL_VIOLATION` | 409 | Material declaration contains restricted substance |
 | `MFG_COMPLIANCE_TEST_IN_PROGRESS` | 409 | Compliance test already in progress for this product |
+| `MFG_MES_STATION_UNAVAILABLE` | 409 | Production station unavailable |
+| `MFG_MES_WORK_ORDER_NOT_STARTED` | 409 | Cannot complete production - work order not started at station |
+| `MFG_SCHEDULE_CONFLICT` | 409 | Schedule conflicts with existing production |
+| `MFG_SCHEDULE_RESOURCE_UNAVAILABLE` | 409 | Required resource unavailable in time slot |
+| `MFG_SCHEDULE_CONSTRAINT_VIOLATION` | 400 | Schedule violates material or capacity constraints |
 
 ### 8.6 CRM Error Codes
 
@@ -175,6 +192,10 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `REPORT_PLANNING_SCENARIO_ERROR` | 400 | Planning scenario configuration is invalid |
 | `REPORT_PLANNING_DRIVER_CONFLICT` | 409 | Planning driver conflicts with existing drivers in the scenario |
 | `REPORT_PLANNING_MODEL_INVALID` | 400 | Connected planning model definition is invalid |
+| `REPORT_MLSTUDIO_DATASET_INVALID` | 400 | ML studio dataset format invalid |
+| `REPORT_MLSTUDIO_EXPERIMENT_LIMIT` | 429 | ML studio experiment limit exceeded |
+| `REPORT_MLSTUDIO_TRAINING_FAILED` | 500 | ML studio model training failed |
+| `REPORT_MLSTUDIO_DEPLOYMENT_CONFLICT` | 409 | ML studio model deployment conflicts with active deployment |
 
 ### 8.9 Workflow Error Codes
 
@@ -220,6 +241,12 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PLATFORM_EVENTMESH_ROUTING_ERROR` | 500 | Event mesh failed to route message to destination |
 | `PLATFORM_EVENTMESH_SCHEMA_INVALID` | 400 | Event mesh message schema validation failed |
 | `PLATFORM_EVENTMESH_GATEWAY_UNAVAILABLE` | 503 | Event mesh gateway is temporarily unavailable |
+| `PLATFORM_COMPOSER_FIELD_LIMIT_EXCEEDED` | 409 | Custom field limit exceeded for entity |
+| `PLATFORM_COMPOSER_SCRIPT_TIMEOUT` | 504 | Extension script execution timed out |
+| `PLATFORM_COMPOSER_SCRIPT_ERROR` | 500 | Extension script execution error |
+| `PLATFORM_CERTIFICATION_CAMPAIGN_ACTIVE` | 409 | Certification campaign is active and cannot be modified |
+| `PLATFORM_CERTIFICATION_REVIEW_OVERDUE` | 409 | Certification review is past deadline |
+| `PLATFORM_ROLE_MINING_INSUFFICIENT_DATA` | 400 | Insufficient access data for role mining |
 
 ### 8.11 Integration Error Codes
 

@@ -233,6 +233,33 @@
 | Performance Benchmarking | Supplier performance benchmarking with industry peer comparison and best practice identification |
 | ASN Management | Advanced Shipment Notice collaboration with automated receiving preparation |
 
+## Order Orchestration
+
+| Module | Description |
+|--------|-------------|
+| Fulfillment Engine | Centralized fulfillment orchestration engine that coordinates order execution across warehouses, stores, and suppliers |
+| Routing Rules | Configurable routing rules based on proximity, cost, inventory availability, and service level agreements |
+| Split & Merge | Intelligent order splitting across fulfillment locations and merging of partial shipments for customer delivery |
+| Backorder Management | Backorder creation, prioritization, automated fulfillment when supply becomes available, and customer notification |
+
+## Global Order Promising
+
+| Module | Description |
+|--------|-------------|
+| Multi-Source Promising | Availability promising across multiple supply sources including warehouses, stores, suppliers, and production |
+| Sourcing Rules | Configurable sourcing rules with priority ranking, cost optimization, and geographic constraints |
+| Availability Matrix | Real-time availability matrix across channels, regions, and fulfillment methods |
+
+## B2C Commerce & Storefront
+
+| Module | Description |
+|--------|-------------|
+| Storefront CMS | Headless storefront content management with page builder, themes, and responsive layouts |
+| SEO | Search engine optimization with URL management, meta tags, sitemap generation, and structured data |
+| Promotions | B2C promotions with coupon codes, flash sales, bundle deals, and BOGO offers |
+| Reviews | Product ratings and reviews with moderation, sentiment analysis, and verified purchase badges |
+| Checkout | Optimized checkout flow with guest checkout, saved payment methods, and abandoned cart recovery |
+
 ## Database Tables
 
 All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.

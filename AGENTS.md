@@ -3,73 +3,340 @@
 This document instructs AI agents on how to use this specification to build MSERP.
 Read this file FIRST before any implementation work.
 
-## Specification Hierarchy
+---
+
+## 1. Specification Hierarchy
 
 Agents MUST follow documents in this order of authority:
 
-1. **SPEC.md** — Authoritative master specification. Conflicts resolved in SPEC.md's favor.
-2. **AGENTS.md** — This file. Agent workflow and reading order only.
-3. **Service specs** (`docs/06-services/*.md`) — Per-service modules, tables, events, integrations.
-4. **Feature specs** (`docs/07-features/*.md`) — Detailed business rules for 22 features. See SPEC.md §7 for the registry.
-5. **Cross-cutting specs** — Architecture, security, data, events, API standards (`docs/02-*` through `docs/05-*`).
-6. **Infrastructure/dev/planning** — Operational concerns (`docs/08-*` through `docs/10-*`).
+1. **SPEC.md** — Authoritative single source of truth. All rules live here or are referenced from here. Conflicts are always resolved in SPEC.md's favor.
+2. **AGENTS.md** — This file. Agent workflow and reading order only. Does not duplicate rules.
+3. **Service specs** (`docs/06-services/*.md`) — Per-service modules, tables, events, integration points.
+4. **Feature specs** (`docs/07-features/*.md`) — Detailed business rules for 22 features. See SPEC.md §12 for the registry.
+5. **Cross-cutting specs** (`docs/02-*` through `docs/05-*`) — Security, data, events, API standards.
+6. **Infrastructure/dev/planning** (`docs/08-*` through `docs/10-*`) — Operational concerns, conventions, NFRs.
 
-## Where to Find Authoritative Rules
-
-All architectural rules live in SPEC.md and domain-specific docs. AGENTS.md does not duplicate them.
+### Where to Find Authoritative Rules
 
 | Rule | Source |
 |------|--------|
-| Service ownership & boundary rules | SPEC.md §4 |
-| Event namespace conventions | SPEC.md §3.3, `docs/04-events/overview.md` |
-| IoT boundary (device registry vs. telemetry) | SPEC.md §3.4 |
-| ML/AI ownership split | SPEC.md §10 |
-| Critical integration points (Auth↔Identity, MDM, SoD, IoT) | SPEC.md §3.4 |
-| Common violations to avoid | SPEC.md §3.3–§3.4 (6 corrected patterns) |
-| Database-per-service | SPEC.md §3.3, §3 |
+| Service catalog & boundaries | SPEC.md §4 |
+| Domain ownership (every feature → one service) | SPEC.md §6 |
+| Event naming & namespace conventions | SPEC.md §5.1, `docs/04-events/overview.md` |
+| Service inbox bindings | SPEC.md §5.3, `docs/04-events/overview.md` |
+| Transactional outbox pattern | SPEC.md §5.6, `docs/04-events/overview.md` |
+| Saga pattern & self-binding | SPEC.md §5.9, `docs/04-events/sagas.md` |
+| Database-per-service | SPEC.md §3.3, `docs/03-data/overview.md` |
+| Standard columns, indexes, RLS | SPEC.md §9, `docs/03-data/overview.md` |
+| Migration rules | SPEC.md §9.4, `docs/03-data/overview.md` |
 | Multi-tenancy & RLS | SPEC.md §8, `docs/03-data/overview.md` |
+| API design standards | SPEC.md §10, `docs/05-api/standards.md` |
 | Error handling (RFC 7807) | `docs/05-api/error-codes.md` |
-| Testing requirements | `docs/10-planning/nfr.md` |
-| Event-driven integration pattern & saga self-binding | `docs/04-events/overview.md` |
-| Feature spec registry (22 specs) | SPEC.md §12 |
+| JWT specification & auth flow | SPEC.md §11 |
+| RBAC permission format | SPEC.md §11.3, `docs/02-security/authorization.md` |
+| IoT boundary (device registry vs. telemetry) | SPEC.md §7.6 |
+| SoD rule boundary | SPEC.md §7.7 |
+| MDM golden records | SPEC.md §7.8 |
+| CRM → Commerce handoff | SPEC.md §7.1 |
+| Commerce → Finance handoff | SPEC.md §7.2 |
+| Analytics ownership | SPEC.md §7.3 |
+| ML/AI ownership split | SPEC.md §14 |
+| Feature-to-service registry (22 specs) | SPEC.md §12 |
+| Testing requirements & quality gates | SPEC.md §18, `docs/10-planning/nfr.md` |
+| Code conventions | `docs/09-development/conventions.md` |
+| Project structure | `docs/09-development/project-structure.md` |
+| Technology stack & crate versions | `docs/08-infrastructure/technology.md` |
 
-## How to Build a Service
+---
 
-1. `docs/06-services/{service}.md` — modules, tables, events, integration points.
-2. `docs/06-services/overview.md` — service catalog, port assignments.
-3. `docs/07-features/` — check for relevant feature specs; otherwise service spec is complete.
-4. `docs/05-api/standards.md` — API design rules.
-5. `docs/05-api/endpoints.md` — endpoint listing.
-6. `docs/03-data/overview.md` — database patterns, standard columns.
-7. `docs/04-events/overview.md` — event patterns, inbox bindings.
-8. `docs/04-events/catalog.md` — published and consumed events.
-9. `docs/02-security/overview.md` + `docs/02-security/authorization.md` — auth requirements.
-10. `docs/09-development/project-structure.md` — directory layout.
-11. `docs/09-development/conventions.md` — code style.
-12. `docs/08-infrastructure/technology.md` — crate versions and dependencies.
+## 2. How to Read the Spec
 
-## How to Add a Feature
+1. **Start with SPEC.md for the rule.** SPEC.md contains or references every architectural rule. Always read it first.
+2. **Go to the sub-document for detail.** SPEC.md gives the rule; sub-docs give the implementation detail (full table schemas, event payloads, endpoint definitions, etc.).
+3. **Never rely on a sub-document alone.** If SPEC.md has a conflicting or more specific rule, SPEC.md wins. For example, SPEC.md §9.1 defines standard columns; `docs/03-data/overview.md` elaborates on them but cannot override them.
+4. **Follow the section cross-references.** SPEC.md sections reference each other (e.g., §5 references §6 for domain names). Follow these links to build a complete picture.
 
-1. Identify the owning service (SPEC.md §4).
-2. Check `docs/07-features/` for an existing feature spec.
-3. Add new events → `docs/04-events/catalog.md` (namespace: `{service-domain}.{entity}.{action}`).
-4. Add new endpoints → `docs/05-api/endpoints.md`.
-5. Add new error codes → `docs/05-api/error-codes.md`.
-6. Add new data models → `docs/03-data/domain-models.md`.
-7. Cross-service features: define integration in both service specs; add events to catalog.
+### Reading Order for Any Task
 
-## Agent Implementation Checklist
+```
+SPEC.md (relevant sections)
+  → docs/06-services/{service}.md  (owning service spec)
+    → docs/07-features/{feature}.md (feature spec, if exists)
+      → docs/03-data/overview.md + domain-models.md (data patterns)
+        → docs/04-events/overview.md + catalog.md (event patterns)
+          → docs/05-api/standards.md + endpoints.md (API rules)
+            → docs/02-security/overview.md + authorization.md (auth)
+              → docs/09-development/conventions.md (code style)
+```
 
-Before writing any code, verify every item:
+---
 
-1. **Ownership** — Which service owns this feature? Confirm via SPEC.md §4.
+## 3. How to Build a Service
+
+Follow these 10 steps in order:
+
+1. **Read SPEC.md §4** (Service Catalog) — understand the service definition, port, database, tier, and which modules it owns.
+2. **Read SPEC.md §6** (Domain Ownership) — confirm exact boundary of what this service owns vs. what other services own.
+3. **Read `docs/06-services/{service}.md`** — modules, tables, events, integration points for this specific service.
+4. **Read `docs/06-services/overview.md`** — service catalog, port assignments, inter-service dependencies.
+5. **Read `docs/07-features/`** — check for relevant feature specs that apply to this service's modules.
+6. **Read `docs/05-api/standards.md`** and `docs/05-api/endpoints.md` — API design rules and endpoint definitions.
+7. **Read `docs/03-data/overview.md`** and `docs/03-data/domain-models.md`** — database patterns, standard columns, domain models.
+8. **Read `docs/04-events/overview.md`** and `docs/04-events/catalog.md`** — event patterns, inbox bindings, event catalog.
+9. **Read `docs/02-security/overview.md`** and `docs/02-security/authorization.md`** — auth requirements, RBAC permissions.
+10. **Read `docs/09-development/project-structure.md`** and `docs/09-development/conventions.md`** — directory layout and code style.
+
+Also reference as needed:
+- `docs/08-infrastructure/technology.md` — crate versions and dependencies.
+- `docs/04-events/sagas.md` — saga definitions for this service's distributed transactions.
+- `docs/05-api/error-codes.md` — error codes for this service's domain.
+
+---
+
+## 4. How to Add a Feature
+
+Follow these 7 steps in order:
+
+1. **Identify the owning service.** Use SPEC.md §6 (Domain Ownership) to confirm which service owns this feature. Every feature belongs to EXACTLY ONE service.
+2. **Check for an existing feature spec.** Look in `docs/07-features/` for an existing spec. If one exists, read it for detailed business rules. See SPEC.md §12 for the full registry of 22 feature specs.
+3. **Add new events** to `docs/04-events/catalog.md`. Use namespace `{domain}.{entity}.{action}` where domain matches the service (e.g., `commerce`, `finance`, `hr`, `manufacturing`, `platform`). Also update inbox bindings in `docs/04-events/overview.md` if new cross-service subscriptions are needed.
+4. **Add new endpoints** to `docs/05-api/endpoints.md`. Follow API design rules from `docs/05-api/standards.md` (RESTful, versioned `/api/v1/...`, Bearer JWT, cursor-based pagination, RFC 7807 errors, Idempotency-Key).
+5. **Add new error codes** to `docs/05-api/error-codes.md`. Follow the existing error code taxonomy. Format: RFC 7807 Problem Details.
+6. **Add new data models** to `docs/03-data/domain-models.md`. Include standard columns (`id`, `tenant_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `version`, `is_deleted`), standard indexes, and RLS policy.
+7. **Update the service spec** at `docs/06-services/{service}.md` to reflect the new module, tables, events, and integration points.
+
+For **cross-service features**: define integration in both service specs; add events to catalog; update inbox bindings for both services.
+
+---
+
+## 5. How to Add an Endpoint
+
+Follow API standards from `docs/05-api/standards.md` and SPEC.md §10:
+
+| Standard | Requirement |
+|----------|-------------|
+| Style | RESTful with OpenAPI 3.1 |
+| Versioning | URL path (`/api/v1/...`) |
+| Auth | Bearer JWT (access token, 15-min expiry, RS256) |
+| Content-Type | `application/json` |
+| Error Format | RFC 7807 Problem Details |
+| Pagination | Cursor-based (`limit`/`after`, default 50, max 100) |
+| Filtering | Query params with operators (`eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `like`, `in`) |
+| Sorting | `sort=field:direction` syntax |
+| Idempotency | `Idempotency-Key` header on all `POST`, `PUT`, `PATCH`, `DELETE` |
+| Compression | `gzip` for responses > 1KB |
+| Locale | `Accept-Language` header |
+| Timezone | `Time-Zone` header (defaults to tenant timezone) |
+| Async | `202 Accepted` with job reference for long-running operations |
+| Optimistic Concurrency | `version` field in `PUT`/`PATCH`; mismatch → `409 RESOURCE_CONFLICT` |
+
+### Response Formats
+
+- **Success**: `{ "data": {...}, "meta": { "request_id", "timestamp" } }`
+- **List**: `{ "data": [...], "meta": { "request_id", "timestamp", "pagination": { "limit", "has_more", "cursor", "total_count" } } }`
+- **Error**: RFC 7807 with `type`, `title`, `status`, `detail`, `instance`, `errors[]`, `meta`
+- **Async Job**: `{ "data": { "job_id", "status", "status_url" }, "meta": {...} }`
+
+### Steps
+
+1. Define the endpoint in `docs/05-api/endpoints.md` with method, path, request/response schemas, auth requirements.
+2. Define error codes in `docs/05-api/error-codes.md` for all failure cases.
+3. Implement the route, handler, and permission check.
+4. Write integration tests covering all success and error cases.
+
+---
+
+## 6. How to Add an Event
+
+Follow event architecture from `docs/04-events/overview.md` and SPEC.md §5:
+
+### Naming Convention
+
+```
+{domain}.{entity}.{action}
+```
+
+- **Domain**: Service name (`auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `platform`, `integration`, `crm`, `project`).
+- **Entity**: Business entity (e.g., `order`, `invoice`, `employee`, `work-order`).
+- **Action**: `created`, `updated`, `deleted`, `submitted`, `approved`, `rejected`, `completed`, `failed`, etc.
+
+### Event Envelope
+
+```json
+{
+  "event_id": "uuid",
+  "event_type": "commerce.order.created",
+  "event_version": "1.0",
+  "timestamp": "2026-03-27T10:30:00Z",
+  "tenant_id": "uuid (null for system events)",
+  "correlation_id": "uuid",
+  "causation_id": "uuid",
+  "aggregate": { "type": "SalesOrder", "id": "uuid" },
+  "payload": { "...": "..." },
+  "metadata": { "user_id": "uuid", "source": "service-name", "version": 1 }
+}
+```
+
+### Key Rules
+
+| Rule | Detail |
+|------|--------|
+| Transactional outbox | Write business data + event to outbox table in same DB transaction. Background poller publishes to RabbitMQ. |
+| Versioning | Semantic `MAJOR.MINOR` (no patch). Minor = additive. Major = breaking. Dual-publish for 90 days on major bumps. |
+| Self-binding for sagas | Every service with an inbox MUST bind to `{domain}.#` (its own domain wildcard) for saga compensation. |
+| Idempotent consumers | 24-hour dedup TTL on `event_id`. At-least-once delivery + idempotent processing = effectively-once. |
+| DLQ | Max 5 retries, exponential backoff (1s, 2s, 4s, 8s, 16s), 30-day retention, replay via admin API. |
+| Ordering | Guaranteed per-aggregate within a service. NOT guaranteed across services. |
+| Core services | Auth, Identity, Tenant, Config do NOT have inbox queues. They publish only. |
+
+### Steps
+
+1. Define the event in `docs/04-events/catalog.md` with type, version, payload schema, publisher, consumers.
+2. Update inbox bindings in `docs/04-events/overview.md` if a new service needs to consume this event.
+3. Add the event to the outbox table in the publishing service's database.
+4. Implement the consumer with idempotent processing (dedup on `event_id`).
+5. If the event is part of a saga, update `docs/04-events/sagas.md` with compensating actions.
+
+---
+
+## 7. How to Add a Database Table
+
+Follow data architecture from `docs/03-data/overview.md` and SPEC.md §9:
+
+### Standard Columns (ALL tables)
+
+```sql
+id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+tenant_id       UUID NOT NULL,           -- nullable for event/outbox tables
+created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+created_by      UUID,
+updated_by      UUID,
+version         INTEGER NOT NULL DEFAULT 1,
+is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
+```
+
+### Standard Indexes
+
+```sql
+CREATE INDEX idx_{table}_tenant_id ON {table} (tenant_id);
+CREATE INDEX idx_{table}_created_at ON {table} (created_at);
+CREATE INDEX idx_{table}_is_deleted ON {table} (is_deleted);
+```
+
+### RLS Policy (per table)
+
+```sql
+ALTER TABLE {table} ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY tenant_isolation ON {table}
+    USING (tenant_id = current_setting('app.current_tenant')::UUID);
+```
+
+Set `app.current_tenant` session variable per transaction from JWT. Apply via RLS; never rely on application-level filtering alone.
+
+### Migration Rules
+
+| Rule | Description |
+|------|-------------|
+| Forward-only | No `down()` migrations in production |
+| Backward-compatible | Old code MUST work with new schema for one deployment cycle |
+| Zero-downtime | Migrations MUST NOT lock tables > 100ms |
+| Idempotent | Safe to re-run |
+| Timestamp-ordered | `{YYYYMMDDHHMMSS}_{description}.rs` |
+
+### Schema Change Safety
+
+| Change Type | Safe Pattern |
+|-------------|-------------|
+| Add column | `ALTER TABLE ADD COLUMN` **with default value** (missing default breaks zero-downtime) |
+| Remove column | 3-phase: stop reading → deploy → drop column |
+| Rename column | Add new + copy data + drop old (never `ALTER TABLE RENAME`) |
+| Add index | `CREATE INDEX CONCURRENTLY` |
+| Remove index | `DROP INDEX CONCURRENTLY` |
+| Modify type | Add new column + migrate data + swap + drop old |
+
+### Soft Delete
+
+- Sets `is_deleted = TRUE`. Queries default to `WHERE is_deleted = FALSE` via SeaORM global filter.
+- Soft deletes ARE published as events (`{domain}.{entity}.deleted`).
+- Hard deletes: admin-only, GDPR erasure, NOT published, audited separately.
+- Partial unique indexes for soft-deleted natural keys: `WHERE is_deleted = FALSE`.
+
+### Steps
+
+1. Add the table definition to `docs/03-data/domain-models.md` with all standard columns.
+2. Write a forward-only, idempotent migration with timestamp prefix.
+3. Add RLS policy for the table.
+4. Add standard indexes plus any domain-specific indexes.
+5. Ensure `tenant_id` is on every table. Event/outbox tables use `tenant_id UUID` (nullable) for system events.
+
+---
+
+## 8. Implementation Checklist
+
+Verify every item before writing any code:
+
+1. **Ownership** — Which service owns this feature? Confirm via SPEC.md §6 (Domain Ownership). If unclear, check SPEC.md §4 (Service Catalog) and the service spec.
 2. **Spec read** — Read the owning service spec (`docs/06-services/{service}.md`) and any feature spec (`docs/07-features/`).
-3. **Events** — Do new events follow `{service-domain}.{entity}.{action}`? Added to catalog? Inbox bindings updated?
-4. **Database** — New tables in the owning service's DB only. Standard columns from `docs/03-data/overview.md`.
-5. **Tenant isolation** — Every table has `tenant_id`. Every query is RLS-scoped.
-6. **Auth** — Every endpoint checks auth. Permissions from `docs/02-security/authorization.md`.
-7. **API conformance** — Pagination, idempotency, error format per `docs/05-api/standards.md`.
-8. **No cross-DB access** — Never read/write another service's database. Use events or REST APIs.
-9. **Saga safety** — If distributed transaction, include self-binding (`{domain}.#`) and compensation logic.
-10. **Tests** — Unit tests for logic, integration tests for endpoints, contract tests for service boundaries.
-11. **Conventions** — Code style per `docs/09-development/conventions.md`. Dependencies per `docs/08-infrastructure/technology.md`.
+3. **Events** — Do new events follow `{domain}.{entity}.{action}` namespace? Added to `docs/04-events/catalog.md`? Inbox bindings updated in `docs/04-events/overview.md`?
+4. **Database** — New tables in the owning service's DB only. Standard columns from SPEC.md §9.1. RLS policy on every table. No cross-DB access.
+5. **Tenant isolation** — `tenant_id` on every table. Every query is RLS-scoped via `app.current_tenant` session variable. Redis keys prefixed with `mserp:{tenant_id}:`.
+6. **Auth** — Every endpoint checks Bearer JWT. Permissions from SPEC.md §11.3 format (`{domain}.{entity}.{action}`). Legacy mappings respected (`sales.*` → `commerce.*`).
+7. **API conformance** — Cursor-based pagination, `Idempotency-Key` header, RFC 7807 error format, optimistic concurrency via `version` field. Per `docs/05-api/standards.md`.
+8. **No cross-DB access** — Never read/write another service's database. Use events (RabbitMQ) or REST APIs for cross-service data.
+9. **Saga safety** — If distributed transaction, include self-binding (`{domain}.#`) in inbox for compensation. Define compensating action for every step. State tracked in originating service's DB. 30-minute timeout.
+10. **Tests** — Unit tests (`#[cfg(test)]`, >= 80% coverage per crate). Integration tests (testcontainers, all endpoints). Contract tests (Pact, all service boundaries). Saga compensation tests (all sagas).
+11. **Conventions** — Code style per `docs/09-development/conventions.md`. Dependencies per `docs/08-infrastructure/technology.md`. Workspace-managed dependency versions only.
+12. **Quality gates** — `#![deny(unsafe_code)]`. `cargo tarpaulin` >= 80%. CI blocks on: clippy warnings, format errors, test failures, coverage regression. Conventional Commits required.
+
+---
+
+## 9. Common Violations to Avoid
+
+1. **Querying another service's database directly.** Use events or REST APIs. Database-per-service is absolute. (SPEC.md §3.3)
+2. **Publishing events without the outbox pattern.** All events MUST go through the transactional outbox. Writing business data + event must be atomic in one DB transaction. (SPEC.md §5.6)
+3. **Missing `tenant_id` on a table.** Every table MUST have `tenant_id`. Event/outbox tables use nullable `tenant_id`. (SPEC.md §9.1)
+4. **Missing RLS policy.** Every table MUST have a `tenant_isolation` RLS policy. Never rely on application-level filtering alone. (SPEC.md §9.3)
+5. **Using the wrong event namespace.** Domains are `auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `platform`, `integration`, `crm`, `project`. Legacy mappings: `sales.*` → `commerce.*`, `inventory.*` → `commerce.*`, `procurement.*` → `finance.*`. (SPEC.md §5.1, §11.3)
+6. **Adding a column without a default value.** Breaks zero-downtime deployments. All new columns MUST have a default. (SPEC.md §9.5)
+7. **Missing `Idempotency-Key` on state-changing requests.** Required on all `POST`, `PUT`, `PATCH`, `DELETE`. 24-hour window, scoped to tenant + user + endpoint. (SPEC.md §10.2)
+8. **Creating circular service dependencies.** Workflow Service is used by all services for approvals — it MUST NOT depend on them. Core services (Auth, Identity, Tenant, Config) do NOT have inbox queues. (SPEC.md §4, §5.2)
+9. **Missing saga compensation for distributed transactions.** Every saga step MUST have a compensating action. Self-binding (`{domain}.#`) is required for saga participants. 30-minute timeout. (SPEC.md §5.9)
+10. **Hard-coding configuration that belongs in Config Service.** Use hierarchical configuration from Config Service. Subscribe to `config.changed` events. (SPEC.md §4.1, §5.3)
+11. **Building independent analytics infrastructure.** Report Service owns all analytics. Other services publish domain events; Report Service consumes them for its data warehouse. (SPEC.md §7.3)
+12. **Owning IoT device registration in Manufacturing Service.** Platform Service owns the authoritative device registry. Manufacturing's `iot_devices` table is a local cache. Manufacturing owns telemetry only. (SPEC.md §7.6)
+13. **Duplicating SoD rules in Workflow Service.** Platform Service (GRC) owns SoD rule definitions. Workflow queries Platform API for rules. Workflow does NOT have its own `sod_rules` table. (SPEC.md §7.7)
+
+---
+
+## 10. AI Agent Workflow (Step-by-Step)
+
+Follow this sequence when implementing a service module:
+
+### Phase 1: Understand the Task
+
+1. **Parse the task requirement.** Identify what needs to be built: new module, new endpoint, new event, new table, bug fix, or refactor.
+2. **Identify the owning service** from SPEC.md §6 (Domain Ownership). If the task spans multiple services, break it into per-service subtasks.
+3. **Read the service spec** (`docs/06-services/{service}.md`) for existing module context, tables, events, and integration points.
+4. **Check for a feature spec** in `docs/07-features/`. If one exists, it contains the detailed business rules. See SPEC.md §12 for the registry.
+
+### Phase 2: Design
+
+5. **Define database tables** per data architecture rules (SPEC.md §9). Include all standard columns, standard indexes, RLS policy. Write forward-only, idempotent migration with timestamp prefix.
+6. **Define events** per event architecture rules (SPEC.md §5). Use `{domain}.{entity}.{action}` namespace. Add to `docs/04-events/catalog.md`. Update inbox bindings if needed.
+7. **Define API endpoints** per API standards (SPEC.md §10, `docs/05-api/standards.md`). Include request/response schemas, auth requirements, pagination, idempotency.
+8. **Define error codes** per error taxonomy (`docs/05-api/error-codes.md`). Use RFC 7807 Problem Details format.
+
+### Phase 3: Implement
+
+9. **Write the migration** (forward-only, idempotent, timestamp-ordered). Include table creation, indexes, RLS policy, seed data if needed.
+10. **Implement handler/service/repository layers** following `docs/09-development/project-structure.md` directory layout and `docs/09-development/conventions.md` code style.
+11. **Implement event publisher** (via outbox). Write business data + event to outbox in the same DB transaction.
+12. **Implement event consumer** (idempotent). Dedup on `event_id` with 24-hour TTL. Handle retries with exponential backoff. Route failures to DLQ after 5 attempts.
+
+### Phase 4: Verify
+
+13. **Write unit tests** (`#[cfg(test)]` in same file). Target >= 80% coverage per crate. Test all business logic, edge cases, error paths.
+14. **Write integration tests** (testcontainers). Test all endpoints: success cases, validation errors, auth failures, pagination, idempotency, optimistic concurrency.
+15. **Verify all checklist items** from §8 above. Go through each of the 12 items and confirm compliance before considering the task complete.

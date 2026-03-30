@@ -34,6 +34,12 @@ MSERP uses **cache-aside** pattern with Redis as the caching layer.
 | Supply chain collaboration scorecards | Cache-aside | 30 minutes | On `commerce.collaboration.*` events |
 | Report templates | Cache-aside | 1 hour | On `finance.report.template-created` event |
 | Supplier collaboration connections | Cache-aside | 15 minutes | On `commerce.collaboration.*` events |
+| Production schedule cache | Cache-aside | 5 minutes | On `manufacturing.schedule.#` events |
+| Orchestration rules cache | Cache-aside | 10 minutes | On `commerce.orchestration.rule-evaluated` events |
+| Storefront pages cache | Cache-aside | 15 minutes | On `commerce.storefront.page.published` events |
+| ML Studio experiment results | Cache-aside | 30 minutes | On `report.ml-studio.model.trained` events |
+| Certification campaign status | Cache-aside | 15 minutes | On `platform.grc.certification.#` events |
+| Custom field definitions | Cache-aside | 30 minutes | On `platform.composer.extension.created` events |
 
 ### 1.2 Cache Key Format
 
@@ -62,6 +68,12 @@ Examples:
 - `mserp:tenant-123:report:planning:assumptions:global`
 - `mserp:tenant-123:commerce:collaboration:scorecard:supplier-001`
 - `mserp:tenant-123:finance:report_template:tmpl-001`
+- `mserp:tenant-123:manufacturing:schedule:work-center-001`
+- `mserp:tenant-123:commerce:orchestration:rules:active`
+- `mserp:tenant-123:commerce:storefront:page:home`
+- `mserp:tenant-123:report:ml-studio:experiment:exp-001`
+- `mserp:tenant-123:platform:certification:campaign:camp-001`
+- `mserp:tenant-123:platform:composer:field:def-001`
 
 ### 1.3 Cache Invalidation
 

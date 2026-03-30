@@ -402,6 +402,119 @@
 
 > **Note:** The following domain models are defined in their respective sections above: Loyalty Program (§20), Tax Assessment (§8), Compliance Control Mapping (§21), Contact Center Interaction (§15), EHS Incident (§12).
 
+## 34. Goals & Career Development Data Model
+
+*Database: `hr_db`*
+
+| Table / Field | Description |
+|---|---|
+| `goals` | Employee goals with type (individual, team, organizational), target metrics, progress percentage, alignment parent, and target date |
+| `goal_alignments` | Goal cascade/alignment relationships with parent-child linkage and weight percentages |
+| `career_paths` | Career path definitions with role sequences, required competencies, and estimated timelines |
+| `career_development_plans` | Employee development plans linked to career paths with milestones, target roles, and completion tracking |
+| `competency_frameworks` | Competency framework definitions with levels, descriptions, and behavioral indicators |
+| `competency_assessments` | Competency assessment records with employee, assessor, competency, level, and evidence |
+
+## 35. Onboarding Journey Data Model
+
+*Database: `hr_db`*
+
+| Table / Field | Description |
+|---|---|
+| `onboarding_templates` | Reusable onboarding journey templates with task definitions, sequences, and role-specific configurations |
+| `onboarding_journeys` | Active onboarding journey instances linked to employee and template with overall status and progress |
+| `onboarding_tasks` | Individual onboarding tasks with type, assignee, due date, completion status, and linked resources |
+| `onboarding_task_completions` | Task completion records with completed_by, completed_at, notes, and evidence attachments |
+
+## 36. Order Orchestration Data Model
+
+*Database: `commerce_db`*
+
+| Table / Field | Description |
+|---|---|
+| `orchestration_rules` | Orchestration rule definitions with conditions, fulfillment strategy, priority, and active status |
+| `orchestration_processes` | Orchestration process instances linked to orders with current step, status, and execution plan |
+| `orchestration_steps` | Individual orchestration steps with type, fulfillment reference, status, and retry tracking |
+| `backorders` | Backorder records with order line, product, quantity, estimated availability date, and fulfillment status |
+| `gop_sourcing_rules` | Global order promising sourcing rules with source priority, lead time, and capacity constraints |
+| `gop_promise_results` | GOP promise results with product, quantity, promising date, sourcing location, and confidence score |
+
+## 37. B2C Commerce Storefront Data Model
+
+*Database: `commerce_db`*
+
+| Table / Field | Description |
+|---|---|
+| `storefront_pages` | Storefront page definitions with type, content, layout, SEO metadata, and publication status |
+| `storefront_seo_metadata` | SEO metadata records with page reference, URL slug, meta tags, structured data, and canonical URL |
+| `promotions` | Promotion definitions with rules, conditions, discount structure, validity period, and usage limits |
+| `product_reviews` | Customer product reviews with rating, content, moderation status, and helpfulness votes |
+| `checkout_sessions` | B2C checkout session records with cart reference, customer, payment method, and completion status |
+
+## 38. MES Data Model
+
+*Database: `manufacturing_db`*
+
+| Table / Field | Description |
+|---|---|
+| `mes_dispatch_lists` | Work center dispatch list entries with work order, operation, priority, and scheduled sequence |
+| `mes_production_logs` | Station-level production logs with start/stop times, operator, quantities produced and scrapped |
+| `mes_labor_transactions` | Labor transaction records with employee, station, work order, hours, and activity type |
+| `mes_shift_schedules` | Shift schedule definitions with work center, shift times, operators, and rotation rules |
+| `mes_data_collections` | Production data collection records with station, metric name, value, quality flag, and timestamp |
+| `mes_work_instructions` | Work instruction documents linked to work orders with step sequences and visual aids |
+| `mes_oee_station` | Station-level OEE calculations with availability, performance, quality percentages, and period |
+
+## 39. Production Scheduling Data Model
+
+*Database: `manufacturing_db`*
+
+| Table / Field | Description |
+|---|---|
+| `production_schedules` | Production schedule definitions with horizon, resources, work order assignments, and firm status |
+| `schedule_work_orders` | Schedule-to-work-order assignments with sequence, start time, end time, and resource allocation |
+| `schedule_simulations` | Schedule simulation results with utilization metrics, conflict analysis, and recommendations |
+| `schedule_gantt_entries` | Gantt chart data entries with resource, operation, time window, and dependency linkage |
+| `schedule_constraints` | Schedule constraint definitions with type (material, capacity, tooling), parameters, and priority |
+
+## 40. Application Composer Data Model
+
+*Database: `platform_db`*
+
+| Table / Field | Description |
+|---|---|
+| `composer_custom_fields` | Custom field definitions with entity type, field name, field type, validation rules, and UI metadata |
+| `composer_custom_objects` | Custom business object definitions with schema, relationships, and access control |
+| `composer_custom_records` | Custom object record instances with field values stored as JSONB and standard audit columns |
+| `composer_scripts` | Extension script definitions with trigger events, script body, language, and timeout configuration |
+| `composer_script_executions` | Script execution log records with trigger, duration, success status, and output/error data |
+| `composer_pages` | Composed page definitions with layout, components, data bindings, and publication status |
+
+## 41. Access Certification Data Model
+
+*Database: `platform_db`*
+
+| Table / Field | Description |
+|---|---|
+| `certification_campaigns` | Access certification campaign definitions with scope, reviewers, deadline, and status |
+| `certification_reviews` | Individual certification review records with reviewer, target user, roles under review, and decision |
+| `certification_decisions` | Certification decision entries with action (confirm, revoke, modify), justification, and revocation tracking |
+| `certification_analytics` | Campaign analytics aggregations with completion rate, revocation rate, and reviewer response time |
+| `role_mining_results` | Role mining analysis results with suggested role definitions, membership patterns, and coverage metrics |
+
+## 42. Self-Service ML Studio Data Model
+
+*Database: `report_db`*
+
+| Table / Field | Description |
+|---|---|
+| `ml_studio_projects` | ML studio project definitions with name, description, dataset references, and owner |
+| `ml_studio_experiments` | Experiment records with project reference, model type, feature configuration, hyperparameters, and status |
+| `ml_studio_training_runs` | Training run records with experiment reference, metrics (accuracy, F1, AUC), duration, and artifacts |
+| `ml_studio_model_comparisons` | Experiment comparison records with side-by-side metric analysis and statistical significance |
+| `ml_studio_deployments` | Model deployment records with environment, traffic percentage, monitoring config, and rollback data |
+| `ml_studio_explainability` | Model explainability reports with SHAP values, feature importance, and decision boundary analysis |
+
 ---
 
 *See [Data Architecture Overview](overview.md) for database patterns and schema elements.*

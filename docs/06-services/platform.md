@@ -141,6 +141,24 @@
 | Automation ROI | ROI dashboards tracking time saved, error reduction, cost savings, and throughput improvement |
 | Attended Automation | Desktop assistant bots that work alongside users, triggered by context and user actions |
 
+## Application Composer
+
+| Module | Description |
+|--------|-------------|
+| Custom Fields | Custom field definitions with data types, validation rules, visibility settings, and field-level permissions |
+| Custom Objects | Custom business object creation with configurable schemas, relationships, and lifecycle states |
+| Serverless Scripts | Serverless script execution for custom business logic with sandboxed runtime and event triggers |
+| Page Composer | Visual page composer for building custom UIs with drag-and-drop widgets, layouts, and data bindings |
+
+## Access Certification
+
+| Module | Description |
+|--------|-------------|
+| Campaign Management | Certification campaign creation with scope definition, scheduling, and multi-level reviewer assignment |
+| Reviewer Workflows | Reviewer workflows with attestation decisions, bulk actions, and escalation for overdue reviews |
+| Auto-Revoke | Automated revocation of uncertified access with configurable grace periods and exception handling |
+| Role Mining | ML-based role mining to identify optimal role definitions from access patterns and usage data |
+
 ## IoT Device Registry
 
 Platform Service owns the **global IoT device registry** (device identity, certificates, lifecycle). Manufacturing Service owns **industrial IoT telemetry** (MQTT/OPC-UA ingestion, alert rules, edge processing). The boundary is:
