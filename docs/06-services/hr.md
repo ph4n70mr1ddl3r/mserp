@@ -284,12 +284,14 @@ All tables include standard columns: `id` UUID PK, `tenant_id` UUID, `created_at
 
 ## Events Consumed
 
-| Event | Source | Handler |
-|-------|--------|---------|
-| `workflow.step.#` | Workflow Service | Approval result processing for leave requests, recruitment requisitions, compensation changes, and performance calibration |
-| `config.changed` | Config Service | Reload HR configuration (leave policies, tax rules, payroll parameters, benefit plan settings) |
+Inbox binding: `hr.inbox` binds to the following routing keys:
 
-> **Note:** Per the event-driven architecture, HR Service's inbox queue also binds to `hr.#` for saga compensation patterns.
+| Binding Pattern | Events Consumed |
+|----------------|-----------------|
+| `hr.#` | Self-binding for saga compensation |
+| `hr.goal.#` | Self-binding for goal/performance saga compensation |
+| `workflow.step.#` | Approval result processing for leave requests, recruitment requisitions, compensation changes, and performance calibration |
+| `config.changed` | Reload HR configuration (leave policies, tax rules, payroll parameters, benefit plan settings) |
 
 ## Error Codes
 

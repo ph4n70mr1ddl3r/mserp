@@ -64,7 +64,6 @@
 | `commerce.price.optimized` | Price optimization suggestion generated. Payload: `{ product_id, current_price, suggested_price, confidence }` |
 | `commerce.collaboration.asn.submitted` | Advanced Shipment Notice submitted by supplier. Payload: `{ asn_id, supplier_id, po_id, expected_delivery, items }` |
 | `commerce.collaboration.cpfr.updated` | CPFR forecast updated collaboratively. Payload: `{ cpfr_id, supplier_id, buyer_forecast, supplier_forecast, consensus_forecast }` |
-| `commerce.collaboration.asn.submitted` | Advanced Shipment Notice submitted by supplier. Payload: `{ asn_id, supplier_id, po_id, expected_delivery, items }` |
 | `commerce.orchestration.rule-evaluated` | Orchestration rule evaluated for order. Payload: `{ order_id, rule_id, result, fulfillment_plan }` |
 | `commerce.orchestration.split` | Order split into multiple fulfillments. Payload: `{ order_id, child_fulfillment_ids, split_reason }` |
 | `commerce.orchestration.merged` | Multiple fulfillments merged. Payload: `{ fulfillment_ids, merged_fulfillment_id }` |
@@ -75,21 +74,16 @@
 | `commerce.checkout.completed` | B2C checkout completed. Payload: `{ checkout_id, order_id, customer_id, payment_method }` |
 | `commerce.review.submitted` | Product review submitted. Payload: `{ review_id, product_id, customer_id, rating }` |
 | `commerce.promotion.activated` | Promotion activated. Payload: `{ promotion_id, rules, valid_from, valid_to }` |
-| `commerce.order-orchestration.executed` | Order orchestration plan executed for payload: `{ orchestration_id, order_id, plan_type, split, hold, reroute, original_plan }` |
-| `commerce.order-orchestration.split` | Order split into multiple fulfillments lines. Payload: `{ split_id, original_order_id, fulfillment_lines, hold_reason }` |
-| `commerce.order-orchestration.hold` | Order orchestration hold applied. Payload: `{ hold_id, order_id, hold_type, hold_reason, released_at }` |
-| `commerce.order-orchestration.released` | Order orchestration hold released. Payload: `{ hold_id, order_id, released_by }` |
-| `commerce.gop.promise.created` | Global order Promising availability check created. Payload: `{ promise_id, order_id, product_id, quantity, promised_date, source, confidence }` |
+| `commerce.orchestration.order-executed` | Order orchestration plan executed for payload: `{ orchestration_id, order_id, plan_type, split, hold, reroute, original_plan }` |
+| `commerce.orchestration.order-split` | Order split into multiple fulfillments lines. Payload: `{ split_id, original_order_id, fulfillment_lines, hold_reason }` |
+| `commerce.orchestration.order-hold` | Order orchestration hold applied. Payload: `{ hold_id, order_id, hold_type, hold_reason, released_at }` |
+| `commerce.orchestration.order-released` | Order orchestration hold released. Payload: `{ hold_id, order_id, released_by }` |
+| `commerce.gop.promise.confirmed` | Global Order Promising date confirmed after validation. Payload: `{ promise_id, order_id, product_id, quantity, promised_date, source, confidence }` |
 | `commerce.gop.promise.updated` | Global Order Promising date updated. Payload: `{ promise_id, order_id, old_date, new_date, source }` |
 | `commerce.gop.promise.broken` | Global Order Promising commitment broken. Payload: `{ promise_id, order_id, original_date, new_date, reason }` |
 | `commerce.b2c.cart.created` | B2C shopping cart created. Payload: `{ cart_id, customer_id, channel }` |
 | `commerce.b2c.checkout.completed` | B2C checkout completed with payment. Payload: `{ checkout_id, cart_id, order_id, payment_method, total }` |
-| `commerce.b2c.storefront.config.updated` | B2C storefront configuration updated. Payload: `{ config_id, store_name, theme, updated_by }` | `commerce.gop.promise.created` | Global Order Promising availability check created. Payload: `{ promise_id, order_id, product_id, quantity, promised_date, source, confidence }` |
-| `commerce.gop.promise.updated` | Global Order Promising date updated. Payload: `{ promise_id, order_id, old_date, new_date, source }` |
-| `commerce.gop.promise.broken` | Global Order Promising commitment broken. Payload: `{ promise_id, order_id, original_date, new_date, reason }` |
-| `commerce.b2c.cart.created` | B2C shopping cart created. Payload: `{ cart_id, customer_id, channel }` |
-| `commerce.b2c.checkout.completed` | B2C checkout completed with payment. Payload: `{ checkout_id, cart_id, order_id, payment_method, total }` |
-| `commerce.b2c.storefront.config.updated` | B2C storefront configuration updated. Payload: `{ config_id, store_name, theme, updated_by }`
+| `commerce.b2c.storefront.config.updated` | B2C storefront configuration updated. Payload: `{ config_id, store_name, theme, updated_by }` |
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |

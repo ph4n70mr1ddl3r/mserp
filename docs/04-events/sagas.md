@@ -53,6 +53,8 @@ Invoice fails:         Release stock → cancel order → notify customer
 | Expense Report | Choreography | Expense submitted → Workflow approval → Create journal entry (Finance) → Notify reimbursement | Reverse journal entry → Notify rejection |
 | Contract Approval | Choreography | Contract created → Legal review (Workflow) → Approve → Notify stakeholders | Cancel contract → notify requester |
 | Engineering Change Order | Choreography | ECO submitted → Review (Workflow) → Update BOM (Manufacturing) → Notify affected orders | Revert BOM → notify stakeholders |
+| Order Orchestration | Choreography | Evaluate orchestration rules → Reserve inventory across sources → Create fulfillment assignments → Process split/merge logic → Release to warehouse | Release inventory reservations → Cancel assignments → Re-queue order |
+| MES Production | Choreography | Dispatch work instructions → Log labor transactions → Record production data → Complete operations → Post production to inventory | Reverse labor logging → Scrap production data → Return to work order queue |
 
 **Rules:**
 - Each saga step MUST have a compensating (undo) action.

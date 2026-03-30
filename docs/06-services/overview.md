@@ -1,6 +1,16 @@
 # Microservices Overview
 
-The platform is composed of 14 microservices organized into 3 categories: Core, Business, and Supporting. Each service owns its database and communicates via asynchronous events (RabbitMQ) and synchronous REST/gRPC calls through an API Gateway.
+The platform is composed of 14 microservices organized into 3 categories: Core, Business, and Supporting. Each service owns its database and communicates via asynchronous events (RabbitMQ) and synchronous REST calls through an API Gateway.
+
+## Architectural Rules
+
+| Rule | Detail |
+|------|--------|
+| Database per Service | No service may query another service's database. All cross-service data access via REST or events. |
+| Core Services Publish Only | Auth, Identity, Tenant, Config do NOT have inbox queues. They publish events but do not consume from the event bus. |
+| Saga Self-Binding | Every service with an inbox MUST bind to `{domain}.#` (its own domain wildcard) for saga compensation. |
+| Config Subscription | All services with inbox queues consume `config.changed` for configuration hot-reload. |
+| No Circular Dependencies | Workflow Service is used by all services for approvals — it MUST NOT depend on them. |
 
 ## Service Categories
 
@@ -9,6 +19,56 @@ The platform is composed of 14 microservices organized into 3 categories: Core, 
 | Core | 8001–8009 | Auth, Identity, Tenant, Config |
 | Business | 8010–8019 | Commerce, Finance, HCM, Manufacturing, Report, Workflow, CRM, Project |
 | Supporting | 8020–8029 | Platform, Integration |
+
+> Port ranges include gaps (e.g., 8005–8009, 8018–8019) reserved for future services.
+
+## Inter-Service Dependency Graph
+
+```
+                        ┌─────────┐
+                        │  Auth   │ (publishes auth.* events)
+                        └────┬────┘
+                             │ validates credentials via HTTP
+                             ▼
+                        ┌─────────┐
+                        │Identity │ (publishes identity.* events)
+                        └────┬────┘
+                             │ user/role data via HTTP
+                ┌────────────┼────────────┐
+                ▼            ▼            ▼
+          ┌─────────┐  ┌─────────┐  ┌─────────┐
+          │ Tenant  │  │ Config  │  │  All    │
+          │         │  │         │  │ Services│
+          └────┬────┘  └────┬────┘  └─────────┘
+               │            │
+               │ tenant events, config events consumed by all inbox services
+               ▼            ▼
+    ┌──────────────────────────────────────────────────────┐
+    │              Business & Supporting Services           │
+    │                                                       │
+    │  Commerce ←──── Finance  (order→receivable, PO→stock) │
+    │      ↕            ↕                                   │
+    │  Manufacturing  HR       (work orders, payroll)       │
+    │      ↕            ↕                                   │
+    │  Report ←────── ALL       (analytics from all events) │
+    │                                                       │
+    │  CRM ──────→ Commerce    (opportunity→quote→order)    │
+    │  Project ──→ Finance     (milestone→invoice→revenue)  │
+    │  Workflow ←─ ALL         (approval workflows)         │
+    │  Platform ←─ ALL         (notifications, audit, GRC)  │
+    │  Integration ← ALL       (MDM, connectors, EDI)      │
+    └──────────────────────────────────────────────────────┘
+```
+
+### Synchronous HTTP Dependencies (non-event)
+
+| Caller | Callee | Purpose |
+|--------|--------|---------|
+| Auth Service | Identity Service | User credential validation, role/permission lookup |
+| HR Service | Identity Service | User provisioning during onboarding |
+| Platform Service | Identity Service | Access revocation from certification campaigns |
+| Workflow Service | Platform Service | SoD rule queries for approval enforcement |
+| Report Service | All services | Embedded analytics widget data (optional) |
 
 ## Service Consolidation Rationale
 

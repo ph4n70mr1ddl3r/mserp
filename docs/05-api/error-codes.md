@@ -23,7 +23,55 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `SERVICE_UNAVAILABLE` | 503 | Dependency temporarily unavailable |
 | `QUOTA_EXCEEDED` | 429 | Tenant quota exceeded (users, storage, API calls) |
 
-### 8.2 Commerce Error Codes
+### 8.2 Auth Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `AUTH_MFA_ALREADY_ENABLED` | 409 | MFA is already enabled for this user |
+| `AUTH_MFA_INVALID_CODE` | 400 | MFA verification code is invalid or expired |
+| `AUTH_SESSION_NOT_FOUND` | 404 | Session does not exist or has expired |
+| `AUTH_PASSWORD_TOO_WEAK` | 400 | Password does not meet complexity requirements |
+| `AUTH_LOGIN_LOCKED_OUT` | 423 | Account is temporarily locked due to too many failed login attempts |
+| `AUTH_TOKEN_EXPIRED` | 401 | JWT access token has expired |
+| `AUTH_REFRESH_TOKEN_INVALID` | 401 | Refresh token is invalid or has been revoked |
+| `AUTH_STEP_UP_REQUIRED` | 403 | Step-up authentication required for this operation |
+
+### 8.3 Identity Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `IDENTITY_ROLE_EXISTS` | 409 | Role with this name already exists |
+| `IDENTITY_USER_EXISTS` | 409 | User with this email already exists |
+| `IDENTITY_GROUP_NOT_FOUND` | 404 | User group not found |
+| `IDENTITY_API_KEY_EXPIRED` | 401 | API key has expired |
+| `IDENTITY_CANNOT_DELETE_LAST_ADMIN` | 409 | Cannot remove the last tenant admin |
+| `IDENTITY_PERMISSION_DENIED` | 403 | User lacks the required permission |
+| `IDENTITY_ORG_UNIT_NOT_FOUND` | 404 | Organizational unit not found |
+| `IDENTITY_ABAC_POLICY_INVALID` | 400 | ABAC policy expression is invalid |
+
+### 8.4 Tenant Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `TENANT_NOT_FOUND` | 404 | Tenant not found |
+| `TENANT_SUSPENDED` | 403 | Tenant account is suspended |
+| `TENANT_QUOTA_EXCEEDED` | 429 | Tenant quota exceeded |
+| `TENANT_FEATURE_NOT_AVAILABLE` | 403 | Feature not available on current plan |
+| `TENANT_DATA_RESIDENCY_VIOLATION` | 409 | Operation violates data residency constraints |
+| `TENANT_BRANDING_INVALID` | 400 | Tenant branding configuration is invalid |
+
+### 8.5 Config Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `CONFIG_KEY_NOT_FOUND` | 404 | Configuration key not found |
+| `CONFIG_VALIDATION_FAILED` | 400 | Configuration value failed validation |
+| `CONFIG_CORS_ORIGIN_INVALID` | 400 | CORS origin URL is invalid |
+| `CONFIG_SCHEMA_VIOLATION` | 400 | Configuration value violates schema constraints |
+| `CONFIG_LOCALIZATION_KEY_MISSING` | 400 | Required localization key is missing |
+| `CONFIG_MAINTENANCE_WINDOW_CONFLICT` | 409 | Maintenance window overlaps with existing window |
+
+### 8.6 Commerce Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -66,7 +114,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `COMMERCE_PROMOTION_OVERLAP` | 409 | Promotion dates overlap with existing promotion |
 | `COMMERCE_REVIEW_ALREADY_SUBMITTED` | 409 | Customer already reviewed this product |
 
-### 8.3 Finance Error Codes
+### 8.7 Finance Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -106,7 +154,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `FINANCE_DISCOUNT_PROGRAM_INACTIVE` | 409 | Discount program is not active |
 | `FINANCE_WORKING_CAPITAL_SIMULATION_FAILED` | 500 | Working capital simulation failed to converge |
 
-### 8.4 HR Error Codes
+### 8.8 HR Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -122,7 +170,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `HR_ONBOARDING_JOURNEY_ALREADY_ACTIVE` | 409 | Employee already has active onboarding journey |
 | `HR_ONBOARDING_TEMPLATE_NOT_FOUND` | 404 | Onboarding journey template not found |
 
-### 8.5 Manufacturing Error Codes
+### 8.9 Manufacturing Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -148,7 +196,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `MFG_SCHEDULE_RESOURCE_UNAVAILABLE` | 409 | Required resource unavailable in time slot |
 | `MFG_SCHEDULE_CONSTRAINT_VIOLATION` | 400 | Schedule violates material or capacity constraints |
 
-### 8.6 CRM Error Codes
+### 8.10 CRM Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -167,7 +215,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `CRM_AB_TEST_ALREADY_RUNNING` | 409 | A/B test is already running for this target |
 | `CRM_AB_TEST_VARIANT_INVALID` | 400 | A/B test variant configuration invalid |
 
-### 8.7 Project Error Codes
+### 8.11 Project Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -175,7 +223,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PROJECT_BUDGET_EXCEEDED` | 409 | Project budget exceeded |
 | `PROJECT_TASK_DEPENDENCY` | 409 | Circular task dependency detected |
 
-### 8.8 Report Error Codes
+### 8.12 Report Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -197,7 +245,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `REPORT_MLSTUDIO_TRAINING_FAILED` | 500 | ML studio model training failed |
 | `REPORT_MLSTUDIO_DEPLOYMENT_CONFLICT` | 409 | ML studio model deployment conflicts with active deployment |
 
-### 8.9 Workflow Error Codes
+### 8.13 Workflow Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -207,7 +255,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `WORKFLOW_TEMPLATE_NOT_FOUND` | 404 | Workflow template not found |
 | `WORKFLOW_ESCALATION_FAILED` | 500 | Workflow escalation action failed |
 
-### 8.10 Platform / GRC Error Codes
+### 8.14 Platform / GRC Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -248,7 +296,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PLATFORM_CERTIFICATION_REVIEW_OVERDUE` | 409 | Certification review is past deadline |
 | `PLATFORM_ROLE_MINING_INSUFFICIENT_DATA` | 400 | Insufficient access data for role mining |
 
-### 8.11 Integration Error Codes
+### 8.15 Integration Error Codes
 
 | Code | HTTP Status | Description |
 |------|-------------|-------------|
@@ -274,7 +322,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `INTEGRATION_MARKETPLACE_QUOTA_EXCEEDED` | 429 | API marketplace subscription quota exceeded |
 | `INTEGRATION_MARKETPLACE_API_DEPRECATED` | 410 | API marketplace endpoint has been deprecated and is no longer available |
 
-### 8.12 Error Code Rules
+### 8.16 Error Code Rules
 
 - Each service MUST register its error codes in its OpenAPI spec via the `errors` extension.
 - New error codes MUST be additive only (never remove or rename).

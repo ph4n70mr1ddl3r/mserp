@@ -92,4 +92,4 @@ Examples:
 
 *See [Data Architecture Overview](overview.md) for database patterns and schema elements.*
 *See [Data Pipeline](data-pipeline.md) for the analytical pipeline (data lake + warehouse).*
-*See [Domain Data Models](domain-models.md) for domain-specific data models.**
+*See [Domain Data Models](domain-models.md) for domain-specific data models.*

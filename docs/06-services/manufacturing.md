@@ -150,7 +150,7 @@
 
 ## Database Tables
 
-All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+> All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
 
 | Table | Additional Columns |
 |-------|-------------------|
@@ -165,8 +165,6 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 | `routings` | `product_id UUID`, `name VARCHAR(255)`, `status VARCHAR(20)`, `is_default BOOLEAN`, `revision INT` |
 | `plm_products` | `product_id UUID`, `revision VARCHAR(20)`, `phase VARCHAR(20)`, `eco_id UUID`, `specifications JSONB`, `documents JSONB`, `status VARCHAR(20)` |
 | `iot_devices` | `device_id VARCHAR(100)`, `name VARCHAR(255)`, `type VARCHAR(30)`, `asset_id UUID`, `certificate_id UUID`, `firmware_version VARCHAR(50)`, `status VARCHAR(20)`, `last_telemetry_at TIMESTAMPTZ`, `configuration JSONB` |
-
-> **Note:** The `iot_devices` table is a **local cache** synced by consuming `platform.iot.device.*` events. Manufacturing does NOT publish device registration events — that is Platform Service's domain. Manufacturing only publishes `manufacturing.iot.telemetry.*` events.
 | `digital_twins` | `asset_id UUID`, `name VARCHAR(255)`, `model_version VARCHAR(20)`, `state JSONB`, `last_synced_at TIMESTAMPTZ`, `status VARCHAR(20)` |
 | `ehs_incidents` | Safety incident records with severity, type, and CAPA linkage |
 | `ehs_risk_assessments` | Risk assessment records with risk matrix scoring and controls |
@@ -184,6 +182,8 @@ All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at
 | `iot_telemetry_events` | Time-series telemetry events partitioned by month |
 | `iot_device_state` | Latest device state snapshots with health scores |
 | `digital_thread_events` | Traceability events linking serial/lot numbers to production operations |
+
+> **Note:** The `iot_devices` table is a **local cache** synced by consuming `platform.iot.device.*` events. Manufacturing does NOT publish device registration events — that is Platform Service's domain. Manufacturing only publishes `manufacturing.iot.telemetry.*` events.
 
 ## Events Published
 
@@ -229,6 +229,9 @@ Inbox binding: `manufacturing.inbox` binds to the following routing keys:
 
 | Binding Pattern | Events Consumed |
 |----------------|-----------------|
+| `manufacturing.#` | Self-binding for saga compensation |
+| `manufacturing.mes.#` | Self-binding for MES saga compensation |
+| `manufacturing.schedule.#` | Self-binding for scheduling saga compensation |
 | `platform.iot.device.#` | `platform.iot.device.registered`, `platform.iot.device.updated`, `platform.iot.device.decommissioned` — syncs local `iot_devices` cache |
 | `commerce.stock.#` | `commerce.stock.updated`, `commerce.stock.reserved`, `commerce.stock.reservation.failed`, `commerce.stock.reservation.released` |
 | `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled`, `commerce.order.returned` |

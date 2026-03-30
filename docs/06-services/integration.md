@@ -243,7 +243,7 @@ ECCN classification per product. License management tracks validity, scope (coun
 
 ## Database Tables
 
-All tables use standard columns: `id` (UUID PK), `tenant_id` (UUID), `created_at` (timestamptz), `updated_at` (timestamptz), `created_by` (UUID), `updated_by` (UUID), `version` (INT), `is_deleted` (BOOLEAN).
+> All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
 
 | Table | Purpose | Key Columns |
 |-------|---------|-------------|
@@ -293,6 +293,7 @@ Inbox binding: `integration.inbox` binds to the following routing keys:
 
 | Binding Pattern | Events Consumed | Action |
 |----------------|-----------------|--------|
+| `integration.#` | Self-binding for saga compensation | — |
 | `config.changed` | `config.changed` | Reload connector configurations and rate limit thresholds |
 | `commerce.customer.#` | `commerce.customer.created`, `commerce.customer.updated` | MDM: ingest customer master data for golden record matching/deduplication |
 | `commerce.product.#` | `commerce.product.created`, `commerce.product.updated` | MDM: ingest product master data for golden record matching/deduplication |

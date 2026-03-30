@@ -133,7 +133,7 @@ Advanced Financial Reporting Studio provides a drag-and-drop report designer pur
 | `finance.period.closed` | Finance Service | Trigger period-end report generation |
 | `finance.consolidation.completed` | Finance Service | Refresh consolidated report data |
 | `finance.revenue.recognized` | Finance Service | Update revenue data in reports |
-| `workflow.step.approved` | Platform Service | Update report approval status |
+| `workflow.step.approved` | Workflow Service | Update report approval status |
 | `platform.scheduler.job.started` | Platform Service | Execute scheduled report generation and distribution |
 | `report.ml.inference.complete` | Report Service | Apply anomaly insights to report commentary suggestions |
 

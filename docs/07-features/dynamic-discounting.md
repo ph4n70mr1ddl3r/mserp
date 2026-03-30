@@ -103,7 +103,7 @@ Dynamic Discounting transforms the traditional static discount model ("2/10 Net 
 | `finance.cash-position.updated` | Finance Service | Recalculate optimal payment timing based on current cash |
 | `finance.purchase-order.created` | Commerce Service | Check PO terms against supplier discount program |
 | `report.ml.inference.complete` | Report Service | Apply discount optimization model predictions |
-| `workflow.step.approved` | Platform Service | Process early payment approval decision |
+| `workflow.step.approved` | Workflow Service | Process early payment approval decision |
 
 ## Data Model Reference
 

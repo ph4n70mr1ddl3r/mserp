@@ -45,7 +45,7 @@ Multi-Tenancy is the foundational capability that enables MSERP to serve multipl
 | Aspect | Implementation | Detail |
 |--------|---------------|--------|
 | **Tenant Lifecycle** | Tenant Service (Rust + PostgreSQL) | State machine: `provisioning → active → suspended → decommissioned`; reactivation from `suspended` back to `active`; decommissioning triggers data purge; lifecycle events published to all services for synchronisation |
-| **PostgreSQL RLS** | All Services (PostgreSQL) | Every table includes a `tenant_id` column; PostgreSQL Row-Level Security policies enforce `tenant_id = current_setting('app.tenant_id')`; RLS policies applied via migration on tenant provisioning; connection-level tenant context set per request |
+| **PostgreSQL RLS** | All Services (PostgreSQL) | Every table includes a `tenant_id` column; PostgreSQL Row-Level Security policies enforce `tenant_id = current_setting('app.current_tenant')`; RLS policies applied via migration on tenant provisioning; connection-level tenant context set per request |
 | **Redis Isolation** | All Services (Redis) | All Redis keys prefixed with `tenant:{tenant_id}:`; namespaced key patterns for sessions, caches, and rate limiters; Redis ACLs prevent cross-tenant access; tenant key scan and purge on decommission |
 | **Elasticsearch Isolation** | Platform Service + Search | Per-tenant index aliases (`orders_{tenant_id}`, `customers_{tenant_id}`); index lifecycle management per tenant; query routing via alias; index deletion on decommission |
 | **MinIO Isolation** | Platform Service + File Service | Per-tenant bucket or path prefix (`/tenant_id/...`); bucket policies restrict access to tenant prefix; lifecycle rules for retention per tenant; recursive delete on decommission |

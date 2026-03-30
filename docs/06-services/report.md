@@ -120,7 +120,7 @@
 
 ## Database Tables
 
-All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+> All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
 
 | Table | Additional Columns |
 |-------|-------------------|
@@ -156,6 +156,8 @@ Inbox binding: `report.inbox` binds to the following routing keys:
 
 | Binding Pattern | Events Consumed |
 |----------------|-----------------|
+| `report.#` | Self-binding for saga compensation |
+| `report.ml-studio.#` | Self-binding for ML Studio saga compensation |
 | `commerce.#` | All Commerce events (orders, stock, deliveries, subscriptions, loyalty, etc.) |
 | `finance.#` | All Finance events (invoices, payments, journals, budgets, revenue recognition, etc.) |
 | `hr.#` | All HR events (employee lifecycle, payroll, leave, reviews, etc.) |

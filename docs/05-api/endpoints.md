@@ -1,5 +1,3 @@
-# API Endpoints Overview
-
 # API Endpoints
 
 ### Auth Service
@@ -402,7 +400,7 @@
 | POST | `/api/v1/manufacturing/planning/simulate` | Run ASCP simulation |
 | GET | `/api/v1/manufacturing/sustainability/emissions` | Get production emissions data |
 | GET | `/api/v1/manufacturing/iot/devices` | List IoT devices |
-| POST | `/api/v1/manufacturing/iot/devices` | Register IoT device |
+| POST | `/api/v1/manufacturing/iot/devices/_sync` | Sync device cache from Platform registry |
 | GET | `/api/v1/manufacturing/iot/devices/{id}/telemetry` | Get device telemetry |
 | POST | `/api/v1/manufacturing/iot/alerts` | Create IoT alert rule |
 | GET | `/api/v1/manufacturing/digital-twins` | List digital twins |
@@ -600,7 +598,7 @@
 | GET | `/api/v1/platform/iot/devices/{id}` | Get device details |
 | POST | `/api/v1/platform/iot/devices/{id}/certificates` | Issue device certificate |
 
-> **Note:** Employee Self-Service Portal endpoints are documented under HCM Service. Platform Service provides the notification and file storage infrastructure that the portal uses.
+> **Note:** Employee Self-Service Portal endpoints are documented under HCM Service. Platform Service provides notification and file storage infrastructure.
 
 | GET | `/api/v1/platform/content/repositories` | List content repositories |
 | POST | `/api/v1/platform/content/repositories` | Create content repository |

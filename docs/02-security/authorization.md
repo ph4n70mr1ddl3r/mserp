@@ -1,5 +1,7 @@
 # Authorization (RBAC + ABAC)
 
+> Authorization rules (RBAC permission format, ABAC attributes, authorization flow) are defined in SPEC.md §11.3–11.5. This document provides the full role-to-permission mapping.
+
 ## 6. RBAC + ABAC Model
 
 ```
@@ -31,41 +33,15 @@
 
 ### 6.1 Permission Format
 
-```
-{domain}.{entity}.{action}
-```
-
-- `{domain}`: Service domain — `auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `platform`, `integration`, `crm`, `project`
-- `{entity}`: `order`, `customer`, `product`, `journal`, `employee`, etc.
-- `{action}`: `create`, `read`, `update`, `delete`, `own` (self-scoped read/write on own records only), `approve`, `export`, `*` (wildcard for all actions)
-
-> **Note:** Permissions use the **service name** as the domain (e.g., `commerce.order.create`), not the internal module name. For legacy compatibility, `sales.*` → `commerce.*`, `inventory.*` → `commerce.*`, `procurement.*` → `finance.*`.
+Permission format is `{domain}.{entity}.{action}` per SPEC.md §11.3.
 
 ### 6.2 Attribute-Based Access Control (ABAC)
 
-In addition to RBAC, the system supports attribute-based policies for fine-grained access:
-
-| Attribute | Source | Example |
-|-----------|--------|---------|
-| User's organization unit | Identity Service | `org_unit = 'North America Sales'` |
-| Resource's department | Data record | `order.department = 'NA-Sales'` |
-| Amount threshold | Request data | `amount > 10000` requires manager approval |
-| Time of day | System clock | `outside business hours` triggers additional MFA |
-| IP range | Request source | `source_ip NOT IN corporate_range` triggers step-up auth |
-| Data classification | Resource metadata | `classification = 'Restricted'` limits access to named users |
-| Device trust level | Auth Service | `unmanaged device` triggers step-up auth |
-
-ABAC policies are evaluated by the service layer (not the gateway) since they require access to resource attributes.
+ABAC attributes are defined in SPEC.md §11.4.
 
 ### 6.3 Authorization Flow
 
-1. User makes request with JWT.
-2. API Gateway extracts `permissions` from JWT (embedded by Auth Service at login).
-3. Gateway checks if the required permission for the endpoint is in the user's permission set (local comparison, no network call).
-4. If authorized, request is forwarded with `X-User-Permissions` and `X-User-Org-Scope` headers.
-5. Service applies additional row-level checks (tenant isolation via RLS, org scope filtering, amount-based rules).
-
-> **Note:** Permission changes take effect after the user's next token refresh (access token expires in 15 minutes). This is an acceptable trade-off for eliminating the latency of a per-request authorization call.
+Authorization flow is defined in SPEC.md §11.5.
 
 ## 7. Predefined Roles
 

@@ -115,14 +115,14 @@ Where:
 
 | Scope | Limit | Enforcement |
 |-------|-------|-------------|
-| Per-tenant API | Configurable per plan: Standard 1,000/min, Professional 10,000/min, Enterprise 100,000/min | API Gateway (Traefik/Kong) |
-| Per-user API | 100 requests/second | API Gateway |
-| Authentication attempts | 10 failed attempts per minute per IP | Auth Service |
-| Report generation | 5 concurrent reports per tenant | Report Service semaphore |
-| File uploads | 50 MB per file, 500 MB per tenant per day | Platform Service |
-| Search queries | 30 requests/second per tenant | Elasticsearch throttling |
-| Webhook deliveries | 100 deliveries/second per tenant (outbound) | Integration Service |
-| Bulk import | 10,000 rows per request, 1 concurrent import per tenant | Integration Service |
+| Per-tenant API (global) | 10,000/min | API Gateway (Traefik/Kong) |
+| Per-user API | 1,000/min | API Gateway |
+| Auth endpoints | 10/min | Auth Service |
+| File uploads | 50/min | Platform Service |
+| Report generation | 10/min | Report Service semaphore |
+| Bulk operations | 20/min | Integration Service |
+| AI/ML inference | 30/min | Report Service |
+| Digital assistant | 60/min | Platform Service |
 
 **Rate limit responses MUST use HTTP 429 with `Retry-After` header and rate-limit metadata in response headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`).**
 
@@ -152,14 +152,14 @@ Where:
 
 | Data Category | Retention Period | Storage Tier | Disposal Method |
 |---------------|-----------------|-------------|-----------------|
-| Financial transactions | 7 years (regulatory) | PostgreSQL (hot) → S3 (cold) | Secure deletion after retention period |
-| Audit logs | 7 years (SOC 2 / SOX) | Loki (hot, 90 days) → S3 (cold) | Secure deletion |
+| Business data (orders, invoices) | Indefinite | PostgreSQL (hot) → S3 (cold) | N/A |
+| Audit logs | Indefinite (compliance) | Loki (hot, 90 days) → S3 (cold) | N/A |
+| ESG / emissions | Indefinite (regulatory) | PostgreSQL → Data Lake | N/A |
 | User activity logs | 1 year | Loki (hot, 30 days) → S3 (cold) | Secure deletion |
 | PII (customer/employee) | Duration of contract + 30 days | PostgreSQL | Anonymization or deletion per GDPR/contract |
-| Emissions data | 10 years (regulatory) | PostgreSQL → Data Lake | Anonymization |
 | System metrics | 13 months | Prometheus (hot, 90 days) → Thanos/S3 (cold) | Automatic expiry |
 | Application logs | 90 days (hot), 1 year (cold) | Loki → S3 | Automatic expiry |
-| Session data | 24 hours | Redis TTL | Automatic expiry |
+| Sessions, tokens | 90 days | Redis TTL | Automatic expiry |
 | Data Lake raw zone | Per-tenant configuration | MinIO | Lifecycle policies |
 | ML training data | 2 years | MinIO | Secure deletion |
 

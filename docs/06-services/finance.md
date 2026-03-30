@@ -306,7 +306,7 @@
 
 ## Database Tables
 
-All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+> All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
 
 | Table | Additional Columns |
 |-------|-------------------|
@@ -420,6 +420,7 @@ Inbox binding: `finance.inbox` binds to the following routing keys:
 
 | Binding Pattern | Events Consumed |
 |----------------|-----------------|
+| `finance.#` | Self-binding for saga compensation |
 | `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled`, `commerce.order.returned` |
 | `commerce.stock.#` | `commerce.stock.updated`, `commerce.stock.reserved`, `commerce.stock.reservation.failed`, `commerce.stock.reservation.released` |
 | `commerce.subscription.#` | `commerce.subscription.created`, `commerce.subscription.amended`, `commerce.subscription.renewed`, `commerce.subscription.cancelled`, `commerce.subscription.billing.completed` |

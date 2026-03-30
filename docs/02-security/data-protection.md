@@ -1,8 +1,14 @@
 # Data Protection
 
+> Data protection rules are defined in SPEC.md §11.6. This document provides implementation details for encryption, PII handling, and key management.
+
 ## 8. Data Protection
 
 ### 8.1 Encryption at Rest
+
+Encryption at rest is defined in SPEC.md §11.6.
+
+**Per-data-type implementation details:**
 
 | Data Type | Encryption Method |
 |-----------|------------------|
@@ -11,7 +17,7 @@
 | Backups | AES-256 encrypted before writing to object storage |
 | Redis | TLS in transit; persistence files encrypted at rest |
 | Secrets | Kubernetes secrets (encrypted at rest via etcd encryption configuration) |
-| Data Lake | SSE-S3 encryption on all zones (raw, curated, analytics) |
+| Data Lake | SSE-S3 encryption on all zones (Raw (Bronze), Curated (Silver), Analytics (Gold)) |
 
 ### 8.2 PII Handling
 

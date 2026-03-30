@@ -119,7 +119,7 @@
 
 ## Database Tables
 
-All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+> All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
 
 | Table | Additional Columns |
 |-------|-------------------|
@@ -182,6 +182,7 @@ Inbox binding: `crm.inbox` binds to the following routing keys:
 
 | Binding Pattern | Events Consumed |
 |----------------|-----------------|
+| `crm.#` | Self-binding for saga compensation |
 | `commerce.customer.#` | `commerce.customer.created`, `commerce.customer.updated`, `commerce.customer.deleted` |
 | `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled`, `commerce.order.returned` |
 | `config.changed` | `config.changed` |

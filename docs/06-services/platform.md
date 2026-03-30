@@ -31,7 +31,7 @@
 | Knowledge Management | Article authoring with rich text and version control, hierarchical categories, tagging, full-text search, role-based access, context-sensitive knowledge suggestions, article analytics (views, ratings) |
 | Digital Signatures | Native digital signature workflows, signature request and tracking, multi-party signing sequences, signature audit trail, integration with e-signature providers (DocuSign, Adobe Sign) for external documents |
 
-> Owned and operated by HCM Service. Platform Service provides the notification and file storage infrastructure that the portal uses. The self-service API endpoints are defined in the HCM Service spec and listed under HCM in `docs/05-api/endpoints.md`.
+> Employee Self-Service Portal is owned by HCM Service; Platform provides notification and file storage infrastructure.
 
 ## Subdomains
 
@@ -284,6 +284,10 @@ Inbox binding: `platform.inbox` binds to the following routing keys:
 | `manufacturing.intelligence.#` | `manufacturing.intelligence.oee.threshold-breached`, `manufacturing.intelligence.downtime.categorized`, `manufacturing.intelligence.energy.anomaly`, `manufacturing.intelligence.predictive-maintenance.alert` |
 | `tenant.feature.#` | `tenant.feature.changed` |
 | `config.changed` | `config.changed` |
+| `platform.#` | Self-binding for saga compensation (SPEC.md §5.9) |
+| `platform.composer.#` | Self-binding for Application Composer saga compensation |
+| `tenant.created` | Tenant created — initialize platform resources |
+| `tenant.decommissioned` | Tenant decommissioned — cleanup platform resources |
 
 ## See Also
 

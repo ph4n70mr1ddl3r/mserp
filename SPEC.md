@@ -112,7 +112,7 @@ Monorepo with Cargo workspace. Shared crates: `mserp-core`, `mserp-auth`, `mserp
 | 3 | Tenant Service | 8003 | `tenant_db` | Core | Tenant Lifecycle, Subscription Tiers, Feature Flags, Quota Enforcement, Data Residency, Tenant Branding |
 | 4 | Config Service | 8004 | `config_db` | Core | Hierarchical Configuration, Config Propagation, CORS Management, Localization (14 locales), Maintenance Windows, Validation Rules |
 | 5 | Commerce Service | 8010 | `commerce_db` | Business | Sales, Inventory, PIM, Transportation, Advanced Pricing Engine, ATP/CTP, Product Configurator, Credit Management, Subscription Management, Intercompany Drop Ship, Connected Logistics, Warranty Management, B2B Portal, Loyalty Management, Omnichannel, AI Price Optimization, Advanced Inventory Optimization, Demand Planning, Supply Allocation, Supply Chain Collaboration, Order Orchestration, Global Order Promising (GOP), B2C Commerce & Storefront |
-| 6 | Finance Service | 8011 | `finance_db` | Business | GL, AP, AR, Treasury, Revenue Recognition (ASC 606/IFRS 15), Budgeting, Procurement, Tax, Multi-Book Accounting, Intercompany Matching, Corporate Treasury, Account Reconciliation, Profitability Analysis, Lease Accounting (ASC 842/IFRS 16), Grant Management, Joint Venture Accounting, Intelligent Close, Advanced Collections, Dynamic Discounting, Expense Management, EPM, Financial Consolidation, Intercompany Netting, Cash Flow Statement, Strategic Sourcing, Supplier Risk Management, CLM, Advanced Tax Management, Commodity Management, Advanced Spend Analysis, Supplier Diversity, Financial Reporting Studio |
+| 6 | Finance Service | 8011 | `finance_db` | Business | GL, AP, AR, Treasury, Revenue Recognition (ASC 606/IFRS 15), Budgeting, Procurement, Tax, Multi-Book Accounting, Intercompany Matching, Corporate Treasury, Account Reconciliation, Profitability Analysis, Lease Accounting (ASC 842/IFRS 16), Grant Management, Joint Venture Accounting, Intelligent Close, Advanced Collections, Dynamic Discounting, Expense Management, EPM, Financial Consolidation, Intercompany Netting, Cash Flow Statement, Strategic Sourcing, Supplier Risk Management, CLM, Advanced Tax Management, Commodity Management, Advanced Spend Analysis, Supplier Diversity, Financial Reporting Studio, Fixed Asset Management, Advanced Demand Management |
 | 7 | HCM Service | 8012 | `hr_db` | Business | Employee Lifecycle, Payroll Processing, Recruitment, Performance Management, Talent Management, Benefits Administration, Time & Attendance, Leave Management, Employee Self-Service Portal, HR Help Desk, LXP, Position Control, Workforce Planning, Compensation Management, Succession Planning, Training & Development, Employee Documents, Goals & Objectives, Career Development & Paths, Structured Onboarding Journey |
 | 8 | Manufacturing Service | 8013 | `manufacturing_db` | Business | BOM, Work Orders, PLM, EAM, Quality Management, Digital Twin, EHS, Process Manufacturing, Mixed-Mode Manufacturing, APS, Manufacturing Intelligence, Lean Manufacturing, Connected Worker, Digital Thread, IoT Telemetry & Alerts, MRO, Product Compliance, Manufacturing Execution System (MES), Advanced Production Scheduling & Simulation |
 | 9 | Report Service | 8014 | `report_db` | Business | Analytics Platform, Dashboards, BI, ESG Reporting, Data Warehouse (DuckDB), ML Platform, Semantic Layer, Report Bursting, Narrative Reporting, Process Mining, CPM, Embedded Analytics, Predictive Analytics, Self-Service BI, Augmented Analytics, Connected Planning, Carbon Accounting, Self-Service ML Studio |
@@ -211,8 +211,8 @@ Default: **choreography-based saga**. Each step emits success/failure events. Ex
 
 **Defined Sagas**: Sales Order Fulfillment, Purchase Order Receiving, Employee Onboarding, Leave Approval, Purchase Requisition, Project Billing, Expense Report, Contract Approval, Engineering Change Order, Order Orchestration, MES Production.
 
-> **Full event catalog:** [docs/04-events/catalog.md](docs/04-events/catalog.md) (~395 domain events)
-> **Full saga definitions:** [docs/04-events/sagas.md](docs/04-events/sagas.md)
+> **Full event catalog:** [docs/04-events/catalog.md](docs/04-events/catalog.md) (~400 domain events)
+> **Full saga definitions:** [docs/04-events/sagas.md](docs/04-events/sagas.md) (11 sagas)
 
 ---
 
@@ -277,7 +277,7 @@ Every feature, entity, API endpoint, database table, and event belongs to EXACTL
 | Production scheduling & simulation | Manufacturing Service |
 | Application composer & runtime extensions | Platform Service |
 | Access certification campaigns | Platform Service |
-| Self-service ML studio | Report Service |
+| Advanced demand management (ML-powered demand sensing, statistical forecasting) | Commerce Service |
 
 ---
 
@@ -526,8 +526,8 @@ Each check has 1-second timeout. Checks run concurrently.
 
 Max 100 items. Default: atomic (single transaction). `Prefer: partial-success` header enables non-atomic. `413` for > 100 items.
 
-> **Full endpoint listing:** [docs/05-api/endpoints.md](docs/05-api/endpoints.md) (~633 endpoints)
-> **Full error codes:** [docs/05-api/error-codes.md](docs/05-api/error-codes.md) (~211 error codes)
+> **Full endpoint listing:** [docs/05-api/endpoints.md](docs/05-api/endpoints.md) (~700 endpoints)
+> **Full error codes:** [docs/05-api/error-codes.md](docs/05-api/error-codes.md) (~210 error codes)
 
 ---
 
@@ -610,6 +610,8 @@ Super Admin, Tenant Admin, Finance Manager, Accountant, Treasury Manager, Sales 
 | Financial Reporting Studio | Finance Service (templates) / Report Service (rendering) | [financial-reporting-studio.md](docs/07-features/financial-reporting-studio.md) |
 | Full-Text Search | Platform Service | [search.md](docs/07-features/search.md) |
 | Global Order Promising (GOP) | Commerce Service | [global-order-promising.md](docs/07-features/global-order-promising.md) |
+| Fixed Asset Lifecycle | Finance Service | [fixed-asset-lifecycle.md](docs/07-features/fixed-asset-lifecycle.md) |
+| Advanced Demand Management | Commerce Service | [advanced-demand-management.md](docs/07-features/advanced-demand-management.md) |
 | Goals & Career Development | HCM Service | [goals-career-development.md](docs/07-features/goals-career-development.md) |
 | IDP | Platform Service | [idp.md](docs/07-features/idp.md) |
 | Intelligent Close | Finance Service | [intelligent-close.md](docs/07-features/intelligent-close.md) |
@@ -625,7 +627,7 @@ Super Admin, Tenant Admin, Finance Manager, Accountant, Treasury Manager, Sales 
 | Access Certification | Platform Service | [access-certification.md](docs/07-features/access-certification.md) |
 | Application Composer | Platform Service | [application-composer.md](docs/07-features/application-composer.md) |
 
-> **All feature specs:** [docs/07-features/](docs/07-features/)
+> **All feature specs:** [docs/07-features/](docs/07-features/) (36 feature specifications)
 
 ---
 
@@ -633,8 +635,8 @@ Super Admin, Tenant Admin, Finance Manager, Accountant, Treasury Manager, Sales 
 
 | Oracle Fusion Product Family | Oracle Modules | MSERP Service(s) |
 |-----------------------------|---------------|-------------------|
-| **Financials** | GL, AP, AR, Fixed Assets, Cash, Expenses, Collections, Revenue, Lease, Grant, JV, Tax, Multi-Book | Finance Service |
-| **SCM** | Inventory, Procurement, Order Management, Logistics, Product Hub, Sourcing, Supplier Management, Order Orchestration, GOP, B2C Commerce | Commerce Service + Manufacturing Service |
+| **Financials** | GL, AP, AR, Fixed Assets, Cash, Expenses, Collections, Revenue, Lease, Grant, JV, Tax, Multi-Book, Financial Consolidation | Finance Service |
+| **SCM** | Inventory, Procurement, Order Management, Logistics, Product Hub, Sourcing, Supplier Management, Order Orchestration, GOP, B2C Commerce, Demand Management | Commerce Service + Manufacturing Service |
 | **HCM** | Core HR, Payroll, Recruiting, Performance, Time & Labor, Learning, Benefits, Talent, Global HR, Help Desk, LXP, Goals, Career Development, Onboarding Journeys | HCM Service |
 | **CX** | Sales, Service, Marketing, Commerce, CPQ, Field Service, Surveys, Contact Center, Social, Loyalty, CDP, Forecasting, Partners | CRM Service + Commerce Service |
 | **ERP** | Projects, Costing, Billing, Manufacturing, Maintenance, Quality | Project Service + Manufacturing Service |
@@ -860,7 +862,7 @@ Same signed image artifact promoted through environments. Production deployment 
 
 ### 19.7 Features
 
-31 feature specifications in [docs/07-features/](docs/07-features/). See §12 for the registry.
+34 feature specifications in [docs/07-features/](docs/07-features/). See §12 for the registry.
 
 ### 19.8 Infrastructure & Development
 
@@ -883,5 +885,5 @@ Same signed image artifact promoted through environments. Production deployment 
 
 ---
 
-*Document Version: 19.0*
-*Last Updated: 2026-03-30*
+*Document Version: 21.0*
+*Last Updated: 2026-03-31*

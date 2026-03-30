@@ -49,28 +49,7 @@ Total: **15 databases** (4 core + 8 business + 3 supporting).
 
 ## 2. Common Schema Elements
 
-### Standard Columns (all tables)
-
-Every table in every service database MUST include these standard columns:
-
-```sql
-id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-tenant_id       UUID NOT NULL,
-created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-created_by      UUID,
-updated_by      UUID,
-version         INTEGER NOT NULL DEFAULT 1,
-is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
-```
-
-### Standard Indexes
-
-```sql
-CREATE INDEX idx_{table}_tenant_id ON {table} (tenant_id);
-CREATE INDEX idx_{table}_created_at ON {table} (created_at);
-CREATE INDEX idx_{table}_is_deleted ON {table} (is_deleted);
-```
+Standard columns, indexes, and constraints are defined in **SPEC.md §9.1–9.2**. All tables MUST include these.
 
 > **Note:** Event and outbox tables use `tenant_id UUID` (nullable) instead of `NOT NULL` — system-level events (e.g., `config.changed`, `auth.login.failed`) are not scoped to a specific tenant.
 
@@ -87,14 +66,7 @@ CREATE INDEX idx_{table}_is_deleted ON {table} (is_deleted);
 
 ### RLS Implementation
 
-```sql
-ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY tenant_isolation ON orders
-    USING (tenant_id = current_setting('app.current_tenant')::UUID);
-```
-
-The `app.current_tenant` session variable is set at the beginning of each request by the service's database middleware, extracted from the JWT's `tenant_id` claim.
+RLS policy implementation is defined in **SPEC.md §9.3**. Connection pooling is configured via PgBouncer (see `docs/08-infrastructure/technology.md`).
 
 ## 4. Database Migration Strategy
 
@@ -104,32 +76,15 @@ All migrations use **sea-orm-migration** (managed via `mserp-infrastructure` cra
 
 ### 4.2 Migration Rules
 
-| Rule | Description |
-|------|-------------|
-| Forward-Only | Migrations MUST be forward-only. No `down()` migrations in production. |
-| Backward Compatibility | Every migration MUST be backward-compatible with the previous application version. Old code MUST work with the new schema for at least one deployment cycle. |
-| Zero-Downtime | Migrations MUST NOT lock tables for more than 100ms. Use `CREATE INDEX CONCURRENTLY`, `ALTER TABLE ... ADD COLUMN` (with defaults), and phased column drops. |
-| Idempotent | Each migration script MUST be idempotent — safe to re-run if partially applied. |
-| Ordered | Migrations are applied in lexicographic order. Use timestamp prefix: `{YYYYMMDDHHMMSS}_{description}.rs` |
+Migration rules and safe schema change patterns are defined in **SPEC.md §9.4–9.5**.
 
-### 4.3 Schema Change Patterns
-
-| Change Type | Safe Pattern |
-|-------------|-------------|
-| Add column | `ALTER TABLE ADD COLUMN` with a default value. Non-nullable columns must have defaults. |
-| Remove column | 3-phase: (1) Stop reading column in app, (2) Deploy, (3) Drop column in next migration. |
-| Rename column | Add new column + copy data in app layer + drop old column (never `ALTER TABLE RENAME`). |
-| Add index | `CREATE INDEX CONCURRENTLY` (never blocks writes). |
-| Remove index | `DROP INDEX CONCURRENTLY`. |
-| Modify column type | Add new column + migrate data + swap in app + drop old column. |
-
-### 4.4 Rollback Procedure
+### 4.3 Rollback Procedure
 
 1. Revert the application deployment to the previous version.
 2. The previous version MUST still work with the new schema (backward compatibility guarantee).
 3. If the schema change is truly incompatible, create a compensating migration and deploy both together.
 
-### 4.5 Cross-Database Coordination
+### 4.4 Cross-Database Coordination
 
 When a schema change affects multiple services (e.g., adding a field referenced by events):
 1. Deploy consumer services first (they ignore the new field).
@@ -141,23 +96,9 @@ When a schema change affects multiple services (e.g., adding a field referenced 
 
 ### 5.1 Behavior
 
-- All tables include `is_deleted BOOLEAN NOT NULL DEFAULT FALSE`.
-- Soft delete sets `is_deleted = TRUE` and `updated_at = NOW()`.
-- Queries MUST include `WHERE is_deleted = FALSE` by default (enforced by SeaORM global filter).
+Soft delete rules are defined in **SPEC.md §9.6**.
 
-### 5.2 Soft Delete and Events
-
-| Operation | Event Published? | Event Type |
-|-----------|-----------------|------------|
-| Create | Yes | `{domain}.{entity}.created` |
-| Update | Yes | `{domain}.{entity}.updated` |
-| Soft Delete | Yes | `{domain}.{entity}.deleted` |
-| Hard Delete | No | N/A (hard deletes are admin-only, audited separately) |
-
-- Soft deletes ARE published as events so downstream services can react (e.g., update search indexes).
-- Hard deletes are NOT published. They are reserved for GDPR data erasure and require Super Admin + audit log entry.
-
-### 5.3 Unique Constraints with Soft Deletes
+### 5.2 Unique Constraints with Soft Deletes
 
 Soft-deleted rows can cause unique constraint violations on natural keys (e.g., email, SKU). Use partial unique indexes:
 
@@ -167,7 +108,7 @@ CREATE UNIQUE INDEX idx_users_email_active
     WHERE is_deleted = FALSE;
 ```
 
-### 5.4 Data Retention and Purge
+### 5.3 Data Retention and Purge
 
 | Data Category | Soft Delete Retention | Hard Delete Policy |
 |--------------|----------------------|-------------------|

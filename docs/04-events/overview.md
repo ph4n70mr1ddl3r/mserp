@@ -78,32 +78,7 @@ Each service's inbox queue binds to the topic exchange with patterns matching th
 
 ## 2. Event Schema
 
-```json
-{
-  "event_id": "01234567-89ab-cdef-0123-456789abcdef",
-  "event_type": "commerce.order.created",
-  "event_version": "1.0",
-  "timestamp": "2026-03-27T10:30:00Z",
-  "tenant_id": "tenant-uuid",
-  "correlation_id": "correlation-uuid",
-  "causation_id": "causation-uuid",
-  "aggregate": {
-    "type": "SalesOrder",
-    "id": "order-uuid"
-  },
-  "payload": {
-    "order_number": "SO-2026-001234",
-    "customer_id": "customer-uuid",
-    "total_amount": 10000.00,
-    "currency": "USD"
-  },
-  "metadata": {
-    "user_id": "user-uuid",
-    "source": "commerce-service",
-    "version": 1
-  }
-}
-```
+Event envelope schema is defined in **SPEC.md §5.4**.
 
 > **Note on `tenant_id`:** Tenant-scoped events always include a `tenant_id`. System-level events (e.g., `config.changed` for global config, `auth.login.failed`, `tenant.created`) use `null` for `tenant_id`. Consumers MUST handle `tenant_id: null` gracefully.
 
@@ -205,39 +180,11 @@ CREATE INDEX idx_outbox_status ON outbox_events (status, next_retry_at)
 
 ## 5. Dead Letter Queues (DLQ)
 
-Every service inbox queue MUST have an associated dead letter queue.
-
-| Setting | Value |
-|---------|-------|
-| Max Retries | 5 |
-| Backoff Strategy | Exponential (1s, 2s, 4s, 8s, 16s) |
-| DLQ Naming | `{service}.dlq` |
-| DLQ Retention | 30 days |
-| Alert on DLQ entry | Yes (Warning severity) |
-| DLQ Replay | Supported via admin API (`POST /api/v1/admin/dlq/{service}/replay`) |
+DLQ configuration is defined in **SPEC.md §5.7**.
 
 ## 6. Event Ordering Guarantees
 
-### 6.1 Ordering Within a Service
-
-Events published by the same service for the same aggregate are guaranteed to be ordered by the outbox poller. The outbox poller reads pending events in `created_at` order and publishes them sequentially per aggregate.
-
-### 6.2 Ordering Across Services
-
-Events from different services have NO guaranteed ordering. Consumers MUST be idempotent and handle out-of-order delivery. Use `causation_id` to reconstruct causal chains when needed.
-
-### 6.3 Exactly-Once Processing
-
-MSERP provides **effectively-once** semantics:
-- Producers: Transactional outbox ensures events are published at least once (at-least-once).
-- Consumers: Idempotent event handlers using `event_id` as the deduplication key. Each consumer tracks processed `event_id` values with a 24-hour TTL.
-
-| Guarantee | Scope | Mechanism |
-|-----------|-------|-----------|
-| In-order per aggregate | Within a service | Outbox sequential publish per aggregate_id |
-| At-least-once delivery | All events | Outbox retry with exponential backoff |
-| Effectively-once consumption | Per consumer | Idempotent handler + event_id deduplication |
-| No cross-service ordering | Across services | Consumers handle out-of-order events |
+Ordering guarantees are defined in **SPEC.md §5.8**.
 
 ---
 

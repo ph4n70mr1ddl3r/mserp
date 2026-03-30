@@ -12,9 +12,11 @@ Agents MUST follow documents in this order of authority:
 1. **SPEC.md** — Authoritative single source of truth. All rules live here or are referenced from here. Conflicts are always resolved in SPEC.md's favor.
 2. **AGENTS.md** — This file. Agent workflow and reading order only. Does not duplicate rules.
 3. **Service specs** (`docs/06-services/*.md`) — Per-service modules, tables, events, integration points.
-4. **Feature specs** (`docs/07-features/*.md`) — Detailed business rules for 22 features. See SPEC.md §12 for the registry.
+4. **Feature specs** (`docs/07-features/*.md`) — Detailed business rules for 36 features. See SPEC.md §12 for the registry.
 5. **Cross-cutting specs** (`docs/02-*` through `docs/05-*`) — Security, data, events, API standards.
 6. **Infrastructure/dev/planning** (`docs/08-*` through `docs/10-*`) — Operational concerns, conventions, NFRs.
+
+> **Note**: Sub-documents have been reorganized to reference SPEC.md for authoritative rules. They provide ONLY implementation details (full table schemas, event payloads, endpoint definitions). For any rule, always defer to SPEC.md.
 
 ### Where to Find Authoritative Rules
 
@@ -41,7 +43,7 @@ Agents MUST follow documents in this order of authority:
 | Commerce → Finance handoff | SPEC.md §7.2 |
 | Analytics ownership | SPEC.md §7.3 |
 | ML/AI ownership split | SPEC.md §14 |
-| Feature-to-service registry (22 specs) | SPEC.md §12 |
+| Feature-to-service registry (36 specs) | SPEC.md §12 |
 | Testing requirements & quality gates | SPEC.md §18, `docs/10-planning/nfr.md` |
 | Code conventions | `docs/09-development/conventions.md` |
 | Project structure | `docs/09-development/project-structure.md` |
@@ -53,8 +55,7 @@ Agents MUST follow documents in this order of authority:
 
 1. **Start with SPEC.md for the rule.** SPEC.md contains or references every architectural rule. Always read it first.
 2. **Go to the sub-document for detail.** SPEC.md gives the rule; sub-docs give the implementation detail (full table schemas, event payloads, endpoint definitions, etc.).
-3. **Never rely on a sub-document alone.** If SPEC.md has a conflicting or more specific rule, SPEC.md wins. For example, SPEC.md §9.1 defines standard columns; `docs/03-data/overview.md` elaborates on them but cannot override them.
-4. **Follow the section cross-references.** SPEC.md sections reference each other (e.g., §5 references §6 for domain names). Follow these links to build a complete picture.
+3. **Follow the section cross-references.** SPEC.md sections reference each other (e.g., §5 references §6 for domain names). Follow these links to build a complete picture.
 
 ### Reading Order for Any Task
 
@@ -98,7 +99,7 @@ Also reference as needed:
 Follow these 7 steps in order:
 
 1. **Identify the owning service.** Use SPEC.md §6 (Domain Ownership) to confirm which service owns this feature. Every feature belongs to EXACTLY ONE service.
-2. **Check for an existing feature spec.** Look in `docs/07-features/` for an existing spec. If one exists, read it for detailed business rules. See SPEC.md §12 for the full registry of 22 feature specs.
+2. **Check for an existing feature spec.** Look in `docs/07-features/` for an existing spec. If one exists, read it for detailed business rules. See SPEC.md §12 for the full registry of 36 feature specs.
 3. **Add new events** to `docs/04-events/catalog.md`. Use namespace `{domain}.{entity}.{action}` where domain matches the service (e.g., `commerce`, `finance`, `hr`, `manufacturing`, `platform`). Also update inbox bindings in `docs/04-events/overview.md` if new cross-service subscriptions are needed.
 4. **Add new endpoints** to `docs/05-api/endpoints.md`. Follow API design rules from `docs/05-api/standards.md` (RESTful, versioned `/api/v1/...`, Bearer JWT, cursor-based pagination, RFC 7807 errors, Idempotency-Key).
 5. **Add new error codes** to `docs/05-api/error-codes.md`. Follow the existing error code taxonomy. Format: RFC 7807 Problem Details.
@@ -111,31 +112,7 @@ For **cross-service features**: define integration in both service specs; add ev
 
 ## 5. How to Add an Endpoint
 
-Follow API standards from `docs/05-api/standards.md` and SPEC.md §10:
-
-| Standard | Requirement |
-|----------|-------------|
-| Style | RESTful with OpenAPI 3.1 |
-| Versioning | URL path (`/api/v1/...`) |
-| Auth | Bearer JWT (access token, 15-min expiry, RS256) |
-| Content-Type | `application/json` |
-| Error Format | RFC 7807 Problem Details |
-| Pagination | Cursor-based (`limit`/`after`, default 50, max 100) |
-| Filtering | Query params with operators (`eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `like`, `in`) |
-| Sorting | `sort=field:direction` syntax |
-| Idempotency | `Idempotency-Key` header on all `POST`, `PUT`, `PATCH`, `DELETE` |
-| Compression | `gzip` for responses > 1KB |
-| Locale | `Accept-Language` header |
-| Timezone | `Time-Zone` header (defaults to tenant timezone) |
-| Async | `202 Accepted` with job reference for long-running operations |
-| Optimistic Concurrency | `version` field in `PUT`/`PATCH`; mismatch → `409 RESOURCE_CONFLICT` |
-
-### Response Formats
-
-- **Success**: `{ "data": {...}, "meta": { "request_id", "timestamp" } }`
-- **List**: `{ "data": [...], "meta": { "request_id", "timestamp", "pagination": { "limit", "has_more", "cursor", "total_count" } } }`
-- **Error**: RFC 7807 with `type`, `title`, `status`, `detail`, `instance`, `errors[]`, `meta`
-- **Async Job**: `{ "data": { "job_id", "status", "status_url" }, "meta": {...} }`
+Follow API standards from SPEC.md §10 and `docs/05-api/standards.md`. See SPEC.md §10.5 for response format specifications.
 
 ### Steps
 
@@ -148,7 +125,7 @@ Follow API standards from `docs/05-api/standards.md` and SPEC.md §10:
 
 ## 6. How to Add an Event
 
-Follow event architecture from `docs/04-events/overview.md` and SPEC.md §5:
+Follow event architecture from SPEC.md §5 and `docs/04-events/overview.md`.
 
 ### Naming Convention
 
@@ -159,35 +136,6 @@ Follow event architecture from `docs/04-events/overview.md` and SPEC.md §5:
 - **Domain**: Service name (`auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `platform`, `integration`, `crm`, `project`).
 - **Entity**: Business entity (e.g., `order`, `invoice`, `employee`, `work-order`).
 - **Action**: `created`, `updated`, `deleted`, `submitted`, `approved`, `rejected`, `completed`, `failed`, etc.
-
-### Event Envelope
-
-```json
-{
-  "event_id": "uuid",
-  "event_type": "commerce.order.created",
-  "event_version": "1.0",
-  "timestamp": "2026-03-27T10:30:00Z",
-  "tenant_id": "uuid (null for system events)",
-  "correlation_id": "uuid",
-  "causation_id": "uuid",
-  "aggregate": { "type": "SalesOrder", "id": "uuid" },
-  "payload": { "...": "..." },
-  "metadata": { "user_id": "uuid", "source": "service-name", "version": 1 }
-}
-```
-
-### Key Rules
-
-| Rule | Detail |
-|------|--------|
-| Transactional outbox | Write business data + event to outbox table in same DB transaction. Background poller publishes to RabbitMQ. |
-| Versioning | Semantic `MAJOR.MINOR` (no patch). Minor = additive. Major = breaking. Dual-publish for 90 days on major bumps. |
-| Self-binding for sagas | Every service with an inbox MUST bind to `{domain}.#` (its own domain wildcard) for saga compensation. |
-| Idempotent consumers | 24-hour dedup TTL on `event_id`. At-least-once delivery + idempotent processing = effectively-once. |
-| DLQ | Max 5 retries, exponential backoff (1s, 2s, 4s, 8s, 16s), 30-day retention, replay via admin API. |
-| Ordering | Guaranteed per-aggregate within a service. NOT guaranteed across services. |
-| Core services | Auth, Identity, Tenant, Config do NOT have inbox queues. They publish only. |
 
 ### Steps
 
@@ -201,67 +149,7 @@ Follow event architecture from `docs/04-events/overview.md` and SPEC.md §5:
 
 ## 7. How to Add a Database Table
 
-Follow data architecture from `docs/03-data/overview.md` and SPEC.md §9:
-
-### Standard Columns (ALL tables)
-
-```sql
-id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-tenant_id       UUID NOT NULL,           -- nullable for event/outbox tables
-created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-created_by      UUID,
-updated_by      UUID,
-version         INTEGER NOT NULL DEFAULT 1,
-is_deleted      BOOLEAN NOT NULL DEFAULT FALSE
-```
-
-### Standard Indexes
-
-```sql
-CREATE INDEX idx_{table}_tenant_id ON {table} (tenant_id);
-CREATE INDEX idx_{table}_created_at ON {table} (created_at);
-CREATE INDEX idx_{table}_is_deleted ON {table} (is_deleted);
-```
-
-### RLS Policy (per table)
-
-```sql
-ALTER TABLE {table} ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY tenant_isolation ON {table}
-    USING (tenant_id = current_setting('app.current_tenant')::UUID);
-```
-
-Set `app.current_tenant` session variable per transaction from JWT. Apply via RLS; never rely on application-level filtering alone.
-
-### Migration Rules
-
-| Rule | Description |
-|------|-------------|
-| Forward-only | No `down()` migrations in production |
-| Backward-compatible | Old code MUST work with new schema for one deployment cycle |
-| Zero-downtime | Migrations MUST NOT lock tables > 100ms |
-| Idempotent | Safe to re-run |
-| Timestamp-ordered | `{YYYYMMDDHHMMSS}_{description}.rs` |
-
-### Schema Change Safety
-
-| Change Type | Safe Pattern |
-|-------------|-------------|
-| Add column | `ALTER TABLE ADD COLUMN` **with default value** (missing default breaks zero-downtime) |
-| Remove column | 3-phase: stop reading → deploy → drop column |
-| Rename column | Add new + copy data + drop old (never `ALTER TABLE RENAME`) |
-| Add index | `CREATE INDEX CONCURRENTLY` |
-| Remove index | `DROP INDEX CONCURRENTLY` |
-| Modify type | Add new column + migrate data + swap + drop old |
-
-### Soft Delete
-
-- Sets `is_deleted = TRUE`. Queries default to `WHERE is_deleted = FALSE` via SeaORM global filter.
-- Soft deletes ARE published as events (`{domain}.{entity}.deleted`).
-- Hard deletes: admin-only, GDPR erasure, NOT published, audited separately.
-- Partial unique indexes for soft-deleted natural keys: `WHERE is_deleted = FALSE`.
+Follow data architecture from SPEC.md §9 and `docs/03-data/overview.md`. Standard columns, indexes, RLS policies, migration rules, schema change safety patterns, and soft delete conventions are all defined in SPEC.md §9.
 
 ### Steps
 

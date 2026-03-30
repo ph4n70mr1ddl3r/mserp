@@ -262,7 +262,7 @@
 
 ## Database Tables
 
-All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+> All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
 
 | Table | Additional Columns |
 |-------|-------------------|
@@ -364,6 +364,9 @@ Inbox binding: `commerce.inbox` binds to the following routing keys:
 
 | Binding Pattern | Events Consumed |
 |----------------|-----------------|
+| `commerce.#` | Self-binding for saga compensation |
+| `commerce.orchestration.#` | Self-binding for order orchestration saga compensation |
+| `commerce.backorder.#` | Self-binding for backorder saga compensation |
 | `finance.purchase-order.#` | `finance.purchase-order.created`, `finance.purchase-order.approved`, `finance.purchase-order.received` |
 | `finance.invoice.#` | `finance.invoice.created`, `finance.invoice.creation.failed`, `finance.invoice.paid`, `finance.invoice.credit-memo` |
 | `finance.sourcing.#` | `finance.sourcing.event.created`, `finance.sourcing.bid.submitted`, `finance.sourcing.event.awarded` |

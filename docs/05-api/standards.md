@@ -2,67 +2,19 @@
 
 ## 1. API Standards
 
-| Standard | Specification |
-|----------|---------------|
-| Style | RESTful with OpenAPI 3.1 |
-| Versioning | URL path (`/api/v1/...`) |
-| Authentication | Bearer JWT (access + refresh tokens) |
-| Content-Type | `application/json` |
-| Error Format | RFC 7807 Problem Details |
-| Pagination | Cursor-based with `limit`/`after` (opt-in total count) |
-| Filtering | Query parameters with operators (`eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `like`, `in`) |
-| Sorting | `sort` query parameter (e.g., `sort=created_at:desc,name:asc`) |
-| Idempotency | `Idempotency-Key` header on all state-changing requests |
-| Compression | `gzip` encoding supported (via `Accept-Encoding`); responses > 1KB compressed |
-| Locale | `Accept-Language` header for response localization |
-| Timezone | `Time-Zone` header for date/time interpretation (defaults to tenant timezone) |
-| Async Operations | `202 Accepted` with job reference for long-running operations |
+API design standards are defined in **SPEC.md §10.1**. This document provides implementation details and examples.
 
 ## 2. Idempotency
 
-All `POST`, `PUT`, `PATCH`, and `DELETE` requests MUST include an `Idempotency-Key` header. The server stores the response for each key and returns the cached response on duplicate requests within a 24-hour window.
-
-| Header | Example | Behavior |
-|--------|---------|----------|
-| `Idempotency-Key` | `idemp_550e8400-e29b-41d4-a716-446655440000` | UUID v4 per unique operation |
-
-**Rules:**
-- Keys are scoped per tenant + user + endpoint combination.
-- If a request with a known key is retried, the server returns the original response with the original HTTP status code (e.g., `201 Created` for a successful creation, not `200 OK`).
-- Keys expire after 24 hours and are cleaned up by a background job.
-- If a key is reused with a different request payload, the server returns `422 Unprocessable Entity` with error code `IDEMPOTENCY_CONFLICT`.
+Idempotency rules are defined in **SPEC.md §10.2**.
 
 ## 3. Rate Limiting
 
-Rate limiting is enforced at the API Gateway layer (Traefik by default; Kong as an alternative) with per-tenant and per-endpoint granularity.
-
-| Scope | Limit | Window |
-|-------|-------|--------|
-| Per tenant (global) | 10,000 requests | 1 minute |
-| Per user | 1,000 requests | 1 minute |
-| Auth endpoints (login, password reset) | 10 requests | 1 minute |
-| File upload endpoints | 50 requests | 1 minute |
-| Report generation endpoints | 10 requests | 1 minute |
-| Bulk operation endpoints | 20 requests | 1 minute |
-| AI/ML inference endpoints | 30 requests | 1 minute |
-| Digital assistant endpoints | 60 requests | 1 minute |
-
-- Limits are stored in Redis with sliding window counters.
-- Responses include `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` headers.
-- Exceeding returns `429 Too Many Requests` with a `Retry-After` header.
-- **Exempt endpoints:** Health check endpoints (`/healthz`, `/readyz`) are exempt from rate limiting.
-- Rate limit overrides per tenant are configurable via Tenant Service quota settings.
+Rate limits are defined in **SPEC.md §10.3**.
 
 ## 4. API Versioning
 
-| Policy | Detail |
-|--------|--------|
-| Strategy | URL path (`/api/v1/...`) |
-| Supported Versions | Maximum 2 concurrent versions |
-| Sunset Notice | Deprecated versions return `Warning: 299 - "Deprecated API"` header 90 days before removal |
-| Breaking Changes | Require a new version bump (e.g., `v1` -> `v2`); documented in changelog |
-| Non-Breaking Changes | Additive changes (new fields, new endpoints) within the same version |
-| Version Lifecycle | New version announced → 90-day dual-support → Old version sunset → Removal |
+Versioning policy is defined in **SPEC.md §10.4**.
 
 ## 5. Standard Response Format
 

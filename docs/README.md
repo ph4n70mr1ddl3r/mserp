@@ -14,13 +14,13 @@ SPEC.md (Authoritative single source of truth)
     ├── 04-events/           (event bus, catalog, sagas)
     ├── 05-api/              (standards, endpoints, errors)
     ├── 06-services/         (per-service specifications)
-    ├── 07-features/         (cross-cutting & complex feature specs — 31 feature specifications)
+    ├── 07-features/         (cross-cutting & complex feature specs — 34 feature specifications)
     ├── 08-infrastructure/   (deployment, technology, observability)
     ├── 09-development/      (project structure, conventions, setup)
     └── 10-planning/         (phases, NFRs)
 ```
 
-> **Note:** Most feature-level detail now lives in the service specs (`06-services/`). The 31 feature specs in `07-features/` cover only cross-cutting or complex capabilities that warrant dedicated treatment beyond their service spec.
+> **Note:** Most feature-level detail now lives in the service specs (`06-services/`). The 34 feature specs in `07-features/` cover only cross-cutting or complex capabilities that warrant dedicated treatment beyond their service spec.
 
 ---
 
@@ -54,16 +54,16 @@ SPEC.md (Authoritative single source of truth)
 | Document | Description |
 |----------|-------------|
 | [Event-Driven Architecture](04-events/overview.md) | RabbitMQ exchange, inbox bindings, outbox pattern, event versioning, DLQ |
-| [Event Catalog](04-events/catalog.md) | All domain events by service (300+ events), cross-domain event flows |
-| [Saga Patterns](04-events/sagas.md) | 9 distributed transaction patterns with compensating actions |
+| [Event Catalog](04-events/catalog.md) | All domain events by service (395+ events), cross-domain event flows |
+| [Saga Patterns](04-events/sagas.md) | 11 distributed transaction patterns with compensating actions |
 
 ## 05 — API
 
 | Document | Description |
 |----------|-------------|
 | [API Design Standards](05-api/standards.md) | REST standards, pagination, idempotency, versioning, health checks, bulk operations |
-| [API Endpoints](05-api/endpoints.md) | Complete endpoint listings for all 14 services (400+ endpoints) |
-| [Error Codes](05-api/error-codes.md) | Complete error code taxonomy (180+ codes) |
+| [API Endpoints](05-api/endpoints.md) | Complete endpoint listings for all 14 services (600+ endpoints) |
+| [Error Codes](05-api/error-codes.md) | Complete error code taxonomy (210+ codes) |
 
 ## 06 — Services
 
@@ -89,7 +89,7 @@ SPEC.md (Authoritative single source of truth)
 
 ## 07 — Feature Specifications
 
-> Feature specs that were fully covered by their service spec have been consolidated into `06-services/`. The 22 remaining specs below cover cross-cutting or complex features that require dedicated treatment.
+> Feature specs that were fully covered by their service spec have been consolidated into `06-services/`. The 34 remaining specs below cover cross-cutting or complex features that require dedicated treatment.
 
 ### Finance Service
 
@@ -99,6 +99,7 @@ SPEC.md (Authoritative single source of truth)
 | Intelligent Close | [intelligent-close.md](07-features/intelligent-close.md) |
 | Dynamic Discounting | [dynamic-discounting.md](07-features/dynamic-discounting.md) |
 | Financial Reporting Studio | [financial-reporting-studio.md](07-features/financial-reporting-studio.md) |
+| Fixed Asset Lifecycle | [fixed-asset-lifecycle.md](07-features/fixed-asset-lifecycle.md) |
 
 ### Commerce Service
 
@@ -106,14 +107,16 @@ SPEC.md (Authoritative single source of truth)
 |---------|------|
 | Supply Chain Collaboration | [supply-chain-collaboration.md](07-features/supply-chain-collaboration.md) |
 | Order Orchestration | [order-orchestration.md](07-features/order-orchestration.md) |
-| B2C Commerce & Storefront | [b2c-commerce-storefront.md](07-features/b2c-commerce-storefront.md) |
+| B2C Commerce & Storefront | [b2c-commerce.md](07-features/b2c-commerce.md) |
+| Advanced Demand Management | [advanced-demand-management.md](07-features/advanced-demand-management.md) |
+| Global Order Promising | [global-order-promising.md](07-features/global-order-promising.md) |
 
 ### HCM Service
 
 | Feature | Spec |
 |---------|------|
 | Goals & Career Development | [goals-career-development.md](07-features/goals-career-development.md) |
-| Structured Onboarding Journey | [structured-onboarding.md](07-features/structured-onboarding.md) |
+| Structured Onboarding Journey | [onboarding-journey.md](07-features/onboarding-journey.md) |
 
 ### Manufacturing Service
 
@@ -127,7 +130,7 @@ SPEC.md (Authoritative single source of truth)
 | Feature | Spec |
 |---------|------|
 | Connected Planning | [connected-planning.md](07-features/connected-planning.md) |
-| Self-Service ML Studio | [self-service-ml-studio.md](07-features/self-service-ml-studio.md) |
+| Self-Service ML Studio | [self-service-ml.md](07-features/self-service-ml.md) |
 
 ### Platform Service
 
@@ -189,4 +192,4 @@ SPEC.md (Authoritative single source of truth)
 
 | Document | Description |
 |----------|-------------|
-| [Glossary](glossary.md) | 100+ terms, abbreviations, references |
+| [Glossary](glossary.md) | 200+ terms, abbreviations, references |
