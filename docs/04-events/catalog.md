@@ -84,6 +84,14 @@
 | `commerce.b2c.cart.created` | B2C shopping cart created. Payload: `{ cart_id, customer_id, channel }` |
 | `commerce.b2c.checkout.completed` | B2C checkout completed with payment. Payload: `{ checkout_id, cart_id, order_id, payment_method, total }` |
 | `commerce.b2c.storefront.config.updated` | B2C storefront configuration updated. Payload: `{ config_id, store_name, theme, updated_by }` |
+| `commerce.wms.wave-released` | Wave released for picking. Payload: `{ warehouse_id, wave_id, pick_zone, order_count }` |
+| `commerce.wms.pick-completed` | Pick task completed. Payload: `{ wave_id, pick_id, picker_id, items_picked, zone }` |
+| `commerce.wms.pack-completed` | Pack operation completed. Payload: `{ shipment_id, carton_id, weight, dimensions }` |
+| `commerce.wms.putaway-completed` | Putaway operation completed. Payload: `{ receipt_id, location_id, sku, quantity }` |
+| `commerce.tms.load-planned` | Load plan created. Payload: `{ load_id, carrier_id, orders, total_weight }` |
+| `commerce.tms.carrier-assigned` | Carrier assigned to shipment. Payload: `{ shipment_id, carrier_id, service_level, cost }` |
+| `commerce.tms.shipment-in-transit` | Shipment departed origin. Payload: `{ shipment_id, tracking_number, estimated_delivery }` |
+| `commerce.tms.delivery-confirmed` | Delivery confirmed by carrier. Payload: `{ shipment_id, delivered_at, proof_of_delivery }` |
 
 ### Finance Events (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Event | Description |
@@ -166,6 +174,10 @@
 | `finance.report.generated` | Financial report generated from template. Payload: `{ report_id, template_id, period, entity_ids }` |
 | `finance.report.published` | Financial report published for distribution. Payload: `{ report_id, published_by, distribution_list }` |
 | `finance.xbrl.filing-completed` | XBRL filing completed and validated. Payload: `{ filing_id, taxonomy_version, validation_status }` |
+| `finance.sla.accounting-event-created` | Accounting event from business transaction. Payload: `{ source, transaction_id, event_class, amounts }` |
+| `finance.sla.journal-generated` | Journal entry generated from accounting rule. Payload: `{ journal_id, rule_id, debit_entries, credit_entries }` |
+| `finance.sla.rule-executed` | Accounting rule executed. Payload: `{ rule_id, source_event, resulting_journals }` |
+| `finance.sla.source-processed` | Subledger source processed. Payload: `{ source_type, records_processed, journals_created }` |
 
 ### HR Events
 | Event | Description |
@@ -368,7 +380,7 @@
 | `crm.opportunity.stage-changed` | Opportunity moved to new stage |
 | `crm.opportunity.won` | Deal won |
 | `crm.opportunity.lost` | Deal lost |
-| `crm.campaign.launched` | Campaign launched |
+| `crm.campaign.launched` | Marketing campaign launched. Payload: `{ campaign_id, type, channel, target_segment }` |
 | `crm.campaign.completed` | Campaign completed |
 | `crm.activity.logged` | Activity (call, email, meeting) logged |
 | `crm.case.created` | Service case created |
@@ -389,6 +401,9 @@
 | `crm.contact.center.interaction.created` | Contact center interaction received. Payload: `{ interaction_id, channel, customer_id, queue_id, agent_id }` |
 | `crm.social.mention.detected` | Social media mention detected. Payload: `{ mention_id, platform, contact_id, sentiment, content }` |
 | `crm.ab.test.completed` | A/B test completed with results. Payload: `{ test_id, variant_winner, confidence, lift }` |
+| `crm.campaign.contact-engaged` | Contact engaged with campaign content. Payload: `{ campaign_id, contact_id, engagement_type, content_id }` |
+| `crm.lead.score-updated` | Lead score recalculated. Payload: `{ lead_id, old_score, new_score, factors }` |
+| `crm.campaign.conversion-credited` | Conversion attributed to campaign. Payload: `{ campaign_id, opportunity_id, attribution_model, value }` |
 
 ### Project Events
 | Event | Description |
@@ -428,6 +443,10 @@
 | `integration.data-quality.rule.violated` | Data quality rule violation detected. Payload: `{ violation_id, rule_id, entity_type, record_id, violation_details }` |
 | `integration.data-quality.cleansing.completed` | Data cleansing batch completed. Payload: `{ batch_id, records_processed, records_cleansed, records_flagged }` |
 | `integration.data-quality.match.completed` | Data matching and deduplication completed. Payload: `{ match_id, entity_type, records_matched, records_merged, survivors }` |
+| `integration.trade.party-screened` | Trade party screened against sanctions lists. Payload: `{ party_id, screening_result, matched_lists }` |
+| `integration.trade.license-validated` | Export license validated. Payload: `{ license_id, transaction_id, remaining_quota }` |
+| `integration.trade.customs-filed` | Customs declaration filed. Payload: `{ declaration_id, country, shipment_id, duties }` |
+| `integration.trade.duty-calculated` | Import duty calculated. Payload: `{ transaction_id, hs_code, origin_country, duty_amount }` |
 
 > **Note:** Integration Service primarily produces outbound events (sync/import status). External system notifications are handled via direct outbound HTTP calls or webhooks. MDM events are consumed by Report Service for data quality dashboards.
 >
@@ -551,6 +570,26 @@
 | `platform.grc.role-mining.completed` | Platform | Report, Identity (HTTP) |
 | `report.ml-studio.model.trained` | Report | Platform |
 | `report.ml-studio.model.deployed` | Report | Platform |
+| `commerce.wms.wave-released` | Commerce | Report |
+| `commerce.wms.pick-completed` | Commerce | Report |
+| `commerce.wms.pack-completed` | Commerce | Report |
+| `commerce.wms.putaway-completed` | Commerce | Report |
+| `commerce.tms.load-planned` | Commerce | Report |
+| `commerce.tms.carrier-assigned` | Commerce | Report |
+| `commerce.tms.shipment-in-transit` | Commerce | Report |
+| `commerce.tms.delivery-confirmed` | Commerce | Platform, Report |
+| `finance.sla.accounting-event-created` | Finance | Report |
+| `finance.sla.journal-generated` | Finance | Report |
+| `finance.sla.rule-executed` | Finance | Report |
+| `finance.sla.source-processed` | Finance | Report |
+| `crm.campaign.launched` | CRM | Report |
+| `crm.campaign.contact-engaged` | CRM | Report |
+| `crm.lead.score-updated` | CRM | Report |
+| `crm.campaign.conversion-credited` | CRM | Report |
+| `integration.trade.party-screened` | Integration | Report |
+| `integration.trade.license-validated` | Integration | Report |
+| `integration.trade.customs-filed` | Integration | Report |
+| `integration.trade.duty-calculated` | Integration | Report |
 
 > **Note:** Report Service subscribes to key business events for analytics aggregation. Workflow Service subscribes to events that trigger approval workflows. Core services (Auth, Identity, Tenant, Config) do not have inbox queues. Identity receives updates via direct service-to-service HTTP calls.
 

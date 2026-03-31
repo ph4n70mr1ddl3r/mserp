@@ -211,6 +211,8 @@
 | `jwt_keys` | Signing key rotation history | `key_id` (PK), `public_key`, `private_key` (encrypted), `active_from`, `active_until`, `revoked` |
 | `saml_configurations` | Per-tenant SAML IdP configurations | `id` (PK), `tenant_id`, `idp_metadata_url`, `entity_id`, `idp_certificate`, `attribute_mappings` |
 
+> **Standard Columns & RLS:** All tables include standard columns per SPEC.md §9.1 (`id`, `tenant_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `version`, `is_deleted`). RLS enforced per SPEC.md §9.3. Exception: `jwt_keys` is a global table without `tenant_id`.
+
 ## Events Published
 
 | Event | Payload | Description |

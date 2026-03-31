@@ -183,6 +183,25 @@
 | POST | `/api/v1/commerce/promotions` | Create promotion |
 | POST | `/api/v1/commerce/reviews` | Submit product review |
 | GET | `/api/v1/commerce/reviews` | List product reviews |
+| POST | `/api/v1/commerce/warehouse/zones` | Create warehouse zone |
+| GET | `/api/v1/commerce/warehouse/zones` | List warehouse zones |
+| GET | `/api/v1/commerce/warehouse/zones/{id}` | Get warehouse zone |
+| PUT | `/api/v1/commerce/warehouse/zones/{id}` | Update warehouse zone |
+| POST | `/api/v1/commerce/warehouse/waves` | Create pick wave |
+| GET | `/api/v1/commerce/warehouse/waves` | List pick waves |
+| GET | `/api/v1/commerce/warehouse/waves/{id}` | Get pick wave |
+| POST | `/api/v1/commerce/warehouse/waves/{id}/release` | Release wave for picking |
+| POST | `/api/v1/commerce/warehouse/picks/{id}/complete` | Complete pick task |
+| POST | `/api/v1/commerce/warehouse/pack` | Complete pack operation |
+| POST | `/api/v1/commerce/warehouse/putaway` | Complete putaway |
+| GET | `/api/v1/commerce/warehouse/cycle-counts` | List cycle counts |
+| POST | `/api/v1/commerce/warehouse/cycle-counts` | Create cycle count |
+| POST | `/api/v1/commerce/transportation/loads` | Plan load |
+| GET | `/api/v1/commerce/transportation/loads` | List loads |
+| GET | `/api/v1/commerce/transportation/loads/{id}` | Get load |
+| POST | `/api/v1/commerce/transportation/carrier-selection` | Select carrier |
+| GET | `/api/v1/commerce/transportation/shipments/{id}/track` | Track shipment |
+| POST | `/api/v1/commerce/transportation/freight-audit` | Audit freight charges |
 
 ### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |

@@ -55,14 +55,12 @@ Invoice fails:         Release stock → cancel order → notify customer
 | Engineering Change Order | Choreography | ECO submitted → Review (Workflow) → Update BOM (Manufacturing) → Notify affected orders | Revert BOM → notify stakeholders |
 | Order Orchestration | Choreography | Evaluate orchestration rules → Reserve inventory across sources → Create fulfillment assignments → Process split/merge logic → Release to warehouse | Release inventory reservations → Cancel assignments → Re-queue order |
 | MES Production | Choreography | Dispatch work instructions → Log labor transactions → Record production data → Complete operations → Post production to inventory | Reverse labor logging → Scrap production data → Return to work order queue |
+| Global Trade Screening | Choreography | Order/trade submitted → Screen parties (Integration) → Check licenses → If blocked: hold order + notify compliance team → If cleared: release order → Update screening status | Release hold → Re-trigger screening → Notify trade compliance team |
+| Warehouse Wave Execution | Choreography | Wave released → Pick tasks assigned → Pick completed → Pack completed → Putaway completed → Update inventory → Generate shipment | Cancel remaining picks → Reverse pack → Release putaway reservations → Re-queue wave |
 
 **Rules:**
-- Each saga step MUST have a compensating (undo) action.
-- Sagas MUST have a timeout (default: 30 minutes). Expired sagas trigger compensation.
-- Saga state is tracked in the originating service's database.
-- All choreography saga events include `saga_id` and `saga_step` in their metadata.
-- Orchestrated sagas track state in the orchestrator's database and use `correlation_id` to link related HTTP calls.
-- **Compensation failure:** If a compensating action fails, the saga enters a `compensation_failed` state, the event is routed to the DLQ, and a Critical alert is triggered. Manual intervention is required. Saga state is retained for 30 days after any terminal state for debugging.
+
+Saga pattern rules are defined in SPEC.md §5.9. This document defines the step-by-step choreography for each saga.
 
 ---
 

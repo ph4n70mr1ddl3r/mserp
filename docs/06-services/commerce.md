@@ -260,6 +260,14 @@
 | Reviews | Product ratings and reviews with moderation, sentiment analysis, and verified purchase badges |
 | Checkout | Optimized checkout flow with guest checkout, saved payment methods, and abandoned cart recovery |
 
+## Advanced Warehouse Management (WMS)
+
+**Advanced Warehouse Management (WMS)** — Directed putaway rules based on velocity, dimensions, and storage requirements. Wave planning engine groups orders into optimized pick waves by zone, priority, and carrier cutoff. Voice picking integration via mobile devices. Task interleaving across putaway, picking, and replenishment. Cartonization algorithms select optimal carton sizes. Zone management with configurable pick/putaway/replenishment zones. Cycle counting with ABC classification and tolerance thresholds. Cross-docking for rapid fulfillment. Yard management for dock door scheduling. See [advanced-warehouse-management.md](../07-features/advanced-warehouse-management.md).
+
+## Advanced Transportation Management (TMS)
+
+**Advanced Transportation Management (TMS)** — Freight rate engine with carrier-specific rate tables, accessorial charges, and fuel surcharges. Carrier selection algorithms based on cost, transit time, service level, and lane preferences. Load consolidation across orders to maximize trailer utilization. Freight audit and payment matching against carrier invoices. Route optimization with real-time traffic and weather data. Multi-leg shipment planning with transfer points. Delivery appointment scheduling with customer time windows. See [advanced-transportation.md](../07-features/advanced-transportation.md).
+
 ## Database Tables
 
 > All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
@@ -357,6 +365,14 @@
 | `commerce.collaboration.capacity.committed` | Supplier capacity commitment received |
 | `commerce.collaboration.cpfr.updated` | CPFR forecast updated collaboratively |
 | `commerce.collaboration.asn.submitted` | Advanced Shipment Notice submitted by supplier |
+| `commerce.wms.wave-released` | WMS pick wave released |
+| `commerce.wms.pick-completed` | WMS pick task completed |
+| `commerce.wms.pack-completed` | WMS pack operation completed |
+| `commerce.wms.putaway-completed` | WMS putaway completed |
+| `commerce.tms.load-planned` | TMS load plan created |
+| `commerce.tms.carrier-assigned` | TMS carrier assigned to load |
+| `commerce.tms.shipment-in-transit` | TMS shipment in transit |
+| `commerce.tms.delivery-confirmed` | TMS delivery confirmed |
 
 ## Events Consumed
 
@@ -375,6 +391,9 @@ Inbox binding: `commerce.inbox` binds to the following routing keys:
 | `manufacturing.digital-twin.#` | `manufacturing.digital-twin.state.updated`, `manufacturing.digital-twin.simulation.completed`, `manufacturing.digital-twin.prediction.generated` |
 | `crm.opportunity.won` | `crm.opportunity.won` |
 | `crm.cdp.#` | `crm.cdp.profile.created`, `crm.cdp.profile.updated`, `crm.cdp.profile.merged`, `crm.cdp.segment.updated`, `crm.cdp.journey.step.completed`, `crm.cdp.engagement-score.updated` |
+| `commerce.tms.shipment-in-transit` | `commerce.tms.shipment-in-transit` → Update delivery tracking |
+| `commerce.wms.pick-completed` | `commerce.wms.pick-completed` → Update inventory allocation |
+| `integration.trade.party-screened` | Trade compliance screening result — block/fulfill order based on sanctioned party check |
 | `config.changed` | `config.changed` |
 
 ## See Also
@@ -383,4 +402,5 @@ Inbox binding: `commerce.inbox` binds to the following routing keys:
 - [CRM Service](crm.md)
 - [Manufacturing Service](manufacturing.md)
 - [Report Service](report.md)
+- [Integration Service](integration.md)
 - [Architecture Overview](../01-architecture/overview.md)

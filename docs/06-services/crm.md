@@ -117,6 +117,10 @@
 | Content Variants | Visual content editor for creating test variants without developer involvement |
 | Reporting | Test performance dashboards with lift measurement, confidence levels, and revenue impact |
 
+## Marketing Automation
+
+**Marketing Automation** — Multi-step nurture campaign orchestration with visual workflow builder. Behavioral lead scoring using engagement signals (email opens, page visits, content downloads). Email marketing with template builder, A/B testing, and delivery optimization. Landing page builder with form capture and CRM integration. Campaign attribution models (first-touch, last-touch, multi-touch, custom). Marketing calendar with drag-and-drop scheduling. Segment-based targeting from CDP unified profiles. Campaign performance analytics with ROI tracking. See [marketing-automation.md](../07-features/marketing-automation.md).
+
 ## Database Tables
 
 > All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
@@ -175,6 +179,9 @@
 | `crm.contact.center.interaction.created` | Contact center interaction received |
 | `crm.social.mention.detected` | Social media mention detected |
 | `crm.ab.test.completed` | A/B test completed with results |
+| `crm.campaign.contact-engaged` | Campaign contact engagement recorded |
+| `crm.lead.score-updated` | Lead score updated |
+| `crm.campaign.conversion-credited` | Campaign conversion credited |
 
 ## Events Consumed
 

@@ -6,6 +6,15 @@ Event backbone for cross-system event routing, filtering, and integration, manag
 
 Event Mesh provides the central nervous system for event-driven communication across MSERP services and external systems. Built on RabbitMQ with topic-based routing, it offers an HTTP-to-event gateway for external publishers/subscribers, a schema registry for contract management, content-based event filtering, cross-region event replication, and comprehensive monitoring. The mesh supports both choreography-based internal events and orchestrated cross-system integration patterns, enabling reliable, scalable, and observable event-driven architectures.
 
+## Data Model
+
+| Entity | Key Fields | Relationships |
+|--------|-----------|---------------|
+| Mesh Topic | tenant_id, domain, name, retention, partitions | Has many Subscriptions |
+| Mesh Subscription | tenant_id, topic_id, consumer_group, filter, retry_policy | Belongs to Topic |
+| Mesh Bridge | tenant_id, source_topic, target_topic, transform, status | Links Topics |
+| Dead Letter Config | tenant_id, subscription_id, max_retries, ttl, alert_threshold | Belongs to Subscription |
+
 ## Mesh Topology Diagram
 
 ```

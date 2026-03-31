@@ -111,16 +111,16 @@ Monorepo with Cargo workspace. Shared crates: `mserp-core`, `mserp-auth`, `mserp
 | 2 | Identity Service | 8002 | `identity_db` | Core | User Lifecycle, RBAC, ABAC, User Groups/Teams, Organizational Hierarchy, API Key Management, Delegated Administration, User Preferences |
 | 3 | Tenant Service | 8003 | `tenant_db` | Core | Tenant Lifecycle, Subscription Tiers, Feature Flags, Quota Enforcement, Data Residency, Tenant Branding |
 | 4 | Config Service | 8004 | `config_db` | Core | Hierarchical Configuration, Config Propagation, CORS Management, Localization (14 locales), Maintenance Windows, Validation Rules |
-| 5 | Commerce Service | 8010 | `commerce_db` | Business | Sales, Inventory, PIM, Transportation, Advanced Pricing Engine, ATP/CTP, Product Configurator, Credit Management, Subscription Management, Intercompany Drop Ship, Connected Logistics, Warranty Management, B2B Portal, Loyalty Management, Omnichannel, AI Price Optimization, Advanced Inventory Optimization, Demand Planning, Supply Allocation, Supply Chain Collaboration, Order Orchestration, Global Order Promising (GOP), B2C Commerce & Storefront, Sales & Operations Planning (S&OP), Channel Revenue Management |
-| 6 | Finance Service | 8011 | `finance_db` | Business | GL, AP, AR, Treasury, Revenue Recognition (ASC 606/IFRS 15), Budgeting, Procurement, Tax, Multi-Book Accounting, Intercompany Matching, Corporate Treasury, Account Reconciliation, Profitability Analysis, Lease Accounting (ASC 842/IFRS 16), Grant Management, Joint Venture Accounting, Intelligent Close, Advanced Collections, Dynamic Discounting, Expense Management, EPM, Financial Consolidation, Intercompany Netting, Cash Flow Statement, Strategic Sourcing, Supplier Risk Management, CLM, Advanced Tax Management, Commodity Management, Advanced Spend Analysis, Supplier Diversity, Financial Reporting Studio, Fixed Asset Management, Advanced Demand Management, Tax Reporting & Provision, Touchless Invoicing, Shared Services Center, IT Financial Management |
+| 5 | Commerce Service | 8010 | `commerce_db` | Business | Sales, Inventory, PIM, Transportation, Advanced Pricing Engine, ATP/CTP, Product Configurator, Credit Management, Subscription Management, Intercompany Drop Ship, Connected Logistics, Warranty Management, B2B Portal, Loyalty Management, Omnichannel, AI Price Optimization, Advanced Inventory Optimization, Demand Planning, Supply Allocation, Supply Chain Collaboration, Order Orchestration, Global Order Promising (GOP), B2C Commerce & Storefront, Sales & Operations Planning (S&OP), Channel Revenue Management, Advanced Warehouse Management (WMS), Advanced Transportation Management (TMS) |
+| 6 | Finance Service | 8011 | `finance_db` | Business | GL, AP, AR, Treasury, Revenue Recognition (ASC 606/IFRS 15), Budgeting, Procurement, Tax, Multi-Book Accounting, Intercompany Matching, Corporate Treasury, Account Reconciliation, Profitability Analysis, Lease Accounting (ASC 842/IFRS 16), Grant Management, Joint Venture Accounting, Intelligent Close, Advanced Collections, Dynamic Discounting, Expense Management, EPM, Financial Consolidation, Intercompany Netting, Cash Flow Statement, Strategic Sourcing, Supplier Risk Management, CLM, Advanced Tax Management, Commodity Management, Advanced Spend Analysis, Supplier Diversity, Financial Reporting Studio, Fixed Asset Management, Tax Reporting & Provision, Touchless Invoicing, Shared Services Center, IT Financial Management, Subledger Accounting Engine |
 | 7 | HCM Service | 8012 | `hr_db` | Business | Employee Lifecycle, Payroll Processing, Recruitment, Performance Management, Talent Management, Benefits Administration, Time & Attendance, Leave Management, Employee Self-Service Portal, HR Help Desk, LXP, Position Control, Workforce Planning, Compensation Management, Succession Planning, Training & Development, Employee Documents, Goals & Objectives, Career Development & Paths, Structured Onboarding Journey, Opportunity Marketplace, Dynamic Skills, Workforce Health & Safety, Workforce Scheduling, Employee Experience Platform |
 | 8 | Manufacturing Service | 8013 | `manufacturing_db` | Business | BOM, Work Orders, PLM, EAM, Quality Management, Digital Twin, EHS, Process Manufacturing, Mixed-Mode Manufacturing, APS, Manufacturing Intelligence, Lean Manufacturing, Connected Worker, Digital Thread, IoT Telemetry & Alerts, MRO, Product Compliance, Manufacturing Execution System (MES), Advanced Production Scheduling & Simulation, Contract Manufacturing, Innovation Management |
 | 9 | Report Service | 8014 | `report_db` | Business | Analytics Platform, Dashboards, BI, ESG Reporting, Data Warehouse (DuckDB), ML Platform, Semantic Layer, Report Bursting, Narrative Reporting, Process Mining, CPM, Embedded Analytics, Predictive Analytics, Self-Service BI, Augmented Analytics, Connected Planning, Carbon Accounting, Self-Service ML Studio |
 | 10 | Workflow Service | 8015 | `workflow_db` | Business | BPMN 2.0 Engine, Approval Chains, Escalation Management, SLA Management, Business Rules Engine, Process Monitoring, Email Approvals, SoD Enforcement |
-| 11 | CRM Service | 8016 | `crm_db` | Business | Pre-sale (leads, opportunities, campaigns), Field Service, Surveys & Feedback, Sales Territory & Quota, CDP, Enterprise Contact Center, Social Selling, CX Digital & A/B Testing, Sales Forecasting, Partner Management, Sales Performance Management, Depot Repair |
+| 11 | CRM Service | 8016 | `crm_db` | Business | Pre-sale (leads, opportunities, campaigns), Field Service, Surveys & Feedback, Sales Territory & Quota, CDP, Enterprise Contact Center, Social Selling, CX Digital & A/B Testing, Sales Forecasting, Partner Management, Sales Performance Management, Depot Repair, Marketing Automation |
 | 12 | Project Service | 8017 | `project_db` | Business | WBS, Gantt/CPM Scheduling, Resource Allocation, Time & Expense, Project Billing (T&M/FF/CPFF), Budget & Costing, Risk Management, EVM, Program Management, Portfolio Analysis |
 | 13 | Platform Service | 8020 | `platform_db` + `audit_db` | Supporting | Notifications, Files/ECM, GRC, Digital Assistant, IDP, RPA/IPA, ITSM, Job Scheduler, Multi-Channel Assistant, Knowledge Management, Regulatory Content, Full-Text Search, Content Management, Collaboration, Email Service, Privacy Management, DLP, Compliance Hub, Application Composer & Runtime Extensions, Access Certification, Guided Learning |
-| 14 | Integration Service | 8021 | `integration_db` | Supporting | Connectors, EDI (X12/EDIFACT), MDM, Data Quality, Trade Compliance, Blockchain Provenance, API Marketplace, Event Mesh, Flow Designer, MFT |
+| 14 | Integration Service | 8021 | `integration_db` | Supporting | Connectors, EDI (X12/EDIFACT), MDM, Data Quality, Trade Compliance, Blockchain Provenance, API Marketplace, Event Mesh, Flow Designer, MFT, Global Trade Management |
 
 ### 4.2 Service Consolidation Rationale
 
@@ -147,13 +147,13 @@ Single topic exchange `mserp.events`. Each service with an inbox queue has a ded
 
 | Service Inbox | Self-Binding | Cross-Domain Bindings |
 |--------------|-------------|----------------------|
-| `commerce.inbox` | `commerce.#` | `finance.purchase-order.#`, `finance.invoice.#`, `finance.sourcing.#`, `finance.cash-application.#`, `manufacturing.work-order.#`, `manufacturing.digital-twin.#`, `crm.opportunity.won`, `crm.cdp.#`, `config.changed` |
+| `commerce.inbox` | `commerce.#` | `finance.purchase-order.#`, `finance.invoice.#`, `finance.sourcing.#`, `finance.cash-application.#`, `manufacturing.work-order.#`, `manufacturing.digital-twin.#`, `crm.opportunity.won`, `crm.cdp.#`, `integration.trade.party-screened`, `config.changed` |
 | `finance.inbox` | `finance.#` | `commerce.order.#`, `commerce.stock.#`, `commerce.subscription.#`, `commerce.b2b.#`, `commerce.warranty.#`, `hr.payroll.#`, `manufacturing.work-order.#`, `project.invoice.#`, `project.milestone.#`, `platform.idp.#`, `config.changed` |
 | `hr.inbox` | `hr.#` | `workflow.step.#`, `config.changed` |
 | `manufacturing.inbox` | `manufacturing.#` | `commerce.stock.#`, `commerce.order.#`, `commerce.warranty.#`, `platform.iot.device.#`, `config.changed` |
 | `report.inbox` | `report.#` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.rpa.#`, `tenant.feature.#`, `integration.trade-compliance.#`, `config.changed` |
-| `workflow.inbox` | `workflow.#` | `hr.leave.#`, `commerce.order.#`, `commerce.credit.#`, `finance.purchase-order.#`, `finance.expense.#`, `finance.intelligent-close.#`, `finance.supplier-risk.#`, `manufacturing.eco.#`, `report.process.#`, `platform.rpa.#`, `platform.grc.#`, `integration.trade-compliance.#`, `config.changed` |
-| `platform.inbox` | `platform.#` | `auth.login.#`, `hr.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.shipment.#`, `commerce.logistics.#`, `finance.lease.#`, `finance.supplier-risk.#`, `finance.intelligent-close.#`, `integration.trade-compliance.#`, `crm.cdp.#`, `report.process.#`, `manufacturing.intelligence.#`, `tenant.feature.#`, `tenant.created`, `tenant.decommissioned`, `config.changed` |
+| `workflow.inbox` | `workflow.#` | `hr.leave.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.tms.#`, `commerce.wms.#`, `finance.purchase-order.#`, `finance.expense.#`, `finance.intelligent-close.#`, `finance.supplier-risk.#`, `finance.sla.#`, `manufacturing.eco.#`, `report.process.#`, `platform.rpa.#`, `platform.grc.#`, `integration.trade-compliance.#`, `crm.campaign.#`, `config.changed` |
+| `platform.inbox` | `platform.#` | `auth.login.#`, `hr.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.shipment.#`, `commerce.logistics.#`, `commerce.tms.delivery-confirmed`, `finance.lease.#`, `finance.supplier-risk.#`, `finance.intelligent-close.#`, `integration.trade-compliance.#`, `crm.cdp.#`, `report.process.#`, `manufacturing.intelligence.#`, `tenant.feature.#`, `tenant.created`, `tenant.decommissioned`, `config.changed` |
 | `integration.inbox` | `integration.#` | `commerce.customer.#`, `commerce.product.#`, `finance.supplier.#`, `hr.employee.#`, `identity.user.#`, `config.changed` |
 | `crm.inbox` | `crm.#` | `commerce.customer.#`, `commerce.order.#`, `config.changed` |
 | `project.inbox` | `project.#` | `hr.employee.#`, `commerce.order.#`, `config.changed` |
@@ -209,10 +209,10 @@ Default: **choreography-based saga**. Each step emits success/failure events. Ex
 | Compensation failure | DLQ routing, Critical alert, manual intervention required |
 | State retention | 30 days after terminal state for debugging |
 
-**Defined Sagas**: Sales Order Fulfillment, Purchase Order Receiving, Employee Onboarding, Leave Approval, Purchase Requisition, Project Billing, Expense Report, Contract Approval, Engineering Change Order, Order Orchestration, MES Production.
+**Defined Sagas**: Sales Order Fulfillment, Purchase Order Receiving, Employee Onboarding, Leave Approval, Purchase Requisition, Project Billing, Expense Report, Contract Approval, Engineering Change Order, Order Orchestration, MES Production, Global Trade Screening, Warehouse Wave Execution.
 
-> **Full event catalog:** [docs/04-events/catalog.md](docs/04-events/catalog.md) (~400 domain events)
-> **Full saga definitions:** [docs/04-events/sagas.md](docs/04-events/sagas.md) (11 sagas)
+> **Full event catalog:** [docs/04-events/catalog.md](docs/04-events/catalog.md) (~420 domain events)
+> **Full saga definitions:** [docs/04-events/sagas.md](docs/04-events/sagas.md) (13 sagas)
 
 ---
 
@@ -294,6 +294,11 @@ Every feature, entity, API endpoint, database table, and event belongs to EXACTL
 | Sales performance management (quotas, commissions, incentives) | CRM Service |
 | Depot repair (service logistics, repair management) | CRM Service |
 | Guided learning (in-app contextual guidance, walkthroughs) | Platform Service |
+| Advanced warehouse management (directed putaway, wave planning, voice picking, cartonization) | Commerce Service |
+| Advanced transportation management (freight rating, carrier selection, load consolidation, freight audit) | Commerce Service |
+| Global trade management (denied party screening, export licenses, customs documentation, duty management) | Integration Service |
+| Marketing automation (multi-step nurture campaigns, behavioral lead scoring, email marketing, campaign attribution) | CRM Service |
+| Subledger accounting engine (centralized journal generation rules, configurable accounting transformations) | Finance Service |
 
 ---
 
@@ -372,7 +377,7 @@ All services enforce tenant isolation via PostgreSQL Row-Level Security (RLS). E
 | Region | Compliance Frameworks |
 |--------|----------------------|
 | US-East | SOC 2, HIPAA, PCI DSS |
-| EU-West | GDPR, EU Data Act |
+| EU-West | GDPR, EU Data Act, SOC 2 |
 | APAC | APAC data residency |
 | ME | Regional compliance |
 
@@ -380,11 +385,11 @@ Region-pinned tenants route to designated PostgreSQL cluster.
 
 ### 8.3 Feature Flags
 
-Three types: Boolean (on/off), Percentage Rollout (0-100%), Variant (A/B testing). Evaluation flow: check overrides → evaluate flag → return value.
+Three types: Boolean (on/off), Percentage Rollout (0-100%), User Segment (target specific user segments/roles). Evaluation flow: check user segment overrides → evaluate flag → return value.
 
 ### 8.4 Quota Enforcement
 
-Four resources tracked: API calls, storage, users, custom objects. Response headers: `X-Quota-Limit`, `X-Quota-Remaining`, `X-Quota-Reset`.
+Five resources tracked: API calls/min, storage, users, custom objects, data warehouse storage. Response headers: `X-Quota-Resource`, `X-Quota-Usage`, `X-Quota-Limit`, `X-Quota-Remaining`.
 
 ---
 
@@ -468,6 +473,15 @@ Supplementary write-only log in `audit_db` (time-series optimized, monthly parti
 | IDP extraction results | 90 days |
 | Lease/grant/JV records | Duration + 7 years |
 | Import/export job data | 90 days |
+| User activity logs | 1 year |
+| ML training data | 2 years |
+| File metadata | Indefinite |
+| Report execution history | 2 years |
+| Custom application data | Per tenant policy |
+| Scheduled job execution history | 90 days |
+| Knowledge article versions | Indefinite |
+| Survey responses | Per tenant policy |
+| Collection activities | 7 years |
 
 ### 9.9 Data Pipeline
 
@@ -542,8 +556,8 @@ Each check has 1-second timeout. Checks run concurrently.
 
 Max 100 items. Default: atomic (single transaction). `Prefer: partial-success` header enables non-atomic. `413` for > 100 items.
 
-> **Full endpoint listing:** [docs/05-api/endpoints.md](docs/05-api/endpoints.md) (~700 endpoints)
-> **Full error codes:** [docs/05-api/error-codes.md](docs/05-api/error-codes.md) (~210 error codes)
+> **Full endpoint listing:** [docs/05-api/endpoints.md](docs/05-api/endpoints.md) (~730 endpoints)
+> **Full error codes:** [docs/05-api/error-codes.md](docs/05-api/error-codes.md) (~250 error codes)
 
 ---
 
@@ -559,6 +573,8 @@ Max 100 items. Default: atomic (single transaction). `Prefer: partial-success` h
 | `permissions` | Permission strings array | Not included |
 | `org_scope` | Org unit UUID (optional) | Not included |
 | `exp` | 15 minutes | 7 days |
+| `iat` | Issued at timestamp | Issued at timestamp |
+| `jti` | Token UUID (unique) | Token UUID (unique) |
 | `type` | `access` | `refresh` |
 
 Algorithm: RS256. Public key cached by services, rotated weekly. Token revocation: Redis blocklist (access), DB deletion (refresh). Refresh token rotation on every refresh.
@@ -598,7 +614,7 @@ Algorithm: RS256. Public key cached by services, rotated weekly. Token revocatio
 
 ### 11.7 Predefined Roles
 
-Super Admin, Tenant Admin, Finance Manager, Accountant, Treasury Manager, Sales Manager, Sales Rep, Inventory Manager, Procurement Manager, HR Manager, HR Specialist, Employee, Project Manager, CRM User, Manufacturing Manager, Quality Manager, Report Viewer, ESG Analyst, GRC Officer, App Builder, Subscription Manager, Field Service Manager, Trade Compliance Officer, Knowledge Manager, Data Privacy Officer, Content Manager, DLP Analyst, IoT Manager, Collaboration Admin, Logistics Manager, Lease Accountant, Grant Manager, Joint Venture Accountant, Collections Specialist, Warranty Manager, Tax Manager, Commodity Manager, Spend Analyst, Diversity Program Manager, Loyalty Manager, Contact Center Agent, Contact Center Manager, Social Seller, CX Testing Manager, EHS Manager, EHS Specialist, MRO Manager, Product Compliance Manager, IT Service Agent, IT Service Manager, Omnichannel Manager, Price Analyst, Portfolio Manager, Compliance Hub Manager, Career Development Manager, Production Scheduler, Storefront Manager, MES Operator, Extension Developer, ML Studio User, Access Certifier, S&OP Planner, Channel Revenue Manager, Tax Provision Analyst, Shared Services Specialist, IT Financial Manager, Opportunity Marketplace Manager, Skills Administrator, Workforce Safety Officer, Shift Scheduler, Employee Experience Manager, Contract Manufacturing Coordinator, Innovation Manager, Sales Compensation Analyst, Depot Repair Technician, Guided Learning Author.
+Super Admin, Tenant Admin, Finance Manager, Accountant, Treasury Manager, Sales Manager, Sales Rep, Inventory Manager, Procurement Manager, HR Manager, HR Specialist, Employee, Project Manager, CRM User, Manufacturing Manager, Quality Manager, Report Viewer, ESG Analyst, GRC Officer, App Builder, Subscription Manager, Field Service Manager, Trade Compliance Officer, Knowledge Manager, Data Privacy Officer, Content Manager, DLP Analyst, IoT Manager, Collaboration Admin, Logistics Manager, Lease Accountant, Grant Manager, Joint Venture Accountant, Collections Specialist, Warranty Manager, Tax Manager, Commodity Manager, Spend Analyst, Diversity Program Manager, Loyalty Manager, Contact Center Agent, Contact Center Manager, Social Seller, CX Testing Manager, EHS Manager, EHS Specialist, MRO Manager, Product Compliance Manager, IT Service Agent, IT Service Manager, Omnichannel Manager, Price Analyst, Portfolio Manager, Compliance Hub Manager, Career Development Manager, Production Scheduler, Storefront Manager, MES Operator, Extension Developer, ML Studio User, Access Certifier, S&OP Planner, Channel Revenue Manager, Tax Provision Analyst, Shared Services Specialist, IT Financial Manager, Opportunity Marketplace Manager, Skills Administrator, Workforce Safety Officer, Shift Scheduler, Employee Experience Manager, Contract Manufacturing Coordinator, Innovation Manager, Sales Compensation Analyst, Depot Repair Technician, Guided Learning Author, Warehouse Manager, Transportation Manager, Global Trade Compliance Manager, Marketing Automation Manager, Subledger Accountant.
 
 > **Full role definitions with permissions:** [docs/02-security/authorization.md](docs/02-security/authorization.md)
 
@@ -658,8 +674,13 @@ Super Admin, Tenant Admin, Finance Manager, Accountant, Treasury Manager, Sales 
 | Touchless Invoicing | Finance Service | [touchless-invoicing.md](docs/07-features/touchless-invoicing.md) |
 | Workforce Health & Safety | HCM Service | [workforce-health-safety.md](docs/07-features/workforce-health-safety.md) |
 | Workforce Scheduling | HCM Service | [workforce-scheduling.md](docs/07-features/workforce-scheduling.md) |
+| Advanced Warehouse Management (WMS) | Commerce Service | [advanced-warehouse-management.md](docs/07-features/advanced-warehouse-management.md) |
+| Advanced Transportation Management (TMS) | Commerce Service | [advanced-transportation.md](docs/07-features/advanced-transportation.md) |
+| Global Trade Management | Integration Service | [global-trade-management.md](docs/07-features/global-trade-management.md) |
+| Marketing Automation | CRM Service | [marketing-automation.md](docs/07-features/marketing-automation.md) |
+| Subledger Accounting Engine | Finance Service | [subledger-accounting.md](docs/07-features/subledger-accounting.md) |
 
-> **All feature specs:** [docs/07-features/](docs/07-features/) (50 feature specifications)
+> **All feature specs:** [docs/07-features/](docs/07-features/) (55 feature specifications)
 
 ---
 
@@ -667,17 +688,17 @@ Super Admin, Tenant Admin, Finance Manager, Accountant, Treasury Manager, Sales 
 
 | Oracle Fusion Product Family | Oracle Modules | MSERP Service(s) |
 |-----------------------------|---------------|-------------------|
-| **Financials** | GL, AP, AR, Fixed Assets, Cash, Expenses, Collections, Revenue, Lease, Grant, JV, Tax, Multi-Book, Financial Consolidation, Accounting Hub, Tax Provision, Touchless Invoicing, Shared Services | Finance Service |
+| **Financials** | GL, AP, AR, Fixed Assets, Cash, Expenses, Collections, Revenue, Lease, Grant, JV, Tax, Multi-Book, Financial Consolidation, Accounting Hub, Tax Provision, Touchless Invoicing, Shared Services, Subledger Accounting Engine | Finance Service |
 | **Procurement** | Supplier Management, Sourcing, Contracts, Purchasing, Self-Service Procurement, Supplier Portal, Procurement Analytics | Finance Service |
-| **SCM** | Inventory, Order Management, Logistics, Product Hub, Order Orchestration, GOP, B2C Commerce, Demand Management, S&OP, Channel Revenue Management | Commerce Service + Manufacturing Service |
+| **SCM** | Inventory, Order Management, Logistics, Product Hub, Order Orchestration, GOP, B2C Commerce, Demand Management, S&OP, Channel Revenue Management, Warehouse Management, Transportation Management | Commerce Service + Manufacturing Service |
 | **HCM** | Core HR, Payroll, Recruiting, Performance, Time & Labor, Learning, Benefits, Talent, Global HR, Help Desk, LXP, Goals, Career Development, Onboarding Journeys, Opportunity Marketplace, Dynamic Skills, Workforce Health & Safety, Workforce Scheduling, Employee Experience | HCM Service |
-| **CX** | Sales, Service, Marketing, Commerce, CPQ, Field Service, Surveys, Contact Center, Social, Loyalty, CDP, Forecasting, Partners, Sales Performance Management, Depot Repair | CRM Service + Commerce Service |
+| **CX** | Sales, Service, Marketing, Commerce, CPQ, Field Service, Surveys, Contact Center, Social, Loyalty, CDP, Forecasting, Partners, Sales Performance Management, Depot Repair, Marketing Automation | CRM Service + Commerce Service |
 | **ERP** | Projects, Costing, Billing, Manufacturing, Maintenance, Quality | Project Service + Manufacturing Service |
 | **SCM Planning** | Demand, Supply, Inventory Optimization, ATP/CTP, GOP, Order Orchestration, Connected Planning | Commerce Service + Manufacturing Service + Report Service |
 | **Manufacturing** | Execution (MES), Quality, Costing, Planning, Digital Twin, IoT, Process Mfg, Mixed-Mode, Advanced Production Scheduling, Contract Manufacturing, Innovation Management | Manufacturing Service |
 | **EPM** | Planning, Budgeting, Forecasting, Consolidation, Reporting, Profitability, IT Financial Management, Tax Reporting | Finance Service + Report Service |
 | **GRC** | Access Controls, Audit, Risk, Compliance, Privacy, SoD, Access Certification, DLP | Platform Service + Auth Service |
-| **Integration** | Integration Cloud, B2B, EDI, Connectors, Flow Designer, MFT, Data Quality, Event Mesh | Integration Service |
+| **Integration** | Integration Cloud, B2B, EDI, Connectors, Flow Designer, MFT, Data Quality, Event Mesh, Global Trade Management | Integration Service |
 | **Platform** | App Builder, Application Composer, Digital Assistant, Mobile, Search, Workflow, Notifications, Scheduler, MDM, RPA, Content, Collaboration, Access Certification, Guided Learning | Platform Service + Workflow Service + Integration Service |
 | **Analytics** | BI, DV, ML, Augmented Analytics, Self-Service ML Studio, Process Mining, Carbon Accounting | Report Service |
 
@@ -895,7 +916,7 @@ Same signed image artifact promoted through environments. Production deployment 
 
 ### 19.7 Features
 
-50 feature specifications in [docs/07-features/](docs/07-features/). See §12 for the registry.
+55 feature specifications in [docs/07-features/](docs/07-features/). See §12 for the registry.
 
 ### 19.8 Infrastructure & Development
 
@@ -918,5 +939,5 @@ Same signed image artifact promoted through environments. Production deployment 
 
 ---
 
-*Document Version: 22.0*
+*Document Version: 24.0*
 *Last Updated: 2026-03-31*

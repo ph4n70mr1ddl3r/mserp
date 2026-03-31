@@ -11,7 +11,7 @@
 | Feature | Description |
 |---------|-------------|
 | User Lifecycle | CRUD with state machine: pending → active → suspended → deactivated |
-| RBAC | Role-based access control with 40+ predefined roles and granular permissions |
+| RBAC | Role-based access control with 77+ predefined roles and granular permissions |
 | ABAC | Attribute-based policies for fine-grained access (org unit, amount, time, IP, data classification, device trust) |
 | User Groups / Teams | Group-based membership with group-level role assignment |
 | Organization Hierarchy | Multi-level organizational structure (departments, divisions, business units) |
@@ -238,6 +238,8 @@ active ──► rotated ──► expired
 | `api_keys` | API key credentials | `key_id` (PK), `tenant_id`, `user_id` (FK), `key_hash`, `key_prefix`, `scopes` (JSONB), `rate_limit_rpm`, `rate_limit_rpd`, `status`, `expires_at`, `rotated_from`, `created_at` |
 | `user_preferences` | Per-user preference key-value store | `user_id` (FK), `key`, `value`, composite PK |
 | `abac_policies` | Attribute-based access control rules | `policy_id` (PK), `tenant_id`, `name`, `description`, `condition` (JSONB), `effect` (allow/deny), `priority`, `enabled` |
+
+> **Standard Columns & RLS:** All tables include standard columns per SPEC.md §9.1 (`id`, `tenant_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `version`, `is_deleted`). RLS enforced per SPEC.md §9.3. Exception: `permissions` is a global table seeded from code; `role_permissions` uses composite PK.
 
 ## Events Published
 

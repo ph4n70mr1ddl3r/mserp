@@ -263,6 +263,10 @@ All tables include standard columns: `id` (UUID PK), `tenant_id` (UUID), `create
 | `platform.rpa.#` | Platform Service | Trigger RPA exception approval template |
 | `platform.grc.#` | Platform Service | Trigger GRC remediation approval template |
 | `integration.trade-compliance.#` | Integration Service | Trigger trade compliance approval template |
+| `commerce.tms.#` | Commerce Service | Trigger TMS freight approval template |
+| `commerce.wms.#` | Commerce Service | Trigger WMS warehouse operation approval template |
+| `finance.sla.#` | Finance Service | Trigger subledger accounting journal approval template |
+| `crm.campaign.#` | CRM Service | Trigger marketing campaign approval template |
 | `config.changed` | Config Service | Reload workflow configuration (SLA thresholds, escalation policies) |
 
 ## See Also

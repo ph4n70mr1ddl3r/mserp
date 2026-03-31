@@ -14,13 +14,13 @@ SPEC.md (Authoritative single source of truth)
     ├── 04-events/           (event bus, catalog, sagas)
     ├── 05-api/              (standards, endpoints, errors)
     ├── 06-services/         (per-service specifications)
-    ├── 07-features/         (cross-cutting & complex feature specs — 34 feature specifications)
+    ├── 07-features/         (cross-cutting & complex feature specs — 55 feature specifications)
     ├── 08-infrastructure/   (deployment, technology, observability)
     ├── 09-development/      (project structure, conventions, setup)
     └── 10-planning/         (phases, NFRs)
 ```
 
-> **Note:** Most feature-level detail now lives in the service specs (`06-services/`). The 34 feature specs in `07-features/` cover only cross-cutting or complex capabilities that warrant dedicated treatment beyond their service spec.
+> **Note:** Most feature-level detail now lives in the service specs (`06-services/`). The 55 feature specs in `07-features/` cover only cross-cutting or complex capabilities that warrant dedicated treatment beyond their service spec.
 
 ---
 
@@ -89,7 +89,7 @@ SPEC.md (Authoritative single source of truth)
 
 ## 07 — Feature Specifications
 
-> Feature specs that were fully covered by their service spec have been consolidated into `06-services/`. The 34 remaining specs below cover cross-cutting or complex features that require dedicated treatment.
+> Feature specs that were fully covered by their service spec have been consolidated into `06-services/`. The 55 feature specs below cover cross-cutting or complex features that require dedicated treatment.
 
 ### Finance Service
 
@@ -100,6 +100,7 @@ SPEC.md (Authoritative single source of truth)
 | Dynamic Discounting | [dynamic-discounting.md](07-features/dynamic-discounting.md) |
 | Financial Reporting Studio | [financial-reporting-studio.md](07-features/financial-reporting-studio.md) |
 | Fixed Asset Lifecycle | [fixed-asset-lifecycle.md](07-features/fixed-asset-lifecycle.md) |
+| Subledger Accounting Engine | [subledger-accounting.md](07-features/subledger-accounting.md) |
 
 ### Commerce Service
 
@@ -110,6 +111,8 @@ SPEC.md (Authoritative single source of truth)
 | B2C Commerce & Storefront | [b2c-commerce.md](07-features/b2c-commerce.md) |
 | Advanced Demand Management | [advanced-demand-management.md](07-features/advanced-demand-management.md) |
 | Global Order Promising | [global-order-promising.md](07-features/global-order-promising.md) |
+| Advanced Warehouse Management (WMS) | [advanced-warehouse-management.md](07-features/advanced-warehouse-management.md) |
+| Advanced Transportation Management (TMS) | [advanced-transportation.md](07-features/advanced-transportation.md) |
 
 ### HCM Service
 
@@ -158,6 +161,13 @@ SPEC.md (Authoritative single source of truth)
 | Enterprise Data Quality | [enterprise-data-quality.md](07-features/enterprise-data-quality.md) |
 | EDI | [edi.md](07-features/edi.md) |
 | Event Mesh | [event-mesh.md](07-features/event-mesh.md) |
+| Global Trade Management | [global-trade-management.md](07-features/global-trade-management.md) |
+
+### CRM Service
+
+| Feature | Spec |
+|---------|------|
+| Marketing Automation | [marketing-automation.md](07-features/marketing-automation.md) |
 
 ### Cross-Cutting
 

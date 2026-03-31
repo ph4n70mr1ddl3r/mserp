@@ -142,6 +142,8 @@
 - [ ] Leave Approval saga
 - [ ] Project Billing saga
 - [ ] Engineering Change Order saga
+- [ ] Global Trade Screening saga
+- [ ] Warehouse Wave Execution saga
 - [ ] Email notification templates
 - [ ] File storage with document preview and OCR
 - [ ] Master Data Management (MDM) in Integration Service

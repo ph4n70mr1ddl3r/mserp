@@ -1,130 +1,12 @@
 # Non-Functional Requirements
 
-## 1. Performance
+Performance targets are defined in SPEC.md §17.1.
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| API Response Time (p50) | < 50ms | Prometheus histogram `http_request_duration_seconds` |
-| API Response Time (p99) | < 500ms | Prometheus histogram `http_request_duration_seconds` |
-| API Response Time (p99.9) | < 2s | Prometheus histogram `http_request_duration_seconds` |
-| Throughput | 10,000 requests/second | k6 load test |
-| Event Processing Latency | < 100ms (publish to consume) | Jaeger trace `publish → consume` span |
-| Report Generation | < 30 seconds (standard) | k6 timed request |
-| Dashboard Load | < 5 seconds (initial) | Frontend performance monitoring |
-| Health Check Response | < 100ms | K8s probe metrics |
-| Database Query (simple) | < 10ms | Prometheus `db_query_duration_seconds` p99 |
-| Database Query (complex) | < 100ms | Prometheus `db_query_duration_seconds` p99 |
-| Cache Hit Rate | > 90% for read-heavy endpoints | `cache_hit_total / (cache_hit_total + cache_miss_total)` |
-| Digital Assistant Response | < 3 seconds (intent to answer) | Platform Service metrics |
-| ML Inference Latency | < 500ms (single prediction) | ONNX Runtime metrics |
-| Mobile API Response (p99) | < 800ms (optimized endpoints) | Mobile performance monitoring |
-| Full-Text Search | < 200ms | Elasticsearch query latency |
-| ATP Check Response | < 200ms | Commerce Service metrics |
-| Product Configuration | < 1 second | Commerce Service metrics |
-| Credit Check | < 100ms | Commerce Service metrics |
-| Trade Compliance Screening | < 2 seconds per entity | Integration Service metrics |
-| Knowledge Search | < 300ms | Platform Service metrics |
-| Subscription Billing Cycle | < 5 seconds per subscription | Commerce Service metrics |
-| Revenue Recognition Calculation | < 10 seconds per contract | Finance Service metrics |
-| Survey Response Processing | < 500ms | CRM Service metrics |
-| IoT Telemetry Ingestion | < 100ms (event to storage) | Manufacturing Service metrics |
-| Digital Twin State Sync | < 500ms (telemetry to twin update) | Manufacturing Service metrics |
-| RPA Bot Execution Startup | < 3 seconds | Platform Service metrics |
-| Process Mining Analysis | < 60 seconds (standard process) | Report Service metrics |
-| CDP Identity Resolution | < 2 seconds (single profile) | CRM Service metrics |
-| B2B Portal Page Load | < 3 seconds (product catalog) | Commerce Service metrics |
-| Reconciliation Auto-Match | < 30 seconds (per account) | Finance Service metrics |
-| Profitability Calculation | < 15 seconds (full dimension scan) | Finance Service metrics |
-| Lease Calculation | < 5 seconds per contract | Finance Service metrics |
-| Grant Revenue Recognition | < 10 seconds per grant | Finance Service metrics |
-| Joint Venture Allocation | < 10 seconds per venture | Finance Service metrics |
-| Intelligent Close Anomaly Detection | < 30 seconds per period scan | Finance Service metrics |
-| Cash Application Matching | < 2 seconds per receipt | Finance Service metrics |
-| IDP Document Extraction | < 10 seconds per page | Platform Service metrics |
-| Warranty Claim Validation | < 500ms | Commerce Service metrics |
-| Loyalty Points Accrual/Redemption | < 200ms | Commerce Service metrics |
-| Omnichannel Order Routing | < 500ms | Commerce Service metrics |
-| Price Optimization Simulation | < 30 seconds | Commerce Service metrics |
-| Tax Calculation | < 200ms per transaction | Finance Service metrics |
-| Commodity Price Lookup | < 100ms | Finance Service metrics |
-| Spend Classification (ML) | < 5 seconds per batch | Finance Service metrics |
-| Supplier Diversity Report | < 10 seconds | Finance Service metrics |
-| EHS Incident Reporting | < 500ms | Manufacturing Service metrics |
-| MRO Repair Order Creation | < 300ms | Manufacturing Service metrics |
-| Product Compliance Check | < 1 second | Manufacturing Service metrics |
-| Contact Center Interaction | < 500ms (API response) | CRM Service metrics |
-| Social Profile Enrichment | < 3 seconds | CRM Service metrics |
-| A/B Test Statistical Analysis | < 10 seconds | CRM Service metrics |
-| Compliance Hub Dashboard Load | < 3 seconds | Platform Service metrics |
-| Blockchain Record Anchoring | < 30 seconds | Integration Service metrics |
-| Digital Twin Simulation | < 60 seconds | Manufacturing Service metrics |
+Availability targets are defined in SPEC.md §17.2.
 
-## 2. Availability
+Scalability targets are defined in SPEC.md §17.3.
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Uptime SLA | 99.9% (8.76 hours/year downtime) | Prometheus uptime calculation |
-| Data Durability | 99.999% (5 nines) | PostgreSQL synchronous replication + WAL archiving + cross-region backup |
-| Recovery Time Objective (RTO) | < 1 hour (region failover) | Disaster recovery drill |
-| Recovery Point Objective (RPO) | < 5 minutes | PostgreSQL replication lag monitoring |
-| Deployment Downtime | Zero (rolling updates) | K8s rolling deployment strategy |
-| Scheduled Maintenance | Zero downtime (rolling) | Blue-green deployment for major upgrades |
-
-### 2.1 SLI / SLO Error Budget Framework
-
-| SLI | SLO | Error Budget (30-day window) | Calculation |
-|-----|-----|------------------------------|-------------|
-| API Availability | 99.9% | 43.2 minutes/month | `1 - (successful_requests / total_requests)` |
-| Event Processing Reliability | 99.95% | 21.6 minutes/month | `1 - (successfully_consumed / total_published)` |
-| Report Generation Success | 99.5% | 3.6 hours/month | `1 - (completed_reports / total_report_requests)` |
-| Search Availability | 99.9% | 43.2 minutes/month | `1 - (successful_searches / total_searches)` |
-
-**Error Budget Policy:**
-- When error budget is exhausted for a given SLI, all non-critical feature work stops until the SLO is restored.
-- Error budgets reset at the beginning of each calendar month.
-- SLO violations trigger a post-incident review within 48 hours.
-
-### 2.2 SLA Calculation Methodology
-
-SLA percentages are calculated monthly based on calendar availability:
-
-```
-SLA = ((total_minutes_in_month - downtime_minutes) / total_minutes_in_month) × 100
-```
-
-Where:
-- `total_minutes_in_month` = number of minutes in the calendar month
-- `downtime_minutes` = sum of all unplanned downtime minutes
-- Planned maintenance windows are excluded if published via Config Service at least 72 hours in advance
-- Downtime is measured at the API Gateway level (5xx error rate > 50% for > 1 consecutive minute)
-
-## 3. Scalability
-
-| Requirement | Specification |
-|-------------|---------------|
-| Horizontal Scaling | All services auto-scale via HPA (CPU + memory triggers) |
-| Database Scaling | Read replicas for read-heavy services, connection pooling (PgBouncer) |
-| Multi-Region | Active-passive failover with < 1 hour RTO |
-| Tenant Scaling | Support up to 1,000 tenants per cluster |
-| Concurrent Users | 1,000+ concurrent active users per cluster |
-| Data Volume | Up to 100 GB per tenant, 10 TB per cluster |
-| Data Lake Scaling | Unlimited raw zone storage per tenant |
-| ML Model Serving | Concurrent inference requests scale horizontally via Report Service HPA |
-
-## 4. Rate Limiting
-
-| Scope | Limit | Enforcement |
-|-------|-------|-------------|
-| Per-tenant API (global) | 10,000/min | API Gateway (Traefik/Kong) |
-| Per-user API | 1,000/min | API Gateway |
-| Auth endpoints | 10/min | Auth Service |
-| File uploads | 50/min | Platform Service |
-| Report generation | 10/min | Report Service semaphore |
-| Bulk operations | 20/min | Integration Service |
-| AI/ML inference | 30/min | Report Service |
-| Digital assistant | 60/min | Platform Service |
-
-**Rate limit responses MUST use HTTP 429 with `Retry-After` header and rate-limit metadata in response headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`).**
+Rate limiting is defined in SPEC.md §10.3.
 
 ## 5. Compliance
 
@@ -150,20 +32,20 @@ Where:
 
 ## 7. Data Retention
 
-| Data Category | Retention Period | Storage Tier | Disposal Method |
-|---------------|-----------------|-------------|-----------------|
-| Business data (orders, invoices) | Indefinite | PostgreSQL (hot) → S3 (cold) | N/A |
-| Audit logs | Indefinite (compliance) | Loki (hot, 90 days) → S3 (cold) | N/A |
-| ESG / emissions | Indefinite (regulatory) | PostgreSQL → Data Lake | N/A |
-| User activity logs | 1 year | Loki (hot, 30 days) → S3 (cold) | Secure deletion |
-| PII (customer/employee) | Duration of contract + 30 days | PostgreSQL | Anonymization or deletion per GDPR/contract |
-| System metrics | 13 months | Prometheus (hot, 90 days) → Thanos/S3 (cold) | Automatic expiry |
-| Application logs | 90 days (hot), 1 year (cold) | Loki → S3 | Automatic expiry |
-| Sessions, tokens | 90 days | Redis TTL | Automatic expiry |
-| Data Lake raw zone | Per-tenant configuration | MinIO | Lifecycle policies |
-| ML training data | 2 years | MinIO | Secure deletion |
+Data retention policies are defined in SPEC.md §9.8. The table below provides storage tier and disposal method implementation details.
 
-**Tenant administrators can configure per-category retention periods that exceed (but not fall below) the minimums above.**
+| Data Category | Storage Tier | Disposal Method |
+|---------------|-------------|-----------------|
+| Business data (orders, invoices) | PostgreSQL (hot) → S3 (cold) | N/A |
+| Audit logs | Loki (hot, 90 days) → S3 (cold) | N/A |
+| ESG / emissions | PostgreSQL → Data Lake | N/A |
+| User activity logs | Loki (hot, 30 days) → S3 (cold) | Secure deletion |
+| PII (customer/employee) | PostgreSQL | Anonymization or deletion per GDPR/contract |
+| System metrics | Prometheus (hot, 90 days) → Thanos/S3 (cold) | Automatic expiry |
+| Application logs | Loki → S3 | Automatic expiry |
+| Sessions, tokens | Redis TTL | Automatic expiry |
+| Data Lake raw zone | MinIO | Lifecycle policies |
+| ML training data | MinIO | Secure deletion |
 
 ## 8. Internationalization & Localization
 
@@ -249,20 +131,7 @@ Where:
 - Each test is responsible for its own setup and teardown (no shared mutable state).
 - Staging environment uses anonymized production snapshots (PII replaced with synthetic data via Platform Service data masking).
 
-### 9.6 Quality Gates
-
-| Gate | Requirement | Enforced By |
-|------|-------------|-------------|
-| Unit test coverage | >= 80% per crate | CI (`cargo tarpaulin`) |
-| Contract tests pass | All consumer contracts verified | CI (Pact broker) |
-| No clippy warnings | `cargo clippy -- -D warnings` | CI |
-| No unsafe code | `#![deny(unsafe_code)]` | Rust compiler |
-| Format check | `cargo fmt --check` | CI |
-| Dependency audit | `cargo audit` passes (no Critical/High) | CI (weekly + PR) |
-| License compliance | `cargo deny` passes | CI (every PR) |
-| Security scan | Trivy scan passes (no Critical CVEs) | CI (every build) |
-| Accessibility | WCAG 2.1 AA compliance on web pages | CI (every PR) |
-| SoD compliance | No unresolved SoD conflicts in production config | CI (pre-release) |
+Quality gates per phase are defined in SPEC.md §18.3.
 
 ---
 

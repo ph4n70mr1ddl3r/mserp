@@ -1,49 +1,6 @@
 # Technology Stack
 
-## 1. Core Technologies
-
-| Layer | Technology | Version | Purpose |
-|-------|------------|---------|---------|
-| Language | Rust | 1.83+ | Primary development language (Edition 2021) |
-| Runtime | Tokio | 1.x | Async runtime (multi-threaded scheduler) |
-| Web Framework | Axum | 0.7+ | HTTP server/framework (Tower-based) |
-| ORM | SeaORM | 0.12+ | Database operations (async, dynamic queries) |
-| Migration | sea-orm-migration | 0.12+ | Schema migrations (part of SeaORM ecosystem) |
-
-## 2. Infrastructure
-
-| Component | Technology | Version | Purpose |
-|-----------|------------|---------|---------|
-| Database | PostgreSQL | 16 | Primary data store (all services) |
-| Connection Pooler | PgBouncer | 1.22+ | Connection pooling for PostgreSQL |
-| Cache | Redis | 7.x | Caching, sessions, rate limiting, pub/sub |
-| Message Broker | RabbitMQ | 3.12 | Event bus, async messaging, DLQ |
-| Search | Elasticsearch | 8.x | Full-text search, log analytics, product search |
-| Object Storage | MinIO | RELEASE.2024-01+ | File/document storage (S3-compatible) |
-| API Gateway | Traefik (primary) / Kong (alternative) | 3.x | Routing, rate limiting, auth, feature flags |
-| Container Orchestration | Kubernetes | 1.28+ | Container orchestration and scheduling |
-| Log Aggregation | Loki | Latest | Log aggregation and querying |
-| Analytics Engine | DuckDB | 1.0 | Embedded analytical database for Report Service |
-| Vector Engine | qdrant (optional) | 1.8+ | Vector search for AI/ML similarity queries |
-| ML/AI Runtime | ONNX Runtime | 1.17+ | Embedded ML model inference |
-| Secrets Management | HashiCorp Vault | 1.15+ | Key management, secret storage, dynamic credentials |
-| Data Lake Storage | MinIO (S3-compatible) | RELEASE.2024-01+ | Raw and curated data lake zones |
-| IaC | Terraform | 1.7+ | Cloud infrastructure provisioning |
-| GitOps | ArgoCD | 2.10+ | GitOps continuous delivery |
-| Mobile Framework | React Native | 0.73+ | iOS and Android mobile application |
-| Web Frontend | React + TypeScript | 18.x / 5.x | Admin dashboard and web application |
-
-## 3. Observability
-
-| Component | Technology | Version | Purpose |
-|-----------|------------|---------|---------|
-| Metrics | Prometheus + Grafana | Latest | System metrics, dashboards, alerting |
-| Logging | Loki + Grafana | Latest | Log aggregation, structured log queries |
-| Tracing | Jaeger | Latest | Distributed tracing, request flow visualization |
-| Alerting | Alertmanager | Latest | Incident management, alert routing |
-| Uptime | Blackbox Exporter | Latest | External endpoint monitoring |
-| Synthetics | k6 (cloud) | Latest | Synthetic transaction monitoring |
-| Long-term Metrics | Thanos (optional) | Latest | Long-term Prometheus storage with S3 backend |
+Core technologies are defined in SPEC.md §2. This document provides crate versions, CI tooling, and container policies.
 
 ## 4. Rust Crate Selection
 
@@ -163,39 +120,7 @@ proptest = "1.4"
 criterion = { version = "0.5", features = ["html_reports"] }
 ```
 
-## 5. Workspace Dependency Management
-
-All workspace crates share dependency versions via Cargo workspace inheritance to prevent version drift:
-
-```toml
-# Root Cargo.toml
-[workspace]
-members = ["crates/*", "services/*"]
-resolver = "2"
-
-[workspace.package]
-edition = "2021"
-rust-version = "1.83"
-
-[workspace.dependencies]
-serde = { version = "1.0", features = ["derive"] }
-sea-orm = { version = "0.12", features = ["sqlx-postgres", "runtime-tokio-rustls"] }
-# ... all shared dependencies listed here with exact versions
-```
-
-Each crate references workspace dependencies:
-
-```toml
-# crates/my-crate/Cargo.toml
-[dependencies]
-serde = { workspace = true }
-sea-orm = { workspace = true }
-```
-
-**Rules:**
-- All shared dependencies MUST be declared in the workspace `[workspace.dependencies]` section.
-- Individual crates MUST NOT pin different versions of workspace-managed dependencies.
-- New dependency additions require workspace-level review (dependabot PR).
+Crate dependency rules are defined in SPEC.md §2.1.
 
 ## 6. CI / Security Tooling
 
@@ -226,36 +151,7 @@ sea-orm = { workspace = true }
 | ML Model Versioning | Models versioned separately; backward-compatible inference via ONNX |
 | Frontend (React/TypeScript) | Node.js 20 LTS; React 18.x; TypeScript strict mode enabled |
 
-## 8. Container Images
-
-| Aspect | Policy |
-|--------|--------|
-| Base Image | `rust:1.83-slim-bookworm` (build), `debian:bookworm-slim` (runtime) |
-| Alternative Runtime | `gcr.io/distroless/cc-debian12` (for minimal attack surface; no shell) |
-| Image Size Target | < 50MB per service (compressed) |
-| Multi-stage Build | Yes — builder stage compiles, runtime stage copies binary only |
-| Registry | GitHub Container Registry (ghcr.io) |
-| Image Scanning | Trivy scan on every build; block deployment on Critical/High CVEs |
-| Image Signing | Cosign signatures for supply chain verification |
-| SBOM | Software Bill of Materials generated per image (Syft) |
-| Non-root User | All containers run as non-root user (`USER 1000:1000`) |
-| Read-only Root FS | Root filesystem mounted read-only; writable emptyDir for `/tmp` |
-
-### Multi-stage Dockerfile Template
-
-```dockerfile
-FROM rust:1.83-slim-bookworm AS builder
-WORKDIR /app
-COPY . .
-RUN cargo build --release
-
-FROM debian:bookworm-slim AS runtime
-RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /app/target/release/my-service /usr/local/bin/
-USER 1000:1000
-EXPOSE 8080
-ENTRYPOINT ["my-service"]
-```
+Container rules are defined in SPEC.md §2.2.
 
 ## 9. Performance Benchmarking
 

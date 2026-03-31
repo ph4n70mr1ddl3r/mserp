@@ -234,14 +234,12 @@ A program groups related projects under shared objectives, budgets, and executiv
 
 ## Events Consumed
 
-| Event | Source | Action |
-|-------|--------|--------|
-| `hr.employee.updated` | HCM Service | Update resource availability and skill profile cache |
-| `hr.leave.approved` | HCM Service | Adjust capacity for approved leave |
-| `hr.employee.separated` | HCM Service | Flag affected assignments, trigger reallocation |
-| `commerce.order.fulfilled` | Commerce Service | Link deliverables to sales order fulfillment |
-| `project.#` | Self (saga compensation) | Saga compensation for project billing and milestone events |
-| `config.changed` | Config Service | Reload billing cycles, burden rates, rate defaults |
+| Binding Pattern | Events Consumed |
+|----------------|-----------------|
+| `project.#` | Self-binding for saga compensation |
+| `hr.employee.#` | Employee data for resource allocation |
+| `commerce.order.#` | Order data for project billing |
+| `config.changed` | Configuration updates |
 
 ## See Also
 

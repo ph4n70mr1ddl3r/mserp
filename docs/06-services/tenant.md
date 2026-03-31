@@ -107,10 +107,10 @@ Tenant lifecycle management (provisioning, active, suspended, decommissioned), s
 
 | Supported Region | Compliance Frameworks |
 |------------------|-----------------------|
-| `us-east-1` | SOC 2, HIPAA |
-| `eu-west-1` | GDPR, SOC 2 |
-| `ap-southeast-1` | PDPA, SOC 2 |
-| `me-south-1` | PDPL |
+| `us-east-1` | SOC 2, HIPAA, PCI DSS |
+| `eu-west-1` | GDPR, EU Data Act |
+| `ap-southeast-1` | PDPA, APAC data residency |
+| `me-south-1` | PDPL, ME regional compliance |
 
 - Region changes require a migration request processed by the Platform Service job scheduler. Migration copies all tenant data and updates the routing table. The tenant is in read-only mode during migration.
 
@@ -141,6 +141,8 @@ Tenant lifecycle management (provisioning, active, suspended, decommissioned), s
 | `tenant_quotas` | `id`, `tenant_id`, `resource`, `current_usage`, `limit`, `period_start` | Quota tracking per resource per billing period |
 | `data_residency_rules` | `id`, `tenant_id`, `region`, `compliance_frameworks`, `enforced` | Data residency and compliance constraints |
 | `tenant_branding` | `id`, `tenant_id`, `logo_url`, `primary_color`, `secondary_color`, `custom_domain`, `email_from_name`, `email_from_address` | Branding configuration |
+
+> **Standard Columns & RLS:** All tables include standard columns per SPEC.md §9.1 (`id`, `tenant_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `version`, `is_deleted`). RLS enforced per SPEC.md §9.3. Exception: `tenants` is the root identity table — uses `id` as tenant identifier rather than `tenant_id`.
 
 ## Events Published
 

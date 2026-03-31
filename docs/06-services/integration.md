@@ -199,6 +199,10 @@ ECCN classification per product. License management tracks validity, scope (coun
 4. Confirmed matches blocked from transactions until cleared by compliance officer.
 5. Full audit trail (match score, list source, reviewer, disposition).
 
+## Global Trade Management
+
+**Global Trade Management** — Denied party screening against government sanctions lists (OFAC, EU, UN). Export license management with expiration tracking and usage counting. Customs documentation generation (commercial invoices, packing lists, certificates of origin). Duty calculation engine with harmonized tariff schedule management. Preferential trade agreement utilization (free trade agreement qualification). Country of origin determination based on bill of materials and transformation rules. Import/export compliance workflow with hold-release automation. See [global-trade-management.md](../07-features/global-trade-management.md).
+
 ## API Marketplace
 
 | Capability | Description |
@@ -286,6 +290,10 @@ ECCN classification per product. License management tracks validity, scope (coun
 | `integration.data-quality.rule.violated` | `{ violation_id, rule_id, entity_type, record_id, violation_details }` | Quality rule violated |
 | `integration.data-quality.cleansing.completed` | `{ batch_id, records_processed, records_cleansed, records_flagged }` | Cleansing completed |
 | `integration.data-quality.match.completed` | `{ match_id, entity_type, records_matched, records_merged, survivors }` | Matching completed |
+| `integration.trade.party-screened` | `{ screening_id, entity_type, entity_id, result, lists_checked }` | Trade party screened against sanctions lists |
+| `integration.trade.license-validated` | `{ license_id, eccn, country, status, remaining_quantity }` | Export license validated |
+| `integration.trade.customs-filed` | `{ filing_id, shipment_id, country, document_type, status }` | Customs documentation filed |
+| `integration.trade.duty-calculated` | `{ calculation_id, shipment_id, hts_code, duty_amount, currency }` | Duty calculated for shipment |
 
 ## Events Consumed
 

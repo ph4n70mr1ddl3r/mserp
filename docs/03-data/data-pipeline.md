@@ -1,17 +1,6 @@
 # Data Pipeline
 
-Report Service manages the complete analytical pipeline from event ingestion to warehouse queries. Report Service **never reads from operational PostgreSQL databases directly**.
-
-## 1. End-to-End Pipeline
-
-```
-Service Events → Outbox Tables → RabbitMQ → Event Archive Worker → MinIO Raw (Bronze)
-  → ETL (validate, deduplicate) → MinIO Curated (Silver)
-  → Aggregation Jobs → MinIO Gold (Analytics)
-  → ETL Load → DuckDB Warehouse (Star Schema)
-```
-
-At runtime, Report Service queries **only DuckDB**. It does not access operational databases or MinIO to serve user requests.
+The data pipeline architecture is defined in SPEC.md §9.9. This document provides implementation details for the data lake zones and warehouse star schema.
 
 ## 2. Data Lake (MinIO)
 

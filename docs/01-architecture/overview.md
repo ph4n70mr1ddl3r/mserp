@@ -1,17 +1,19 @@
 # Architecture Overview
 
+> **Note:** This document provides supplementary diagrams and design context. For authoritative rules, see SPEC.md §3 (Architecture) and §4 (Service Catalog).
+
 ## 1. High-Level Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              CLIENT LAYER                                    │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-│  │   Web App    │  │  Mobile App  │  │  Desktop App │  │  API Clients │     │
-│  │  (React/Ang) │  │(React Native)│  │  (Electron)  │  │  (3rd Party) │     │
+│  │   Web App    │  │  Mobile App  │  │  B2B Portal  │  │ API Consumers │     │
+│  │  (React/Ang) │  │(React Native)│  │  (Customer)  │  │  (3rd Party) │     │
 │  └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘     │
-│  ┌──────────────┐  ┌──────────────┐                                         │
-│  │   Digital    │  │  Low-code    │                                         │
-│  │  Assistant   │  │   Builder    │                                         │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                          │
+│  │   Digital    │  │  Low-code    │  │    Admin     │                          │
+│  │  Assistant   │  │   Builder    │  │   Console    │                          │
 │  └──────────────┘  └──────────────┘                                         │
 └─────────────────────────────────────────────────────────────────────────────┘
                                        │
@@ -19,7 +21,7 @@
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              GATEWAY LAYER                                   │
 │  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │                    API Gateway (Traefik primary; Kong alt)             │   │
+│  │                         API Gateway (Traefik)                            │   │
 │  │  • Rate Limiting  • Auth  • Routing  • Load Balancing  • SSL         │   │
 │  │  • Feature Flags  • CORS  • Request Compression  • Circuit Breaker   │   │
 │  │  • API Versioning  • Request/Response Transformation                  │   │
@@ -41,8 +43,12 @@
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
 │  │  Commerce   │ │  Finance    │ │     HCM     │ │Manufacturing│            │
 │  │ (Sales +    │ │ (Finance +  │ │  Service    │ │  Service    │            │
-│  │  Inventory) │ │ Procurement)│ │  (:8012)    │ │  (:8013)    │            │
-│  │  (:8010)    │ │  (:8011)    │  │             │ │             │            │
+│  │ Inventory + │ │ Procurement+│ │  (:8012)    │ │  (:8013)    │            │
+│  │  PIM +      │ │ Treasury +  │ │             │ │             │            │
+│  │ Transport + │ │ Expenses +  │ │             │ │             │            │
+│  │ Pricing +   │ │ CLM + EPM + │ │             │ │             │            │
+│  │ Subscript.) │ │ Sourcing)   │ │             │ │             │            │
+│  │  (:8010)    │ │  (:8011)    │ │             │ │             │            │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘            │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
 │  │   Report    │ │  Workflow   │ │    CRM      │ │  Project    │            │
@@ -104,6 +110,8 @@ Port ranges are reserved by category: **8001-8009** (core), **8010-8019** (busin
 
 ### 3.1 Core Services (Infrastructure)
 
+*Full module list in SPEC.md §4.1.*
+
 | Service | Port | Purpose |
 |---------|------|---------|
 | Auth | 8001 | Authentication, token management, session handling, OAuth2/OIDC provider |
@@ -133,19 +141,7 @@ Port ranges are reserved by category: **8001-8009** (core), **8010-8019** (busin
 
 ## 4. Service Consolidation Rationale
 
-Consolidation decisions are made to minimize cross-service transaction complexity while maintaining bounded context integrity. Detailed rationale is documented here only; the service tables in [Services](../06-services/overview.md) reference this section.
-
-### 4.1 Commerce Service (Sales + Inventory)
-
-Sales and inventory are tightly coupled — orders affect stock, stock affects quotations, pricing depends on inventory levels. Kept as a single service to avoid cross-service transaction complexity and enable atomic stock reservation during order creation. Product Information Management (PIM) and Transportation Management are included within Commerce because product data directly feeds pricing and search, and shipment scheduling is tightly coupled with order fulfillment.
-
-### 4.2 Finance Service (Finance + Procurement)
-
-Procurement directly drives accounts payable and financial transactions. A purchase order receipt automatically creates journal entries and AP records. Unified service ensures consistent financial records and eliminates saga overhead for procurement-to-payment flows. Corporate Treasury, Enterprise Expense Management, Enterprise Performance Management (EPM), and Contract Lifecycle Management (CLM) are consolidated here because treasury operations require real-time cash positions from AP/AR, expense management directly feeds the general ledger, EPM builds on budgeting and financial reporting, and CLM automates contract-linked financial transactions.
-
-### 4.3 Platform Service (Notification + File + Audit)
-
-Notifications, file storage, and audit logging are cross-cutting concerns with no complex domain logic of their own. They share common infrastructure patterns (delivery queues, storage backends, append-only writes) and consolidating reduces operational overhead without creating coupling. The Digital Assistant and Application Builder are included here because they are platform-level capabilities that operate across all business domains — the assistant routes to appropriate services, and the app builder composes UIs from existing APIs.
+See SPEC.md §4.2 for service consolidation rationale.
 
 ## 5. Communication Patterns
 

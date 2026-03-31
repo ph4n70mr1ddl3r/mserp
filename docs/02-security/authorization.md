@@ -108,6 +108,26 @@ Authorization flow is defined in SPEC.md §11.5.
 | Extension Developer | Application composer | `platform.composer.*` |
 | ML Studio User | Self-service ML | `report.ml-studio.*`, `report.data-lake.read` |
 | Access Certifier | Access certification reviews | `platform.grc.certification.*`, `identity.role.read` |
+| S&OP Planner | Sales and operations planning | `commerce.sop.*`, `commerce.demand.read`, `report.planning.read` |
+| Channel Revenue Manager | Channel revenue management | `commerce.channel-revenue.*`, `commerce.partner.read` |
+| Tax Provision Analyst | Tax provision and reporting | `finance.tax-provision.*`, `report.tax.read` |
+| Shared Services Specialist | Shared services center operations | `finance.shared-service.*`, `finance.invoice.read`, `finance.payment.read` |
+| IT Financial Manager | IT financial management | `finance.it-financial.*`, `report.it-financial.read` |
+| Opportunity Marketplace Manager | Internal opportunity marketplace | `hr.opportunity.*`, `hr.employee.read` |
+| Skills Administrator | Dynamic skills management | `hr.skills.*`, `hr.competency.*` |
+| Workforce Safety Officer | Workforce health and safety | `hr.safety.*`, `hr.incident.*` |
+| Shift Scheduler | Workforce shift scheduling | `hr.scheduling.*`, `hr.shift.*`, `hr.attendance.read` |
+| Employee Experience Manager | Employee experience management | `hr.experience.*`, `hr.feedback.*` |
+| Contract Manufacturing Coordinator | Contract manufacturing coordination | `manufacturing.contract-mfg.*`, `manufacturing.work-order.read` |
+| Innovation Manager | Innovation management | `manufacturing.innovation.*`, `manufacturing.idea.*` |
+| Sales Compensation Analyst | Sales compensation analysis | `crm.compensation.*`, `crm.quota.read` |
+| Depot Repair Technician | Depot repair operations | `crm.depot-repair.*`, `commerce.stock.read` |
+| Guided Learning Author | Guided learning content authoring | `platform.guided-learning.*`, `platform.content.write` |
+| Warehouse Manager | Warehouse management operations | `commerce.warehouse.*`, `commerce.stock.*` |
+| Transportation Manager | Transportation management operations | `commerce.transportation.*`, `commerce.shipment.*` |
+| Global Trade Compliance Manager | Global trade compliance management | `integration.trade.*`, `integration.compliance.*` |
+| Marketing Automation Manager | Marketing automation management | `crm.campaign.*`, `crm.lead.*`, `crm.segment.*` |
+| Subledger Accountant | Subledger accounting operations | `finance.sla.*`, `finance.journal.*` |
 
 > **Note:** Entity-level wildcards are supported (e.g., `report.*.read` grants read access to all entities within the report domain).
 

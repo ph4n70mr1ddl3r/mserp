@@ -143,6 +143,8 @@ Configuration is hierarchical, typed, and scoped per tenant with fallback to glo
 | `localization_strings` | `locale`, `key`, `value`, `tenant_id`, `updated_at` | Translation strings (base + tenant overrides) |
 | `cors_origins` | `id`, `tenant_id`, `origin`, `created_at`, `created_by` | Allowed CORS origins per tenant |
 
+> **Standard Columns & RLS:** All tables include standard columns per SPEC.md §9.1 (`id`, `tenant_id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `version`, `is_deleted`). RLS enforced per SPEC.md §9.3. Exception: `config_schema` is global (shared across tenants).
+
 ## Events Published
 
 | Event | Payload | Trigger |

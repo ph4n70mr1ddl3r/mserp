@@ -1,5 +1,7 @@
 # Domain Data Models
 
+> **Note:** This document provides an index of domain data models. For full table schemas, see the owning service spec in docs/06-services/. For standard columns (id, tenant_id, etc.), see SPEC.md §9.1.
+
 ## 1. Revenue Recognition Data Model
 
 *Database: `finance_db`*

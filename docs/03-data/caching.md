@@ -41,39 +41,7 @@ MSERP uses **cache-aside** pattern with Redis as the caching layer.
 | Certification campaign status | Cache-aside | 15 minutes | On `platform.grc.certification.#` events |
 | Custom field definitions | Cache-aside | 30 minutes | On `platform.composer.extension.created` events |
 
-### 1.2 Cache Key Format
-
-```
-mserp:{tenant_id}:{service}:{entity}:{id}
-```
-
-The `{tenant_id}` segment uses the literal string `global` for system-wide, tenant-agnostic data.
-
-Examples:
-- `mserp:tenant-123:commerce:product:prod-456`
-- `mserp:tenant-123:finance:account:acc-789`
-- `mserp:global:tenant:feature_flags` (global defaults)
-- `mserp:tenant-123:tenant:feature_flags` (per-tenant overrides)
-- `mserp:global:config:system` (system configuration)
-- `mserp:global:finance:exchange_rates:USD_EUR` (exchange rates)
-- `mserp:tenant-123:integration:golden_record:customer:cust-001`
-- `mserp:tenant-123:commerce:loyalty:program:prog-001`
-- `mserp:tenant-123:finance:tax_rates:US-CA`
-- `mserp:tenant-123:finance:commodity:price:GOLD`
-- `mserp:tenant-123:platform:compliance:controls:SOC2`
-- `mserp:tenant-123:manufacturing:digital_twin:asset-456`
-- `mserp:tenant-123:integration:data_quality:scorecard:customer`
-- `mserp:tenant-123:finance:dynamic_discount:program:prog-001`
-- `mserp:tenant-123:report:planning:scenario:sce-001`
-- `mserp:tenant-123:report:planning:assumptions:global`
-- `mserp:tenant-123:commerce:collaboration:scorecard:supplier-001`
-- `mserp:tenant-123:finance:report_template:tmpl-001`
-- `mserp:tenant-123:manufacturing:schedule:work-center-001`
-- `mserp:tenant-123:commerce:orchestration:rules:active`
-- `mserp:tenant-123:commerce:storefront:page:home`
-- `mserp:tenant-123:report:ml-studio:experiment:exp-001`
-- `mserp:tenant-123:platform:certification:campaign:camp-001`
-- `mserp:tenant-123:platform:composer:field:def-001`
+Cache key format is defined in SPEC.md §8.1. The `{tenant_id}` segment uses the literal string `global` for system-wide, tenant-agnostic data.
 
 ### 1.3 Cache Invalidation
 

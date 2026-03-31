@@ -304,6 +304,10 @@
 | Export Formats | Export to PDF, Excel, HTML, XBRL instance documents, and PowerPoint |
 | Report Bursting | Automated report distribution to specific recipients based on entity, department, or role |
 
+## Subledger Accounting Engine
+
+**Subledger Accounting Engine** — Centralized journal generation from heterogeneous business events. Configurable accounting transformation rules map business transactions to journal entries using a rule-based engine. Multi-source aggregation from Commerce (orders, deliveries), HCM (payroll), and internal finance events. Journal entry templates with account derivation rules. Business transaction-to-journal mapping with extensible event handlers. Supports multi-book accounting with parallel journal generation for different accounting standards. See [subledger-accounting.md](../07-features/subledger-accounting.md).
+
 ## Database Tables
 
 > All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
@@ -413,6 +417,10 @@
 | `finance.report.generated` | Financial report generated from template |
 | `finance.report.published` | Financial report published for distribution |
 | `finance.xbrl.filing-completed` | XBRL filing completed and validated |
+| `finance.sla.accounting-event-created` | Subledger accounting event created |
+| `finance.sla.journal-generated` | Subledger journal entry generated |
+| `finance.sla.rule-executed` | Subledger accounting rule executed |
+| `finance.sla.source-processed` | Subledger source transaction processed |
 
 ## Events Consumed
 

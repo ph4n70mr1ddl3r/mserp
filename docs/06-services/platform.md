@@ -274,6 +274,7 @@ Inbox binding: `platform.inbox` binds to the following routing keys:
 | `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled` |
 | `commerce.credit.#` | `commerce.credit.hold.applied`, `commerce.credit.hold.released` |
 | `commerce.shipment.#` | `commerce.shipment.dispatched`, `commerce.shipment.in-transit`, `commerce.shipment.delivered` |
+| `commerce.tms.delivery-confirmed` | `commerce.tms.delivery-confirmed` — TMS delivery confirmation for notification dispatch |
 | `commerce.logistics.#` | `commerce.logistics.tracking.updated`, `commerce.logistics.condition.alert`, `commerce.logistics.exception.detected` |
 | `finance.lease.#` | `finance.lease.created`, `finance.lease.modified` |
 | `finance.supplier-risk.#` | `finance.supplier-risk.score.updated`, `finance.supplier-risk.alert.triggered`, `finance.supplier-risk.mitigation.created` |
