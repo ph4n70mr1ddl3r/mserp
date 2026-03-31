@@ -365,13 +365,7 @@ Phase 1 ──────────▶ Phase 2 ──────────
 
 ### Phase Quality Gates
 
-| Gate | Requirement | Phase |
-|------|-------------|-------|
-| Core tests pass | 80%+ coverage on all core crates | Phase 1 |
-| Contract tests | All consumer contracts verified | Phase 2 |
-| Saga tests | All saga flows tested with failure scenarios | Phase 3 |
-| Load test baseline | 5,000 req/s with < 500ms p99 | Phase 4 |
-| Production readiness | 10,000 req/s, security audit passed, runbooks validated, ESG compliance, trade compliance validated, lease/grant/JV audit readiness, IDP accuracy validated | Phase 5 |
+Quality gates per phase are defined in SPEC.md §18.3.
 
 ---
 

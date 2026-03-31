@@ -110,6 +110,8 @@ CREATE UNIQUE INDEX idx_users_email_active
 
 ### 5.3 Data Retention and Purge
 
+> **Note:** Data retention policy is authoritatively defined in SPEC.md §9.8. The table below provides supplementary storage-tier implementation details; where retention periods differ from SPEC.md, SPEC.md takes precedence.
+
 | Data Category | Soft Delete Retention | Hard Delete Policy |
 |--------------|----------------------|-------------------|
 | Business data (orders, invoices) | Indefinite | Manual / GDPR request |
@@ -136,11 +138,11 @@ CREATE UNIQUE INDEX idx_users_email_active
 | IDP extraction results | 90 days | Automated nightly purge |
 | Data Lake (curated zone) | Schema-on-read for exploratory analytics | Unlimited raw zone storage per tenant |
 
-### Outbox Tables
+## 6. Transactional Outbox Tables
 
 Each service database contains its own `outbox_events` table used by the transactional outbox pattern. When a service performs a business action, it writes the event to its local `outbox_events` table within the same database transaction. A separate outbox poller process then publishes these events to RabbitMQ. This ensures atomicity between domain state changes and event publication without distributed transactions.
 
-## 6. Audit Trail (Event Log)
+## 7. Audit Trail (Event Log)
 
 > **Note:** This is an immutable audit log for compliance and data lineage — not event sourcing. The system does not use event sourcing as its primary persistence pattern. Business state is stored in domain tables; this table is a supplementary write-only log.
 
@@ -182,9 +184,9 @@ The event envelope (defined in `docs/04-events/overview.md`) and the audit trail
 | `metadata.version` | `version` | Promoted from nested metadata to top-level |
 | _(not present)_ | `data_classification` | Derived from entity type or configured per event type |
 
-## 7. Reference Data and Seeding
+## 8. Reference Data and Seeding
 
-### 7.1 Reference Data
+### 8.1 Reference Data
 
 Reference data is seeded during initial deployment and managed via migrations.
 
@@ -222,7 +224,7 @@ Reference data is seeded during initial deployment and managed via migrations.
 | Warranty Claim Reasons | Tenant-configurable | Via API |
 | IDP Document Types | Static seed (invoice, PO, contract, receipt, shipping) | On deploy + API |
 
-### 7.2 Seeding Process
+### 8.2 Seeding Process
 
 ```bash
 make seed

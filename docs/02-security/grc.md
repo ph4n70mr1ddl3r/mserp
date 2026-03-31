@@ -1,8 +1,8 @@
 # Governance, Risk & Compliance (GRC)
 
-## 9. Governance, Risk & Compliance (GRC)
+## 1. Governance, Risk & Compliance (GRC)
 
-### 9.1 Segregation of Duties (SoD)
+### 1.1 Segregation of Duties (SoD)
 
 | Aspect | Implementation |
 |--------|---------------|
@@ -12,7 +12,7 @@
 | Reporting | SoD conflict report, mitigation status, outstanding violations |
 | Integration | SoD checks integrated into Workflow Service approval flows |
 
-### 9.2 Risk Management
+### 1.2 Risk Management
 
 | Aspect | Implementation |
 |--------|---------------|
@@ -22,7 +22,7 @@
 | Treatment Plans | Mitigate, Transfer, Accept, Avoid with action items and deadlines |
 | Monitoring | Risk KRI (Key Risk Indicator) dashboards with threshold alerts |
 
-### 9.3 Compliance Management
+### 1.3 Compliance Management
 
 | Framework | Controls |
 |-----------|----------|
@@ -37,7 +37,7 @@
 | Product Safety | Product certification tracking, material compliance (RoHS/REACH), testing management, recall procedures |
 | ISO 45001 | Occupational health and safety management systems, hazard identification, worker participation |
 
-### 9.4 Trade Compliance
+### 1.4 Trade Compliance
 
 | Aspect | Implementation |
 |--------|---------------|
@@ -50,7 +50,7 @@
 | Audit Trail | Complete log of all screening decisions, matches, overrides, and false positive dispositions |
 | Blockchain Provenance | Blockchain-anchored provenance records for supply chain transparency and customs verification |
 
-### 9.5 Product Compliance
+### 1.5 Product Compliance
 
 | Aspect | Implementation |
 |--------|---------------|
@@ -61,7 +61,7 @@
 | Market Access | Market-specific compliance requirements for product registration and import authorization |
 | Regulatory Change | Regulatory change monitoring with automated impact analysis on existing product portfolio |
 
-## 10. Privacy Management
+## 2. Privacy Management
 
 | Aspect | Implementation |
 |--------|---------------|

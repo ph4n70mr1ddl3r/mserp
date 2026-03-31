@@ -32,9 +32,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `AUTH_SESSION_NOT_FOUND` | 404 | Session does not exist or has expired |
 | `AUTH_PASSWORD_TOO_WEAK` | 400 | Password does not meet complexity requirements |
 | `AUTH_LOGIN_LOCKED_OUT` | 423 | Account is temporarily locked due to too many failed login attempts |
-| `AUTH_TOKEN_EXPIRED` | 401 | JWT access token has expired |
 | `AUTH_REFRESH_TOKEN_INVALID` | 401 | Refresh token is invalid or has been revoked |
-| `AUTH_STEP_UP_REQUIRED` | 403 | Step-up authentication required for this operation |
 
 ### 8.3 Identity Error Codes
 

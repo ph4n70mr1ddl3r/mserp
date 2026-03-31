@@ -103,43 +103,7 @@
 
 ## JWT Specification
 
-### Access Token Claims
-
-| Claim | Type | Description |
-|-------|------|-------------|
-| `sub` | UUID | Authenticated user UUID |
-| `tenant_id` | UUID | Tenant UUID |
-| `roles` | string[] | Array of role names assigned to the user |
-| `permissions` | string[] | Array of granular permission strings (e.g., `commerce.order.create`) |
-| `org_scope` | UUID | Organization unit UUID for row-level scope filtering (optional) |
-| `exp` | epoch | Expiration time (15 minutes from `iat`) |
-| `iat` | epoch | Issued at timestamp |
-| `jti` | UUID | Unique token identifier for revocation lookup |
-| `type` | string | Token type: `access` |
-
-### Refresh Token Claims
-
-| Claim | Type | Description |
-|-------|------|-------------|
-| `sub` | UUID | User UUID |
-| `tenant_id` | UUID | Tenant UUID |
-| `exp` | epoch | Expiration time (7 days from `iat`) |
-| `iat` | epoch | Issued at timestamp |
-| `jti` | UUID | Unique token identifier |
-| `type` | string | Token type: `refresh` |
-
-### Service JWT Claims
-
-| Claim | Type | Description |
-|-------|------|-------------|
-| `sub` | string | Service account name (e.g., `svc-commerce`) |
-| `type` | string | Token type: `service` |
-| `exp` | epoch | Expiration time (1 hour from `iat`) |
-| `jti` | UUID | Unique token identifier |
-| `scope` | string[] | Array of allowed target service names |
-
-- Signing algorithm: `RS256` (asymmetric — Auth Service signs with private key; services verify with public key from JWKS endpoint).
-- Services cache the public key and refresh it on key rotation (weekly) or on signature verification failure.
+JWT token specification including claims, signing algorithm, and token lifetimes is defined in SPEC.md §11.1.
 
 ## Brute-Force Detection
 

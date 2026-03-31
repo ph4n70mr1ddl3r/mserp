@@ -43,13 +43,13 @@ MSERP uses **cache-aside** pattern with Redis as the caching layer.
 
 Cache key format is defined in SPEC.md §8.1. The `{tenant_id}` segment uses the literal string `global` for system-wide, tenant-agnostic data.
 
-### 1.3 Cache Invalidation
+### 1.2 Cache Invalidation
 
 - **Event-driven**: Services subscribe to relevant domain events and invalidate affected cache entries.
 - **TTL-based**: All cached entries have a TTL as a safety net against stale data.
 - **Manual flush**: Tenant Admins can trigger cache flush for their tenant via `POST /api/v1/config/cache/flush`.
 
-### 1.4 Cold Start Behavior
+### 1.3 Cold Start Behavior
 
 - On service startup, caches are empty (cold).
 - First requests are served directly from the database.

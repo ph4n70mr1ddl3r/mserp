@@ -149,7 +149,6 @@
 | ONNX | Open Neural Network Exchange — open format for representing machine learning models |
 | OpenTelemetry | Open-source observability framework for generating, collecting, and exporting telemetry data (traces, metrics, logs) |
 | Orchestration (Saga) | Saga coordination style where a central orchestrator service directs each step — used when a participant lacks an inbox queue |
-| Outbox | Transactional outbox pattern — writes events to a database table within the same transaction as business data, then publishes asynchronously |
 | Outbox Pattern | Transactional outbox pattern — writes events to a database table within the same transaction as business data, then publishes asynchronously to guarantee at-least-once delivery without dual-write inconsistency |
 | Pact | Consumer-driven contract testing framework for verifying service integrations |
 | PCI DSS | Payment Card Industry Data Security Standard — security standard for organizations handling credit card data |
@@ -178,7 +177,6 @@
 | RPO | Recovery Point Objective — maximum acceptable data loss measured in time |
 | RTO | Recovery Time Objective — maximum acceptable downtime after a failure |
 | Safety Stock | Extra inventory maintained to mitigate the risk of stockouts caused by demand and supply variability |
-| Saga | Distributed transaction pattern using a sequence of local transactions with compensating (undo) actions on failure |
 | Saga Pattern | Distributed transaction pattern using a sequence of local transactions with compensating (undo) actions on failure, coordinated via choreography (event-driven) or orchestration (central controller) |
 | SCM | Supply Chain Management — management of the flow of goods, data, and finances related to a product or service |
 | SDS | Safety Data Sheet — standardized chemical hazard information document |

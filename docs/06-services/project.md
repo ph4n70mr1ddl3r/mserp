@@ -215,7 +215,7 @@ A program groups related projects under shared objectives, budgets, and executiv
 | `programs` | Program definitions | `id`, `tenant_id`, `name`, `objectives`, `budget`, `program_manager_id`, `status`, `start_date`, `end_date`, +standard |
 | `program_projects` | Program membership | `id`, `tenant_id`, `program_id`, `project_id`, +standard |
 
-> All tables use standard columns: `id` UUID PK, `tenant_id` UUID, `created_at`, `updated_at`, `created_by`, `updated_by`, `version` INT, `is_deleted` BOOLEAN. The `+standard` shorthand above indicates these columns are present.
+> All tables include standard columns per SPEC.md §9.1. The `+standard` shorthand above indicates these columns are present.
 
 ## Events Published
 

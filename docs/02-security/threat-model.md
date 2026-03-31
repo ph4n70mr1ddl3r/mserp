@@ -1,6 +1,6 @@
 # Threat Model & Incident Response
 
-## 11. Threat Model
+## 1. Threat Model
 
 | Threat Category | Mitigation |
 |----------------|------------|
@@ -41,7 +41,7 @@
 | Price manipulation | Price change audit trail, approval workflows for manual overrides, ML-based price anomaly detection |
 | Compliance hub data tampering | Immutable compliance records, digital signatures on compliance evidence, role-based access with SoD |
 
-## 12. Security Incident Response
+## 2. Security Incident Response
 
 | Phase | Actions | SLA |
 |-------|---------|-----|
@@ -52,9 +52,9 @@
 | Recovery | Restore from backup if needed, verify system integrity, resume operations | < 8 hours |
 | Post-mortem | Root cause analysis, lessons learned, preventive measures, documentation | < 48 hours |
 
-> **Trade Compliance Incident Procedure:** Trade compliance violations follow the standard incident response flow with additional steps: (1) halt affected orders/shipments immediately during Containment, (2) review screening logs and denied party match details during Eradication, (3) update denied party lists and screening rules as part of Recovery, (4) document regulatory notification requirements in Post-mortem. SLA: < 4 hours to containment.
+> **Trade Compliance Incident Procedure:** Trade compliance violations follow the standard incident response flow with additional steps: (1) halt affected orders/shipments immediately during Containment, (2) review screening logs and denied party match details during Eradication, (3) update denied party lists and screening rules as part of Recovery, (4) document regulatory notification requirements in Post-mortem. SLA: < 1 hour to containment (aligned with general incident response SLA).
 
-## 13. Privacy Impact Assessment (PIA)
+## 3. Privacy Impact Assessment (PIA)
 
 A PIA MUST be conducted before:
 - Introducing new data processing activities involving PII

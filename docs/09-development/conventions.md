@@ -61,14 +61,18 @@ All services use the shared `mserp-core::error` types which implement RFC 7807 P
 - Use SeaORM entity models for all CRUD operations.
 - For complex queries, use `sea_query` builders rather than raw SQL strings.
 - Wrap all mutations in transactions (`DatabaseTransaction`) when multiple writes are involved.
-- Apply `tenant_id` filters via Row-Level Security; never rely on application-level filtering alone.
+- Apply tenant_id via RLS as required by SPEC.md §9.3.
 
 ### 2.6 Testing Conventions
 
-- **Unit tests**: Place in the same file as the code under test using the `#[cfg(test)]` module pattern.
-- **Integration tests**: Place in the service-level `tests/` directory using testcontainers for real database and message broker instances.
-- **Contract tests**: Use Pact consumer-driven contracts for all inter-service boundaries.
-- **Saga compensation tests**: Every saga step must have a test verifying its compensating action.
+Test types and coverage requirements are defined in SPEC.md §18. The table below provides code-level conventions.
+
+| Test Type | Convention |
+|-----------|-----------|
+| Unit tests | Place in the same file as the code under test using the `#[cfg(test)]` module pattern |
+| Integration tests | Place in the service-level `tests/` directory using testcontainers for real database and message broker instances |
+| Contract tests | Use Pact consumer-driven contracts for all inter-service boundaries |
+| Saga compensation tests | Every saga step must have a test verifying its compensating action |
 
 ### 2.7 Commit Message Format
 

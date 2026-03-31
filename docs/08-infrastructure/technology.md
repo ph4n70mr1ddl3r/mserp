@@ -2,7 +2,7 @@
 
 Core technologies are defined in SPEC.md §2. This document provides crate versions, CI tooling, and container policies.
 
-## 4. Rust Crate Selection
+## 1. Rust Crate Selection
 
 ```toml
 [dependencies]
@@ -122,7 +122,7 @@ criterion = { version = "0.5", features = ["html_reports"] }
 
 Crate dependency rules are defined in SPEC.md §2.1.
 
-## 6. CI / Security Tooling
+## 2. CI / Security Tooling
 
 | Tool | Purpose | When |
 |------|---------|------|
@@ -139,7 +139,7 @@ Crate dependency rules are defined in SPEC.md §2.1.
 | DAST | Dynamic application security testing (OWASP ZAP) | Weekly + pre-release |
 | Syft | Software Bill of Materials (SBOM) generation | Every build |
 
-## 7. Version Policy
+## 3. Version Policy
 
 | Category | Policy |
 |----------|--------|
@@ -153,7 +153,7 @@ Crate dependency rules are defined in SPEC.md §2.1.
 
 Container rules are defined in SPEC.md §2.2.
 
-## 9. Performance Benchmarking
+## 4. Performance Benchmarking
 
 | Component | Tool | Benchmark Target |
 |-----------|------|-----------------|

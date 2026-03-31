@@ -91,28 +91,7 @@
 | `collection_disputes` | Dispute tracking linked to collection activities with resolution workflows |
 | `collection_scores` | Predictive collection scoring per customer with historical trending |
 
-## 7. Data Masking Strategy
-
-*Database: cross-cutting (applies to all databases)*
-
-### 7.1 Masking for Non-Production Environments
-
-| Technique | Description | When |
-|-----------|-------------|------|
-| Static masking | Irreversible masking applied to data copies for non-prod environments | On data subset extraction |
-| Dynamic masking | Runtime masking based on user permissions (production) | Per query |
-| Subsetting | Extract a representative subset of production data for testing | On demand |
-
-### 7.2 Masking Rules by Data Classification
-
-| Classification | Masking Rule | Example |
-|---------------|-------------|---------|
-| Public | None | Product names |
-| Internal | Partial masking | `j***@company.com` |
-| Confidential | Full masking / tokenization | `***-**-1234` (SSN) |
-| Restricted | Suppression (replace with placeholder) | `[REDACTED]` |
-
-## 8. Advanced Tax Management Data Model
+## 7. Advanced Tax Management Data Model
 
 *Database: `finance_db`*
 
@@ -124,7 +103,7 @@
 | `tax_exemption_certificates` | Customer and product exemption certificates with validity periods and renewal tracking |
 | `tax_reconciliation_records` | Tax liability reconciliation entries with GL account mapping and adjustment tracking |
 
-## 9. Commodity Management Data Model
+## 8. Commodity Management Data Model
 
 *Database: `finance_db`*
 
@@ -136,7 +115,7 @@
 | `commodity_hedging_positions` | Hedging position tracking with mark-to-market valuation and hedge effectiveness metrics |
 | `commodity_forward_contracts` | Forward contract tracking with settlement scheduling and gain/loss recognition |
 
-## 10. Advanced Spend Analysis Data Model
+## 9. Advanced Spend Analysis Data Model
 
 *Database: `finance_db`*
 
@@ -147,7 +126,7 @@
 | `spend_savings_opportunities` | AI-identified savings opportunities with estimated impact and priority |
 | `maverick_spend_records` | Off-contract spend records with supplier and category deviation tracking |
 
-## 11. Supplier Diversity Data Model
+## 10. Supplier Diversity Data Model
 
 *Database: `finance_db`*
 
@@ -158,7 +137,7 @@
 | `diversity_tier_reports` | Tier 1 (direct) and Tier 2 (subcontractor) diversity spend reports entries |
 | `diversity_goals` | Configurable diversity spend targets with progress tracking and period definitions |
 
-## 12. Enterprise Health & Safety Data Model
+## 11. Enterprise Health & Safety Data Model
 
 *Database: `manufacturing_db`*
 
@@ -171,7 +150,7 @@
 | `ehs_chemicals` | Chemical inventory with SDS linkage, hazard classification, and exposure limits |
 | `ehs_occupational_health` | Medical surveillance programs, health assessments, exposure monitoring, and return-to-work records |
 
-## 13. MRO Data Model
+## 12. MRO Data Model
 
 *Database: `manufacturing_db`*
 
@@ -183,7 +162,7 @@
 | `mro_overhaul_projects` | Overhaul project records with task breakdown, parts kitting, and scheduling |
 | `mro_rotable_components` | Rotable component tracking with repair cycle management, exchange pools, and condition assessment |
 
-## 14. Product Compliance Data Model
+## 13. Product Compliance Data Model
 
 *Database: `manufacturing_db`*
 
@@ -195,7 +174,7 @@
 | `compliance_test_plans` | Test plan management with test types, lab assignments, and result tracking |
 | `regulatory_changes` | Regulatory change monitoring with impact assessment status and affected product identification |
 
-## 15. Enterprise Contact Center Data Model
+## 14. Enterprise Contact Center Data Model
 
 *Database: `crm_db`*
 
@@ -207,7 +186,7 @@
 | `cc_quality_evaluations` | Call evaluation records with scoring criteria, calibration status, and feedback |
 | `cc_outbound_campaigns` | Outbound campaign configurations with dialing strategy, compliance controls, and list management |
 
-## 16. Social Selling Data Model
+## 15. Social Selling Data Model
 
 *Database: `crm_db`*
 
@@ -217,7 +196,7 @@
 | `social_engagements` | Social interaction records linked to CRM activities with content, platform, and engagement type |
 | `social_intelligence_scores` | Per-user social selling index with component scores and recommended actions |
 
-## 17. A/B Testing Data Model
+## 16. A/B Testing Data Model
 
 *Database: `crm_db`*
 
@@ -228,7 +207,7 @@
 | `ab_test_results` | Aggregated test results with lift measurement, confidence intervals, and statistical significance |
 | `ab_personalization_rules` | Personalization rule definitions with audience criteria, content variations, and priority |
 
-## 18. Omnichannel Management Data Model
+## 17. Omnichannel Management Data Model
 
 *Database: `commerce_db`*
 
@@ -239,7 +218,7 @@
 | `omnichannel_order_routing` | Order routing decisions with routing algorithm, fulfillment location, and reason codes |
 | `omnichannel_returns` | Cross-channel return records with originating channel, return channel, and policy enforcement |
 
-## 19. Price Optimization Data Model
+## 18. Price Optimization Data Model
 
 *Database: `commerce_db`*
 
@@ -250,7 +229,7 @@
 | `price_recommendations` | ML-generated price recommendations with confidence scores and business constraints |
 | `price_tests` | A/B price test configurations with control/test groups and statistical significance tracking |
 
-## 20. Customer Loyalty Data Model
+## 19. Customer Loyalty Data Model
 
 *Database: `commerce_db`*
 
@@ -262,7 +241,7 @@
 | `loyalty_tier_transitions` | Tier qualification, promotion, and demotion records with threshold tracking |
 | `loyalty_reward_redemptions` | Reward redemption records with fulfillment status and partner linkage |
 
-## 21. Compliance Hub Data Model
+## 20. Compliance Hub Data Model
 
 *Database: `platform_db`*
 
@@ -273,7 +252,7 @@
 | `compliance_control_mappings` | Cross-framework control mapping entries (SOC 2, GDPR, HIPAA, PCI DSS, SOX, ISO 27001) |
 | `compliance_calendar_events` | Compliance calendar entries with filing deadlines, audit schedules, and certification renewals |
 
-## 22. Dynamic Discounting Data Model
+## 21. Dynamic Discounting Data Model
 
 *Database: `finance_db`*
 
@@ -285,7 +264,7 @@
 | `dynamic_discount_payments` | Early payment executions with discount captured, payment reference, and cash flow impact |
 | `working_capital_metrics` | Working capital KPI snapshots (DSO, DPO, DIO, CCC) with trend tracking by entity and period |
 
-## 23. Financial Reporting Studio Data Model
+## 22. Financial Reporting Studio Data Model
 
 *Database: `finance_db`*
 
@@ -298,7 +277,7 @@
 | `report_distributions` | Report distribution records with recipient, format, delivery method, and timestamp |
 | `report_annotations` | Collaborative annotations on report sections with author, thread, and resolution status |
 
-## 24. Enterprise Data Quality Data Model
+## 23. Enterprise Data Quality Data Model
 
 *Database: `integration_db`*
 
@@ -311,7 +290,7 @@
 | `dq_match_results` | Matching execution results with matched pairs, confidence scores, and merge actions |
 | `dq_scorecards` | Data quality scorecards by entity, dimension (completeness, accuracy, consistency, timeliness, validity), and period |
 
-## 25. Supply Chain Collaboration Data Model
+## 24. Supply Chain Collaboration Data Model
 
 *Database: `commerce_db`*
 
@@ -324,7 +303,7 @@
 | `scc_asn_records` | Advanced Shipment Notice records with supplier, PO linkage, items, and expected delivery |
 | `scc_scorecards` | Supplier collaboration scorecards with responsiveness, accuracy, on-time, and quality metrics |
 
-## 26. Connected Planning Data Model
+## 25. Connected Planning Data Model
 
 *Database: `report_db`*
 
@@ -336,7 +315,7 @@
 | `planning_drivers` | Cross-domain planning drivers with linkage to affected models and impact weights |
 | `planning_model_versions` | Planning model version history with snapshots, baseline, and variance analysis |
 
-## 27. Intelligent Process Automation Data Model
+## 26. Intelligent Process Automation Data Model
 
 *Database: `platform_db`*
 
@@ -348,7 +327,7 @@
 | `ipa_orchestration_flows` | Multi-bot orchestration flow definitions with steps, dependencies, and shared state |
 | `ipa_exception_patterns` | Classified exception patterns with auto-resolution rules and escalation thresholds |
 
-## 28. MDM Golden Record Data Model
+## 27. MDM Golden Record Data Model
 
 *Database: `integration_db`*
 
@@ -358,7 +337,7 @@
 | `mdm_source_records` | Source system record linkage with `golden_record_id`, `source_system`, `source_id`, `confidence_score` (0.00–1.00), `match_algorithm`, `match_details` (JSONB), `linked_at` |
 | `mdm_stewardship_tasks` | Data steward review tasks with `golden_record_id`, `task_type` (merge_review, conflict_resolution, data_enrichment), `status` (open, in_progress, resolved, escalated), `assigned_to`, `resolution_notes`, `resolved_at`, `created_at` |
 
-## 29. CDP Unified Profile Data Model
+## 28. CDP Unified Profile Data Model
 
 *Database: `crm_db`*
 
@@ -368,7 +347,7 @@
 | `cdp_segments` | Customer segment definitions with `segment_type` (rule_based, ml_based), `membership_criteria` (JSONB rules or ML model reference), `member_count`, `refresh_frequency`, `last_computed_at`, `status` (active, draft, archived) |
 | `cdp_journeys` | Customer journey definitions with `trigger_type`, `trigger_config` (JSONB), `steps` (JSONB ordered step definitions with channels, conditions, and wait periods), `conversion_goal`, `status` (active, paused, completed), `entry_count`, `created_at` |
 
-## 30. IoT Telemetry Data Model
+## 29. IoT Telemetry Data Model
 
 *Database: `manufacturing_db`*
 
@@ -377,7 +356,7 @@
 | `iot_telemetry_events` | Time-series telemetry events partitioned by month (`PARTITION BY RANGE (event_ts)`), with `device_id`, `metric_name`, `metric_value` (DOUBLE), `unit`, `quality` (good, uncertain, bad), `event_ts`, `ingested_at` |
 | `iot_device_state` | Latest device state snapshots with `device_id` (PK), `state` (online, offline, maintenance, error), `last_telemetry_ts`, `battery_level`, `signal_strength`, `health_score`, `firmware_version`, `updated_at` |
 
-## 31. Process Mining Activity Log Data Model
+## 30. Process Mining Activity Log Data Model
 
 *Database: `report_db`*
 
@@ -385,7 +364,7 @@
 |---|---|
 | `process_activity_log` | Business process activity records for process mining with `case_id`, `process_name`, `activity_name`, `activity_ts`, `resource_id`, `resource_type` (user, system, bot), `duration_ms`, `status` (started, completed, failed), `attributes` (JSONB), `tenant_id` |
 
-## 32. RPA Bot Execution Data Model
+## 31. RPA Bot Execution Data Model
 
 *Database: `platform_db`*
 
@@ -393,7 +372,7 @@
 |---|---|
 | `rpa_bot_executions` | RPA bot execution records with `bot_id`, `execution_id` (idempotency key), `status` (running, succeeded, failed, timeout), `started_at`, `completed_at`, `duration_ms`, `trigger_type` (scheduled, event, manual), `input_parameters` (JSONB), `output_data` (JSONB), `error_code`, `error_message`, `retry_count`, `tenant_id` |
 
-## 33. Collaboration Channel Data Model
+## 32. Collaboration Channel Data Model
 
 *Database: `platform_db`*
 
@@ -402,9 +381,7 @@
 | `collaboration_channels` | Team channels with `channel_type` (public, private, direct), `visibility`, `membership` (JSONB member list with roles), `linked_business_context_type` (order, invoice, project, case, etc.), `linked_business_context_id`, `description`, `created_by`, `archived_at`, `tenant_id` |
 | `collaboration_messages` | Channel messages with `channel_id`, `parent_message_id` (for thread structure), `author_id`, `content_type` (text, markdown, rich_text, file_reference), `content` (TEXT), `mentions` (JSONB), `reactions` (JSONB), `edited_at`, `deleted_at`, `created_at`, `tenant_id` |
 
-> **Note:** The following domain models are defined in their respective sections above: Loyalty Program (§20), Tax Assessment (§8), Compliance Control Mapping (§21), Contact Center Interaction (§15), EHS Incident (§12).
-
-## 34. Goals & Career Development Data Model
+## 33. Goals & Career Development Data Model
 
 *Database: `hr_db`*
 
@@ -417,7 +394,7 @@
 | `competency_frameworks` | Competency framework definitions with levels, descriptions, and behavioral indicators |
 | `competency_assessments` | Competency assessment records with employee, assessor, competency, level, and evidence |
 
-## 35. Onboarding Journey Data Model
+## 34. Onboarding Journey Data Model
 
 *Database: `hr_db`*
 
@@ -428,7 +405,7 @@
 | `onboarding_tasks` | Individual onboarding tasks with type, assignee, due date, completion status, and linked resources |
 | `onboarding_task_completions` | Task completion records with completed_by, completed_at, notes, and evidence attachments |
 
-## 36. Order Orchestration Data Model
+## 35. Order Orchestration Data Model
 
 *Database: `commerce_db`*
 
@@ -441,7 +418,7 @@
 | `gop_sourcing_rules` | Global order promising sourcing rules with source priority, lead time, and capacity constraints |
 | `gop_promise_results` | GOP promise results with product, quantity, promising date, sourcing location, and confidence score |
 
-## 37. B2C Commerce Storefront Data Model
+## 36. B2C Commerce Storefront Data Model
 
 *Database: `commerce_db`*
 
@@ -453,7 +430,7 @@
 | `product_reviews` | Customer product reviews with rating, content, moderation status, and helpfulness votes |
 | `checkout_sessions` | B2C checkout session records with cart reference, customer, payment method, and completion status |
 
-## 38. MES Data Model
+## 37. MES Data Model
 
 *Database: `manufacturing_db`*
 
@@ -467,7 +444,7 @@
 | `mes_work_instructions` | Work instruction documents linked to work orders with step sequences and visual aids |
 | `mes_oee_station` | Station-level OEE calculations with availability, performance, quality percentages, and period |
 
-## 39. Production Scheduling Data Model
+## 38. Production Scheduling Data Model
 
 *Database: `manufacturing_db`*
 
@@ -479,7 +456,7 @@
 | `schedule_gantt_entries` | Gantt chart data entries with resource, operation, time window, and dependency linkage |
 | `schedule_constraints` | Schedule constraint definitions with type (material, capacity, tooling), parameters, and priority |
 
-## 40. Application Composer Data Model
+## 39. Application Composer Data Model
 
 *Database: `platform_db`*
 
@@ -492,7 +469,7 @@
 | `composer_script_executions` | Script execution log records with trigger, duration, success status, and output/error data |
 | `composer_pages` | Composed page definitions with layout, components, data bindings, and publication status |
 
-## 41. Access Certification Data Model
+## 40. Access Certification Data Model
 
 *Database: `platform_db`*
 
@@ -504,7 +481,7 @@
 | `certification_analytics` | Campaign analytics aggregations with completion rate, revocation rate, and reviewer response time |
 | `role_mining_results` | Role mining analysis results with suggested role definitions, membership patterns, and coverage metrics |
 
-## 42. Self-Service ML Studio Data Model
+## 41. Self-Service ML Studio Data Model
 
 *Database: `report_db`*
 
@@ -516,6 +493,27 @@
 | `ml_studio_model_comparisons` | Experiment comparison records with side-by-side metric analysis and statistical significance |
 | `ml_studio_deployments` | Model deployment records with environment, traffic percentage, monitoring config, and rollback data |
 | `ml_studio_explainability` | Model explainability reports with SHAP values, feature importance, and decision boundary analysis |
+
+## Appendix: Data Masking Strategy
+
+*Database: cross-cutting (applies to all databases)*
+
+### Masking for Non-Production Environments
+
+| Technique | Description | When |
+|-----------|-------------|------|
+| Static masking | Irreversible masking applied to data copies for non-prod environments | On data subset extraction |
+| Dynamic masking | Runtime masking based on user permissions (production) | Per query |
+| Subsetting | Extract a representative subset of production data for testing | On demand |
+
+### Masking Rules by Data Classification
+
+| Classification | Masking Rule | Example |
+|---------------|-------------|---------|
+| Public | None | Product names |
+| Internal | Partial masking | `j***@company.com` |
+| Confidential | Full masking / tokenization | `***-**-1234` (SSN) |
+| Restricted | Suppression (replace with placeholder) | `[REDACTED]` |
 
 ---
 

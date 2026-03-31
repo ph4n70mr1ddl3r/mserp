@@ -1,12 +1,10 @@
 # Data Protection
 
-> Data protection rules are defined in SPEC.md §11.6. This document provides implementation details for encryption, PII handling, and key management.
+> This document provides implementation details for data protection rules defined in SPEC.md §11.6. Rules are not repeated here.
 
-## 8. Data Protection
+## 1. Data Protection
 
-### 8.1 Encryption at Rest
-
-Encryption at rest is defined in SPEC.md §11.6.
+### 1.1 Encryption at Rest
 
 **Per-data-type implementation details:**
 
@@ -19,7 +17,7 @@ Encryption at rest is defined in SPEC.md §11.6.
 | Secrets | Kubernetes secrets (encrypted at rest via etcd encryption configuration) |
 | Data Lake | SSE-S3 encryption on all zones (Raw (Bronze), Curated (Silver), Analytics (Gold)) |
 
-### 8.2 PII Handling
+### 1.2 PII Handling
 
 | Requirement | Implementation |
 |-------------|---------------|
@@ -32,7 +30,7 @@ Encryption at rest is defined in SPEC.md §11.6.
 | Cross-border transfer | Data residency controls per tenant (region pinning) |
 | Data subsetting | PII-compliant data subsets for non-production environments |
 
-### 8.3 Key Management
+### 1.3 Key Management
 
 | Aspect | Implementation |
 |--------|---------------|

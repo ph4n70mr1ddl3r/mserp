@@ -2,7 +2,7 @@
 
 > Authorization rules (RBAC permission format, ABAC attributes, authorization flow) are defined in SPEC.md §11.3–11.5. This document provides the full role-to-permission mapping.
 
-## 6. RBAC + ABAC Model
+## 1. RBAC + ABAC Model
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -31,19 +31,7 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 6.1 Permission Format
-
-Permission format is `{domain}.{entity}.{action}` per SPEC.md §11.3.
-
-### 6.2 Attribute-Based Access Control (ABAC)
-
-ABAC attributes are defined in SPEC.md §11.4.
-
-### 6.3 Authorization Flow
-
-Authorization flow is defined in SPEC.md §11.5.
-
-## 7. Predefined Roles
+## 2. Predefined Roles
 
 | Role | Description | Key Permissions |
 |------|-------------|-----------------|

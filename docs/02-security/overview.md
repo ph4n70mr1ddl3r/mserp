@@ -50,7 +50,7 @@
 
 ## 3. JWT Token Specification
 
-JWT token specification is defined in SPEC.md §11.1. The `iat` (Issued at) and `jti` (Token UUID) claims are additionally included in all access and refresh tokens.
+JWT token specification is defined in SPEC.md §11.1. This section provides no additional detail.
 
 ## 4. Service-to-Service Authentication
 

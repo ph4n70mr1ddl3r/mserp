@@ -32,12 +32,12 @@ Rate limiting is defined in SPEC.md §10.3.
 
 ## 7. Data Retention
 
-Data retention policies are defined in SPEC.md §9.8. The table below provides storage tier and disposal method implementation details.
+Data retention policies are defined in SPEC.md §9.8. This table provides storage-tier implementation details.
 
 | Data Category | Storage Tier | Disposal Method |
 |---------------|-------------|-----------------|
 | Business data (orders, invoices) | PostgreSQL (hot) → S3 (cold) | N/A |
-| Audit logs | Loki (hot, 90 days) → S3 (cold) | N/A |
+| Audit logs | Hot storage (Loki): 90 days queryable → Cold storage (S3): indefinite archive (compliant with SPEC.md §9.8 indefinite retention policy) | N/A |
 | ESG / emissions | PostgreSQL → Data Lake | N/A |
 | User activity logs | Loki (hot, 30 days) → S3 (cold) | Secure deletion |
 | PII (customer/employee) | PostgreSQL | Anonymization or deletion per GDPR/contract |

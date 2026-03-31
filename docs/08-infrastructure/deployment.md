@@ -277,6 +277,8 @@ Promote (Production) → Retag: ghcr.io/mserp/my-service:v1.2.3
 
 ## 8. Health Probes (Kubernetes Configuration)
 
+Health check endpoint definitions are in SPEC.md §10.7. K8s probe configurations below.
+
 ### 8.1 Liveness Probe
 
 ```yaml
@@ -317,6 +319,8 @@ startupProbe:
 ```
 
 ## 9. Graceful Shutdown
+
+Graceful shutdown rules are defined in SPEC.md §16.2. The sequence and timeouts below provide K8s-specific implementation.
 
 ### 9.1 Shutdown Sequence
 
@@ -497,9 +501,9 @@ spec:
 
 ## 13. Deployment Strategies
 
-### 13.1 Rolling Update (Default)
+Deployment strategy rules (rolling, blue-green, canary with rollback thresholds) are defined in SPEC.md §16.3. Implementation details below.
 
-Standard Kubernetes rolling update for all routine deployments. Zero downtime guaranteed by readiness probes.
+### 13.1 Rolling Update (Default)
 
 ```yaml
 spec:
@@ -512,8 +516,6 @@ spec:
 
 ### 13.2 Blue-Green Deployment
 
-For major version upgrades or breaking schema changes:
-
 ```
 1. Deploy new version to "green" environment alongside "blue" (current)
 2. Run smoke tests and integration tests against "green"
@@ -523,8 +525,6 @@ For major version upgrades or breaking schema changes:
 ```
 
 ### 13.3 Canary Deployment
-
-For high-risk changes to critical services (Commerce, Finance):
 
 ```
 1. Deploy new version to 10% of pods

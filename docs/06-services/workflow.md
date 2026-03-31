@@ -213,7 +213,7 @@ Email approvals support approve/reject only (delegation requires the API). Token
 
 ## Database Tables
 
-All tables include standard columns: `id` (UUID PK), `tenant_id` (UUID), `created_at` (timestamptz), `updated_at` (timestamptz), `created_by` (UUID), `updated_by` (UUID), `version` (INT), `is_deleted` (BOOLEAN).
+All tables include standard columns per SPEC.md §9.1.
 
 | Table | Purpose | Key Columns |
 |-------|---------|-------------|

@@ -168,7 +168,7 @@ Platform Service owns the **global IoT device registry** (device identity, certi
 
 ## Database Tables
 
-All tables include standard columns: `id UUID PK`, `tenant_id UUID`, `created_at TIMESTAMPTZ`, `updated_at TIMESTAMPTZ`, `created_by UUID`, `updated_by UUID`, `version INT`, `is_deleted BOOLEAN`.
+All tables include standard columns per SPEC.md §9.1.
 
 ### platform_db
 

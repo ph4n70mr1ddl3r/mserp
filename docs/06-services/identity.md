@@ -73,18 +73,7 @@
 
 ### Permission Format
 
-```
-{domain}.{entity}.{action}
-```
-
-| Component | Values | Examples |
-|-----------|--------|----------|
-| `domain` | `auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `platform`, `integration`, `crm`, `project` | `commerce.order.create` |
-| `entity` | Domain-specific resource name | `order`, `customer`, `journal`, `employee` |
-| `action` | `create`, `read`, `update`, `delete`, `own`, `approve`, `export`, `*` | `create`, `*` |
-
-- Wildcard `*` in the action position grants all actions on the entity (e.g., `commerce.order.*`).
-- Entity-level wildcard `*` in the entity position grants access to all entities in the domain (e.g., `finance.*`).
+Permission format follows `{domain}.{entity}.{action}` as defined in SPEC.md §11.3.
 
 ### Role → Permission Mapping
 

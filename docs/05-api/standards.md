@@ -1,22 +1,8 @@
 # API Design Standards
 
-## 1. API Standards
+API design rules (REST standards, idempotency, rate limiting, versioning) are defined in SPEC.md §10. This document provides implementation details for response formats, health checks, and bulk operations.
 
-API design standards are defined in **SPEC.md §10.1**. This document provides implementation details and examples.
-
-## 2. Idempotency
-
-Idempotency rules are defined in **SPEC.md §10.2**.
-
-## 3. Rate Limiting
-
-Rate limits are defined in **SPEC.md §10.3**.
-
-## 4. API Versioning
-
-Versioning policy is defined in **SPEC.md §10.4**.
-
-## 5. Standard Response Format
+## 1. Standard Response Format
 
 ### Success Response
 ```json
@@ -111,18 +97,18 @@ For long-running operations (data import, large report generation, ML model trai
 
 Clients poll `status_url` until the job reaches a terminal state (`completed` or `failed`).
 
-## 6. Health Check Endpoints
+## 2. Health Check Endpoints
 
 All services MUST expose standardized health check endpoints. These are used by Kubernetes for liveness and readiness probes.
 
-### 6.1 Endpoints
+### 2.1 Endpoints
 
 | Endpoint | Purpose | K8s Probe |
 |----------|---------|-----------|
 | `GET /healthz` | Liveness — process is running | `livenessProbe` |
 | `GET /readyz` | Readiness — can accept traffic | `readinessProbe` |
 
-### 6.2 Liveness (`/healthz`)
+### 2.2 Liveness (`/healthz`)
 
 Returns `200 OK` if the process is running. No dependency checks. Fails only on unrecoverable errors (e.g., deadlock, fatal panic).
 
@@ -134,7 +120,7 @@ Returns `200 OK` if the process is running. No dependency checks. Fails only on 
 }
 ```
 
-### 6.3 Readiness (`/readyz`)
+### 2.3 Readiness (`/readyz`)
 
 Returns `200 OK` only when all critical dependencies are reachable. Returns `503 Service Unavailable` with details if any check fails.
 
@@ -149,7 +135,7 @@ Returns `200 OK` only when all critical dependencies are reachable. Returns `503
 }
 ```
 
-### 6.4 Check Configuration
+### 2.4 Check Configuration
 
 | Service | Required Checks |
 |---------|-----------------|
@@ -165,9 +151,9 @@ Returns `200 OK` only when all critical dependencies are reachable. Returns `503
 - Checks run concurrently (not sequentially). The overall readiness probe HTTP timeout is 5 seconds.
 - Failure of any check returns `503` with `"status": "degraded"` or `"status": "unavailable"`.
 
-## 7. Bulk / Batch API Patterns
+## 3. Bulk / Batch API Patterns
 
-### 7.1 Design Principles
+### 3.1 Design Principles
 
 | Principle | Rule |
 |-----------|------|
@@ -176,7 +162,7 @@ Returns `200 OK` only when all critical dependencies are reachable. Returns `503
 | Idempotency | Each bulk request requires a single `Idempotency-Key` |
 | Response | Returns summary with per-item results |
 
-### 7.2 Request Format
+### 3.2 Request Format
 
 ```json
 POST /api/v1/commerce/products/bulk
@@ -191,7 +177,7 @@ Content-Type: application/json
 }
 ```
 
-### 7.3 Response Format
+### 3.3 Response Format
 
 ```json
 {
@@ -223,7 +209,7 @@ Content-Type: application/json
 }
 ```
 
-### 7.4 Bulk Processing Rules
+### 3.4 Bulk Processing Rules
 
 - **Default (atomic):** All items processed within a single database transaction. If any item fails validation, all items are rolled back.
 - **Non-atomic (`Prefer: partial-success` header):** Items processed individually with independent transactions. Partial success is possible. On retry with the same `Idempotency-Key`, previously succeeded items are skipped.

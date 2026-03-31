@@ -137,7 +137,22 @@ Monorepo with Cargo workspace. Shared crates: `mserp-core`, `mserp-auth`, `mserp
 
 ### 5.1 Event Naming
 
-All events follow `{domain}.{entity}.{action}` naming. Domains correspond to service names: `auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `platform`, `integration`, `crm`, `project`.
+All events follow `{domain}.{entity_or_subentity}.{action}` naming convention with **3 or 4 dot-separated segments**. Use **underscores only** for multi-word identifiers — hyphens are not permitted.
+
+```
+{domain}.{entity}.{action}              (3 segments — standard)
+{domain}.{entity}.{subentity}.{action}  (4 segments — nested entity)
+
+  │        │        └─ lowercase, underscore-separated: created, updated, deleted, submitted, approved, rejected, completed, failed
+  │        └────────── lowercase, underscore-separated: order, purchase_order, cash_application, work_order, digital_twin
+  └─────────────────── service domain name (exactly one of the 14 below)
+```
+
+4-segment form is permitted only for genuinely nested entities (e.g., `manufacturing.digital_twin.state.updated` where `state` is a sub-entity of `digital_twin`). Do not use 4 segments merely to add detail that belongs in the payload.
+
+Domains correspond to service names: `auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `platform`, `integration`, `crm`, `project`.
+
+**Examples**: `commerce.order.created`, `finance.purchase_order.approved`, `manufacturing.digital_twin.state.updated`, `platform.grc.sod.detected`.
 
 ### 5.2 RabbitMQ Topology
 
@@ -147,13 +162,13 @@ Single topic exchange `mserp.events`. Each service with an inbox queue has a ded
 
 | Service Inbox | Self-Binding | Cross-Domain Bindings |
 |--------------|-------------|----------------------|
-| `commerce.inbox` | `commerce.#` | `finance.purchase-order.#`, `finance.invoice.#`, `finance.sourcing.#`, `finance.cash-application.#`, `manufacturing.work-order.#`, `manufacturing.digital-twin.#`, `crm.opportunity.won`, `crm.cdp.#`, `integration.trade.party-screened`, `config.changed` |
-| `finance.inbox` | `finance.#` | `commerce.order.#`, `commerce.stock.#`, `commerce.subscription.#`, `commerce.b2b.#`, `commerce.warranty.#`, `hr.payroll.#`, `manufacturing.work-order.#`, `project.invoice.#`, `project.milestone.#`, `platform.idp.#`, `config.changed` |
+| `commerce.inbox` | `commerce.#` | `finance.purchase_order.#`, `finance.invoice.#`, `finance.sourcing.#`, `finance.cash_application.#`, `manufacturing.work_order.#`, `manufacturing.digital_twin.#`, `crm.opportunity.won`, `crm.cdp.#`, `integration.trade.party_screened`, `config.changed` |
+| `finance.inbox` | `finance.#` | `commerce.order.#`, `commerce.stock.#`, `commerce.subscription.#`, `commerce.b2b.#`, `commerce.warranty.#`, `hr.payroll.#`, `manufacturing.work_order.#`, `project.invoice.#`, `project.milestone.#`, `platform.idp.#`, `config.changed` |
 | `hr.inbox` | `hr.#` | `workflow.step.#`, `config.changed` |
 | `manufacturing.inbox` | `manufacturing.#` | `commerce.stock.#`, `commerce.order.#`, `commerce.warranty.#`, `platform.iot.device.#`, `config.changed` |
-| `report.inbox` | `report.#` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.rpa.#`, `tenant.feature.#`, `integration.trade-compliance.#`, `config.changed` |
-| `workflow.inbox` | `workflow.#` | `hr.leave.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.tms.#`, `commerce.wms.#`, `finance.purchase-order.#`, `finance.expense.#`, `finance.intelligent-close.#`, `finance.supplier-risk.#`, `finance.sla.#`, `manufacturing.eco.#`, `report.process.#`, `platform.rpa.#`, `platform.grc.#`, `integration.trade-compliance.#`, `crm.campaign.#`, `config.changed` |
-| `platform.inbox` | `platform.#` | `auth.login.#`, `hr.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.shipment.#`, `commerce.logistics.#`, `commerce.tms.delivery-confirmed`, `finance.lease.#`, `finance.supplier-risk.#`, `finance.intelligent-close.#`, `integration.trade-compliance.#`, `crm.cdp.#`, `report.process.#`, `manufacturing.intelligence.#`, `tenant.feature.#`, `tenant.created`, `tenant.decommissioned`, `config.changed` |
+| `report.inbox` | `report.#` | `commerce.#`, `finance.#`, `hr.#`, `manufacturing.#`, `crm.#`, `project.#`, `workflow.#`, `platform.audit.#`, `platform.rpa.#`, `platform.grc.#`, `tenant.feature.#`, `integration.trade_compliance.#`, `config.changed` |
+| `workflow.inbox` | `workflow.#` | `hr.leave.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.tms.#`, `commerce.wms.#`, `finance.purchase_order.#`, `finance.expense.#`, `finance.intelligent_close.#`, `finance.supplier_risk.#`, `finance.subledger.#`, `manufacturing.eco.#`, `report.process.#`, `platform.rpa.#`, `platform.grc.#`, `integration.trade_compliance.#`, `crm.campaign.#`, `config.changed` |
+| `platform.inbox` | `platform.#` | `auth.login.#`, `hr.#`, `commerce.order.#`, `commerce.credit.#`, `commerce.shipment.#`, `commerce.logistics.#`, `commerce.tms.delivery_confirmed`, `finance.lease.#`, `finance.supplier_risk.#`, `finance.intelligent_close.#`, `integration.trade_compliance.#`, `crm.cdp.#`, `report.process.#`, `manufacturing.intelligence.#`, `identity.user.#`, `tenant.feature.#`, `tenant.created`, `tenant.decommissioned`, `config.changed` |
 | `integration.inbox` | `integration.#` | `commerce.customer.#`, `commerce.product.#`, `finance.supplier.#`, `hr.employee.#`, `identity.user.#`, `config.changed` |
 | `crm.inbox` | `crm.#` | `commerce.customer.#`, `commerce.order.#`, `config.changed` |
 | `project.inbox` | `project.#` | `hr.employee.#`, `commerce.order.#`, `config.changed` |
@@ -211,7 +226,7 @@ Default: **choreography-based saga**. Each step emits success/failure events. Ex
 
 **Defined Sagas**: Sales Order Fulfillment, Purchase Order Receiving, Employee Onboarding, Leave Approval, Purchase Requisition, Project Billing, Expense Report, Contract Approval, Engineering Change Order, Order Orchestration, MES Production, Global Trade Screening, Warehouse Wave Execution.
 
-> **Full event catalog:** [docs/04-events/catalog.md](docs/04-events/catalog.md) (~420 domain events)
+> **Full event catalog:** [docs/04-events/catalog.md](docs/04-events/catalog.md) (402 domain events)
 > **Full saga definitions:** [docs/04-events/sagas.md](docs/04-events/sagas.md) (13 sagas)
 
 ---
@@ -349,7 +364,7 @@ Platform Service owns the authoritative device registry and publishes `platform.
 
 ### 7.7 SoD Rule Boundary
 
-Platform Service owns GRC-level SoD rule definitions (`grc_sod_rules` table in `platform_db`). Workflow Service consumes `platform.grc.sod.conflict.detected` events and queries Platform API for SoD rules for approval-level enforcement. Workflow does NOT have its own `sod_rules` table.
+Platform Service owns GRC-level SoD rule definitions (`grc_sod_rules` table in `platform_db`). Workflow Service consumes `platform.grc.sod.detected` events and queries Platform API for SoD rules for approval-level enforcement. Workflow does NOT have its own `sod_rules` table.
 
 ### 7.8 MDM Golden Records
 
@@ -460,28 +475,31 @@ Supplementary write-only log in `audit_db` (time-series optimized, monthly parti
 
 ### 9.8 Data Retention
 
-| Category | Retention |
-|----------|-----------|
-| Business data (orders, invoices) | Indefinite |
-| Audit logs | Indefinite (compliance) |
-| Sessions, tokens | 90 days |
-| Event outbox | 30 days |
-| ESG / emissions | Indefinite (regulatory) |
-| ML model artifacts | 2 years |
-| Subscription/revenue records | 7 years |
-| Trade compliance logs | 5 years (regulatory) |
-| IDP extraction results | 90 days |
-| Lease/grant/JV records | Duration + 7 years |
-| Import/export job data | 90 days |
-| User activity logs | 1 year |
-| ML training data | 2 years |
-| File metadata | Indefinite |
-| Report execution history | 2 years |
-| Custom application data | Per tenant policy |
-| Scheduled job execution history | 90 days |
-| Knowledge article versions | Indefinite |
-| Survey responses | Per tenant policy |
-| Collection activities | 7 years |
+| Category | Retention | Hard Delete | Notes |
+|----------|-----------|-------------|-------|
+| Business data (orders, invoices) | Indefinite | Never (compliance) | Soft-deleted records retained indefinitely |
+| Audit logs | Indefinite | Never (compliance) | Archived to cold storage after 2 years |
+| Sessions, tokens | 90 days | Automated nightly purge | Redis TTL for active sessions; audit trail 90 days |
+| Event outbox | 30 days | Automated nightly purge | Published events purged after 30 days |
+| ESG / emissions | Indefinite | Never (regulatory) | Required for GRI/SASB reporting |
+| ML model artifacts | 2 years | Automated archive | Archived models retained 2 years |
+| Subscription/revenue records | 7 years | Never (compliance) | ASC 606 / IFRS 15 compliance |
+| Trade compliance logs | 5 years (regulatory) | Never (regulatory) | Export control and sanctions compliance |
+| IDP extraction results | 90 days | Automated nightly purge | PII-containing document extractions |
+| Lease/grant/JV records | Duration + 7 years | Never (compliance) | IFRS 16 / ASC 842 requirements |
+| Import/export job data | 90 days | Automated nightly purge | Job metadata and temp files |
+| User activity logs | 1 year | Automated archive | Archived to cold storage after 1 year |
+| ML training data | 2 years | Automated archive | Anonymized training datasets |
+| File metadata | Indefinite | Never | File metadata kept; file content per tenant policy |
+| File content | Per tenant policy | Per tenant policy | Configurable retention per content type |
+| Report execution history | 2 years | Automated archive | Archived to cold storage |
+| Custom application data | Per tenant policy | Per tenant policy | Application Composer data follows tenant lifecycle |
+| Scheduled job execution history | 90 days | Automated nightly purge | Job execution logs and metadata |
+| Knowledge article versions | Indefinite | Never | All historical versions retained |
+| Survey responses | Per tenant policy | Per tenant policy | Active surveys retained; deactivated surveys archived |
+| Collection activities | 7 years | Never (compliance) | Financial regulatory compliance |
+| Data lake (curated zone) | Indefinite | Automated archive after 2 years | Gold zone data kept for analytics |
+| Data lake (raw zone) | 2 years | Automated nightly purge | Bronze zone events archived after 2 years |
 
 ### 9.9 Data Pipeline
 
@@ -556,8 +574,8 @@ Each check has 1-second timeout. Checks run concurrently.
 
 Max 100 items. Default: atomic (single transaction). `Prefer: partial-success` header enables non-atomic. `413` for > 100 items.
 
-> **Full endpoint listing:** [docs/05-api/endpoints.md](docs/05-api/endpoints.md) (~730 endpoints)
-> **Full error codes:** [docs/05-api/error-codes.md](docs/05-api/error-codes.md) (~250 error codes)
+> **Full endpoint listing:** [docs/05-api/endpoints.md](docs/05-api/endpoints.md) (723 endpoints)
+> **Full error codes:** [docs/05-api/error-codes.md](docs/05-api/error-codes.md) (243 error codes)
 
 ---
 
@@ -590,6 +608,14 @@ Algorithm: RS256. Public key cached by services, rotated weekly. Token revocatio
 ### 11.3 RBAC Permission Format
 
 `{domain}.{entity}.{action}` where domains are the 14 service names, actions are `create`, `read`, `update`, `delete`, `own`, `approve`, `export`, `*`. Legacy mappings: `sales.*` → `commerce.*`, `inventory.*` → `commerce.*`, `procurement.*` → `finance.*`.
+
+**Wildcard Semantics:**
+- `finance.*` — all actions on all entities within the finance domain
+- `finance.journal.*` — all actions on the journal entity within finance
+- `finance.*.read` — read access to all entities within the finance domain
+- `*` — super admin; all actions on all entities across all domains
+
+**`own` Action:** Grants access to only the user's own records within that entity. Maps to `WHERE created_by = current_user_id` in addition to standard RLS. Used for self-service scenarios: `hr.attendance.own`, `hr.leave.own`, `hr.expense.own`.
 
 ### 11.4 ABAC Attributes
 
@@ -939,5 +965,5 @@ Same signed image artifact promoted through environments. Production deployment 
 
 ---
 
-*Document Version: 24.0*
-*Last Updated: 2026-03-31*
+*Document Version: 25.0*
+*Last updated: 2026-04-01*

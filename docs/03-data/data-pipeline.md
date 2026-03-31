@@ -2,7 +2,7 @@
 
 The data pipeline architecture is defined in SPEC.md §9.9. This document provides implementation details for the data lake zones and warehouse star schema.
 
-## 2. Data Lake (MinIO)
+## 1. Data Lake (MinIO)
 
 | Zone | Purpose | Format | Retention |
 |------|---------|--------|-----------|
@@ -17,7 +17,7 @@ The data pipeline architecture is defined in SPEC.md §9.9. This document provid
 - Query access via DuckDB's S3/Parquet integration or direct API.
 - The Data Lake is the **sole data source** for the warehouse.
 
-## 3. Data Warehouse (DuckDB)
+## 2. Data Warehouse (DuckDB)
 
 | Table Type | Examples | Refresh Frequency |
 |-----------|----------|-------------------|
@@ -26,7 +26,6 @@ The data pipeline architecture is defined in SPEC.md §9.9. This document provid
 | Aggregate tables | `agg_daily_sales`, `agg_monthly_revenue`, `agg_monthly_emissions` | Daily |
 
 - ETL batch process extracts from Gold zone Parquet files, transforms (denormalize, aggregate, compute measures), and loads into DuckDB star schema.
-- Real-time dashboards use event stream aggregation, NOT warehouse.
 - Historical reports and trend analysis use the warehouse.
 - Max 1 hour stale for dimension and fact data. Aggregate tables refreshed daily during off-peak.
 

@@ -230,7 +230,7 @@ The portal relies on Platform Service for cross-cutting capabilities:
 
 ## Database Tables
 
-All tables include standard columns: `id` UUID PK, `tenant_id` UUID, `created_at` TIMESTAMPTZ, `updated_at` TIMESTAMPTZ, `created_by` UUID, `updated_by` UUID, `version` INT, `is_deleted` BOOLEAN. RLS policies enforce `tenant_id` isolation on every table.
+All tables include standard columns per SPEC.md §9.1.
 
 | Table | Purpose | Key Columns |
 |-------|---------|-------------|

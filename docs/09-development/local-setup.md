@@ -23,6 +23,8 @@ cargo install cargo-watch sea-orm-cli
 
 ## 0.1 Port Mapping
 
+Port assignments are defined in SPEC.md §4.1. Quick reference:
+
 | Service | Port |
 |---------|------|
 | Auth | 8001 |
