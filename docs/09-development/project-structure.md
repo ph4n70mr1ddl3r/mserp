@@ -195,7 +195,7 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
-│   │   │   └── b2b-portal/         # B2B Commerce Portal
+│   │   │   ├── b2b-portal/         # B2B Commerce Portal
 │   │   │       ├── routes/
 │   │   │       ├── handlers/
 │   │   │       ├── models/
@@ -205,6 +205,21 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
+│   │   │   ├── cpq/                    # Configure Price Quote
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   ├── retail-pos/             # Retail Point of Sale
+│   │   │   │   ├── routes/
+│   │   │   │   ├── handlers/
+│   │   │   │   ├── models/
+│   │   │   │   └── services/
+│   │   │   └── property-management/    # Property Management
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
+│   │   │       └── services/
 │   ├── finance-service/          # Finance Service (all finance, procurement, treasury, revenue, lease, grants, JV, collections)
 │   │   ├── src/
 │   │   │   ├── finance/          # Finance domain module
@@ -291,6 +306,11 @@ mserp/
 │   │   │   │   ├── handlers/
 │   │   │   │   ├── models/
 │   │   │   │   └── services/
+│   │   │   └── advanced-tax-filing/    # Advanced Tax Filing
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
+│   │   │       └── services/
 │   ├── hr-service/
 │   │   ├── src/
 │   │   │   ├── employee/
@@ -425,7 +445,12 @@ mserp/
 │   │   │   ├── billing/
 │   │   │   ├── risks/
 │   │   │   ├── evm/              # Earned Value Management
-│   │   │   └── programs/         # Program management
+│   │   │   ├── programs/         # Program management
+│   │   │   └── construction-engineering/ # Construction & Engineering
+│   │   │       ├── routes/
+│   │   │       ├── handlers/
+│   │   │       ├── models/
+│   │   │       └── services/
 │   ├── platform-service/         # Notification + File + Audit + Digital Assistant + App Builder + GRC
 │   │   ├── src/
 │   │   │   ├── notification/
@@ -489,11 +514,15 @@ mserp/
 │   │   │   │   ├── lifecycle/
 │   │   │   │   ├── records/
 │   │   │   │   └── search/
-│   │   │   └── idp/                    # Intelligent Document Processing
-│   │   │   │   ├── classification/
-│   │   │   │   ├── extraction/
-│   │   │   │   ├── training/
-│   │   │   │   └── integration/
+│   │   │   ├── idp/                    # Intelligent Document Processing
+│   │   │       ├── classification/
+│   │   │       ├── extraction/
+│   │   │       ├── training/
+│   │   │       └── integration/
+│   │   │   └── policy-automation/      # Policy Automation
+│   │   │       ├── rules/
+│   │   │       ├── assessments/
+│   │   │       └── simulations/
 │   └── integration-service/
 │       ├── src/
 │       │   ├── connectors/

@@ -196,6 +196,22 @@ A program groups related projects under shared objectives, budgets, and executiv
 | Payback Period | Investment / annual inflow | Time to recover |
 | Benefit-Cost Ratio | Discounted benefits / discounted costs | > 1 = worthwhile |
 
+## Construction & Engineering
+
+**Construction & Engineering** — Project type extension for construction and engineering projects. Progress tracking with earned value and percent-complete methods (cost-to-cost, units-delivered). Contract billing with AIA-style progress payment schedules, retention, and change orders. Subcontractor management with commitment tracking, compliance (lien waivers, insurance certificates), and payment hold/release. Daily log entries for weather, site conditions, and labor hours. RFIs and submittals with workflow routing. See [construction-engineering.md](../07-features/construction-engineering.md).
+
+| Table | Description |
+|-------|-------------|
+| `construction_contracts` | Construction contracts with progress billing terms |
+| `construction_change_orders` | Change orders linked to parent project |
+| `subcontractor_commitments` | Subcontractor commitments with compliance tracking |
+
+| Event | Description |
+|-------|-------------|
+| `project.construction.change_order.created` | Construction change order created |
+| `project.construction.progress.billed` | Progress payment billing generated |
+| `project.construction.subcontractor.compliance.cleared` | Subcontractor compliance verified |
+
 ## Database Tables
 
 | Table | Purpose | Key Columns |

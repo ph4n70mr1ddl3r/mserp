@@ -11,7 +11,7 @@
 | Feature | Description |
 |---------|-------------|
 | User Lifecycle | CRUD with state machine: pending → active → suspended → deactivated |
-| RBAC | Role-based access control with 77+ predefined roles and granular permissions |
+| RBAC | Role-based access control with 81 predefined roles and granular permissions |
 | ABAC | Attribute-based policies for fine-grained access (org unit, amount, time, IP, data classification, device trust) |
 | User Groups / Teams | Group-based membership with group-level role assignment |
 | Organization Hierarchy | Multi-level organizational structure (departments, divisions, business units) |
@@ -242,9 +242,9 @@ active ──► rotated ──► expired
 | `identity.role.created` | `{ role_id, tenant_id, name, permissions }` | Custom role created |
 | `identity.role.updated` | `{ role_id, tenant_id, name, added_permissions, removed_permissions }` | Role permissions modified |
 | `identity.group.updated` | `{ group_id, tenant_id, added_members, removed_members }` | Group membership changed |
-| `identity.api-key.created` | `{ key_id, tenant_id, user_id, key_prefix, expires_at }` | API key created |
-| `identity.api-key.rotated` | `{ key_id, tenant_id, old_key_prefix, new_key_prefix }` | API key rotated |
-| `identity.api-key.revoked` | `{ key_id, tenant_id, revoked_by }` | API key revoked |
+| `identity.api_key.created` | `{ key_id, tenant_id, user_id, key_prefix, expires_at }` | API key created |
+| `identity.api_key.rotated` | `{ key_id, tenant_id, old_key_prefix, new_key_prefix }` | API key rotated |
+| `identity.api_key.revoked` | `{ key_id, tenant_id, revoked_by }` | API key revoked |
 
 > **Note:** Auth Service queries Identity Service via synchronous HTTP for user/role data during login. It does NOT consume Identity events. Identity events are consumed by: Platform Service (security audit), Integration Service (MDM), and HR Service (provisioning check via HTTP). Tenant Service consumes user events for tenant user counts.
 

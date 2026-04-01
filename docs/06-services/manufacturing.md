@@ -191,33 +191,33 @@
 |-------|-------------|
 | `manufacturing.bom.created` | BOM created |
 | `manufacturing.bom.updated` | BOM updated |
-| `manufacturing.work-order.created` | Work order created |
-| `manufacturing.work-order.started` | Work order started (production began) |
-| `manufacturing.work-order.completed` | Work order completed |
+| `manufacturing.work_order.created` | Work order created |
+| `manufacturing.work_order.started` | Work order started (production began) |
+| `manufacturing.work_order.completed` | Work order completed |
 | `manufacturing.quality.checked` | Quality check result recorded |
 | `manufacturing.quality.failed` | Quality check failed (NCR created) |
 | `manufacturing.maintenance.due` | Scheduled maintenance due |
 | `manufacturing.eco.submitted` | Engineering Change Order submitted |
 | `manufacturing.eco.approved` | Engineering Change Order approved |
 | `manufacturing.eco.implemented` | Engineering Change Order implemented |
-| `manufacturing.product-lifecycle.revision.created` | Product revision created in PLM |
-| `manufacturing.product-lifecycle.phase-in` | Product phase-in initiated |
-| `manufacturing.product-lifecycle.phase-out` | Product phase-out initiated |
+| `manufacturing.product_lifecycle.revision.created` | Product revision created in PLM |
+| `manufacturing.product_lifecycle.phase-in` | Product phase-in initiated |
+| `manufacturing.product_lifecycle.phase-out` | Product phase-out initiated |
 | `manufacturing.asset.registered` | Enterprise asset registered |
-| `manufacturing.asset.maintenance-completed` | Asset maintenance completed |
+| `manufacturing.asset.maintenance_completed` | Asset maintenance completed |
 | `manufacturing.asset.decommissioned` | Asset decommissioned |
 | `manufacturing.plan.firmed` | Production plan firmed |
 | `manufacturing.plan.simulation.completed` | ASCP simulation completed |
 | `manufacturing.iot.telemetry.received` | Telemetry data received from IoT device |
 | `manufacturing.iot.alert.triggered` | IoT alert rule triggered |
 | `manufacturing.iot.device.offline` | IoT device went offline |
-| `manufacturing.digital-twin.state.updated` | Digital twin state synchronized with physical asset |
-| `manufacturing.digital-twin.simulation.completed` | Digital twin simulation completed |
-| `manufacturing.digital-twin.prediction.generated` | Predictive maintenance prediction generated |
-| `manufacturing.intelligence.oee.threshold-breached` | OEE dropped below configured threshold |
+| `manufacturing.digital_twin.state.updated` | Digital twin state synchronized with physical asset |
+| `manufacturing.digital_twin.simulation.completed` | Digital twin simulation completed |
+| `manufacturing.digital_twin.prediction.generated` | Predictive maintenance prediction generated |
+| `manufacturing.intelligence.oee.threshold_breached` | OEE dropped below configured threshold |
 | `manufacturing.intelligence.downtime.categorized` | Downtime event categorized by root cause |
 | `manufacturing.intelligence.energy.anomaly` | Energy consumption anomaly detected |
-| `manufacturing.intelligence.predictive-maintenance.alert` | Predictive maintenance alert triggered |
+| `manufacturing.intelligence.predictive_maintenance.alert` | Predictive maintenance alert triggered |
 | `manufacturing.safety.incident.created` | Safety incident reported |
 | `manufacturing.safety.inspection.completed` | Safety inspection completed |
 | `manufacturing.mro.repair.completed` | MRO repair order completed |

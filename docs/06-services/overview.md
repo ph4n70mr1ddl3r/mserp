@@ -82,13 +82,13 @@ Multiple functional areas were consolidated into single services to reduce opera
 | Identity | 8002 | `identity_db` | User management, roles, permissions, organizations | [identity.md](identity.md) |
 | Tenant | 8003 | `tenant_db` | Multi-tenancy, tenant provisioning, feature flags | [tenant.md](tenant.md) |
 | Config | 8004 | `config_db` | System configuration, settings management | [config.md](config.md) |
-| Commerce | 8010 | `commerce_db` | Sales, inventory, pricing, PIM, transportation, ATP/CTP, product configurator, credit management, subscriptions, B2B portal, loyalty, omnichannel, price optimization, order orchestration, global order promising, B2C commerce & storefront | [commerce.md](commerce.md) |
-| Finance | 8011 | `finance_db` | Financial accounting, procurement, treasury, EPM, CLM, revenue recognition, strategic sourcing, tax management, commodity management, spend analysis, supplier diversity | [finance.md](finance.md) |
+| Commerce | 8010 | `commerce_db` | Sales, inventory, pricing, PIM, transportation, ATP/CTP, product configurator, credit management, subscriptions, B2B portal, loyalty, omnichannel, price optimization, order orchestration, global order promising, B2C commerce & storefront, CPQ, retail POS, property management | [commerce.md](commerce.md) |
+| Finance | 8011 | `finance_db` | Financial accounting, procurement, treasury, EPM, CLM, revenue recognition, strategic sourcing, tax management, commodity management, spend analysis, supplier diversity, advanced tax filing | [finance.md](finance.md) |
 | HCM | 8012 | `hr_db` | Human resources, payroll, workforce management, talent management, goals & objectives, career development, structured onboarding | [hr.md](hr.md) |
 | Manufacturing | 8013 | `manufacturing_db` | Production, quality, PLM, EAM, manufacturing intelligence, digital thread, IoT, digital twin, EHS, MRO, product compliance, MES, advanced production scheduling | [manufacturing.md](manufacturing.md) |
 | Report | 8014 | `report_db` | Analytics, reporting, dashboards, BI, AI/ML, ESG, narrative reporting, process mining, CPM, self-service ML studio | [report.md](report.md) |
 | Workflow | 8015 | `workflow_db` | Business process automation, approvals, BPM engine, SLA management | [workflow.md](workflow.md) |
 | CRM | 8016 | `crm_db` | Customer relationship management, marketing automation, field service, CDP, adaptive intelligence, contact center, social selling, A/B testing | [crm.md](crm.md) |
-| Project | 8017 | `project_db` | Project planning, execution, resource management, project accounting | [project.md](project.md) |
-| Platform | 8020 | `platform_db`, `audit_db` | Notifications, file storage, audit logging, digital assistant, app builder, GRC, RPA, ECM, ITSM, compliance hub, application composer, access certification | [platform.md](platform.md) |
+| Project | 8017 | `project_db` | Project planning, execution, resource management, project accounting, construction & engineering | [project.md](project.md) |
+| Platform | 8020 | `platform_db`, `audit_db` | Notifications, file storage, audit logging, digital assistant, app builder, GRC, RPA, ECM, ITSM, compliance hub, application composer, access certification, policy automation | [platform.md](platform.md) |
 | Integration | 8021 | `integration_db` | External integrations, API management, connectors, MDM, data governance, event mesh, blockchain integration | [integration.md](integration.md) |

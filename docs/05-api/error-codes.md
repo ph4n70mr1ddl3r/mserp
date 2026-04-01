@@ -111,6 +111,11 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `COMMERCE_STOREFRONT_PAGE_DUPLICATE` | 409 | Storefront page with this URL already exists |
 | `COMMERCE_PROMOTION_OVERLAP` | 409 | Promotion dates overlap with existing promotion |
 | `COMMERCE_REVIEW_ALREADY_SUBMITTED` | 409 | Customer already reviewed this product |
+| `COMMERCE_CPQ_CONFIGURATION_INVALID` | 422 | CPQ configuration violates constraint rules |
+| `COMMERCE_CPQ_QUOTE_EXPIRED` | 410 | CPQ quote has expired |
+| `COMMERCE_POS_TERMINAL_OFFLINE` | 503 | POS terminal is offline or unavailable |
+| `COMMERCE_POS_SHIFT_OPEN` | 409 | POS shift is already open |
+| `COMMERCE_PROPERTY_NOT_AVAILABLE` | 404 | Property not found or not available |
 
 ### 8.7 Finance Error Codes
 
@@ -151,6 +156,8 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `FINANCE_DISCOUNT_CALCULATION_ERROR` | 500 | Dynamic discount calculation failed |
 | `FINANCE_DISCOUNT_PROGRAM_INACTIVE` | 409 | Discount program is not active |
 | `FINANCE_WORKING_CAPITAL_SIMULATION_FAILED` | 500 | Working capital simulation failed to converge |
+| `FINANCE_TAX_FILING_DEADLINE_MISSED` | 409 | Tax filing deadline has been missed |
+| `FINANCE_TAX_RETURN_ALREADY_FILED` | 409 | Tax return has already been filed |
 
 ### 8.8 HR Error Codes
 
@@ -220,6 +227,8 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PROJECT_NOT_FOUND` | 404 | Project does not exist |
 | `PROJECT_BUDGET_EXCEEDED` | 409 | Project budget exceeded |
 | `PROJECT_TASK_DEPENDENCY` | 409 | Circular task dependency detected |
+| `PROJECT_COMMITMENT_EXCEEDED` | 409 | Construction commitment amount exceeded |
+| `PROJECT_RETENTION_HELD` | 409 | Retention amount is held on progress billing |
 
 ### 8.12 Report Error Codes
 
@@ -293,6 +302,7 @@ All error codes follow the pattern `{DOMAIN}_{CATEGORY}_{SPECIFIC}` and are defi
 | `PLATFORM_CERTIFICATION_CAMPAIGN_ACTIVE` | 409 | Certification campaign is active and cannot be modified |
 | `PLATFORM_CERTIFICATION_REVIEW_OVERDUE` | 409 | Certification review is past deadline |
 | `PLATFORM_ROLE_MINING_INSUFFICIENT_DATA` | 400 | Insufficient access data for role mining |
+| `PLATFORM_POLICY_EVALUATION_FAILED` | 500 | Policy automation evaluation failed |
 
 ### 8.15 Integration Error Codes
 

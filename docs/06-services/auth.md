@@ -187,7 +187,7 @@ JWT token specification including claims, signing algorithm, and token lifetimes
 | `auth.mfa.enabled` | `{ user_id, tenant_id, factor_type }` | MFA factor enrolled and activated |
 | `auth.password.changed` | `{ user_id, tenant_id }` | User password changed |
 | `auth.session.revoked` | `{ user_id, tenant_id, session_id, reason }` | Session explicitly revoked |
-| `auth.step-up.requested` | `{ user_id, tenant_id, trigger_reason, ip }` | Step-up authentication triggered |
+| `auth.step_up.requested` | `{ user_id, tenant_id, trigger_reason, ip }` | Step-up authentication triggered |
 
 > **Note:** Auth events are consumed by the Platform Service for security audit logging and alerting (e.g., brute-force detection on repeated `auth.login.failed`).
 

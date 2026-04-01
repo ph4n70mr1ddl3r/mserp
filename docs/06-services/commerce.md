@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8010 |
 | Database | `commerce_db` |
-| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, B2B commerce portal, Adaptive Intelligence integration with Report Service, loyalty management, omnichannel management, price optimization |
+| Responsibilities | Sales operations, customer management, stock management, warehousing, pricing engine, PIM, transportation, ATP/CTP, product configurator, credit management, subscription management, drop ship, connected logistics, warranty management, B2B commerce portal, Adaptive Intelligence integration with Report Service, loyalty management, omnichannel management, price optimization, CPQ, retail POS, property management |
 | Rationale | See [Architecture — Service Consolidation](../01-architecture/overview.md#4-service-consolidation-rationale) |
 
 ## Sales Modules
@@ -268,6 +268,49 @@
 
 **Advanced Transportation Management (TMS)** — Freight rate engine with carrier-specific rate tables, accessorial charges, and fuel surcharges. Carrier selection algorithms based on cost, transit time, service level, and lane preferences. Load consolidation across orders to maximize trailer utilization. Freight audit and payment matching against carrier invoices. Route optimization with real-time traffic and weather data. Multi-leg shipment planning with transfer points. Delivery appointment scheduling with customer time windows. See [advanced-transportation.md](../07-features/advanced-transportation.md).
 
+## Configure Price Quote (CPQ)
+
+**Configure Price Quote (CPQ)** — Rule-based product configuration with constraint validation (compatibility, incompatibility, dependency rules). Multi-level BOM explosion from configuration. Dynamic pricing engine with attribute-based pricing, volume discounts, and promotional overrides. Quote generation with versioning, approval workflows, and one-click order conversion. See [configure-price-quote.md](../07-features/configure-price-quote.md).
+
+| Table | Description |
+|-------|-------------|
+| `cpq_configuration_rules` | Configuration constraint and pricing rules |
+| `cpq_quotes` | CPQ quotes with configuration snapshot and pricing |
+
+| Event | Description |
+|-------|-------------|
+| `commerce.cpq.config.completed` | CPQ configuration completed |
+| `commerce.cpq.quote.created` | CPQ quote generated |
+
+## Retail Point of Sale (POS)
+
+**Retail POS** — Multi-register POS with offline capability and automatic sync. Barcode/QR scanning, tender management (cash, card, mobile wallet, split tender). Real-time inventory lookup and reservation. Customer identification via loyalty card, phone, or QR. End-of-day reconciliation and cash drawer management. Integration with omnichannel order routing. See [retail-pos.md](../07-features/retail-pos.md).
+
+| Table | Description |
+|-------|-------------|
+| `pos_registers` | POS register and terminal definitions |
+| `pos_transactions` | POS sales transactions with tender details |
+
+| Event | Description |
+|-------|-------------|
+| `commerce.pos.transaction.created` | POS transaction completed |
+| `commerce.pos.register.opened` | POS register opened |
+
+## Property Management
+
+**Property Management** — Property and lease administration for commercial and residential portfolios. Lease abstraction with key terms, rent schedules, and escalation clauses. Tenant management with move-in/move-out workflows. Maintenance request tracking with vendor dispatch. Rent roll reporting and occupancy analytics. Integration with Finance for lease accounting (ASC 842/IFRS 16). See [property-management.md](../07-features/property-management.md).
+
+| Table | Description |
+|-------|-------------|
+| `properties` | Property definitions with location and classification |
+| `property_leases` | Lease agreements with terms and rent schedules |
+| `maintenance_requests` | Maintenance and work order requests |
+
+| Event | Description |
+|-------|-------------|
+| `commerce.property.lease.created` | Property lease created |
+| `commerce.property.maintenance.requested` | Maintenance request submitted |
+
 ## Database Tables
 
 > All tables include standard columns per [SPEC.md §9.1](../SPEC.md).
@@ -329,7 +372,7 @@
 | `commerce.delivery.created` | Delivery scheduled |
 | `commerce.delivery.completed` | Delivery confirmed |
 | `commerce.shipment.dispatched` | Shipment dispatched to carrier |
-| `commerce.shipment.in-transit` | Shipment in transit (carrier tracking update) |
+| `commerce.shipment.in_transit` | Shipment in transit (carrier tracking update) |
 | `commerce.shipment.delivered` | Shipment delivered with POD |
 | `commerce.carrier.assigned` | Carrier assigned to shipment |
 | `commerce.credit.hold.applied` | Credit hold applied to order (credit limit exceeded) |
@@ -361,18 +404,18 @@
 | `commerce.loyalty.tier.changed` | Customer loyalty tier changed |
 | `commerce.omnichannel.order.routed` | Order routed to fulfillment location |
 | `commerce.price.optimized` | Price optimization suggestion generated |
-| `commerce.collaboration.demand-shared` | Demand signal shared with supplier |
-| `commerce.collaboration.capacity.committed` | Supplier capacity commitment received |
+| `commerce.collaboration.demand_shared` | Demand signal shared with supplier |
+| `commerce.collaboration.capacity_committed` | Supplier capacity commitment received |
 | `commerce.collaboration.cpfr.updated` | CPFR forecast updated collaboratively |
 | `commerce.collaboration.asn.submitted` | Advanced Shipment Notice submitted by supplier |
-| `commerce.wms.wave-released` | WMS pick wave released |
-| `commerce.wms.pick-completed` | WMS pick task completed |
-| `commerce.wms.pack-completed` | WMS pack operation completed |
-| `commerce.wms.putaway-completed` | WMS putaway completed |
-| `commerce.tms.load-planned` | TMS load plan created |
-| `commerce.tms.carrier-assigned` | TMS carrier assigned to load |
-| `commerce.tms.shipment-in-transit` | TMS shipment in transit |
-| `commerce.tms.delivery-confirmed` | TMS delivery confirmed |
+| `commerce.wms.wave_released` | WMS pick wave released |
+| `commerce.wms.pick_completed` | WMS pick task completed |
+| `commerce.wms.pack_completed` | WMS pack operation completed |
+| `commerce.wms.putaway_completed` | WMS putaway completed |
+| `commerce.tms.load_planned` | TMS load plan created |
+| `commerce.tms.carrier_assigned` | TMS carrier assigned to load |
+| `commerce.tms.shipment_in_transit` | TMS shipment in transit |
+| `commerce.tms.delivery_confirmed` | TMS delivery confirmed |
 
 ## Events Consumed
 
@@ -383,17 +426,17 @@ Inbox binding: `commerce.inbox` binds to the following routing keys:
 | `commerce.#` | Self-binding for saga compensation |
 | `commerce.orchestration.#` | Self-binding for order orchestration saga compensation |
 | `commerce.backorder.#` | Self-binding for backorder saga compensation |
-| `finance.purchase-order.#` | `finance.purchase-order.created`, `finance.purchase-order.approved`, `finance.purchase-order.received` |
-| `finance.invoice.#` | `finance.invoice.created`, `finance.invoice.creation.failed`, `finance.invoice.paid`, `finance.invoice.credit-memo` |
+| `finance.purchase_order.#` | `finance.purchase_order.created`, `finance.purchase_order.approved`, `finance.purchase_order.received` |
+| `finance.invoice.#` | `finance.invoice.created`, `finance.invoice.creation.failed`, `finance.invoice.paid`, `finance.invoice.credit_memo` |
 | `finance.sourcing.#` | `finance.sourcing.event.created`, `finance.sourcing.bid.submitted`, `finance.sourcing.event.awarded` |
-| `finance.cash-application.#` | `finance.cash-application.matched`, `finance.cash-application.unmatched` |
-| `manufacturing.work-order.#` | `manufacturing.work-order.created`, `manufacturing.work-order.started`, `manufacturing.work-order.completed` |
-| `manufacturing.digital-twin.#` | `manufacturing.digital-twin.state.updated`, `manufacturing.digital-twin.simulation.completed`, `manufacturing.digital-twin.prediction.generated` |
+| `finance.cash_application.#` | `finance.cash_application.matched`, `finance.cash_application.unmatched` |
+| `manufacturing.work_order.#` | `manufacturing.work_order.created`, `manufacturing.work_order.started`, `manufacturing.work_order.completed` |
+| `manufacturing.digital_twin.#` | `manufacturing.digital_twin.state.updated`, `manufacturing.digital_twin.simulation.completed`, `manufacturing.digital_twin.prediction.generated` |
 | `crm.opportunity.won` | `crm.opportunity.won` |
-| `crm.cdp.#` | `crm.cdp.profile.created`, `crm.cdp.profile.updated`, `crm.cdp.profile.merged`, `crm.cdp.segment.updated`, `crm.cdp.journey.step.completed`, `crm.cdp.engagement-score.updated` |
-| `commerce.tms.shipment-in-transit` | `commerce.tms.shipment-in-transit` → Update delivery tracking |
-| `commerce.wms.pick-completed` | `commerce.wms.pick-completed` → Update inventory allocation |
-| `integration.trade.party-screened` | Trade compliance screening result — block/fulfill order based on sanctioned party check |
+| `crm.cdp.#` | `crm.cdp.profile.created`, `crm.cdp.profile.updated`, `crm.cdp.profile.merged`, `crm.cdp.segment.updated`, `crm.cdp.journey.step.completed`, `crm.cdp.engagement_score.updated` |
+| `commerce.tms.shipment_in_transit` | `commerce.tms.shipment_in_transit` → Update delivery tracking |
+| `commerce.wms.pick_completed` | `commerce.wms.pick_completed` → Update inventory allocation |
+| `integration.trade.party_screened` | Trade compliance screening result — block/fulfill order based on sanctioned party check |
 | `config.changed` | `config.changed` |
 
 ## See Also

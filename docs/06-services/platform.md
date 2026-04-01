@@ -150,6 +150,20 @@
 | Serverless Scripts | Serverless script execution for custom business logic with sandboxed runtime and event triggers |
 | Page Composer | Visual page composer for building custom UIs with drag-and-drop widgets, layouts, and data bindings |
 
+## Policy Automation
+
+**Policy Automation** — Business rule engine for deterministic policy decisions with explainable outcomes. Rule authoring with natural-language-like syntax, decision tables, and rule flows. Versioned rule sets with deployment lifecycle (draft → tested → published). Bulk assessment API for high-volume eligibility and compliance checks. What-if analysis for policy change impact simulation. Integration with GRC for SoD policy enforcement and compliance assessments. See [policy-automation.md](../07-features/policy-automation.md).
+
+| Table | Description |
+|-------|-------------|
+| `policy_rules` | Policy rule definitions with conditions and actions |
+| `policy_assessments` | Assessment results with traceability to matched rules |
+
+| Event | Description |
+|-------|-------------|
+| `platform.policy.rule.created` | Policy rule created or updated |
+| `platform.policy.assessed` | Policy assessment completed with outcome |
+
 ## Access Certification
 
 | Module | Description |
@@ -225,16 +239,16 @@ All tables include standard columns per SPEC.md §9.1.
 | `platform.file.uploaded` | File uploaded and stored |
 | `platform.file.deleted` | File soft-deleted |
 | `platform.audit.logged` | Audit log entry created |
-| `platform.digital-assistant.intent.resolved` | Digital assistant resolved user intent |
-| `platform.digital-assistant.action.executed` | Digital assistant executed an action |
-| `platform.digital-assistant.feedback.recorded` | User feedback on assistant response recorded |
-| `platform.app-builder.app.published` | Low-code application published |
-| `platform.app-builder.app.updated` | Low-code application updated |
+| `platform.digital_assistant.intent.resolved` | Digital assistant resolved user intent |
+| `platform.digital_assistant.action.executed` | Digital assistant executed an action |
+| `platform.digital_assistant.feedback.recorded` | User feedback on assistant response recorded |
+| `platform.app_builder.app.published` | Low-code application published |
+| `platform.app_builder.app.updated` | Low-code application updated |
 | `platform.grc.compliance.violation.detected` | Compliance violation detected |
 | `platform.grc.risk.assessment.completed` | Risk assessment completed |
 | `platform.grc.sod.conflict.detected` | Segregation of Duties conflict detected |
 | `platform.grc.incident.created` | GRC incident created |
-| `platform.data-mask.applied` | Data masking rule applied to non-production environment |
+| `platform.data_mask.applied` | Data masking rule applied to non-production environment |
 | `platform.scheduler.job.started` | Scheduled job started execution |
 | `platform.scheduler.job.completed` | Scheduled job completed |
 | `platform.scheduler.job.failed` | Scheduled job failed |
@@ -259,9 +273,9 @@ All tables include standard columns per SPEC.md §9.1.
 | `platform.itsm.incident.created` | IT service incident created |
 | `platform.itsm.change.approved` | IT change request approved |
 | `platform.compliance.alert.triggered` | Compliance hub alert triggered |
-| `platform.ipa.cognitive-bot.executed` | Intelligent process automation bot completed cognitive task |
+| `platform.ipa.cognitive_bot.executed` | Intelligent process automation bot completed cognitive task |
 | `platform.ipa.process.discovered` | New automation opportunity discovered from usage analytics |
-| `platform.ipa.bot.self-learned` | Bot updated its model from feedback |
+| `platform.ipa.bot.self_learned` | Bot updated its model from feedback |
 
 ## Events Consumed
 
@@ -270,19 +284,19 @@ Inbox binding: `platform.inbox` binds to the following routing keys:
 | Binding Pattern | Events Consumed |
 |----------------|-----------------|
 | `auth.login.#` | `auth.login.succeeded`, `auth.login.failed` |
-| `hr.#` | `hr.employee.created`, `hr.employee.hired`, `hr.employee.updated`, `hr.employee.separated`, `hr.talent-review.initiated` |
+| `hr.#` | `hr.employee.created`, `hr.employee.hired`, `hr.employee.updated`, `hr.employee.separated`, `hr.talent_review.initiated` |
 | `commerce.order.#` | `commerce.order.created`, `commerce.order.submitted`, `commerce.order.fulfilled`, `commerce.order.cancelled` |
 | `commerce.credit.#` | `commerce.credit.hold.applied`, `commerce.credit.hold.released` |
-| `commerce.shipment.#` | `commerce.shipment.dispatched`, `commerce.shipment.in-transit`, `commerce.shipment.delivered` |
-| `commerce.tms.delivery-confirmed` | `commerce.tms.delivery-confirmed` — TMS delivery confirmation for notification dispatch |
+| `commerce.shipment.#` | `commerce.shipment.dispatched`, `commerce.shipment.in_transit`, `commerce.shipment.delivered` |
+| `commerce.tms.delivery_confirmed` | `commerce.tms.delivery_confirmed` — TMS delivery confirmation for notification dispatch |
 | `commerce.logistics.#` | `commerce.logistics.tracking.updated`, `commerce.logistics.condition.alert`, `commerce.logistics.exception.detected` |
 | `finance.lease.#` | `finance.lease.created`, `finance.lease.modified` |
-| `finance.supplier-risk.#` | `finance.supplier-risk.score.updated`, `finance.supplier-risk.alert.triggered`, `finance.supplier-risk.mitigation.created` |
-| `finance.intelligent-close.#` | `finance.intelligent-close.task.auto-assigned`, `finance.intelligent-close.anomaly.detected`, `finance.intelligent-close.auto-reconciled` |
-| `integration.trade-compliance.#` | `integration.trade-compliance.screening.completed`, `integration.trade-compliance.screening.flagged`, `integration.trade-compliance.license.expiring` |
+| `finance.supplier_risk.#` | `finance.supplier_risk.score.updated`, `finance.supplier_risk.alert.triggered`, `finance.supplier_risk.mitigation.created` |
+| `finance.intelligent_close.#` | `finance.intelligent_close.task.auto-assigned`, `finance.intelligent_close.anomaly.detected`, `finance.intelligent_close.auto-reconciled` |
+| `integration.trade_compliance.#` | `integration.trade_compliance.screening.completed`, `integration.trade_compliance.screening.flagged`, `integration.trade_compliance.license.expiring` |
 | `crm.cdp.#` | `crm.cdp.profile.created`, `crm.cdp.profile.updated`, `crm.cdp.profile.merged`, `crm.cdp.segment.updated` |
 | `report.process.#` | `report.process.discovered`, `report.process.conformance.checked`, `report.process.bottleneck.detected`, `report.process.simulation.completed` |
-| `manufacturing.intelligence.#` | `manufacturing.intelligence.oee.threshold-breached`, `manufacturing.intelligence.downtime.categorized`, `manufacturing.intelligence.energy.anomaly`, `manufacturing.intelligence.predictive-maintenance.alert` |
+| `manufacturing.intelligence.#` | `manufacturing.intelligence.oee.threshold_breached`, `manufacturing.intelligence.downtime.categorized`, `manufacturing.intelligence.energy.anomaly`, `manufacturing.intelligence.predictive_maintenance.alert` |
 | `tenant.feature.#` | `tenant.feature.changed` |
 | `config.changed` | `config.changed` |
 | `platform.#` | Self-binding for saga compensation (SPEC.md §5.9) |

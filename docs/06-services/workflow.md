@@ -87,7 +87,7 @@
 
 | Template | Source Event | Approval Chain | Typical Routing |
 |----------|-------------|----------------|-----------------|
-| Purchase Requisition Approval | `finance.purchase-order.created` (from Commerce/Finance) | Sequential by amount: < $5K → manager; < $25K → manager + finance; >= $25K → manager + finance + CFO | Amount-based via business rule |
+| Purchase Requisition Approval | `finance.purchase_order.created` (from Commerce/Finance) | Sequential by amount: < $5K → manager; < $25K → manager + finance; >= $25K → manager + finance + CFO | Amount-based via business rule |
 | Expense Approval | `finance.expense.submitted` | Sequential: employee → manager; amounts > $10K add finance review | Amount and category routing |
 | Leave Approval | `hr.leave.requested` | Sequential: employee → manager; > 5 consecutive days adds HR review | Duration-based routing |
 | Contract Approval | `commerce.order.created` (contract type) | Sequential: requester → legal → finance → executive (amount threshold) | Amount, contract type, and department routing |
@@ -254,15 +254,15 @@ All tables include standard columns per SPEC.md §9.1.
 | `hr.leave.#` | HCM Service | Trigger leave approval template |
 | `commerce.order.#` | Commerce Service | Trigger contract approval or order approval template |
 | `commerce.credit.#` | Commerce Service | Trigger credit limit approval template |
-| `finance.purchase-order.#` | Finance Service | Trigger purchase requisition approval template |
+| `finance.purchase_order.#` | Finance Service | Trigger purchase requisition approval template |
 | `finance.expense.#` | Finance Service | Trigger expense approval template |
-| `finance.intelligent-close.#` | Finance Service | Trigger intelligent close approval template |
-| `finance.supplier-risk.#` | Finance Service | Trigger supplier risk escalation template |
+| `finance.intelligent_close.#` | Finance Service | Trigger intelligent close approval template |
+| `finance.supplier_risk.#` | Finance Service | Trigger supplier risk escalation template |
 | `manufacturing.eco.#` | Manufacturing Service | Trigger change order approval template |
 | `report.process.#` | Report Service | Trigger process improvement approval template |
 | `platform.rpa.#` | Platform Service | Trigger RPA exception approval template |
 | `platform.grc.#` | Platform Service | Trigger GRC remediation approval template |
-| `integration.trade-compliance.#` | Integration Service | Trigger trade compliance approval template |
+| `integration.trade_compliance.#` | Integration Service | Trigger trade compliance approval template |
 | `commerce.tms.#` | Commerce Service | Trigger TMS freight approval template |
 | `commerce.wms.#` | Commerce Service | Trigger WMS warehouse operation approval template |
 | `finance.sla.#` | Finance Service | Trigger subledger accounting journal approval template |

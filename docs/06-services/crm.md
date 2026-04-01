@@ -155,7 +155,7 @@
 | `crm.lead.created` | Lead created |
 | `crm.lead.converted` | Lead converted to opportunity |
 | `crm.opportunity.created` | Opportunity created |
-| `crm.opportunity.stage-changed` | Opportunity moved to new stage |
+| `crm.opportunity.stage_changed` | Opportunity moved to new stage |
 | `crm.opportunity.won` | Deal won |
 | `crm.opportunity.lost` | Deal lost |
 | `crm.campaign.launched` | Campaign launched |
@@ -163,9 +163,9 @@
 | `crm.activity.logged` | Activity (call, email, meeting) logged |
 | `crm.case.created` | Service case created |
 | `crm.case.resolved` | Service case resolved |
-| `crm.service-order.created` | Field service order created |
-| `crm.service-order.completed` | Field service order completed |
-| `crm.service-order.dispatched` | Technician dispatched for service |
+| `crm.service_order.created` | Field service order created |
+| `crm.service_order.completed` | Field service order completed |
+| `crm.service_order.dispatched` | Technician dispatched for service |
 | `crm.survey.created` | Survey created |
 | `crm.survey.response.received` | Survey response submitted |
 | `crm.territory.updated` | Sales territory assignment updated |
@@ -175,13 +175,13 @@
 | `crm.cdp.profile.merged` | Customer profiles merged (identity resolution) |
 | `crm.cdp.segment.updated` | Customer segment membership updated |
 | `crm.cdp.journey.step.completed` | Customer journey step completed |
-| `crm.cdp.engagement-score.updated` | Customer engagement score recalculated |
+| `crm.cdp.engagement_score.updated` | Customer engagement score recalculated |
 | `crm.contact.center.interaction.created` | Contact center interaction received |
 | `crm.social.mention.detected` | Social media mention detected |
 | `crm.ab.test.completed` | A/B test completed with results |
-| `crm.campaign.contact-engaged` | Campaign contact engagement recorded |
-| `crm.lead.score-updated` | Lead score updated |
-| `crm.campaign.conversion-credited` | Campaign conversion credited |
+| `crm.campaign.contact_engaged` | Campaign contact engagement recorded |
+| `crm.lead.score_updated` | Lead score updated |
+| `crm.campaign.conversion_credited` | Campaign conversion credited |
 
 ## Events Consumed
 

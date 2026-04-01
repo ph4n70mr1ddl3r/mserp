@@ -272,15 +272,15 @@ All tables include standard columns per SPEC.md §9.1.
 | `hr.leave.approved` | `{ leave_request_id, employee_id, tenant_id, approved_by, days }` | Leave request approved |
 | `hr.leave.rejected` | `{ leave_request_id, employee_id, tenant_id, rejected_by, reason }` | Leave request rejected |
 | `hr.payroll.processed` | `{ payroll_run_id, tenant_id, period_start, period_end, country_code, total_gross, total_tax, total_net, gl_entries }` | Payroll run completed |
-| `hr.payroll.multi-country.completed` | `{ cycle_id, tenant_id, countries, total_employees, total_gross, total_net }` | Multi-country payroll cycle completed |
+| `hr.payroll.multi_country.completed` | `{ cycle_id, tenant_id, countries, total_employees, total_gross, total_net }` | Multi-country payroll cycle completed |
 | `hr.requisition.created` | `{ requisition_id, tenant_id, title, department_id, headcount, priority }` | Job requisition created |
 | `hr.applicant.submitted` | `{ applicant_id, tenant_id, requisition_id, name, email, source }` | Job application submitted |
 | `hr.review.started` | `{ cycle_id, tenant_id, review_type, start_date, end_date, participant_count }` | Performance review cycle started |
 | `hr.review.completed` | `{ review_id, employee_id, tenant_id, cycle_id, overall_rating }` | Performance review completed |
 | `hr.training.completed` | `{ enrollment_id, employee_id, tenant_id, course_id, score, passed }` | Training course completed |
-| `hr.talent-review.initiated` | `{ cycle_id, tenant_id, participant_count }` | Talent review process initiated |
-| `hr.succession.plan-created` | `{ plan_id, tenant_id, position_id, candidate_id, readiness_level, target_date }` | Succession plan created for a key position |
-| `hr.workforce.simulation-completed` | `{ simulation_id, tenant_id, scenario_type, headcount_impact, cost_impact }` | Workforce modeling simulation completed |
+| `hr.talent_review.initiated` | `{ cycle_id, tenant_id, participant_count }` | Talent review process initiated |
+| `hr.succession.plan_created` | `{ plan_id, tenant_id, position_id, candidate_id, readiness_level, target_date }` | Succession plan created for a key position |
+| `hr.workforce.simulation_completed` | `{ simulation_id, tenant_id, scenario_type, headcount_impact, cost_impact }` | Workforce modeling simulation completed |
 
 ## Events Consumed
 
@@ -293,16 +293,7 @@ Inbox binding: `hr.inbox` binds to the following routing keys:
 | `workflow.step.#` | Approval result processing for leave requests, recruitment requisitions, compensation changes, and performance calibration |
 | `config.changed` | Reload HR configuration (leave policies, tax rules, payroll parameters, benefit plan settings) |
 
-## Error Codes
-
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
-| `HR_EMPLOYEE_EXISTS` | 409 | Employee with this ID already exists |
-| `HR_LEAVE_BALANCE_EXCEEDED` | 409 | Not enough leave balance |
-| `HR_ATTENDANCE_CONFLICT` | 409 | Overlapping attendance record |
-| `HR_PAYROLL_ALREADY_PROCESSED` | 409 | Payroll for this period already processed |
-| `HR_REQUISITION_CLOSED` | 409 | Job requisition is closed |
-| `HR_SUCCESSION_PLAN_EXISTS` | 409 | Succession plan already exists for this position |
+> **Error codes:** See [docs/05-api/error-codes.md](../05-api/error-codes.md) (HR domain)
 
 ## See Also
 

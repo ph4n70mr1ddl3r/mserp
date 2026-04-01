@@ -142,7 +142,7 @@
 | `report.process.bottleneck.detected` | Process bottleneck identified |
 | `report.process.simulation.completed` | Process simulation completed |
 | `report.cpm.okr.updated` | OKR progress updated |
-| `report.cpm.initiative.status-changed` | Strategic initiative status changed |
+| `report.cpm.initiative.status_changed` | Strategic initiative status changed |
 | `report.cpm.scorecard.updated` | Balanced scorecard recalculated |
 | `report.narrative.package.published` | Report package published for distribution |
 | `report.narrative.commentary.added` | Commentary added to report section |
@@ -157,7 +157,7 @@ Inbox binding: `report.inbox` binds to the following routing keys:
 | Binding Pattern | Events Consumed |
 |----------------|-----------------|
 | `report.#` | Self-binding for saga compensation |
-| `report.ml-studio.#` | Self-binding for ML Studio saga compensation |
+| `report.ml_studio.#` | Self-binding for ML Studio saga compensation |
 | `commerce.#` | All Commerce events (orders, stock, deliveries, subscriptions, loyalty, etc.) |
 | `finance.#` | All Finance events (invoices, payments, journals, budgets, revenue recognition, etc.) |
 | `hr.#` | All HR events (employee lifecycle, payroll, leave, reviews, etc.) |
@@ -168,7 +168,7 @@ Inbox binding: `report.inbox` binds to the following routing keys:
 | `platform.audit.#` | `platform.audit.logged` |
 | `platform.rpa.#` | `platform.rpa.bot.created`, `platform.rpa.bot.executed`, `platform.rpa.bot.failed` |
 | `tenant.feature.#` | `tenant.feature.changed` |
-| `integration.trade-compliance.#` | `integration.trade-compliance.screening.completed`, `integration.trade-compliance.screening.flagged`, `integration.trade-compliance.license.expiring` |
+| `integration.trade_compliance.#` | `integration.trade_compliance.screening.completed`, `integration.trade_compliance.screening.flagged`, `integration.trade_compliance.license.expiring` |
 | `config.changed` | `config.changed` |
 
 ## See Also

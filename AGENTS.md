@@ -12,7 +12,7 @@ Agents MUST follow documents in this order of authority:
 1. **SPEC.md** — Authoritative single source of truth. All rules live here or are referenced from here. Conflicts are always resolved in SPEC.md's favor.
 2. **AGENTS.md** — This file. Agent workflow and reading order only. Does not duplicate rules.
 3. **Service specs** (`docs/06-services/*.md`) — Per-service modules, tables, events, integration points.
-4. **Feature specs** (`docs/07-features/*.md`) — Detailed business rules for 55 feature specifications. See SPEC.md §12 for the registry. Includes 5 Oracle Fusion features: Advanced Warehouse Management (WMS) → Commerce Service, Advanced Transportation Management (TMS) → Commerce Service, Global Trade Management → Integration Service, Marketing Automation → CRM Service, Subledger Accounting Engine → Finance Service.
+4. **Feature specs** (`docs/07-features/*.md`) — Detailed business rules for 61 feature specifications. See SPEC.md §12 for the registry. Includes 11 Oracle Fusion features: Advanced Warehouse Management (WMS) → Commerce Service, Advanced Transportation Management (TMS) → Commerce Service, Global Trade Management → Integration Service, Marketing Automation → CRM Service, Subledger Accounting Engine → Finance Service, Configure Price Quote (CPQ) → Commerce Service, Retail POS → Commerce Service, Construction & Engineering → Project Service, Policy Automation → Platform Service, Advanced Tax Filing → Finance Service, Property Management → Commerce Service.
 5. **Cross-cutting specs** (`docs/02-*` through `docs/05-*`) — Security, data, events, API standards.
 6. **Infrastructure/dev/planning** (`docs/08-*` through `docs/10-*`) — Operational concerns, conventions, NFRs.
 
@@ -43,7 +43,7 @@ Agents MUST follow documents in this order of authority:
 | Commerce → Finance handoff | SPEC.md §7.2 |
 | Analytics ownership | SPEC.md §7.3 |
 | ML/AI ownership split | SPEC.md §14 |
-| Feature-to-service registry (55 specs) | SPEC.md §12 |
+| Feature-to-service registry (61 specs) | SPEC.md §12 |
 | Testing requirements & quality gates | SPEC.md §18, `docs/10-planning/nfr.md` |
 | Code conventions | `docs/09-development/conventions.md` |
 | Project structure | `docs/09-development/project-structure.md` |
@@ -80,7 +80,7 @@ Follow these 10 steps in order:
 2. **Read SPEC.md §6** (Domain Ownership) — confirm exact boundary of what this service owns vs. what other services own.
 3. **Read `docs/06-services/{service}.md`** — modules, tables, events, integration points for this specific service.
 4. **Read `docs/06-services/overview.md`** — service catalog, port assignments, inter-service dependencies.
-5. **Read `docs/07-features/`** — check for relevant feature specs that apply to this service's modules. Includes Oracle Fusion features (WMS, TMS, Global Trade, Marketing Automation, Subledger Accounting).
+5. **Read `docs/07-features/`** — check for relevant feature specs that apply to this service's modules. Includes Oracle Fusion features (WMS, TMS, Global Trade, Marketing Automation, Subledger Accounting, CPQ, Retail POS, Construction & Engineering, Policy Automation, Advanced Tax Filing, Property Management).
 6. **Read `docs/05-api/standards.md`** and `docs/05-api/endpoints.md` — API design rules and endpoint definitions.
 7. **Read `docs/03-data/overview.md`** and `docs/03-data/domain-models.md`** — database patterns, standard columns, domain models.
 8. **Read `docs/04-events/overview.md`** and `docs/04-events/catalog.md`** — event patterns, inbox bindings, event catalog.
@@ -99,7 +99,7 @@ Also reference as needed:
 Follow these 7 steps in order:
 
 1. **Identify the owning service.** Use SPEC.md §6 (Domain Ownership) to confirm which service owns this feature. Every feature belongs to EXACTLY ONE service.
-2. **Check for an existing feature spec.** Look in `docs/07-features/` for an existing spec. If one exists, read it for detailed business rules. See SPEC.md §12 for the full registry of 55 feature specs (including 5 Oracle Fusion features: Advanced Warehouse Management, Advanced Transportation Management, Global Trade Management, Marketing Automation, Subledger Accounting Engine).
+2. **Check for an existing feature spec.** Look in `docs/07-features/` for an existing spec. If one exists, read it for detailed business rules. See SPEC.md §12 for the full registry of 61 feature specs (including 11 Oracle Fusion features: Advanced Warehouse Management, Advanced Transportation Management, Global Trade Management, Marketing Automation, Subledger Accounting Engine, Configure Price Quote, Retail POS, Construction & Engineering, Policy Automation, Advanced Tax Filing, Property Management).
 3. **Add new events** to `docs/04-events/catalog.md`. Use namespace `{domain}.{entity}.{action}` where domain matches the service (e.g., `commerce`, `finance`, `hr`, `manufacturing`, `platform`). Also update inbox bindings in `docs/04-events/overview.md` if new cross-service subscriptions are needed.
 4. **Add new endpoints** to `docs/05-api/endpoints.md`. Follow API design rules from `docs/05-api/standards.md` (RESTful, versioned `/api/v1/...`, Bearer JWT, cursor-based pagination, RFC 7807 errors, Idempotency-Key).
 5. **Add new error codes** to `docs/05-api/error-codes.md`. Follow the existing error code taxonomy. Format: RFC 7807 Problem Details.
@@ -134,12 +134,12 @@ Follow event architecture from SPEC.md §5 and `docs/04-events/overview.md`.
 ```
 
 - **Domain**: Service name (`auth`, `identity`, `tenant`, `config`, `commerce`, `finance`, `hr`, `manufacturing`, `report`, `workflow`, `platform`, `integration`, `crm`, `project`).
-- **Entity**: Business entity (e.g., `order`, `invoice`, `employee`, `work-order`).
+- **Entity**: Business entity (e.g., `order`, `invoice`, `employee`, `work_order`).
 - **Action**: `created`, `updated`, `deleted`, `submitted`, `approved`, `rejected`, `completed`, `failed`, etc.
 
 ### Steps
 
-1. Define the event in `docs/04-events/catalog.md` with type, version, payload schema, publisher, consumers.
+1. Define the event in `docs/04-events/catalog.md` (290+ domain events defined) with type, version, payload schema, publisher, consumers.
 2. Update inbox bindings in `docs/04-events/overview.md` if a new service needs to consume this event.
 3. Add the event to the outbox table in the publishing service's database.
 4. Implement the consumer with idempotent processing (dedup on `event_id`).
@@ -195,6 +195,7 @@ Verify every item before writing any code:
 11. **Building independent analytics infrastructure.** Report Service owns all analytics. Other services publish domain events; Report Service consumes them for its data warehouse. (SPEC.md §7.3)
 12. **Owning IoT device registration in Manufacturing Service.** Platform Service owns the authoritative device registry. Manufacturing's `iot_devices` table is a local cache. Manufacturing owns telemetry only. (SPEC.md §7.6)
 13. **Duplicating SoD rules in Workflow Service.** Platform Service (GRC) owns SoD rule definitions. Workflow queries Platform API for rules. Workflow does NOT have its own `sod_rules` table. (SPEC.md §7.7)
+14. **Using hyphens in event names.** Event entity and action segments MUST use underscores only (e.g., `purchase_order`, not `purchase-order`). Hyphens are not permitted in event names. (SPEC.md §5.1)
 
 ---
 
@@ -207,7 +208,7 @@ Follow this sequence when implementing a service module:
 1. **Parse the task requirement.** Identify what needs to be built: new module, new endpoint, new event, new table, bug fix, or refactor.
 2. **Identify the owning service** from SPEC.md §6 (Domain Ownership). If the task spans multiple services, break it into per-service subtasks.
 3. **Read the service spec** (`docs/06-services/{service}.md`) for existing module context, tables, events, and integration points.
-4. **Check for a feature spec** in `docs/07-features/`. If one exists, it contains the detailed business rules. See SPEC.md §12 for the full registry of 55 feature specs (including 5 Oracle Fusion features: Advanced Warehouse Management, Advanced Transportation Management, Global Trade Management, Marketing Automation, Subledger Accounting Engine).
+4. **Check for a feature spec** in `docs/07-features/`. If one exists, it contains the detailed business rules. See SPEC.md §12 for the full registry of 61 feature specs (including 11 Oracle Fusion features: Advanced Warehouse Management, Advanced Transportation Management, Global Trade Management, Marketing Automation, Subledger Accounting Engine, Configure Price Quote, Retail POS, Construction & Engineering, Policy Automation, Advanced Tax Filing, Property Management).
 
 ### Phase 2: Design
 

@@ -202,6 +202,14 @@
 | POST | `/api/v1/commerce/transportation/carrier-selection` | Select carrier |
 | GET | `/api/v1/commerce/transportation/shipments/{id}/track` | Track shipment |
 | POST | `/api/v1/commerce/transportation/freight-audit` | Audit freight charges |
+| POST | `/api/v1/commerce/configurations` | Create CPQ configuration |
+| POST | `/api/v1/commerce/quotes` | Create quote from configuration |
+| POST | `/api/v1/commerce/quotes/{id}/convert-to-order` | Convert quote to sales order |
+| POST | `/api/v1/commerce/pos/transactions` | Create POS transaction |
+| GET | `/api/v1/commerce/pos/terminals` | List POS terminals |
+| POST | `/api/v1/commerce/pos/shifts` | Open POS shift |
+| POST | `/api/v1/commerce/properties` | Create property |
+| GET | `/api/v1/commerce/properties/{id}/tenants` | List property tenants |
 
 ### Finance Service (Finance + Procurement + Treasury + Expenses + CLM + EPM)
 | Method | Endpoint | Description |
@@ -333,6 +341,8 @@
 | GET | `/api/v1/finance/discounting/programs/{id}` | Get discounting program details |
 | POST | `/api/v1/finance/discounting/programs/{id}/simulate` | Simulate discounting program scenario |
 | GET | `/api/v1/finance/discounting/working-capital` | Get working capital position |
+| POST | `/api/v1/finance/tax-filing/returns` | Create tax filing return |
+| GET | `/api/v1/finance/tax-filing/calendar` | Get tax filing calendar |
 
 ### HCM Service
 | Method | Endpoint | Description |
@@ -548,6 +558,8 @@
 | GET | `/api/v1/projects/{id}/risks` | List project risks |
 | POST | `/api/v1/projects/{id}/risks` | Register risk |
 | GET | `/api/v1/projects/{id}/evm` | Get Earned Value Management metrics |
+| GET | `/api/v1/project/construction/commitments` | List construction commitments |
+| POST | `/api/v1/project/construction/progress-billing` | Create progress billing |
 | GET | `/api/v1/programs` | List programs |
 | POST | `/api/v1/programs` | Create program |
 
@@ -669,6 +681,8 @@
 | POST | `/api/v1/platform/grc/certification/reviews/{id}/decide` | Submit certification decision |
 | GET | `/api/v1/platform/grc/certification/analytics` | Get certification analytics |
 | GET | `/api/v1/platform/grc/role-mining` | Get role mining results |
+| POST | `/api/v1/platform/policies` | Create policy |
+| GET | `/api/v1/platform/policies/{id}/simulate` | Simulate policy evaluation |
 
 ### Workflow Service
 | Method | Endpoint | Description |

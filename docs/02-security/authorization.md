@@ -116,6 +116,12 @@
 | Global Trade Compliance Manager | Global trade compliance management | `integration.trade.*`, `integration.compliance.*` |
 | Marketing Automation Manager | Marketing automation management | `crm.campaign.*`, `crm.lead.*`, `crm.segment.*` |
 | Subledger Accountant | Subledger accounting operations | `finance.sla.*`, `finance.journal.*` |
+| CPQ Designer | CPQ configuration and quoting | `commerce.cpq.*`, `commerce.pricing.*` |
+| Retail POS Operator | Retail point of sale operations | `commerce.pos.*`, `commerce.order.create` |
+| Property Manager | Property management operations | `commerce.property.*` |
+| Tax Filing Specialist | Tax filing and returns management | `finance.tax_filing.*`, `finance.tax.*` |
+| Policy Analyst | Policy automation and analysis | `platform.policy.*` |
+| Construction Project Manager | Construction project management | `project.construction.*`, `project.project.*` |
 
 > **Note:** Entity-level wildcards are supported (e.g., `report.*.read` grants read access to all entities within the report domain).
 

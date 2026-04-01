@@ -195,7 +195,7 @@ ECCN classification per product. License management tracks validity, scope (coun
 
 1. Record submitted via `POST /api/v1/integrations/trade-compliance/screen`.
 2. Fields matched against all active sanctions lists using fuzzy matching.
-3. Matches above threshold flagged with `integration.trade-compliance.screening.flagged`.
+3. Matches above threshold flagged with `integration.trade_compliance.screening.flagged`.
 4. Confirmed matches blocked from transactions until cleared by compliance officer.
 5. Full audit trail (match score, list source, reviewer, disposition).
 
@@ -274,26 +274,26 @@ ECCN classification per product. License management tracks validity, scope (coun
 | `integration.sync.failed` | `{ integration_id, error_code, error_message }` | Sync failed |
 | `integration.import.completed` | `{ job_id, entity_type, total_rows, imported_rows, failed_rows }` | Import completed |
 | `integration.import.failed` | `{ job_id, entity_type, error_message }` | Import failed |
-| `integration.master-data.matched` | `{ domain, golden_record_id, source_record_id, match_score }` | Matching result |
-| `integration.master-data.merged` | `{ domain, golden_record_id, merged_source_ids }` | Records merged |
-| `integration.master-data.quality.violation` | `{ domain, rule_id, record_id, violation_details }` | Quality violation |
-| `integration.trade-compliance.screening.completed` | `{ screening_id, entity_type, entity_id, result }` | Screening completed |
-| `integration.trade-compliance.screening.flagged` | `{ screening_id, entity_type, entity_id, match_score, sanctions_list }` | Screening flagged |
-| `integration.trade-compliance.license.expiring` | `{ license_id, eccn, country, expires_at }` | License expiring |
+| `integration.master_data.matched` | `{ domain, golden_record_id, source_record_id, match_score }` | Matching result |
+| `integration.master_data.merged` | `{ domain, golden_record_id, merged_source_ids }` | Records merged |
+| `integration.master_data.quality.violation` | `{ domain, rule_id, record_id, violation_details }` | Quality violation |
+| `integration.trade_compliance.screening.completed` | `{ screening_id, entity_type, entity_id, result }` | Screening completed |
+| `integration.trade_compliance.screening.flagged` | `{ screening_id, entity_type, entity_id, match_score, sanctions_list }` | Screening flagged |
+| `integration.trade_compliance.license.expiring` | `{ license_id, eccn, country, expires_at }` | License expiring |
 | `integration.blockchain.record.anchored` | `{ anchor_id, asset_id, hash, network, timestamp }` | Record anchored |
 | `integration.blockchain.record.verified` | `{ anchor_id, verifier_id, timestamp }` | Record verified |
-| `integration.blockchain.smart-contract.deployed` | `{ contract_id, address, network, deployer }` | Contract deployed |
-| `integration.blockchain.smart-contract.executed` | `{ contract_id, transaction_hash, result }` | Contract executed |
-| `integration.developer-portal.api-key.provisioned` | `{ key_id, developer_id, scopes }` | API key provisioned |
-| `integration.developer-portal.sandbox.reset` | `{ sandbox_id, requester_id }` | Sandbox reset |
-| `integration.data-quality.profile.completed` | `{ profile_id, entity_type, records_profiled, quality_score }` | Profiling completed |
-| `integration.data-quality.rule.violated` | `{ violation_id, rule_id, entity_type, record_id, violation_details }` | Quality rule violated |
-| `integration.data-quality.cleansing.completed` | `{ batch_id, records_processed, records_cleansed, records_flagged }` | Cleansing completed |
-| `integration.data-quality.match.completed` | `{ match_id, entity_type, records_matched, records_merged, survivors }` | Matching completed |
-| `integration.trade.party-screened` | `{ screening_id, entity_type, entity_id, result, lists_checked }` | Trade party screened against sanctions lists |
-| `integration.trade.license-validated` | `{ license_id, eccn, country, status, remaining_quantity }` | Export license validated |
-| `integration.trade.customs-filed` | `{ filing_id, shipment_id, country, document_type, status }` | Customs documentation filed |
-| `integration.trade.duty-calculated` | `{ calculation_id, shipment_id, hts_code, duty_amount, currency }` | Duty calculated for shipment |
+| `integration.blockchain.smart_contract.deployed` | `{ contract_id, address, network, deployer }` | Contract deployed |
+| `integration.blockchain.smart_contract.executed` | `{ contract_id, transaction_hash, result }` | Contract executed |
+| `integration.developer_portal.api-key.provisioned` | `{ key_id, developer_id, scopes }` | API key provisioned |
+| `integration.developer_portal.sandbox.reset` | `{ sandbox_id, requester_id }` | Sandbox reset |
+| `integration.data_quality.profile.completed` | `{ profile_id, entity_type, records_profiled, quality_score }` | Profiling completed |
+| `integration.data_quality.rule.violated` | `{ violation_id, rule_id, entity_type, record_id, violation_details }` | Quality rule violated |
+| `integration.data_quality.cleansing.completed` | `{ batch_id, records_processed, records_cleansed, records_flagged }` | Cleansing completed |
+| `integration.data_quality.match.completed` | `{ match_id, entity_type, records_matched, records_merged, survivors }` | Matching completed |
+| `integration.trade.party_screened` | `{ screening_id, entity_type, entity_id, result, lists_checked }` | Trade party screened against sanctions lists |
+| `integration.trade.license_validated` | `{ license_id, eccn, country, status, remaining_quantity }` | Export license validated |
+| `integration.trade.customs_filed` | `{ filing_id, shipment_id, country, document_type, status }` | Customs documentation filed |
+| `integration.trade.duty_calculated` | `{ calculation_id, shipment_id, hts_code, duty_amount, currency }` | Duty calculated for shipment |
 
 ## Events Consumed
 

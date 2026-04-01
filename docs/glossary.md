@@ -9,6 +9,7 @@
 | ABAC | Attribute-Based Access Control — authorization model that evaluates attributes (user, resource, environment) to make access decisions, supplementing RBAC |
 | Adaptive Intelligence | ML-powered recommendations and predictions embedded directly into business workflows |
 | AES-256 | Advanced Encryption Standard with 256-bit key — symmetric encryption algorithm for data at rest |
+| AIA Billing | American Institute of Architects billing format for construction — standardised progress payment billing method used in construction projects |
 | AMQP | Advanced Message Queuing Protocol — messaging protocol used by RabbitMQ for reliable, standards-based messaging |
 | AP | Accounts Payable — money owed by the company to suppliers |
 | API | Application Programming Interface — set of protocols for building and integrating software |
@@ -18,10 +19,12 @@
 | AR | Accounts Receivable — money owed to the company by customers |
 | ArgoCD | GitOps continuous delivery tool for Kubernetes — syncs cluster state from Git repositories |
 | ASC 606 | Accounting Standards Codification Topic 606 — US GAAP standard for revenue recognition from contracts with customers |
+| ASC 740 | Accounting for Income Taxes — US GAAP tax provision standard governing recognition and measurement of deferred tax assets and liabilities |
 | ASC 842 | Accounting Standards Codification Topic 842 — US GAAP standard for lease accounting requiring lessees to recognize right-of-use assets and lease liabilities |
 | ASCP | Advanced Supply Chain Planning — constraint-based planning and optimization for supply chain operations |
 | ASN | Advanced Shipment Notice — electronic notification from supplier to buyer about pending delivery |
 | ATP | Available-to-Promise — inventory availability check that considers current stock, open orders, and planned receipts to determine if a customer order can be fulfilled by a specific date |
+| ATP/CTP | Available-to-Promise/Capable-to-Promise — inventory availability checking that combines current stock positions with production capacity and procurement lead times to confirm order fulfilment dates |
 | Augmented Analytics | AI-powered analytics that automate data preparation, insight discovery, and narrative generation |
 | Axum | Ergonomic and modular web framework for Rust — built on Tokio and Tower |
 | BFF | Backend for Frontend — server-side pattern that aggregates multiple microservice APIs behind a single endpoint tailored to a specific client (web, mobile, IoT), reducing client complexity and round-trips |
@@ -33,13 +36,16 @@
 | Cache-Aside | Caching pattern where the application checks the cache first; on miss, fetches from the database and populates the cache |
 | Canary Deployment | Deployment strategy that routes a small percentage of traffic to a new version before full rollout, enabling early detection of issues with minimal blast radius |
 | Cap Table | Table tracking loyalty program member tier thresholds, qualification criteria, and benefit entitlements |
+| CAM | Common Area Maintenance — property management charges for shared spaces in commercial leases, covering upkeep of common areas such as lobbies, parking, and landscaping |
 | CAPA | Corrective and Preventive Action — systematic approach to investigating and resolving non-conformances |
 | Cash Application | Process of matching incoming payments (cash, checks, wire transfers) to the corresponding open invoices |
+| CbCR | Country-by-Country Reporting — multinational tax reporting requirement providing jurisdiction-level breakdown of revenue, profit, tax, and economic activity for large multinational enterprises |
 | CCC | Cash Conversion Cycle — time between paying for raw materials and collecting cash from sales (DIO + DSO - DPO) |
 | CDP | Customer Data Platform — system that creates a unified, persistent customer database accessible to other systems for segmentation, analytics, and campaign execution |
 | cert-manager | Kubernetes add-on for automated TLS certificate management and rotation |
 | Changelog | Immutable, append-only log recording all data mutations for compliance and auditing purposes |
 | Choreography (Saga) | Saga coordination style where each service independently reacts to events — no central orchestrator |
+| CLM | Contract Lifecycle Management — end-to-end management of contracts from initiation and authoring through negotiation, execution, compliance monitoring, renewal, and expiration |
 | CMDB | Configuration Management Database — IT asset registry with relationship mapping |
 | COA | Chart of Accounts — structured list of all financial account codes |
 | COGS | Cost of Goods Sold — direct costs attributable to the production of goods sold by a company |
@@ -52,6 +58,7 @@
 | Cosign | Container signing tool by Sigstore — enables keyless, transparent-log-backed container image signing and verification for supply chain security |
 | CPFR | Collaborative Planning, Forecasting & Replenishment — supply chain collaboration framework for joint demand planning between trading partners |
 | CPM | Corporate Performance Management — framework and tools for managing organizational strategy, objectives, KPIs, and initiatives across the enterprise |
+| CPQ | Configure, Price, Quote — product configuration and pricing engine with automated quote generation for complex product and service offerings |
 | CQRS | Command Query Responsibility Segregation — pattern that separates read and write operations into distinct models, enabling independent optimization of query and command paths |
 | CRDT | Conflict-Free Replicated Data Type — data structure that allows concurrent updates across distributed nodes without coordination, guaranteeing eventual consistency |
 | CRM | Customer Relationship Management — strategy and tools for managing customer interactions and data |
@@ -159,6 +166,7 @@
 | PIM | Product Information Management — centralized management of product data across all channels |
 | PLM | Product Lifecycle Management — managing a product from inception through design, manufacturing, service, and disposal |
 | Points Ledger | Accounting ledger tracking loyalty point accruals, redemptions, and expiry for audit and reconciliation |
+| POS | Point-of-Sale — retail sales terminal management including transaction processing, inventory lookup, and customer engagement at the point of purchase |
 | PostgreSQL | Open-source, object-relational database management system — primary data store for MSERP |
 | Price Elasticity | Measure of how demand for a product changes in response to price changes |
 | Privacy by Design | Framework requiring privacy considerations to be embedded into the design of systems from inception |
@@ -172,6 +180,7 @@
 | RLS | Row-Level Security — PostgreSQL feature restricting data access per row (used for tenant isolation) |
 | RMA | Return Merchandise Authorization — authorization for a customer to return a product |
 | Rotable | Repairable component that can be removed, overhauled, and reinstalled in a maintenance cycle, tracked through an exchange pool |
+| ROU | Right-of-Use — lease accounting asset representing a lessee's right to use an underlying asset for the lease term under ASC 842 / IFRS 16 |
 | ROU Asset | Right-of-Use Asset — an asset that represents a lessee's right to use an underlying asset for the lease term |
 | RPA | Robotic Process Automation — technology for automating repetitive, rule-based tasks using software bots that mimic human interactions with applications |
 | RPO | Recovery Point Objective — maximum acceptable data loss measured in time |

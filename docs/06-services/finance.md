@@ -4,7 +4,7 @@
 |--------|---------|
 | Port | 8011 |
 | Database | `finance_db` |
-| Responsibilities | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition, strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting, grant management, joint venture accounting, intelligent close, advanced collections, adaptive intelligence, advanced tax management, commodity management, spend analysis, supplier diversity |
+| Responsibilities | Financial accounting, purchasing, supplier management, multi-currency, budgeting, treasury, EPM, CLM, expenses, revenue recognition, strategic sourcing, supplier risk management, account reconciliation, profitability analysis, lease accounting, grant management, joint venture accounting, intelligent close, advanced collections, adaptive intelligence, advanced tax management, advanced tax filing, commodity management, spend analysis, supplier diversity |
 | Rationale | See [Architecture — Service Consolidation](../01-architecture/overview.md#4-service-consolidation-rationale) |
 
 ## Finance Modules
@@ -304,6 +304,21 @@
 | Export Formats | Export to PDF, Excel, HTML, XBRL instance documents, and PowerPoint |
 | Report Bursting | Automated report distribution to specific recipients based on entity, department, or role |
 
+## Advanced Tax Filing
+
+**Advanced Tax Filing** — Automated tax return preparation and filing across jurisdictions. Pre-populated tax returns from transactional tax data. Multi-jurisdiction filing calendar with deadline tracking and alerting. Electronic filing integration with tax authorities (IRS, HMRC, etc.). Tax return versioning, approval workflows, and audit trail. Amendment management for filed returns. See [advanced-tax-filing.md](../07-features/advanced-tax-filing.md).
+
+| Table | Description |
+|-------|-------------|
+| `tax_filings` | Tax filing records with return data and filing status |
+| `tax_filing_calendars` | Filing deadlines by jurisdiction and tax type |
+
+| Event | Description |
+|-------|-------------|
+| `finance.tax.filing.submitted` | Tax return submitted to authority |
+| `finance.tax.filing.accepted` | Tax return accepted by authority |
+| `finance.tax.filing.rejected` | Tax return rejected by authority |
+
 ## Subledger Accounting Engine
 
 **Subledger Accounting Engine** — Centralized journal generation from heterogeneous business events. Configurable accounting transformation rules map business transactions to journal entries using a rule-based engine. Multi-source aggregation from Commerce (orders, deliveries), HCM (payroll), and internal finance events. Journal entry templates with account derivation rules. Business transaction-to-journal mapping with extensible event handlers. Supports multi-book accounting with parallel journal generation for different accounting standards. See [subledger-accounting.md](../07-features/subledger-accounting.md).
@@ -345,27 +360,27 @@
 | `finance.invoice.created` | Invoice created |
 | `finance.invoice.creation.failed` | Invoice creation failed (saga compensation trigger) |
 | `finance.invoice.paid` | Invoice paid |
-| `finance.invoice.credit-memo` | Credit memo issued |
+| `finance.invoice.credit_memo` | Credit memo issued |
 | `finance.payment.received` | Payment received |
 | `finance.payment.made` | Payment made to supplier |
 | `finance.supplier.created` | Supplier created |
 | `finance.supplier.updated` | Supplier updated |
-| `finance.purchase-order.created` | Purchase order created |
-| `finance.purchase-order.approved` | Purchase order approved |
-| `finance.purchase-order.received` | Goods received |
+| `finance.purchase_order.created` | Purchase order created |
+| `finance.purchase_order.approved` | Purchase order approved |
+| `finance.purchase_order.received` | Goods received |
 | `finance.account.created` | Account created in chart of accounts |
 | `finance.account.updated` | Account modified in chart of accounts |
 | `finance.period.closed` | Accounting period closed |
 | `finance.budget.created` | Budget created |
 | `finance.budget.exceeded` | Budget threshold exceeded (warning) |
-| `finance.exchange-rate.updated` | Exchange rate updated |
+| `finance.exchange_rate.updated` | Exchange rate updated |
 | `finance.expense.submitted` | Expense report submitted |
 | `finance.expense.approved` | Expense report approved |
 | `finance.expense.rejected` | Expense report rejected |
 | `finance.expense.paid` | Expense reimbursement paid |
-| `finance.treasury.cash-position.updated` | Cash position updated across bank accounts |
-| `finance.treasury.payment-batch.approved` | Payment batch approved for execution |
-| `finance.treasury.payment-batch.executed` | Payment batch executed |
+| `finance.treasury.cash_position.updated` | Cash position updated across bank accounts |
+| `finance.treasury.payment_batch.approved` | Payment batch approved for execution |
+| `finance.treasury.payment_batch.executed` | Payment batch executed |
 | `finance.contract.created` | Contract created |
 | `finance.contract.approved` | Contract approved |
 | `finance.contract.renewed` | Contract renewed |
@@ -375,52 +390,52 @@
 | `finance.revenue.recognized` | Revenue recognized for a performance obligation |
 | `finance.revenue.adjusted` | Revenue recognition schedule adjusted (contract modification) |
 | `finance.revenue.deferred` | Revenue deferred to future period |
-| `finance.credit-score.updated` | Customer credit score updated |
-| `finance.credit-limit.changed` | Customer credit limit changed |
+| `finance.credit_score.updated` | Customer credit score updated |
+| `finance.credit_limit.changed` | Customer credit limit changed |
 | `finance.sourcing.event.created` | Sourcing event (RFI/RFP/RFQ) created |
 | `finance.sourcing.bid.submitted` | Supplier bid submitted for sourcing event |
 | `finance.sourcing.event.awarded` | Sourcing event awarded to supplier(s) |
-| `finance.supplier-risk.score.updated` | Supplier risk score updated |
-| `finance.supplier-risk.alert.triggered` | Supplier risk alert triggered |
-| `finance.supplier-risk.mitigation.created` | Supplier risk mitigation plan created |
+| `finance.supplier_risk.score.updated` | Supplier risk score updated |
+| `finance.supplier_risk.alert.triggered` | Supplier risk alert triggered |
+| `finance.supplier_risk.mitigation.created` | Supplier risk mitigation plan created |
 | `finance.reconciliation.matched` | Reconciliation auto-match completed |
 | `finance.reconciliation.exception.created` | Unmatched reconciliation exception created |
 | `finance.reconciliation.completed` | Account reconciliation completed |
-| `finance.close-task.completed` | Financial close task completed |
+| `finance.close_task.completed` | Financial close task completed |
 | `finance.profitability.analysis.completed` | Profitability analysis run completed |
 | `finance.lease.created` | Lease contract created |
 | `finance.lease.modified` | Lease contract modified |
 | `finance.lease.payment.due` | Lease payment due |
-| `finance.lease.right-of-use.adjusted` | Right-of-use asset value adjusted |
+| `finance.lease.right_of_use.adjusted` | Right-of-use asset value adjusted |
 | `finance.grant.created` | Grant registered |
 | `finance.grant.milestone.reached` | Grant milestone reached |
 | `finance.grant.revenue.recognized` | Grant revenue recognized |
-| `finance.grant.compliance.check-due` | Grant compliance check due |
-| `finance.joint-venture.created` | Joint venture created |
-| `finance.joint-venture.cost.allocated` | Joint venture cost allocated to partners |
-| `finance.joint-venture.billing.generated` | Joint venture partner billing generated |
-| `finance.intelligent-close.task.auto-assigned` | Close task automatically assigned by AI |
-| `finance.intelligent-close.anomaly.detected` | Financial close anomaly detected |
-| `finance.intelligent-close.auto-reconciled` | Account auto-reconciled during intelligent close |
+| `finance.grant.compliance.check_due` | Grant compliance check due |
+| `finance.joint_venture.created` | Joint venture created |
+| `finance.joint_venture.cost.allocated` | Joint venture cost allocated to partners |
+| `finance.joint_venture.billing.generated` | Joint venture partner billing generated |
+| `finance.intelligent_close.task.auto_assigned` | Close task automatically assigned by AI |
+| `finance.intelligent_close.anomaly.detected` | Financial close anomaly detected |
+| `finance.intelligent_close.auto_reconciled` | Account auto-reconciled during intelligent close |
 | `finance.collection.strategy.triggered` | Collection strategy automatically triggered |
 | `finance.collection.activity.created` | Collection activity created |
-| `finance.cash-application.matched` | Cash receipt auto-matched to invoice |
-| `finance.cash-application.unmatched` | Cash receipt could not be auto-matched |
+| `finance.cash_application.matched` | Cash receipt auto-matched to invoice |
+| `finance.cash_application.unmatched` | Cash receipt could not be auto-matched |
 | `finance.tax.assessment.created` | Tax assessment created for transaction |
 | `finance.commodity.price.updated` | Commodity market price updated |
 | `finance.spend.classified` | Spend transaction classified by ML |
 | `finance.diversity.spend.recorded` | Diverse supplier spend recorded |
-| `finance.dynamic-discount.offer-created` | Early payment discount offer generated |
-| `finance.dynamic-discount.offer-accepted` | Supplier accepted early payment discount offer |
-| `finance.dynamic-discount.payment-executed` | Early payment executed with discount applied |
-| `finance.report.template-created` | Financial report template created |
+| `finance.dynamic_discount.offer_created` | Early payment discount offer generated |
+| `finance.dynamic_discount.offer_accepted` | Supplier accepted early payment discount offer |
+| `finance.dynamic_discount.payment_executed` | Early payment executed with discount applied |
+| `finance.report.template_created` | Financial report template created |
 | `finance.report.generated` | Financial report generated from template |
 | `finance.report.published` | Financial report published for distribution |
-| `finance.xbrl.filing-completed` | XBRL filing completed and validated |
-| `finance.sla.accounting-event-created` | Subledger accounting event created |
-| `finance.sla.journal-generated` | Subledger journal entry generated |
-| `finance.sla.rule-executed` | Subledger accounting rule executed |
-| `finance.sla.source-processed` | Subledger source transaction processed |
+| `finance.xbrl.filing_completed` | XBRL filing completed and validated |
+| `finance.sla.accounting_event_created` | Subledger accounting event created |
+| `finance.sla.journal_generated` | Subledger journal entry generated |
+| `finance.sla.rule_executed` | Subledger accounting rule executed |
+| `finance.sla.source_processed` | Subledger source transaction processed |
 
 ## Events Consumed
 
@@ -435,7 +450,7 @@ Inbox binding: `finance.inbox` binds to the following routing keys:
 | `commerce.b2b.#` | `commerce.b2b.order.placed`, `commerce.b2b.order.approved` |
 | `commerce.warranty.#` | `commerce.warranty.claim.submitted`, `commerce.warranty.claim.approved` |
 | `hr.payroll.#` | `hr.payroll.processed` |
-| `manufacturing.work-order.#` | `manufacturing.work-order.created`, `manufacturing.work-order.started`, `manufacturing.work-order.completed` |
+| `manufacturing.work_order.#` | `manufacturing.work_order.created`, `manufacturing.work_order.started`, `manufacturing.work_order.completed` |
 | `project.invoice.#` | `project.invoice.generated` |
 | `project.milestone.#` | `project.milestone.reached` |
 | `platform.idp.#` | `platform.idp.document.classified`, `platform.idp.extraction.completed`, `platform.idp.extraction.failed` |

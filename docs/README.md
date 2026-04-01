@@ -14,13 +14,13 @@ SPEC.md (Authoritative single source of truth)
     ├── 04-events/           (event bus, catalog, sagas)
     ├── 05-api/              (standards, endpoints, errors)
     ├── 06-services/         (per-service specifications)
-    ├── 07-features/         (cross-cutting & complex feature specs — 55 feature specifications)
+    ├── 07-features/         (cross-cutting & complex feature specs — 61 feature specifications)
     ├── 08-infrastructure/   (deployment, technology, observability)
     ├── 09-development/      (project structure, conventions, setup)
     └── 10-planning/         (phases, NFRs)
 ```
 
-> **Note:** Most feature-level detail now lives in the service specs (`06-services/`). The 55 feature specs in `07-features/` cover only cross-cutting or complex capabilities that warrant dedicated treatment beyond their service spec.
+> **Note:** Most feature-level detail now lives in the service specs (`06-services/`). The 61 feature specs in `07-features/` cover only cross-cutting or complex capabilities that warrant dedicated treatment beyond their service spec.
 
 ---
 
@@ -54,7 +54,7 @@ SPEC.md (Authoritative single source of truth)
 | Document | Description |
 |----------|-------------|
 | [Event-Driven Architecture](04-events/overview.md) | RabbitMQ exchange, inbox bindings, outbox pattern, event versioning, DLQ |
-| [Event Catalog](04-events/catalog.md) | All domain events by service (395+ events), cross-domain event flows |
+| [Event Catalog](04-events/catalog.md) | All domain events by service (290+ events), cross-domain event flows |
 | [Saga Patterns](04-events/sagas.md) | 11 distributed transaction patterns with compensating actions |
 
 ## 05 — API
@@ -101,6 +101,7 @@ SPEC.md (Authoritative single source of truth)
 | Financial Reporting Studio | [financial-reporting-studio.md](07-features/financial-reporting-studio.md) |
 | Fixed Asset Lifecycle | [fixed-asset-lifecycle.md](07-features/fixed-asset-lifecycle.md) |
 | Subledger Accounting Engine | [subledger-accounting.md](07-features/subledger-accounting.md) |
+| Advanced Tax Filing | [advanced-tax-filing.md](07-features/advanced-tax-filing.md) |
 
 ### Commerce Service
 
@@ -113,6 +114,9 @@ SPEC.md (Authoritative single source of truth)
 | Global Order Promising | [global-order-promising.md](07-features/global-order-promising.md) |
 | Advanced Warehouse Management (WMS) | [advanced-warehouse-management.md](07-features/advanced-warehouse-management.md) |
 | Advanced Transportation Management (TMS) | [advanced-transportation.md](07-features/advanced-transportation.md) |
+| CPQ (Configure-Price-Quote) | [cpq.md](07-features/cpq.md) |
+| Retail POS | [retail-pos.md](07-features/retail-pos.md) |
+| Property Management | [property-management.md](07-features/property-management.md) |
 
 ### HCM Service
 
@@ -152,6 +156,7 @@ SPEC.md (Authoritative single source of truth)
 | Full-Text Search | [search.md](07-features/search.md) |
 | Application Composer | [application-composer.md](07-features/application-composer.md) |
 | Access Certification | [access-certification.md](07-features/access-certification.md) |
+| Policy Automation | [policy-automation.md](07-features/policy-automation.md) |
 
 ### Integration Service
 
@@ -174,6 +179,7 @@ SPEC.md (Authoritative single source of truth)
 | Feature | Spec | Service |
 |---------|------|---------|
 | Multi-Tenancy | [multi-tenancy.md](07-features/multi-tenancy.md) | Tenant Service |
+| Construction & Engineering | [construction-engineering.md](07-features/construction-engineering.md) | Project Service |
 
 ## 08 — Infrastructure & Operations
 
